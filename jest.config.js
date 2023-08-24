@@ -6,9 +6,13 @@
 /** @type {import('jest').Config} */
 const config = {
   collectCoverage: true,
-  coverageDirectory: "coverage",
-  coverageProvider: "v8",
-  testEnvironment: "jsdom"
-};
+  coverageDirectory: 'coverage',
+  coverageProvider: 'v8',
+  testEnvironment: 'jsdom',
+  testMatch: ['**/__tests__/**/*.?(m)js?(x)', '**/?(*.)+(spec|test).?(m)js?(x)'],
+  transform: {
+    '\\.m?jsx?$': 'babel-jest'
+  }
+}
 
-module.exports = config;
+module.exports = config
