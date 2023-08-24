@@ -7,7 +7,8 @@
   "scripts": {
     "test": "npm run lint && npm run unit-test",
     "unit-test": "jest",
-    "lint": "standard"
+    "lint": "standard",
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') { throw e } }\""
   },
   "standard": {
     "env": [
@@ -22,6 +23,7 @@
     "@babel/preset-env": "^7.22.10",
     "@types/jest": "^29.5.4",
     "babel-jest": "^29.6.4",
+    "husky": "^8.0.3",
     "jest": "^29.6.3",
     "jest-environment-jsdom": "^29.6.3",
     "standard": "^17.1.0"
