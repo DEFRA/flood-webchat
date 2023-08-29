@@ -1,5 +1,12 @@
 # flood-webchat
 
+## Development
+A demo server with hot module reloading can be started at http://localhost:9000 by running:
+
+```shell
+npm run dev
+```
+
 ## How to Publish
 
 ### A Pre-Release
