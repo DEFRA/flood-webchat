@@ -12,6 +12,9 @@
     "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') { throw e } }\""
   },
   "standard": {
+    "ignore": [
+      "demo/dist"
+    ],
     "env": [
       "jest"
     ]

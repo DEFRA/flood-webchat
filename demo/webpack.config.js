@@ -1,4 +1,5 @@
 const path = require('path')
+const setupMiddlewares = require('./server')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
@@ -9,16 +10,20 @@ module.exports = {
   devtool: 'inline-source-map',
   mode: 'development',
   output: {
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/'
   },
   devServer: {
     static: {
       directory: path.join(__dirname)
     },
+    setupMiddlewares,
     compress: true,
     port: 9000
   },
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [
+    new MiniCssExtractPlugin()
+  ],
   module: {
     rules: [
       {
