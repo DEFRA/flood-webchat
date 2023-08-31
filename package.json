@@ -10,6 +10,7 @@
     "dev": "(cd demo && webpack server)",
     "unit-test": "jest",
     "lint": "npm run lint:js && npm run lint:scss",
+    "lint:fix": "npm run lint:js -- --fix && npm run lint:scss -- --fix",
     "lint:js": "standard",
     "lint:scss": "stylelint \"**/*.scss\"",
     "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') { throw e } }\""
