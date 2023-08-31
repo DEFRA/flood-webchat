@@ -2,8 +2,9 @@
   "name": "@defra/flood-webchat",
   "version": "0.0.0",
   "description": "",
-  "main": "src/main.mjs",
-  "browser": "src/browser.mjs",
+  "type": "module",
+  "main": "src/server/index.js",
+  "browser": "src/client/index.js",
   "scripts": {
     "test": "npm run lint && npm run unit-test",
     "dev": "(cd demo && webpack server)",

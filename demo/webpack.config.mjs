@@ -1,17 +1,18 @@
-const path = require('path')
-const setupMiddlewares = require('./server')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+import path from 'path'
+import { setupMiddlewares } from './server/main.js'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
-module.exports = {
+const __dirname = path.dirname(new URL(import.meta.url).pathname)
+
+export default {
   entry: [
-    path.join(__dirname, 'main.mjs'),
-    path.join(__dirname, 'main.scss')
+    path.join(__dirname, 'client/main.js'),
+    path.join(__dirname, 'client/main.scss')
   ],
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   mode: 'development',
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
+    path: path.resolve(__dirname, 'dist')
   },
   devServer: {
     static: {
@@ -27,7 +28,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.m?js$/i,
+        test: /\.jsx?$/i,
         use: [
           'babel-loader'
         ]

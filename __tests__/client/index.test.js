@@ -1,7 +1,7 @@
-import { init } from '../src/browser.mjs'
+import { init } from '../../src/client/index.js'
 
-describe('example test', () => {
-  it('should recognise truth', () => {
+describe('init()', () => {
+  it('should return true if called with true', () => {
     // Arrange
     const value = true
 
