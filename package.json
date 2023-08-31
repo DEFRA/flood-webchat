@@ -9,7 +9,9 @@
     "test": "npm run lint && npm run unit-test",
     "dev": "(cd demo && webpack server)",
     "unit-test": "jest",
-    "lint": "standard",
+    "lint": "npm run lint:js && npm run lint:scss",
+    "lint:js": "standard",
+    "lint:scss": "stylelint \"**/*.scss\"",
     "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') { throw e } }\""
   },
   "standard": {
@@ -39,6 +41,8 @@
     "sass": "^1.66.1",
     "sass-loader": "^13.3.2",
     "standard": "^17.1.0",
+    "stylelint": "^15.10.3",
+    "stylelint-config-standard-scss": "^10.0.0",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
