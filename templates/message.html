@@ -1,0 +1,4 @@
+<li class="wc-list__item wc-list__item--{{ model.direction | lower }}">
+  <div class="{% if model.isGroupStart %}wc-list__item-meta{% else %}govuk-visually-hidden{% endif %}">{% if model.direction == 'outbound' %}{{ model.assignee}}{% else %}You{% endif %}<span class="govuk-visually-hidden">:</span></div>
+  <div class="wc-list__item-inner">{{ model.text | safe }}</div>
+</li>

@@ -1,0 +1,164 @@
+// Secondary start button
+.defra-button-start {
+    @extend .govuk-button;
+    @extend .govuk-button--secondary;
+
+    svg {
+        color: currentcolor;
+        display: inline-block;
+        position:relative;
+        margin-left:5px;
+        vertical-align: middle;
+        top:-1px;
+    }
+
+    &:focus {
+        outline-offset: 0;
+    }
+}
+
+// Secondary button
+.defra-button-secondary {
+    position: relative;
+    display: inline-block;
+
+    @include govuk-font($size: 16);
+
+    width: auto;
+    margin: 0 0 5px;
+    border: 1px solid govuk-colour('mid-grey');
+    box-shadow: none;
+    background-color: govuk-colour('white');
+    padding: 10px;
+    cursor: pointer;
+    color: govuk-colour('black');
+    text-decoration: none;
+
+    &:visited {
+        color: govuk-colour('black');
+    }
+
+    &:hover {
+        background-color: govuk-colour('light-grey');
+    }
+
+    &:focus {
+        background-color: $govuk-focus-colour;
+        border-color: $govuk-focus-colour;
+        box-shadow: 0 2px 0 govuk-colour('black');
+        outline-offset: 0;
+        outline: 2px solid transparent;
+    }
+
+    &:not([keyboard-focus]):focus {
+        background-color: govuk-colour('white');
+        border: 1px solid govuk-colour('mid-grey');
+        box-shadow: none;
+    }
+
+    &__icon {
+        color: govuk-colour('black');
+    }
+
+    svg {
+        color: currentcolor;
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 8px;
+
+        @include mq ($from: tablet) {
+            top: -1px;
+        }
+    }
+}
+
+.defra-button-secondary-s {
+    @extend .defra-button-secondary;
+    @include govuk-font($size: 14);
+
+    padding: 6px 7px 7px;
+}
+
+// Buttons like hyperlinks
+.defra-button-text {
+    @extend .govuk-link;
+
+    position: relative;
+    margin:0;
+    padding:0;
+    color:$govuk-link-colour;
+    background-color: transparent;
+    border:0;
+    text-align:left;
+    border-radius: 0;
+    cursor:pointer;
+}
+
+.defra-button-text-s {
+    @extend .defra-button-text;
+    @include govuk-font($size: 19);
+
+    @include mq ($from: tablet) {
+      @include govuk-font($size: 16);
+    }
+}
+
+// Hyperlinks with icons
+.defra-link-icon {
+    position:relative;
+    display:inline-block;
+    margin-right: 5px;
+    fill: govuk-colour('black');
+
+    @include govuk-font($size: 19);
+
+    &:last-of-type {
+        margin-right: 0;
+    }
+
+    @include mq ($from: tablet) {
+        margin-right: 10px;
+    }
+
+    &__icon {
+        color: govuk-colour('black');
+    }
+
+    svg {
+        position: relative;
+        display: inline-block;
+        color: currentcolor;
+        vertical-align: top;
+        margin-right: 7px;
+        top: 1px;
+
+        @include mq ($from: tablet) {
+            margin-right: 8px;
+            top: 4px;
+        }
+    }
+
+    &:hover {
+        color: $govuk-link-hover-colour;
+    }
+
+    &:active {
+        color: govuk-colour('black');
+    }
+}
+
+.defra-link-icon-s {
+    @extend .defra-link-icon;
+    @include govuk-font($size: 19);
+
+    @include mq ($from: tablet) {
+      @include govuk-font($size: 16);
+    }
+
+    svg {
+        margin-right: 6px;
+        margin-bottom: -4px;
+        top: 0;
+    }
+}
