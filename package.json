@@ -6,14 +6,13 @@
   "main": "src/server/index.js",
   "browser": "src/client/index.js",
   "scripts": {
-    "test": "npm run lint && npm run unit-test",
+    "test": "npm run compile-templates && npm run lint && npm run unit-test",
     "dev": "npm run compile-templates && node -r dotenv/config node_modules/.bin/webpack server --config demo/webpack.config.mjs",
     "unit-test": "jest",
     "lint": "npm run lint:js && npm run lint:scss",
     "lint:fix": "npm run lint:js -- --fix && npm run lint:scss -- --fix",
     "lint:js": "standard",
     "lint:scss": "stylelint \"**/*.scss\"",
-    "postinstall": "npm run compile-templates",
     "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') { throw e } }\"",
     "compile-templates": "mkdir -p dist && nunjucks-precompile templates > ./dist/templates.js"
   },
