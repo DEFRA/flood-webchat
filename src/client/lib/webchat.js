@@ -18,12 +18,14 @@ class WebChat {
    * @param {string} options.channelId
    * @param {string} options.environmentName
    * @param {string} options.availabilityEndpoint
+   * @param {string} options.audioUrl
    **/
   constructor (id, options) {
     this.id = id
     this.brandId = options.brandId
     this.channelId = options.channelId
     this.availabilityEndpoint = options.availabilityEndpoint
+    this.audioUrl = options.audioUrl
     this.environment = EnvironmentName[options.environmentName]
 
     // Initialise state
@@ -39,7 +41,7 @@ class WebChat {
     this.skiplink = new Skiplink()
 
     // Initialise notification
-    this.notification = new Notification()
+    this.notification = new Notification(this.audioUrl)
 
     // Reinstate html visiblity (avoid refresh flicker)
     if (document.body.classList.contains('wc-hidden')) {

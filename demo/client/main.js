@@ -6,6 +6,7 @@ if (document.getElementById('wc-availability')) {
     brandId: process.env.CXONE_BRANDID,
     channelId: process.env.CXONE_CHANNELID,
     environmentName: process.env.CXONE_ENVIRONMENT_NAME,
-    availabilityEndpoint: '/webchat-availability'
+    availabilityEndpoint: '/webchat-availability',
+    audioUrl: '/assets/audio/notification.mp3'
   })
 }

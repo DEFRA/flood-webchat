@@ -15,6 +15,11 @@ Run:
 npm i @defra/flood-webchat
 ```
 
+### Assets
+
+You need to copy `./assets/audio/notification.mp3` to your 'assets' directory. This is the notification sound users will
+hear when they receive a message.
+
 ### Server Side Javascript
 
 You will need to implement an endpoint on your server which checks the availability of webchat. An express example can
@@ -56,7 +61,8 @@ if (document.getElementById('wc-availability')) {
     brandId: 'your brand id',
     channelId: 'your channel id',
     environmentName: 'your environment name',
-    availabilityEndpoint: '/webchat-availability'
+    availabilityEndpoint: '/webchat-availability',
+    audioUrl: 'path/to/notification.mp3'
   })
 }
 ```
@@ -65,14 +71,18 @@ if (document.getElementById('wc-availability')) {
 
 In your html, will need to add the "Start Chat" link with some placeholder text for if webchat is not supported in the
 user's browser.
+
 ```html
+
 <div id="wc-availability">
     <p>Webchat is not supported with your browser</p>
 </div>
 ```
 
 And finally a script tag, to prevent the webchat widget "flashing" on page load/reload.
+
 ```html
+
 <script>
     if (window.location.hash === '#webchat' && window.matchMedia('(max-width: 640px)').matches) {
         document.body.classList.add('wc-hidden')

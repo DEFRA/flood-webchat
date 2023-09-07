@@ -1,6 +1,5 @@
-class Notification {
-  constructor () {
-    const url = '/public/sounds/notification.mp3'
+export default class Notification {
+  constructor (url) {
     this._url = url
 
     // Create context
@@ -58,5 +57,3 @@ class Notification {
     source.start()
   }
 }
-
-export default Notification
