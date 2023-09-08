@@ -8,7 +8,7 @@ import Keyboard from './keyboard.js'
 import Transcript from './transcript.js'
 import Config from './config.js'
 import Utils from './utils.js'
-import uuid from 'uuid'
+import * as uuid from 'uuid'
 
 /** Class representing flood webchat. */
 class WebChat {
