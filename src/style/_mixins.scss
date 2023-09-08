@@ -1,0 +1,13 @@
+@mixin wc-focus($glow: 8px, $strong: 5px, $background: 2px, $inset: 0) {
+    position:absolute;
+    content:'';
+    inset: 5px;
+    box-shadow:
+        0 0 0 $background govuk-colour('white'),
+        inset 0 0 0 $inset govuk-colour('black'),
+        0 0 0 $strong govuk-colour('black'),
+        0 0 0 $glow $govuk-focus-colour;
+    outline: 3px solid transparent;
+    pointer-events: none;
+    z-index: 99;
+}

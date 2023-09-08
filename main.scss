@@ -1,3 +1,7 @@
+
+// Tools
+@import "./src/style/mixins";
+
 .js-enabled[data-wc-unsupported] {
   display: none;
 }
@@ -59,7 +63,7 @@
   }
 
   &:focus.wc-focus-visible::after {
-    @include focus($glow: 5px, $strong: 2px, $background: 0, $inset: 0);
+    @include wc-focus($glow: 5px, $strong: 2px, $background: 0, $inset: 0);
 
     inset: 4px;
   }
@@ -467,7 +471,7 @@
   border-bottom: 1px solid govuk-colour('black');
 
   &.wc-focus-visible::after {
-    @include focus($glow: 5px, $strong: 2px, $background: 0, $inset: 0);
+    @include wc-focus($glow: 5px, $strong: 2px, $background: 0, $inset: 0);
 
     inset: 4px;
   }
