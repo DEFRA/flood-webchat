@@ -10,11 +10,8 @@ $govuk-breakpoints: (
 // GOV.UK Frontend
 @import "../../node_modules/govuk-frontend/govuk/all";
 
-// Tools
-@import "mixins";
-
 // Objects
-@import "buttons";
+@import "./buttons";
 
 // Webchat css
 @import '../../main';
