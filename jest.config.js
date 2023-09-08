@@ -16,9 +16,7 @@ const config = {
       displayName: 'client-side',
       testEnvironment: 'jsdom',
       testMatch: ['**/__tests__/client/**/*.?(m)js?(x)'],
-      transformIgnorePatterns: [
-        '<rootDir>/node_modules/(?!uuid)'
-      ]
+      transformIgnorePatterns: []
     },
     {
       displayName: 'server-side',

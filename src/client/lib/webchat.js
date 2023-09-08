@@ -8,6 +8,7 @@ import Keyboard from './keyboard.js'
 import Transcript from './transcript.js'
 import Config from './config.js'
 import Utils from './utils.js'
+import uuid from 'uuid'
 
 /** Class representing flood webchat. */
 class WebChat {
@@ -156,10 +157,7 @@ class WebChat {
     // Get thread
     let threadId = window.localStorage.getItem('THREAD_ID')
     if (!threadId) {
-      // Generate id
-      const random = Math.floor(Math.random() * 1000).toString()
-      const time = (new Date()).getTime()
-      threadId = `${time}${random}`
+      threadId = uuid.v5()
       window.localStorage.setItem('THREAD_ID', threadId)
     }
     const thread = await this.sdk.getThread(threadId)
