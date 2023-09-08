@@ -8,7 +8,7 @@
   "scripts": {
     "test": "npm run compile-templates && npm run lint && npm run unit-test",
     "dev": "npm run compile-templates && node -r dotenv/config node_modules/.bin/webpack server --config demo/webpack.config.mjs",
-    "unit-test": "jest",
+    "unit-test": "npm run compile-templates && jest",
     "lint": "npm run lint:js && npm run lint:scss",
     "lint:fix": "npm run lint:js -- --fix && npm run lint:scss -- --fix",
     "lint:js": "standard",
