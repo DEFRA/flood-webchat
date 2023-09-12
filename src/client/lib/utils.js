@@ -9,23 +9,23 @@ class Utils {
     const i = uri.indexOf('#')
     const hash = i === -1 ? '' : uri.substr(i)
     uri = i === -1 ? uri : uri.substr(0, i)
-    const re = new RegExp('([?&])' + key + '=[^&#]*', 'i')
+    const re = new RegExp(`([?&])${key}=[^&#]*`, 'i')
     // Delete parameter and value
     if (!value || value === '') {
       uri = uri.replace(re, '')
     } else if (re.test(uri)) {
       // Replace parameter value
-      uri = uri.replace(re, '$1' + key + '=' + value)
+      uri = uri.replace(re, `$1${key}=${value}`)
       // Add parameter and value
     } else {
       const separator = /\?/.test(uri) ? '&' : '?'
-      uri = uri + separator + key + '=' + value
+      uri = `${uri}${separator}${key}=${value}`
     }
     return uri + hash
   }
 
   static getParameterByName (name) {
-    const v = window.location.search.match(new RegExp('(?:[?&]' + name + '=)([^&]+)'))
+    const v = window.location.search.match(new RegExp(`(?:[?&]${name}=)([^&]+)`))
     return v ? v[1] : null
   }
 
@@ -76,9 +76,7 @@ class Utils {
   }
 
   static sortMessages (messages) {
-    return messages.sort((a, b) => {
-      return a.createdAt - b.createdAt
-    })
+    return messages.sort((a, b) => a.createdAt - b.createdAt)
   }
 
   static addMessagesHtml (messages) {
