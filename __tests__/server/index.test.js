@@ -98,4 +98,151 @@ describe('getAvailability()', () => {
       availability: 'EXISTING'
     })
   })
+  it('should return UNAVAILABLE if webchat is open, there is capacity but agents are not available', async () => {
+    // Arrange
+    const options = {
+      clientId: 'some-client-id',
+      clientSecret: 'some-client-secret',
+      accessKey: 'some-access-key',
+      accessSecret: 'some-access-secret',
+      skillEndpoint: '/skill/endpoint',
+      hoursEndpoint: '/hours/endpoint',
+      maxQueueCount: '2'
+    }
+    mocks.getHost.mockResolvedValue('some-host')
+    mocks.authenticate.mockResolvedValue({
+      tenantId: 'some-tenant-id',
+      token: 'some-token',
+      tokenType: 'some-token-type'
+    })
+    mocks.getActivity.mockResolvedValue({ hasCapacity: true, hasAgentsAvailable: false })
+    mocks.getIsOpen.mockResolvedValue(true)
+
+    // Act
+    const actual = await getAvailability(options)
+
+    // Assert
+    expect(actual).toEqual({
+      date: expect.any(Date),
+      availability: 'UNAVAILABLE'
+    })
+  })
+})
+describe('getIsOpen()', () => {
+  it('should return UNAVAILABLE if webchat is not open', async () => {
+    // Arrange
+    const options = {
+      clientId: 'some-client-id',
+      clientSecret: 'some-client-secret',
+      accessKey: 'some-access-key',
+      accessSecret: 'some-access-secret',
+      skillEndpoint: '/skill/endpoint',
+      hoursEndpoint: '/hours/endpoint',
+      maxQueueCount: '2'
+    }
+    mocks.getHost.mockResolvedValue('some-host')
+    mocks.authenticate.mockResolvedValue({
+      tenantId: 'some-tenant-id',
+      token: 'some-token',
+      tokenType: 'some-token-type'
+    })
+    mocks.getActivity.mockResolvedValue({ hasCapacity: true, hasAgentsAvailable: true })
+    mocks.getIsOpen.mockResolvedValue(false)
+
+    // Act
+    const actual = await getAvailability(options)
+
+    // Assert
+    expect(actual).toEqual({
+      date: expect.any(Date),
+      availability: 'UNAVAILABLE'
+    })
+  })
+  it('should return UNAVAILABLE if webchat is open, there is capacity and agents are available', async () => {
+    // Arrange
+    const options = {
+      clientId: 'some-client-id',
+      clientSecret: 'some-client-secret',
+      accessKey: 'some-access-key',
+      accessSecret: 'some-access-secret',
+      skillEndpoint: '/skill/endpoint',
+      hoursEndpoint: '/hours/endpoint',
+      maxQueueCount: '2'
+    }
+    mocks.getHost.mockResolvedValue('some-host')
+    mocks.authenticate.mockResolvedValue({
+      tenantId: 'some-tenant-id',
+      token: 'some-token',
+      tokenType: 'some-token-type'
+    })
+    mocks.getActivity.mockResolvedValue({ hasCapacity: true, hasAgentsAvailable: true })
+    mocks.getIsOpen.mockResolvedValue(true)
+
+    // Act
+    const actual = await getAvailability(options)
+
+    // Assert
+    expect(actual).toEqual({
+      date: expect.any(Date),
+      availability: 'AVAILABLE'
+    })
+  })
+  it('should return EXISTING if webchat is open, there is no capacity but agents are available', async () => {
+    // Arrange
+    const options = {
+      clientId: 'some-client-id',
+      clientSecret: 'some-client-secret',
+      accessKey: 'some-access-key',
+      accessSecret: 'some-access-secret',
+      skillEndpoint: '/skill/endpoint',
+      hoursEndpoint: '/hours/endpoint',
+      maxQueueCount: '2'
+    }
+    mocks.getHost.mockResolvedValue('some-host')
+    mocks.authenticate.mockResolvedValue({
+      tenantId: 'some-tenant-id',
+      token: 'some-token',
+      tokenType: 'some-token-type'
+    })
+    mocks.getActivity.mockResolvedValue({ hasCapacity: false, hasAgentsAvailable: true })
+    mocks.getIsOpen.mockResolvedValue(true)
+
+    // Act
+    const actual = await getAvailability(options)
+
+    // Assert
+    expect(actual).toEqual({
+      date: expect.any(Date),
+      availability: 'EXISTING'
+    })
+  })
+  it('should return UNAVAILABLE if webchat is open, there is capacity but agents are not available', async () => {
+    // Arrange
+    const options = {
+      clientId: 'some-client-id',
+      clientSecret: 'some-client-secret',
+      accessKey: 'some-access-key',
+      accessSecret: 'some-access-secret',
+      skillEndpoint: '/skill/endpoint',
+      hoursEndpoint: '/hours/endpoint',
+      maxQueueCount: '2'
+    }
+    mocks.getHost.mockResolvedValue('some-host')
+    mocks.authenticate.mockResolvedValue({
+      tenantId: 'some-tenant-id',
+      token: 'some-token',
+      tokenType: 'some-token-type'
+    })
+    mocks.getActivity.mockResolvedValue({ hasCapacity: true, hasAgentsAvailable: false })
+    mocks.getIsOpen.mockResolvedValue(true)
+
+    // Act
+    const actual = await getAvailability(options)
+
+    // Assert
+    expect(actual).toEqual({
+      date: expect.any(Date),
+      availability: 'UNAVAILABLE'
+    })
+  })
 })

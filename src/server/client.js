@@ -34,6 +34,7 @@ export async function getHost ({ tenantId }) {
     signal: AbortSignal.timeout(3000)
   }
   const api = await axios.get(uri, config)
+
   return `api-${api.data.area}.niceincontact.com`
 }
 
@@ -54,7 +55,6 @@ export async function getActivity ({ tokenType, token, host, skillEndpoint, maxQ
     hasAgentsAvailable: activity.agentsAvailable >= 1
   }
 }
-
 export async function getIsOpen ({ host, token, tokenType, hoursEndpoint }) {
   const config = {
     signal: AbortSignal.timeout(3000),
