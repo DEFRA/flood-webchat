@@ -80,35 +80,36 @@ class Keyboard {
         lastFocusableEl.focus()
         e.preventDefault()
       }
-    } else {
-      if (document.activeElement === lastFocusableEl) {
-        firstFocusableEl.focus()
-        e.preventDefault()
-      }
+    } else if (document.activeElement === lastFocusableEl) {
+      firstFocusableEl.focus()
+      e.preventDefault()
     }
   }
 
-  static _toggleInert (el) {
-    const inert = document.querySelectorAll('[data-wc-inert]')
-    for (let i = 0; i < inert.length; i++) {
-      const el = inert[i]
-      el.removeAttribute('aria-hidden')
-      el.removeAttribute('data-wc-inert')
+  static _toggleInert (elToToggle) {
+    const inertElements = document.querySelectorAll('[data-wc-inert]')
+
+    for (const inertElement of inertElements) {
+      inertElement.removeAttribute('aria-hidden')
+      inertElement.removeAttribute('data-wc-inert')
     }
-    if (el) {
-      while (el.parentNode && el !== document.body) {
-        let sibling = el.parentNode.firstChild
-        while (sibling) {
-          if (sibling.nodeType === 1 && sibling !== el) {
-            if (!sibling.hasAttribute('aria-hidden')) {
-              sibling.setAttribute('aria-hidden', true)
-              sibling.setAttribute('data-wc-inert', '')
-            }
+
+    let el = elToToggle
+
+    while (el && el !== document.body) {
+      let sibling = el.parentNode.firstChild
+
+      while (sibling) {
+        if (sibling.nodeType === 1 && sibling !== el) {
+          if (!sibling.hasAttribute('aria-hidden')) {
+            sibling.setAttribute('aria-hidden', true)
+            sibling.setAttribute('data-wc-inert', '')
           }
-          sibling = sibling.nextSibling
         }
-        el = el.parentNode
+        sibling = sibling.nextSibling
       }
+
+      el = el.parentNode
     }
   }
 

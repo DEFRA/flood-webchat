@@ -37,7 +37,15 @@ export default async function getAvailability ({
   // Availability
   const isAvailable = isOpen && hasAgentsAvailable && hasCapacity
   const isExistingOnly = isOpen && hasAgentsAvailable && !hasCapacity
-  const availability = isAvailable ? 'AVAILABLE' : isExistingOnly ? 'EXISTING' : 'UNAVAILABLE'
+
+  let availability
+  if (isAvailable) {
+    availability = 'AVAILABLE'
+  } else if (isExistingOnly) {
+    availability = 'EXISTING'
+  } else {
+    availability = 'UNAVAILABLE'
+  }
 
   return {
     date: new Date(),
