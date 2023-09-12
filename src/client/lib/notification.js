@@ -33,7 +33,7 @@ export default class Notification {
     const context = this._context
     if (context.state === 'suspended') {
       const events = ['touchstart', 'touchend', 'mousedown', 'wheel', 'keydown', 'click']
-      const unlock = e => {
+      const unlock = _e => {
         events.forEach(event => {
           document.body.removeEventListener(event, unlock)
         })
