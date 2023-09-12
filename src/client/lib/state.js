@@ -40,7 +40,7 @@ class State {
     }
 
     // We need to toggle some attributes depending on screen size
-    Utils.listenForDevice('mobile', (isMobile) => { this.isMobile = isMobile })
+    Utils.listenForDevice('mobile', isMobile => { this.isMobile = isMobile })
 
     // Events
     window.addEventListener('popstate', this._popstate.bind(this))

@@ -849,7 +849,7 @@ class WebChat {
     state.status = e.detail.data.case.status
     const panel = this.panel
 
-    // ***Todo: Need a more robust way to determine who instigated this
+    // Need a more robust way to determine who instigated this
     const isEndedByAdviser = state.messages.length
 
     // Currently only responding to a closed case
@@ -917,10 +917,10 @@ class WebChat {
     const message = {
       id: response.id,
       text: Utils.parseMessage(response.messageContent.text),
-      user,
-      assignee,
       date: Utils.formatDate(new Date(response.createdAt)),
       createdAt: new Date(response.createdAt),
+      user,
+      assignee,
       direction
     }
     state.messages.push(message)
