@@ -1,5 +1,7 @@
 import nunjucks from './nunjucks.js'
 
+const openBtn = 'data-wc-open-btn'
+
 class Availability {
   constructor (id, openChatCb) {
     // Set availability container
@@ -7,18 +9,18 @@ class Availability {
 
     // Events
     document.addEventListener('click', e => {
-      if (e.target.hasAttribute('data-wc-open-btn')) {
+      if (e.target.hasAttribute(openBtn)) {
         console.log('click', e.target.id)
         openChatCb(e, e.target.id)
       }
     })
     document.addEventListener('keydown', e => {
-      if (e.key === ' ' && e.target.hasAttribute('data-wc-open-btn')) {
+      if (e.key === ' ' && e.target.hasAttribute(openBtn)) {
         e.preventDefault()
       }
     })
     document.addEventListener('keyup', e => {
-      if (e.key === ' ' && e.target.hasAttribute('data-wc-open-btn')) {
+      if (e.key === ' ' && e.target.hasAttribute(openBtn)) {
         openChatCb(e, e.target.id)
       }
     })
@@ -38,15 +40,15 @@ class Availability {
       model: {
         isText,
         isLink,
-        availability: state.availability,
         btnText,
+        availability: state.availability,
         unseen: state.unseen
       }
     })
 
     // Conditionally reinstate focus after dom replacement
     const link = container.querySelector('[data-wc-open-btn]')
-    const hasFocus = document.activeElement.hasAttribute('data-wc-open-btn')
+    const hasFocus = document.activeElement.hasAttribute(openBtn)
     if (hasFocus && link) {
       link.focus()
     }
