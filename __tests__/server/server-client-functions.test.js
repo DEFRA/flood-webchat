@@ -290,7 +290,6 @@ describe('authenticate()', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
-
   it('should authenticate after axios post and return tenantId, token, and tokenType', async () => {
     const axiosResponse = {
       data: {
