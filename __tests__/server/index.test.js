@@ -1,4 +1,4 @@
-import { foo } from '../../src/server/index.js'
+import { foo } from '../../src/server'
 
 describe('foo()', () => {
   it('should return true if called with \'bar\'', () => {

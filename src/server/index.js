@@ -1,3 +1,7 @@
-export function foo (value) {
+module.exports = {
+  foo
+}
+
+function foo (value) {
   return value === 'bar'
 }

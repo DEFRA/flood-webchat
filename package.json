@@ -2,9 +2,8 @@
   "name": "@defra/flood-webchat",
   "version": "0.0.0",
   "description": "",
-  "type": "module",
-  "main": "src/server/index.js",
-  "browser": "src/client/index.js",
+  "main": "dist/server.js",
+  "browser": "dist/client.js",
   "scripts": {
     "test": "npm run lint && npm run unit-test",
     "dev": "(cd demo && webpack server)",
@@ -29,6 +28,8 @@
   "devDependencies": {
     "@babel/core": "^7.22.10",
     "@babel/preset-env": "^7.22.10",
+    "@babel/preset-react": "^7.22.15",
+    "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.5.4",
     "babel-jest": "^29.6.4",
     "babel-loader": "^9.1.3",
@@ -46,9 +47,14 @@
     "stylelint-config-standard-scss": "^10.0.0",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^4.15.1",
+    "webpack-node-externals": "^3.0.0"
   },
   "peerDependencies": {
     "govuk-frontend": "^3.14.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

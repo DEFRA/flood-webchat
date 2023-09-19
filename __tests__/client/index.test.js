@@ -1,14 +1,18 @@
-import { init } from '../../src/client/index.js'
+import { init } from '../../src/client'
+import { act } from '@testing-library/react'
 
 describe('init()', () => {
   it('should return true if called with true', () => {
     // Arrange
-    const value = true
+    const targetElement = document.createElement('div')
+    document.body.appendChild(targetElement)
 
     // Act
-    const actual = init(value)
+    act(() => {
+      init(targetElement)
+    })
 
     // Assert
-    expect(actual).toEqual(true)
+    expect(targetElement.firstChild.textContent).toEqual('Start Chat')
   })
 })
