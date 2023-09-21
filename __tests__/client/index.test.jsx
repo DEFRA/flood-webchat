@@ -27,11 +27,13 @@ describe('init()', () => {
 
     // Act
     await act(async () => {
-      await init(targetElement)
+      await init(targetElement, { availabilityEndpoint: '/some/endpoint' })
     })
 
     // Assert
     expect(targetElement.firstChild.textContent).toEqual('Availability')
+    expect(mocks.checkAvailability).toBeCalledTimes(1)
+    expect(mocks.checkAvailability).toBeCalledWith('/some/endpoint')
     expect(mocks.Availability).toBeCalledTimes(1)
     expect(mocks.Availability).toHaveBeenCalledWith({ availability: 'AVAILABLE' }, {})
   })
@@ -44,11 +46,13 @@ describe('init()', () => {
 
     // Act
     await act(async () => {
-      await init(targetElement)
+      await init(targetElement, { availabilityEndpoint: '/some/endpoint' })
     })
 
     // Assert
     expect(targetElement.firstChild.textContent).toEqual('Availability')
+    expect(mocks.checkAvailability).toBeCalledTimes(1)
+    expect(mocks.checkAvailability).toBeCalledWith('/some/endpoint')
     expect(mocks.Availability).toBeCalledTimes(1)
     expect(mocks.Availability).toHaveBeenCalledWith({ availability: 'UNAVAILABLE' }, {})
   })
