@@ -1,14 +1,25 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { StartChatButton } from '../../../src/client/components/start-chat-button'
+import { Availability } from '../../../src/client/components/availability/availability'
 
-describe('<StartChatButton/>', () => {
+describe('<Availability/>', () => {
+  // onKeyDown
+  // onKeyUp
+  // onClick
+  // When open and out of viewport
+  // When closed and out of viewport
+  // When open and in viewport
+  // When closed and in viewport
+  // When no existing thread
+  // When existing thread with no unread messages
+  // When existing thread with one unread message
+  // When existing thread with multiple unread messages
   it('renders a <button/> with the contents "Start Chat"', () => {
     // Arrange
     const props = {}
 
     // Act
-    const { container } = render(<StartChatButton {...props} />)
+    const { container } = render(<Availability {...props} />)
     const element = container.children[0]
 
     // Assert
@@ -21,7 +32,7 @@ describe('<StartChatButton/>', () => {
     const props = { className: 'example__class' }
 
     // Act
-    const { container } = render(<StartChatButton {...props} />)
+    const { container } = render(<Availability {...props} />)
     const element = container.children[0]
 
     // Assert
