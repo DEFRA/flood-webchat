@@ -2,9 +2,11 @@ import path from 'path'
 import { setupMiddlewares } from './server/main.js'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import fs from 'fs/promises'
+import dotenv from 'dotenv'
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
+dotenv.config({ path: path.join(__dirname, '../.env') })
 const loadJSON = async filepath => JSON.parse(await fs.readFile(filepath, 'utf8'))
 
 export default {

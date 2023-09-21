@@ -1,5 +1,7 @@
-export async function checkAvailability () {
+export async function checkAvailability (endpoint) {
+  const response = await fetch(endpoint)
+  const data = await response.json()
   return {
-    availability: 'AVAILABLE'
+    availability: data.availability || 'UNAVAILABLE'
   }
 }
