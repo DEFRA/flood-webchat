@@ -2,15 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { classnames } from '../../lib/classnames'
 import { useMessageThread, useWebchatOpenState } from '../../lib/external-stores'
 
-const { IntersectionObserver } = window
-
 export function Availability (props) {
   const [isOpen, setOpen] = useWebchatOpenState()
-  const [thread] = useMessageThread()
   const [isFixed, setFixed] = useState(false)
   const buttonRef = useRef()
-  const buttonText = thread.length ? 'Show Chat' : 'Start Chat'
-
   const onClick = () => {
     setOpen(!isOpen)
   }
@@ -32,7 +27,7 @@ export function Availability (props) {
   }
 
   useEffect(() => {
-    const observer = new IntersectionObserver(intersectionCallback, {
+    const observer = new window.IntersectionObserver(intersectionCallback, {
       rootMargin: '35px'
     })
     const parentElement = buttonRef.current?.parentElement
@@ -66,7 +61,7 @@ export function Availability (props) {
               onKeyUp={onKeyUp}
               onKeyDown={onKeyDown}
             >
-              {buttonText} <UnseenMessages unreadMessageCount={thread.filter(message => message.unread).length} />
+              <AvailabilityContent />
             </a>
           </div>
         </div>
@@ -83,10 +78,24 @@ export function Availability (props) {
   }
 }
 
-function UnseenMessages (props) {
-  if (!props.unreadMessageCount) return <></>
-  const hiddenText = props.unreadMessageCount > 1 ? 'new messages' : 'new message'
+function AvailabilityContent () {
+  const [thread] = useMessageThread()
+  const unreadMessageCount = thread.filter(message => !message.read).length
+  if (!thread.length) {
+    return (
+      <>
+        Start Chat
+      </>
+    )
+  }
   return (
-    <span className='wc-availability__unseen'>{props.unreadMessageCount} <span className='govuk-visually-hidden'>{hiddenText}</span></span>
+    <>
+      Show Chat {!!unreadMessageCount && (
+        <>
+          <span className='wc-availability__unseen'>{unreadMessageCount}</span>
+          <span className='govuk-visually-hidden'> {unreadMessageCount === 1 ? 'new message' : 'new messages'}</span>
+        </>
+    )}
+    </>
   )
 }

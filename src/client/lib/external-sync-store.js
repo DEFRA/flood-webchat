@@ -30,10 +30,13 @@ export default class ExternalSyncStore {
 
   static create (initialValue) {
     const store = new ExternalSyncStore(initialValue)
+    const boundSubscribe = store.subscribe.bind(store)
+    const boundGetSnapshot = store.getSnapshot.bind(store)
+    const boundUpdate = store.update.bind(store)
 
     return () => [
-      useSyncExternalStore(store.subscribe.bind(store), store.getSnapshot.bind(store)),
-      store.update.bind(store)
+      useSyncExternalStore(boundSubscribe, boundGetSnapshot),
+      boundUpdate
     ]
   }
 }
