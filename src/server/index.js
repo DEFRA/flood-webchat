@@ -1,4 +1,4 @@
-const { authenticate, getHost, getIsOpen, getActivity } = require('./client.js')
+const { authenticate, getHost, getIsOpen, getActivity } = require('./lib/client.js')
 
 /**
  * Returns webchat availability

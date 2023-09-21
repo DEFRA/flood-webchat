@@ -1,7 +1,7 @@
-import { authenticate, getActivity, getHost, getIsOpen } from '../../src/server/client.js'
+import { authenticate, getActivity, getHost, getIsOpen } from '../../src/server/lib/client.js'
 import getAvailability from '../../src/server/index.js'
 
-jest.mock('../../src/server/client.js')
+jest.mock('../../src/server/lib/client.js')
 
 const mocks = {
   authenticate: jest.mocked(authenticate).mockReturnValue({

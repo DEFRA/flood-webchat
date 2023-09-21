@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { authenticate, getHost, getActivity, getIsOpen } from '../../src/server/client'
+import { authenticate, getHost, getActivity, getIsOpen } from '../../../src/server/lib/client'
 
 jest.mock('axios')
 

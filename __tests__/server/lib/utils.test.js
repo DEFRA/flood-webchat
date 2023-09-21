@@ -1,4 +1,4 @@
-import { isWithinHours } from '../../src/server/utils'
+import { isWithinHours } from '../../../src/server/lib/utils'
 
 const days = [
   {
