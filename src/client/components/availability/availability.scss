@@ -38,6 +38,10 @@
     margin-right: 10px;
   }
 
+  .govuk-visually-hidden, .wc-availability__unseen {
+    pointer-events: none;
+  }
+
   &:hover {
     color: $govuk-link-hover-colour;
   }
@@ -68,7 +72,6 @@
 
 .wc-availability__unseen {
   display: inline-block;
-  pointer-events: none;
   position: relative;
   border-radius: 10px;
   background-color: govuk-colour('black');
