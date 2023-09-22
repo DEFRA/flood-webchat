@@ -1,3 +1,12 @@
-.defra-webchat-example {
-  color: blue;
+
+// Required GOVUK Styles
+@import "node_modules/govuk-frontend/govuk/core/typography";
+@import "node_modules/govuk-frontend/govuk/utilities/visually-hidden";
+
+// Components
+@import "./src/client/components/availability/availability";
+
+
+.wc-scroll-padding {
+  scroll-padding-bottom: calc(2rem + 20px);
 }

@@ -22,7 +22,11 @@
 </head>
 <body class="govuk-template__body ">
 <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled')</script>
-
+<script>
+  if (window.location.hash === '#webchat' && window.matchMedia('(max-width: 640px)').matches) {
+    document.body.classList.add('wc-hidden')
+  }
+</script>
 <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
 
 
@@ -90,7 +94,22 @@
                         venenatis urna cursus eget. Gravida arcu ac tortor dignissim. Tortor dignissim convallis aenean
                         et tortor. Feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam.
                     </p>
-                    <div id="example-div"> Some Content </div>
+                    <div id="wc-availability">
+                        <p>Webchat is not supported with your browser</p>
+                    </div>
+                    <h2>Venenatis urna cursus eget nunc scelerisque viverra mauris in aliquam</h2>
+                    <p>
+                        Venenatis urna cursus eget nunc scelerisque viverra mauris in aliquam. Elementum nisi quis
+                        eleifend quam. Feugiat pretium nibh ipsum consequat nisl vel pretium. Malesuada pellentesque
+                        elit eget gravida cum. A condimentum vitae sapien pellentesque habitant morbi tristique senectus
+                        et. Ut tellus elementum sagittis vitae et leo duis ut. Tristique risus nec feugiat in fermentum
+                        posuere urna nec. Sit amet tellus cras adipiscing enim eu turpis. Elementum facilisis leo vel
+                        fringilla est ullamcorper eget nulla. Vitae justo eget magna fermentum. Massa id neque aliquam
+                        vestibulum morbi blandit cursus risus. Vulputate ut pharetra sit amet aliquam id diam maecenas.
+                        Ultricies mi quis hendrerit dolor magna eget est lorem ipsum. Turpis tincidunt id aliquet risus
+                        feugiat in. Leo vel orci porta non. Augue lacus viverra vitae congue eu consequat ac felis.
+
+                    </p>
                 </div>
             </div>
         </div>
