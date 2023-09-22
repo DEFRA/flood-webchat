@@ -1,8 +1,11 @@
 import path from 'path'
 import { setupMiddlewares } from './server/main.js'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import fs from 'fs/promises'
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
+
+const loadJSON = async filepath => JSON.parse(await fs.readFile(filepath, 'utf8'))
 
 export default {
   entry: [
@@ -30,7 +33,10 @@ export default {
       {
         test: /\.jsx?$/i,
         use: [
-          'babel-loader'
+          {
+            loader: 'babel-loader',
+            options: await loadJSON(path.join(__dirname, '../.babelrc'))
+          }
         ]
       },
       {
