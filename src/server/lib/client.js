@@ -3,6 +3,8 @@ const axios = require('axios')
 const jwtdecode = require('jwt-decode')
 const { isWithinHours } = require('./utils.js')
 
+const contentType = 'application/x-www-form-urlencoded'
+
 const authenticate = async ({ authorisation, accessKey, accessSecret }) => {
   const uri = 'https://cxone.niceincontact.com/auth/token'
 
@@ -10,7 +12,7 @@ const authenticate = async ({ authorisation, accessKey, accessSecret }) => {
     signal: AbortSignal.timeout(3000),
     headers: {
       Host: 'eu1.niceincontact.com',
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': contentType,
       Authorization: authorisation
     }
   }
@@ -48,7 +50,7 @@ const getActivity = async ({ tokenType, token, host, skillEndpoint, maxQueueCoun
     headers: {
       Host: host,
       Authorization: `${tokenType} ${token}`,
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': contentType
     }
   }
   const uri = `https://${host}${skillEndpoint}`
@@ -69,7 +71,7 @@ const getIsOpen = async ({ host, token, tokenType, hoursEndpoint }) => {
     headers: {
       Host: 'api-l36.niceincontact.com',
       Authorization: `${tokenType} ${token}`,
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': contentType
     }
   }
 
