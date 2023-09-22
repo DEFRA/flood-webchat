@@ -35,7 +35,14 @@ module.exports = async function getAvailability ({
 
   const isAvailable = isOpen && hasAgentsAvailable && hasCapacity
   const isExistingOnly = isOpen && hasAgentsAvailable && !hasCapacity
-  const availability = isAvailable ? 'AVAILABLE' : isExistingOnly ? 'EXISTING' : 'UNAVAILABLE'
+
+  let availability = 'UNAVAILABLE'
+
+  if (isAvailable) {
+    availability = 'AVAILABLE'
+  } else if (isExistingOnly) {
+    availability = 'EXISTING'
+  }
 
   return {
     date: new Date(),
