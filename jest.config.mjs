@@ -7,7 +7,6 @@
 const config = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
-  coverageProvider: 'v8',
   transform: {
     '\\.jsx?$': 'babel-jest',
     '\\.mjs$': 'babel-jest'
