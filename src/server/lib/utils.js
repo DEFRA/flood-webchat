@@ -7,8 +7,6 @@ const isWithinHours = (days, date = null) => {
   const open = `${dateItems[2]}-${dateItems[1]}-${dateItems[0]}T${day.openTime}`
   const close = `${dateItems[2]}-${dateItems[1]}-${dateItems[0]}T${day.closeTime}`
 
-  console.log(open, close)
-
   return now.getTime() >= Date.parse(open) && now.getTime() <= Date.parse(close)
 }
 
