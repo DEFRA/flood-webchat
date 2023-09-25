@@ -1,7 +1,7 @@
 
 // Required GOVUK Styles
-@import "node_modules/govuk-frontend/govuk/core/typography";
-@import "node_modules/govuk-frontend/govuk/utilities/visually-hidden";
+@import "govuk-frontend/govuk/core/typography";
+@import "govuk-frontend/govuk/utilities/visually-hidden";
 
 // Components
 @import "./src/client/components/availability/availability";
