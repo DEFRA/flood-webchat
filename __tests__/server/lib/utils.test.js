@@ -67,10 +67,6 @@ const days = [
 ]
 
 describe('isWithinHours()', () => {
-  afterAll(() => {
-    jest.useRealTimers()
-  })
-
   it('should be within the web chat hours', () => {
     expect(isWithinHours(days, 1695196900000)).toEqual(true)
   })
