@@ -67,17 +67,15 @@ const days = [
 ]
 
 describe('isWithinHours()', () => {
-  afterEach(() => {
+  afterAll(() => {
     jest.useRealTimers()
   })
 
   it('should be within the web chat hours', () => {
-    jest.useFakeTimers({ now: 1695196900000 }) // 20 Sept 2023 09:01:40
-    expect(isWithinHours(days)).toEqual(true)
+    expect(isWithinHours(days, 1695196900000)).toEqual(true)
   })
 
   it('should be outside of web chat hours', () => {
-    jest.useFakeTimers({ now: 1695193200000 }) // 20 Sept 2023 08:00:00
-    expect(isWithinHours(days)).toEqual(false)
+    expect(isWithinHours(days, 1695193200000)).toEqual(false)
   })
 })
