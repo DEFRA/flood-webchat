@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { classnames } from '../../lib/classnames'
 import { useMessageThread, useWebchatOpenState } from '../../lib/external-stores'
+import { Panel } from '../panel/panel.jsx'
 
 export function Availability (props) {
   const [isOpen, setOpen] = useWebchatOpenState()
@@ -49,22 +50,25 @@ export function Availability (props) {
   switch (props.availability) {
     case 'AVAILABLE':
       return (
-        <div
-          className={classnames('wc-availability', isFixed && 'wc-availability--fixed')}
-          ref={buttonRef}
-        >
-          <div className='wc-availability__inner'>
-            <a
-              className='wc-availability__link'
-              href='#webchat' role='button' draggable='false'
-              onClick={onClick}
-              onKeyUp={onKeyUp}
-              onKeyDown={onKeyDown}
-            >
-              <AvailabilityContent />
-            </a>
+        <>
+          <div
+            className={classnames('wc-availability', isFixed && 'wc-availability--fixed')}
+            ref={buttonRef}
+          >
+            <div className='wc-availability__inner'>
+              <a
+                className='wc-availability__link'
+                href='#webchat' role='button' draggable='false'
+                onClick={onClick}
+                onKeyUp={onKeyUp}
+                onKeyDown={onKeyDown}
+              >
+                <AvailabilityContent />
+              </a>
+            </div>
           </div>
-        </div>
+          {isOpen && <Panel screenNumber={0} onClose={onClick} />}
+        </>
       )
     case 'EXISTING':
     case 'UNAVAILABLE':
