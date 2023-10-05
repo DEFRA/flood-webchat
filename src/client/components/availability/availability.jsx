@@ -73,7 +73,10 @@ export function Availability (props) {
     case 'EXISTING':
     case 'UNAVAILABLE':
       return (
-        <p className='govuk-body'>When it is available, a 'start chat' link will appear.</p>
+        <>
+          <p className='govuk-body'>When it is available, a 'start chat' link will appear.</p>
+          <Panel screenNumber={0} onClose={onClick} />
+        </>
       )
     default:
       return (

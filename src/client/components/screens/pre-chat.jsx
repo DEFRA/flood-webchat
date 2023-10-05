@@ -8,7 +8,7 @@ export function PreChat ({ screen, setScreen }) {
 
   return (
     <>
-      <h3 className='govuk-heading-s'>What you can use webchat for</h3>
+      <h3 className='govuk-heading-s' aria-live='polite'>What you can use webchat for</h3>
       <p className='govuk-body-s'>Webchat lets you talk directly to a Floodline adviser.</p>
 
       <p className='govuk-body-s'>You can use webchat to get:</p>
