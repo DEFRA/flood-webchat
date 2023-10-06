@@ -40,7 +40,8 @@
     margin-bottom: 0;
   }
 
-  &__close {
+  &__close,
+  &__hide {
     display: flex;
     justify-content: center;
     color: govuk-colour('white');
