@@ -6,8 +6,10 @@ const isWithinHours = (days, date) => {
   const now = date ? DateTime.fromISO(date) : DateTime.local()
   now.setZone('Europe/London')
 
-  const today = new Date(date || undefined).toLocaleDateString('en-GB', { weekday: 'long' })
-  const dateParts = new Date(date || undefined).toLocaleDateString('en-GB').split('/')
+  const newDate = date ? new Date(date) : new Date()
+
+  const today = newDate.toLocaleDateString('en-GB', { weekday: 'long' })
+  const dateParts = newDate.toLocaleDateString('en-GB').split('/')
 
   const todaysAvailability = days.find(item => item.day === today)
   const todaysDateTimeOpen = DateTime.local(Number(dateParts[2]), Number(dateParts[1]), Number(dateParts[0]), getHour(todaysAvailability.openTime))
