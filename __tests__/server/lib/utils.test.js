@@ -68,10 +68,10 @@ const days = [
 
 describe('isWithinHours()', () => {
   it('should be within the web chat hours', () => {
-    expect(isWithinHours(days, '2023-09-20T09:00:00.000Z')).toEqual(true)
+    expect(isWithinHours(days, '2023-09-20T09:00:00')).toEqual(true)
   })
 
   it('should be outside of web chat hours', () => {
-    expect(isWithinHours(days, '2023-09-20T07:00:00.000Z')).toEqual(false)
+    expect(isWithinHours(days, '2023-09-20T07:00:00')).toEqual(false)
   })
 })

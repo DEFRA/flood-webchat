@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { classnames } from '../../lib/classnames'
-import { useMessageThread, useWebchatOpenState } from '../../lib/external-stores'
+import { useMessageThread } from '../../lib/external-stores'
 import { Panel } from '../panel/panel.jsx'
 
 export function Availability (props) {
-  const [isOpen, setOpen] = useWebchatOpenState()
+  const [isOpen, setOpen] = useState(false)
   const [isFixed, setFixed] = useState(false)
   const buttonRef = useRef()
   const onClick = () => {
@@ -47,6 +47,10 @@ export function Availability (props) {
     document.body.classList.toggle('wc-scroll-padding', isFixed)
   }, [isFixed])
 
+  useEffect(() => {
+    if (window.location.hash === '#webchat') setOpen(true)
+  }, [])
+
   switch (props.availability) {
     case 'AVAILABLE':
       return (
@@ -67,16 +71,13 @@ export function Availability (props) {
               </a>
             </div>
           </div>
-          {isOpen && <Panel screenNumber={0} onClose={onClick} />}
+          {isOpen && <Panel onClose={onClick} />}
         </>
       )
     case 'EXISTING':
     case 'UNAVAILABLE':
       return (
-        <>
-          <p className='govuk-body'>When it is available, a 'start chat' link will appear.</p>
-          <Panel screenNumber={0} onClose={onClick} />
-        </>
+        <p className='govuk-body'>When it is available, a 'start chat' link will appear.</p>
       )
     default:
       return (

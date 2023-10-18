@@ -3,7 +3,26 @@ import { userEvent } from '@testing-library/user-event'
 import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
+import { AppProvider } from '../../../src/client/store/AppProvider'
 import { Panel } from '../../../src/client/components/panel/panel'
+
+jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
+  ChatSdk: function () {
+    this.onChatEvent = jest.fn()
+  },
+  ChatEvent: {
+    LIVECHAT_RECOVERED: true,
+    MESSAGE_CREATED: true,
+    AGENT_TYPING_STARTED: true,
+    AGENT_TYPING_ENDED: true,
+    MESSAGE_SEEN_BY_END_USER: true,
+    ASSIGNED_AGENT_CHANGED: true,
+    CONTACT_CREATED: true,
+    CONTACT_STATUS_CHANGED: true
+  }
+}))
+
+const onClose = jest.fn()
 
 describe('<Panel />', () => {
   let container
@@ -13,7 +32,7 @@ describe('<Panel />', () => {
       <>
         <a href='#' className='wc-availability__link'>Start Chat</a>
         <div id='wc-panel'>
-          <Panel screenNumber={0} />
+          <Panel onClose={onClose} />
         </div>
       </>
     )
@@ -102,29 +121,21 @@ describe('<Panel />', () => {
 })
 
 describe('<Panel /> screens', () => {
-  it('should show back link on the next screen', () => {
-    render(
-      <>
-        <a href='#' className='wc-availability__link'>Start Chat</a>
-        <div id='wc-panel'>
-          <Panel screenNumber={1} />
-        </div>
-      </>
-    )
-
-    expect(screen.getByText('Back')).toBeTruthy()
-  })
+  const options = {
+    availabilityEndpoint: '/webchat-availability',
+    brandId: '123',
+    channelId: 'chat_123',
+    environment: 'UK1'
+  }
 
   it('should go back a screen', () => {
     render(
-      <>
-        <a href='#' className='wc-availability__link'>Start Chat</a>
-        <div id='wc-panel'>
-          <Panel screenNumber={1} />
-        </div>
-      </>
+      <AppProvider availability='AVAILABLE' options={options}>
+        <Panel onClose={onClose} />
+      </AppProvider>
     )
 
+    fireEvent.click(screen.getByText('Continue'))
     fireEvent.click(screen.getByText('Back'))
 
     expect(screen.getByText('What you can use webchat for')).toBeTruthy()
@@ -132,12 +143,7 @@ describe('<Panel /> screens', () => {
 
   it('should default to the pre-chat screen', () => {
     render(
-      <>
-        <a href='#' className='wc-availability__link'>Start Chat</a>
-        <div id='wc-panel'>
-          <Panel />
-        </div>
-      </>
+      <Panel onClose={onClose} />
     )
 
     expect(screen.getByText('What you can use webchat for')).toBeTruthy()

@@ -1,13 +1,21 @@
-const isWithinHours = (days, date = null) => {
-  const now = date ? new Date(date) : new Date()
+const { DateTime } = require('luxon')
 
-  const name = now.toLocaleDateString('en-GB', { weekday: 'long' })
-  const day = days.find(d => d.day.toLowerCase() === name.toLowerCase())
-  const dateItems = now.toLocaleDateString('en-GB').split('/')
-  const open = `${dateItems[2]}-${dateItems[1]}-${dateItems[0]}T${day.openTime}`
-  const close = `${dateItems[2]}-${dateItems[1]}-${dateItems[0]}T${day.closeTime}`
+const getHour = (time) => Number(time.split(':')[0])
 
-  return now.getTime() >= Date.parse(open) && now.getTime() <= Date.parse(close)
+const isWithinHours = (days, date) => {
+  const now = date ? DateTime.fromISO(date) : DateTime.local()
+  now.setZone('Europe/London')
+
+  const newDate = date ? new Date(date) : new Date()
+
+  const today = newDate.toLocaleDateString('en-GB', { weekday: 'long' })
+  const dateParts = newDate.toLocaleDateString('en-GB').split('/')
+
+  const todaysAvailability = days.find(item => item.day === today)
+  const todaysDateTimeOpen = DateTime.local(Number(dateParts[2]), Number(dateParts[1]), Number(dateParts[0]), getHour(todaysAvailability.openTime))
+  const todaysDateTimeClose = DateTime.local(Number(dateParts[2]), Number(dateParts[1]), Number(dateParts[0]), getHour(todaysAvailability.closeTime))
+
+  return now.diff(todaysDateTimeOpen).milliseconds >= 0 && now.diff(todaysDateTimeClose).milliseconds <= 0
 }
 
 module.exports = {

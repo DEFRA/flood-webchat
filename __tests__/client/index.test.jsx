@@ -4,6 +4,22 @@ import { act } from '@testing-library/react'
 import { checkAvailability } from '../../src/client/lib/check-availability'
 import { Availability } from '../../src/client/components/availability/availability'
 
+jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
+  ChatSdk: function () {
+    this.onChatEvent = jest.fn()
+  },
+  ChatEvent: {
+    LIVECHAT_RECOVERED: true,
+    MESSAGE_CREATED: true,
+    AGENT_TYPING_STARTED: true,
+    AGENT_TYPING_ENDED: true,
+    MESSAGE_SEEN_BY_END_USER: true,
+    ASSIGNED_AGENT_CHANGED: true,
+    CONTACT_CREATED: true,
+    CONTACT_STATUS_CHANGED: true
+  }
+}))
+
 const mocks = {
   checkAvailability: jest.mocked(checkAvailability),
   Availability: jest.mocked(Availability)
@@ -21,7 +37,10 @@ describe('init()', () => {
     // Arrange
     const targetElement = document.createElement('div')
     mocks.checkAvailability.mockResolvedValue({
-      availability: 'AVAILABLE'
+      availability: 'AVAILABLE',
+      brandId: '1234',
+      channelId: 'chat_1234',
+      environment: 'UK1'
     })
     mocks.Availability.mockImplementation(() => <span>Availability</span>)
 

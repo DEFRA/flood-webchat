@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 
-import { PanelHeader } from './panel-header.jsx'
 import { PreChat } from '../screens/pre-chat.jsx'
 import { RequestChat } from '../screens/request-chat.jsx'
+import { Chat } from '../chat/chat.jsx'
+import { useApp } from '../../store/AppProvider.jsx'
 
 export const setAriaHidden = (bool) => {
   for (const node of document.body.children) {
@@ -27,8 +28,9 @@ export const getFocusableElements = () => {
   return Array.from(elements).filter(e => !e.closest('[hidden]') && !e.closest('[aria-hidden="true"]'))
 }
 
-export function Panel ({ screenNumber, onClose }) {
-  const [screen, setScreen] = useState(screenNumber)
+export function Panel ({ showScreen = 0, onClose }) {
+  const { isCustomerConnected } = useApp()
+  const [screen, setScreen] = useState(showScreen)
   const [panelElements, setPanelElements] = useState([])
 
   const onKeyDown = useCallback((e) => {
@@ -57,6 +59,12 @@ export function Panel ({ screenNumber, onClose }) {
   }, [panelElements])
 
   useEffect(() => {
+    if (isCustomerConnected) {
+      setScreen(2)
+    }
+  }, [isCustomerConnected])
+
+  useEffect(() => {
     setPanelElements(getFocusableElements())
   }, [screen])
 
@@ -72,6 +80,11 @@ export function Panel ({ screenNumber, onClose }) {
     }
   }, [panelElements])
 
+  const onForward = (e) => {
+    e.preventDefault()
+    setScreen(screen + 1)
+  }
+
   const onBack = (e) => {
     e.preventDefault()
     setScreen(screen - 1)
@@ -81,24 +94,21 @@ export function Panel ({ screenNumber, onClose }) {
 
   switch (screen) {
     case 0:
-      ScreenComponent = <PreChat screen={screen} setScreen={setScreen} />
+      ScreenComponent = <PreChat onForward={onForward} />
       break
     case 1:
-      ScreenComponent = <RequestChat onBack={onBack} />
+      ScreenComponent = <RequestChat onForward={onForward} onBack={onBack} />
+      break
+    case 2:
+      ScreenComponent = <Chat setScreen={setScreen} />
       break
     default:
-      ScreenComponent = <PreChat screen={screen} setScreen={setScreen} />
+      ScreenComponent = <PreChat onForward={onForward} />
   }
 
   const Component = (
     <div id='wc-panel' className='wc-panel' role='dialog' tabIndex='-1' aria-modal='true' aria-labelledby='wc-header-title'>
-      <PanelHeader screen={screen} isConnected={false} onBack={onBack} onClose={onClose} />
-
-      <div className='wc-body'>
-        <div className='wc-content govuk-body-s'>
-          {ScreenComponent}
-        </div>
-      </div>
+      {ScreenComponent}
     </div>
   )
 

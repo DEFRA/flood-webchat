@@ -2,6 +2,7 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { Availability } from './components/availability/availability.jsx'
 import { checkAvailability } from './lib/check-availability'
+import { AppProvider } from './store/AppProvider.jsx'
 
 export async function init (container, options) {
   const root = createRoot(container)
@@ -12,5 +13,8 @@ export async function init (container, options) {
   } catch (e) {
     availability = 'UNAVAILABLE'
   }
-  root.render(<Availability availability={availability} />)
+  root.render(
+    <AppProvider availability={availability} options={options}>
+      <Availability availability={availability} />
+    </AppProvider>)
 }

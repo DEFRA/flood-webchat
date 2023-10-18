@@ -1,6 +1,21 @@
 import React from 'react'
+import { useWebchatOpenState } from '../../lib/external-stores'
+import { useApp } from '../../store/AppProvider.jsx'
 
-export function PanelHeader ({ screen, isConnected, onBack, onClose }) {
+export function PanelHeader ({ onBack }) {
+  const [isOpen, setOpen] = useWebchatOpenState()
+  const { isCustomerConnected } = useApp()
+
+  const onClose = (e) => {
+    e.preventDefault()
+    setOpen(!isOpen)
+  }
+
+  const onHide = (e) => {
+    e.preventDefault()
+    setOpen(!isOpen)
+  }
+
   let ButtonComponent = (
     <button className='wc-header__close' aria-label='Close the webchat' onClick={onClose}>
       <svg aria-hidden='true' focusable='false' width='20' height='20' viewBox='0 0 20 20'>
@@ -9,9 +24,9 @@ export function PanelHeader ({ screen, isConnected, onBack, onClose }) {
     </button>
   )
 
-  if (isConnected) {
+  if (isCustomerConnected) {
     ButtonComponent = (
-      <button className='wc-hide-btn' aria-label='Minimise the webchat' data-wc-hide-btn>
+      <button className='wc-header__hide' aria-label='Minimise the webchat' onClick={onHide}>
         <svg aria-hidden='true' focusable='false' width='20' height='20' viewBox='0 0 20 20'>
           <path d='M10 14.4l-7-7L4.4 6l5.6 5.6L15.6 6 17 7.4l-7 7z' fill='currentColor' />
         </svg>
@@ -19,7 +34,7 @@ export function PanelHeader ({ screen, isConnected, onBack, onClose }) {
     )
   }
 
-  const BackButtonComponent = !isConnected && screen !== 0 ? <a href='#' className='wc-header__link govuk-back-link govuk-back-link--inverse' onClick={onBack}>Back</a> : null
+  const BackButtonComponent = onBack ? <a href='#' className='wc-header__link govuk-back-link govuk-back-link--inverse' onClick={onBack}>Back</a> : null
 
   return (
     <div className='wc-header'>
