@@ -1,4 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
+
+import { classnames } from '../../lib/classnames.js'
 import { PanelHeader } from '../panel/panel-header.jsx'
 
 import { useApp } from '../../store/AppProvider.jsx'
@@ -105,7 +107,7 @@ export function RequestChat ({ onForward, onBack }) {
         <h3 className='govuk-heading-s' aria-live='polite'>Your name and question</h3>
 
         <form>
-          <div className={`govuk-form-group ${errors.name && 'govuk-form-group--error'}`}>
+          <div className={classnames('govuk-form-group', errors.name && 'govuk-form-group--error')}>
             <label className='govuk-label' htmlFor='wc-name'>
               Your name
             </label>
@@ -114,11 +116,11 @@ export function RequestChat ({ onForward, onBack }) {
                 <span className='govuk-visually-hidden'>Error:</span> {errors.name}
               </p>
             )}
-            <input ref={nameRef} className={`govuk-input ${errors.name && 'govuk-input--error'}`} id='wc-name' name='name' type='text' />
+            <input ref={nameRef} className={classnames('govuk-input', errors.name && 'govuk-input--error')} id='wc-name' name='name' type='text' />
           </div>
 
           <div className='govuk-character-count' data-module='govuk-character-count' data-maxlength='500'>
-            <div className={`govuk-form-group ${errors.question && 'govuk-form-group--error'}`}>
+            <div className={classnames('govuk-form-group', errors.question && 'govuk-form-group--error')}>
               <label className='govuk-label' htmlFor='wc-question'>
                 Your question
               </label>
@@ -135,7 +137,7 @@ export function RequestChat ({ onForward, onBack }) {
                 rows='5'
                 aria-describedby='wc-question-info'
                 onChange={onQuestionChange}
-                className={`govuk-textarea govuk-js-character-count ${!isQuestionLengthValid || errors.question ? 'govuk-textarea--error' : ''}`}
+                className={classnames('govuk-textarea', 'govuk-js-character-count', !isQuestionLengthValid || errors.question ? 'govuk-textarea--error' : '')}
               />
               <div id='wc-question-info' className='govuk-hint govuk-character-count__message' style={{ color: `${!isQuestionLengthValid ? '#d4351c' : ''}` }} aria-hidden='true'>
                 {questionHint}
