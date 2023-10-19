@@ -17,7 +17,7 @@ export function PreChat ({ onForward }) {
           <li>advice on what to do before, during and after a flood</li>
         </ul>
 
-        <p className='govuk-body-s'>There are other ways to <a className='govuk-link' href='https://www.gov.uk/sign-up-for-flood-warnings'>sign up for flood warnings</a> and <a className='govuk-link' href='https://defragroup.eu.qualtrics.com/jfe/form/SV_8uMAuaH3kbJl965?Source=https://check-for-flooding.service.gov.uk'>manage your flood warnings account</a>.</p>
+        <p className='govuk-body-s'>There are other ways to <a className='govuk-link' href='https://www.gov.uk/sign-up-for-flood-warnings'>sign up for flood warnings</a> and <a className='govuk-link' href='https://www.fws.environment-agency.gov.uk/app/olr/login'>manage your flood warnings account</a>.</p>
         <p className='govuk-body-s'>Do not use webchat to <a className='govuk-link' href='https://www.gov.uk/report-flood-cause'>report a flood</a>.</p>
 
         <button className='govuk-button' data-module='govuk-button' onClick={onForward}>Continue</button>
