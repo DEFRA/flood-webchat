@@ -43,7 +43,8 @@ export const AppProvider = ({ availability, options, children }) => {
 
   const onMessageCreated = (e) => {
     console.log('onMessageCreated', e)
-    console.log(transformMessage(e.detail.data.message))
+    const message = transformMessage(e.detail.data.message)
+    setMessage(message)
   }
 
   useEffect(() => {
@@ -79,6 +80,10 @@ export const AppProvider = ({ availability, options, children }) => {
 
   const setThreadId = (threadId) => {
     dispatch({ type: 'SET_THREAD_ID', payload: { threadId } })
+  }
+
+  const setMessage = (message) => {
+    dispatch({ type: 'SET_MESSAGE', payload: { message } })
   }
 
   const setMessages = (messages) => {

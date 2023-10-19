@@ -1,20 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { classnames } from '../../lib/classnames'
-import { useMessageThread } from '../../lib/external-stores'
+
 import { Panel } from '../panel/panel.jsx'
+import { useApp } from '../../store/AppProvider.jsx'
 
 export function Availability (props) {
+  const { messages } = useApp()
+
   const [isOpen, setOpen] = useState(false)
   const [isFixed, setFixed] = useState(false)
   const buttonRef = useRef()
+
   const onClick = () => {
     setOpen(!isOpen)
   }
+
   const onKeyDown = event => {
     if (event.key === ' ') {
       event.preventDefault()
     }
   }
+
   const onKeyUp = event => {
     if (event.key === ' ') {
       setOpen(!isOpen)
@@ -31,10 +37,13 @@ export function Availability (props) {
     const observer = new window.IntersectionObserver(intersectionCallback, {
       rootMargin: '35px'
     })
+
     const parentElement = buttonRef.current?.parentElement
+
     if (parentElement) {
       observer.observe(parentElement)
     }
+
     return () => {
       if (parentElement) {
         observer.unobserve(parentElement)
@@ -51,12 +60,30 @@ export function Availability (props) {
     if (window.location.hash === '#webchat') setOpen(true)
   }, [])
 
+  // const unreadMessageCount = messages.filter(message => !message.read).length
+
+  let TextComponent = (
+    <>
+      Show Chat
+      {/* {!!unreadMessageCount && (
+        <>
+          <span className='wc-availability__unseen'>{unreadMessageCount}</span>
+          <span className='govuk-visually-hidden'> {unreadMessageCount === 1 ? 'new message' : 'new messages'}</span>
+        </>
+    )} */}
+    </>
+  )
+
+  if (!messages.length) {
+    TextComponent = (<>Start Chat</>)
+  }
+
   switch (props.availability) {
     case 'AVAILABLE':
       return (
         <>
           <div
-            className={classnames('wc-availability', isFixed && 'wc-availability--fixed')}
+            className={classnames('wc-availability', isFixed && 'wc-availability--fixed', isOpen && 'wc-open')}
             ref={buttonRef}
           >
             <div className='wc-availability__inner'>
@@ -67,7 +94,7 @@ export function Availability (props) {
                 onKeyUp={onKeyUp}
                 onKeyDown={onKeyDown}
               >
-                <AvailabilityContent />
+                {TextComponent}
               </a>
             </div>
           </div>
@@ -84,26 +111,4 @@ export function Availability (props) {
         <p className='govuk-body'>Checking availability</p>
       )
   }
-}
-
-function AvailabilityContent () {
-  const [thread] = useMessageThread()
-  const unreadMessageCount = thread.filter(message => !message.read).length
-  if (!thread.length) {
-    return (
-      <>
-        Start Chat
-      </>
-    )
-  }
-  return (
-    <>
-      Show Chat {!!unreadMessageCount && (
-        <>
-          <span className='wc-availability__unseen'>{unreadMessageCount}</span>
-          <span className='govuk-visually-hidden'> {unreadMessageCount === 1 ? 'new message' : 'new messages'}</span>
-        </>
-    )}
-    </>
-  )
 }

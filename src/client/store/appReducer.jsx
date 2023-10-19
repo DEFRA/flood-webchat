@@ -69,11 +69,9 @@ export const appReducer = (state, action) => {
     case 'SET_MESSAGE': {
       console.log('SET_MESSAGE', state, payload)
 
-      const messages = [...state.messages, payload.message]
-
       return {
         ...state,
-        messages: messages.reverse()
+        messages: [...state.messages, payload.message]
       }
     }
 

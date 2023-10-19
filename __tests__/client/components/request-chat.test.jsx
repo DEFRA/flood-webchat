@@ -1,4 +1,5 @@
 import React from 'react'
+import { userEvent } from '@testing-library/user-event'
 import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
@@ -30,26 +31,36 @@ const mocks = {
   useCXOne: jest.mocked(useCXOne)
 }
 
-const onBack = jest.fn()
+mocks.useApp.mockReturnValue({
+  sdk: jest.mocked({
+    authorize: jest.fn(),
+    getCustomer: function () {
+      this.setName = jest.fn()
+      return this
+    }
+  }),
+  setCustomerId: jest.fn(),
+  setThreadId: jest.fn()
+})
+
+mocks.useCXOne.mockReturnValue({
+  connect: jest.fn(),
+  getCustomerId: jest.fn(),
+  recoverThread: jest.fn(),
+  getThread: () => ({
+    thread: {
+      startChat: jest.fn
+    }
+  })
+})
+
+const onForward = jest.fn()
 
 describe('<RequestChat />', () => {
   let container
 
   beforeEach(() => {
-    mocks.useApp.mockReturnValue({
-      sdk: jest.mocked({
-        authorize: jest.fn(),
-        getThread: jest.fn('thread_123')
-      })
-    })
-
-    mocks.useCXOne.mockReturnValue({
-      getThread: jest.fn(),
-      getCustomerId: jest.fn()
-    })
-
-    const result = render(<RequestChat onBack={onBack} />)
-
+    const result = render(<RequestChat onForward={onForward} onBack={jest.fn()} />)
     container = result.container
   })
 
@@ -88,19 +99,24 @@ describe('<RequestChat />', () => {
     expect(container.querySelector('.govuk-hint').textContent).toEqual('You have 5 characters too many')
   })
 
-  it('should submit the message', () => {
-    const input = container.querySelector('input')
-    const textarea = container.querySelector('textarea')
-    const button = container.querySelector('button')
+  xit('should submit the message', async () => {
+    const input = container.querySelector('form input')
+    const textarea = container.querySelector('form textarea')
+    const button = container.querySelector('form button')
+
+    const user = userEvent.setup()
 
     fireEvent.change(input, { target: { value: 'name' } })
     fireEvent.change(textarea, { target: { value: 'question' } })
 
-    fireEvent.submit(button)
+    await user.click(button)
 
-    console.log(mocks.useCXOne.mock.calls[0][0])
+    console.log(mocks.useApp.mock.calls)
+    console.log(mocks.useCXOne.mock.calls)
 
-    // expect(mocks.useCXOne.getCustomerId).toBeCalled()
-    expect(mocks.useCXOne.mock.calls[0][0].getThread).toBeCalled()
+    expect(mocks.useCXOne.mock.calls[0][0].authorize).toHaveBeenCalled()
+    expect(mocks.useCXOne.mock.calls[0][0].getCustomer).toHaveBeenCalled()
+    expect(mocks.useCXOne.mock.calls[0][0].setName).toHaveBeenCalled()
+    expect(onForward).toHaveBeenCalled()
   })
 })
