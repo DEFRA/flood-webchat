@@ -5,6 +5,8 @@ const { isWithinHours } = require('./utils.js')
 
 const contentType = 'application/x-www-form-urlencoded'
 
+const isFullUrl = (endpoint) => /^(https?:)?\/\//i.test(endpoint)
+
 const authenticate = async ({ authorisation, accessKey, accessSecret }) => {
   const uri = 'https://cxone.niceincontact.com/auth/token'
 
@@ -53,7 +55,7 @@ const getActivity = async ({ tokenType, token, host, skillEndpoint, maxQueueCoun
       'Content-Type': contentType
     }
   }
-  const uri = `https://${host}${skillEndpoint}`
+  const uri = isFullUrl(skillEndpoint) ? skillEndpoint : `https://${host}${skillEndpoint}`
 
   const skill = await axios.get(uri, config)
 
@@ -75,7 +77,7 @@ const getIsOpen = async ({ host, token, tokenType, hoursEndpoint }) => {
     }
   }
 
-  const uri = `https://${host}${hoursEndpoint}`
+  const uri = isFullUrl(hoursEndpoint) ? hoursEndpoint : `https://${host}${hoursEndpoint}`
 
   const hours = await axios.get(uri, config)
 
