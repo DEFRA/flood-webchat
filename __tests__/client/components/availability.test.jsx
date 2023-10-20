@@ -4,19 +4,6 @@ import { screen, render, act } from '@testing-library/react'
 import { Availability } from '../../../src/client/components/availability/availability'
 import { useApp } from '../../../src/client/store/AppProvider'
 
-const mocks = {
-  IntersectionObserver: jest.fn(),
-  useApp: jest.mocked(useApp),
-  messages: [{
-    id: 'test_123',
-    text: 'test',
-    createdAt: new Date(),
-    user: 'test test',
-    assignee: 'test',
-    direction: 'outbound'
-  }]
-}
-
 jest.mock('../../../src/client/store/AppProvider.jsx')
 
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
@@ -35,13 +22,28 @@ jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
   }
 }))
 
+const mocks = {
+  IntersectionObserver: jest.fn(),
+  useApp: jest.mocked(useApp),
+  setChatVisibility: jest.fn(),
+  messages: [{
+    id: 'test_123',
+    text: 'test',
+    createdAt: new Date(),
+    user: 'test test',
+    assignee: 'test',
+    direction: 'outbound'
+  }]
+}
+
 describe('<Availability/>', () => {
   beforeEach(() => {
     mocks.useApp.mockReturnValue({
       sdk: jest.mocked({
         authorize: jest.fn(),
-        getThread: jest.fn('thread_123')
+        getThread: jest.fn()
       }),
+      setChatVisibility: mocks.setChatVisibility,
       messages: []
     })
 
@@ -59,7 +61,7 @@ describe('<Availability/>', () => {
     jest.resetAllMocks()
   })
 
-  describe('<Availability/> text content', () => {
+  describe('Text content', () => {
     let container
 
     beforeEach(() => {
@@ -72,7 +74,8 @@ describe('<Availability/>', () => {
     })
 
     it('contains the text "Show Chat" when there is existing thread with no unread messages', () => {
-      mocks.useApp.mockReturnValue({
+      mocks.useApp.mockReturnValueOnce({
+        ...mocks.useApp,
         messages: mocks.messages
       })
 
@@ -96,29 +99,12 @@ describe('<Availability/>', () => {
     })
 
     xit('contains the text "Show Chat" when there is existing thread with multiple unread messages', () => {
-      // Arrange
       const props = {
         availability: 'AVAILABLE'
       }
-      mocks.useMessageThread.mockReturnValue([[
-        {
-          content: 'some message content',
-          read: true
-        },
-        {
-          content: 'some more message content',
-          read: false
-        },
-        {
-          content: 'even more message content',
-          read: false
-        }
-      ]])
 
-      // Act
       const { container: { children: [element] } } = render(<Availability {...props} />)
 
-      // Assert
       expect(element.textContent.trim()).toEqual('Show Chat 2 new messages')
     })
     it('tells the user to expect the start chat link when availability = "EXISTING"', () => {
@@ -149,7 +135,7 @@ describe('<Availability/>', () => {
     })
   })
 
-  describe('<Availability/> interaction handlers', () => {
+  describe('Interaction handlers', () => {
     let container
 
     beforeEach(() => {
@@ -158,11 +144,13 @@ describe('<Availability/>', () => {
     })
 
     it('the webchat open state is toggled on click', async () => {
+      render(<Availability availability='AVAILABLE' />)
+
       const user = userEvent.setup()
 
       await user.click(container.querySelector('a'))
 
-      expect(container.querySelector('.wc-open')).toBeTruthy()
+      expect(mocks.setChatVisibility).toHaveBeenCalled()
     })
 
     it('the webchat open state is toggled on space bar keyboard events', async () => {
@@ -173,11 +161,11 @@ describe('<Availability/>', () => {
       await user.keyboard(' ')
       await user.keyboard('P')
 
-      expect(container.querySelector('.wc-open')).toBeTruthy()
+      expect(mocks.setChatVisibility).toHaveBeenCalled()
     })
   })
 
-  xdescribe('<Availability/> sticky behaviour', () => {
+  describe('Sticky behaviour', () => {
     let container
 
     beforeEach(() => {
@@ -185,7 +173,7 @@ describe('<Availability/>', () => {
       container = result.container
     })
 
-    it('is not sticky when webchat is already open and the availability link is below the fold', async () => {
+    xit('is not sticky when webchat is already open and the availability link is below the fold', async () => {
       const mockIntersectionEntry = {
         isIntersecting: false,
         boundingClientRect: {
@@ -203,7 +191,7 @@ describe('<Availability/>', () => {
         listener([mockIntersectionEntry])
       })
 
-      expect(container.querySelector('.wc-open')).toBeTruthy()
+      expect(mocks.setChatVisibility).toHaveBeenCalled()
       expect(container.querySelector('.wc-availability--fixed')).toBeFalsy()
     })
 
@@ -229,7 +217,7 @@ describe('<Availability/>', () => {
       expect(element.className).toEqual('wc-availability wc-availability--fixed')
     })
 
-    xit('is not sticky when webchat is closed and the availability link is in view', async () => {
+    it('is not sticky when webchat is closed and the availability link is in view', async () => {
       const props = {
         availability: 'AVAILABLE'
       }
@@ -251,7 +239,7 @@ describe('<Availability/>', () => {
       expect(element.className).toEqual('wc-availability')
     })
 
-    xit('is not sticky when webchat is closed and the availability link is above the fold', async () => {
+    it('is not sticky when webchat is closed and the availability link is above the fold', async () => {
       const props = {
         availability: 'AVAILABLE'
       }

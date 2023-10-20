@@ -4,15 +4,14 @@ import { classnames } from '../../lib/classnames'
 import { Panel } from '../panel/panel.jsx'
 import { useApp } from '../../store/AppProvider.jsx'
 
-export function Availability (props) {
-  const { messages } = useApp()
+export function Availability ({ availability }) {
+  const { messages, isChatOpen, setChatVisibility } = useApp()
 
-  const [isOpen, setOpen] = useState(false)
   const [isFixed, setFixed] = useState(false)
   const buttonRef = useRef()
 
   const onClick = () => {
-    setOpen(!isOpen)
+    setChatVisibility(!isChatOpen)
   }
 
   const onKeyDown = event => {
@@ -23,14 +22,14 @@ export function Availability (props) {
 
   const onKeyUp = event => {
     if (event.key === ' ') {
-      setOpen(!isOpen)
+      setChatVisibility(!isChatOpen)
     }
   }
 
   const intersectionCallback = entries => {
     const [entry] = entries
     const isBelowFold = !entry.isIntersecting && entry.boundingClientRect.top > 0
-    setFixed(!isOpen && isBelowFold)
+    setFixed(!isChatOpen && isBelowFold)
   }
 
   useEffect(() => {
@@ -49,16 +48,12 @@ export function Availability (props) {
         observer.unobserve(parentElement)
       }
     }
-  }, [buttonRef, isOpen])
+  }, [buttonRef, isChatOpen])
 
   useEffect(() => {
     document.documentElement.classList.toggle('wc-scroll-padding', isFixed)
     document.body.classList.toggle('wc-scroll-padding', isFixed)
   }, [isFixed])
-
-  useEffect(() => {
-    if (window.location.hash === '#webchat') setOpen(true)
-  }, [])
 
   // const unreadMessageCount = messages.filter(message => !message.read).length
 
@@ -78,12 +73,12 @@ export function Availability (props) {
     TextComponent = (<>Start Chat</>)
   }
 
-  switch (props.availability) {
+  switch (availability) {
     case 'AVAILABLE':
       return (
         <>
           <div
-            className={classnames('wc-availability', isFixed && 'wc-availability--fixed', isOpen && 'wc-open')}
+            className={classnames('wc-availability', isFixed && 'wc-availability--fixed', isChatOpen && 'wc-open')}
             ref={buttonRef}
           >
             <div className='wc-availability__inner'>
@@ -98,7 +93,7 @@ export function Availability (props) {
               </a>
             </div>
           </div>
-          {isOpen && <Panel onClose={onClick} />}
+          {isChatOpen && <Panel onClose={onClick} />}
         </>
       )
     case 'EXISTING':

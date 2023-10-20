@@ -1,19 +1,17 @@
 import React from 'react'
-import { useWebchatOpenState } from '../../lib/external-stores'
 import { useApp } from '../../store/AppProvider.jsx'
 
 export function PanelHeader ({ onBack }) {
-  const [isOpen, setOpen] = useWebchatOpenState()
-  const { isCustomerConnected } = useApp()
+  const { isCustomerConnected, setChatVisibility } = useApp()
 
   const onClose = (e) => {
     e.preventDefault()
-    setOpen(!isOpen)
+    setChatVisibility(false)
   }
 
   const onHide = (e) => {
     e.preventDefault()
-    setOpen(!isOpen)
+    setChatVisibility(false)
   }
 
   let ButtonComponent = (

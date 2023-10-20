@@ -13,6 +13,7 @@ const { authenticate, getHost, getIsOpen, getActivity } = require('./lib/client.
  * @returns {Promise<{date: Date, availability: (string)}>}
  */
 module.exports = async function getAvailability ({
+  environment,
   clientId,
   clientSecret,
   accessKey,
@@ -28,9 +29,11 @@ module.exports = async function getAvailability ({
 
   const host = await getHost({ tenantId })
 
+  const isPreProd = environment === 'pre'
+
   const [{ hasCapacity, hasAgentsAvailable }, isOpen] = await Promise.all([
-    getActivity({ tokenType, token, host, skillEndpoint, maxQueueCount }),
-    getIsOpen({ token, tokenType, host, hoursEndpoint })
+    getActivity({ tokenType, token, host, skillEndpoint, maxQueueCount, isPreProd }),
+    getIsOpen({ token, tokenType, host, hoursEndpoint, isPreProd })
   ])
 
   const isAvailable = isOpen && hasAgentsAvailable && hasCapacity

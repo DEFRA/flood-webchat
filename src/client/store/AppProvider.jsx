@@ -47,12 +47,16 @@ export const AppProvider = ({ availability, options, children }) => {
     setMessage(message)
   }
 
+  const onMessageSeenByUser = (e) => {
+    console.log('onMessageSeenByUser', e)
+  }
+
   useEffect(() => {
     sdk.onChatEvent(ChatEvent.LIVECHAT_RECOVERED, onLiveChatRecovered)
     sdk.onChatEvent(ChatEvent.MESSAGE_CREATED, onMessageCreated)
     sdk.onChatEvent(ChatEvent.AGENT_TYPING_STARTED, onAgentTypingStarted)
     sdk.onChatEvent(ChatEvent.AGENT_TYPING_ENDED, onAgentTypingEnded)
-    sdk.onChatEvent(ChatEvent.MESSAGE_SEEN_BY_END_USER, onEvent)
+    sdk.onChatEvent(ChatEvent.MESSAGE_SEEN_BY_END_USER, onMessageSeenByUser)
     sdk.onChatEvent(ChatEvent.ASSIGNED_AGENT_CHANGED, onAssignedAgentChanged)
     sdk.onChatEvent(ChatEvent.CONTACT_CREATED, onEvent)
     sdk.onChatEvent(ChatEvent.CONTACT_STATUS_CHANGED, onEvent)
@@ -68,7 +72,14 @@ export const AppProvider = ({ availability, options, children }) => {
       setCustomerId(customerId)
       setThreadId(threadId)
     }
+
+    if (window.location.hash === '#webchat') setChatVisibility(true)
   }, [])
+
+  const setChatVisibility = (payload) => {
+    if (!payload) window.location.hash = ''
+    dispatch({ type: 'SET_CHAT_VISIBILITY', payload })
+  }
 
   const setAvailability = (availability) => {
     dispatch({ type: 'SET_AVAILABILITY', payload: availability })
@@ -108,7 +119,8 @@ export const AppProvider = ({ availability, options, children }) => {
     setCustomerId,
     setThreadId,
     setMessages,
-    setAgent
+    setAgent,
+    setChatVisibility
   }))
 
   return (

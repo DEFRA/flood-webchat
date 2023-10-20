@@ -6,7 +6,8 @@ export const initialState = {
   agent: null,
   agentStatus: null,
   isAgentTyping: false,
-  isCustomerConnected: false
+  isCustomerConnected: false,
+  isChatOpen: false
 }
 
 const CUSTOMER_ID_STORAGE_KEY = 'webchat_customer_id'
@@ -16,6 +17,14 @@ export const appReducer = (state, action) => {
   const { type, payload } = action
 
   switch (type) {
+    case 'SET_CHAT_VISIBILITY':
+      console.log('SET_CHAT_VISIBILITY', state, payload)
+
+      return {
+        ...state,
+        isChatOpen: payload
+      }
+
     case 'SET_AVAILABILITY':
       console.log('SET_AVAILABILITY', state, payload)
 
