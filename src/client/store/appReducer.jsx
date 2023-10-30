@@ -7,11 +7,12 @@ export const initialState = {
   agentStatus: null,
   isAgentTyping: false,
   isCustomerConnected: false,
-  isChatOpen: false
+  isChatOpen: false,
+  isChatRequested: false
 }
 
-const CUSTOMER_ID_STORAGE_KEY = 'webchat_customer_id'
-const THEAD_ID_STORAGE_KEY = 'webchat_thread_id'
+export const CUSTOMER_ID_STORAGE_KEY = 'webchat_customer_id'
+export const THEAD_ID_STORAGE_KEY = 'webchat_thread_id'
 
 export const appReducer = (state, action) => {
   const { type, payload } = action
@@ -25,6 +26,14 @@ export const appReducer = (state, action) => {
         isChatOpen: payload
       }
 
+    case 'SET_CHAT_REQUESTED':
+      console.log('SET_CHAT_REQUESTED', state)
+
+      return {
+        ...state,
+        isChatRequested: true
+      }
+
     case 'SET_AVAILABILITY':
       console.log('SET_AVAILABILITY', state, payload)
 
@@ -36,43 +45,30 @@ export const appReducer = (state, action) => {
     case 'SET_CUSTOMER_ID':
       console.log('SET_CUSTOMER_ID', state, payload)
 
-      window.localStorage.setItem(CUSTOMER_ID_STORAGE_KEY, payload.customerId)
-
-      return {
-        ...state,
-        customerId: payload.customerId,
-        isCustomerConnected: true
+      if (payload) {
+        window.localStorage.setItem(CUSTOMER_ID_STORAGE_KEY, payload)
+      } else {
+        window.localStorage.removeItem(CUSTOMER_ID_STORAGE_KEY)
       }
 
-    case 'UNSET_CUSTOMER_ID':
-      console.log('UNSET_CUSTOMER_ID', state)
-
-      window.localStorage.removeItem(CUSTOMER_ID_STORAGE_KEY)
-
       return {
         ...state,
-        customerId: null,
-        isCustomerConnected: false
+        customerId: payload ?? null,
+        isCustomerConnected: !!payload
       }
 
     case 'SET_THREAD_ID':
       console.log('SET_THREAD_ID', state, payload)
 
-      window.localStorage.setItem(THEAD_ID_STORAGE_KEY, payload.threadId)
-
-      return {
-        ...state,
-        threadId: payload.threadId
+      if (payload) {
+        window.localStorage.setItem(THEAD_ID_STORAGE_KEY, payload)
+      } else {
+        window.localStorage.removeItem(THEAD_ID_STORAGE_KEY)
       }
 
-    case 'UNSET_THREAD_ID':
-      console.log('UNSET_THREAD_ID', state, payload)
-
-      window.localStorage.removeItem(THEAD_ID_STORAGE_KEY)
-
       return {
         ...state,
-        threadId: null
+        threadId: payload
       }
 
     case 'SET_MESSAGE': {
@@ -80,7 +76,7 @@ export const appReducer = (state, action) => {
 
       return {
         ...state,
-        messages: [...state.messages, payload.message]
+        messages: [...state.messages, payload]
       }
     }
 
@@ -89,7 +85,7 @@ export const appReducer = (state, action) => {
 
       return {
         ...state,
-        messages: payload.messages.reverse()
+        messages: payload.reverse()
       }
 
     case 'SET_AGENT':
@@ -97,7 +93,7 @@ export const appReducer = (state, action) => {
 
       return {
         ...state,
-        agent: payload.agent
+        agent: payload
       }
 
     case 'SET_AGENT_TYPING':
@@ -105,7 +101,7 @@ export const appReducer = (state, action) => {
 
       return {
         ...state,
-        isAgentTyping: payload.isAgentTyping
+        isAgentTyping: payload
       }
 
     case 'SET_AGENT_STATUS':

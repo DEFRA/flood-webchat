@@ -4,15 +4,14 @@ import { PanelHeader } from '../panel/panel-header.jsx'
 import { PanelFooter } from '../panel/panel-footer.jsx'
 import { Message } from './message.jsx'
 
-import { useApp } from '../../store/AppProvider.jsx'
-import { useCXOne } from '../../lib/useCXOne.js'
+import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
 import { useTextareaAutosize } from '../../lib/useTextareaAutosize.js'
 
 import { transformMessages } from '../../lib/transform-messages.js'
 
-export function Chat () {
-  const { sdk, availability, threadId, messages, setMessages, agent, agentStatus, isAgentTyping } = useApp()
-  const { connect, recoverThread } = useCXOne(sdk)
+export function Chat ({ setScreen }) {
+  const { availability, threadId, setThreadId, messages, setMessages, agent, agentStatus, isAgentTyping, isChatRequested } = useApp()
+  const { recoverThread } = useChatSdk()
 
   const [message, setMessage] = useState('')
   const messageRef = useRef()
@@ -21,18 +20,22 @@ export function Chat () {
 
   useEffect(() => {
     const fetchThread = async () => {
-      const conn = await connect()
-      console.log('chat connection', conn)
+      try {
+        const recoveredThread = await recoverThread(threadId)
+        console.log('[Chat] recovered thread', recoveredThread)
+        setMessages(transformMessages(recoveredThread.messages))
+      } catch (err) {
+        console.log('[Chat Error] fetchThread', err)
 
-      const thread = await recoverThread(threadId)
-      console.log('chat thread', thread)
-      setMessages(transformMessages(thread.messages))
+        if (err.error.errorCode === 'RecoveringLivechatFailed') {
+          setThreadId()
+          return setScreen(0)
+        }
+      }
     }
 
-    try {
+    if (!isChatRequested) {
       fetchThread()
-    } catch (err) {
-      console.log('fetchThread err', err)
     }
   }, [])
 
@@ -66,6 +69,11 @@ export function Chat () {
     connectionHeadlineText = 'Webchat is not currently available'
   }
 
+  const onEndChat = (e) => {
+    e.preventDefault()
+    setScreen(3)
+  }
+
   return (
     <>
       <PanelHeader />
@@ -73,7 +81,7 @@ export function Chat () {
       <div className='wc-body'>
         <div className='wc-chat__header'>
           <p className='wc-chat__availability govuk-body-s'>{connectionHeadlineText}</p>
-          <a className='wc-chat__link' href='#' role='button' data-module='govuk-button'>End chat</a>
+          <a className='wc-chat__link' href='#' role='button' data-module='govuk-button' onClick={onEndChat}>End chat</a>
         </div>
         <div className='wc-chat__body'>
           <ul className='wc-chat__messages'>
@@ -100,7 +108,7 @@ export function Chat () {
       <PanelFooter>
         <div className='wc-footer__input'>
           <form className='wc-message__form' noValidate>
-            <label className='govuk-label wc-message__label' htmlFor='wc-message'>
+            <label className='govuk-label wc-message__label govuk-!-font-size-16' htmlFor='wc-message'>
               Your message<span className='govuk-visually-hidden'> (enter key submits)</span>
             </label>
 
@@ -108,14 +116,14 @@ export function Chat () {
               ref={messageRef}
               rows='1'
               aria-required='true'
-              className='wc-message__textarea govuk-textarea'
+              className='wc-message__textarea govuk-textarea govuk-!-font-size-16'
               id='wc-message'
               name='message'
               onChange={onChange}
               value={message}
             />
 
-            <input type='submit' className='wc-message__button govuk-button' value='Send' data-prevent-double-click='true' />
+            <input type='submit' className='wc-message__button govuk-button govuk-!-font-size-16' value='Send' data-prevent-double-click='true' />
           </form>
         </div>
 

@@ -3,14 +3,13 @@ import React, { useRef, useState, useEffect } from 'react'
 import { classnames } from '../../lib/classnames.js'
 import { PanelHeader } from '../panel/panel-header.jsx'
 
-import { useApp } from '../../store/AppProvider.jsx'
-import { useCXOne } from '../../lib/useCXOne.js'
+import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
 
 const QUESTION_MAX_LENGTH = 500
 
 export function RequestChat ({ onForward, onBack }) {
-  const { sdk, threadId, setCustomerId, setThreadId } = useApp()
-  const { getCustomerId, getThread } = useCXOne(sdk)
+  const { sdk, threadId, setCustomerId, setThreadId, setChatRequested } = useApp()
+  const { getCustomerId, getThread } = useChatSdk()
 
   const [errors, setErrors] = useState({})
   const [questionLength, setQuestionLength] = useState(0)
@@ -56,10 +55,11 @@ export function RequestChat ({ onForward, onBack }) {
 
         setCustomerId(cid)
         setThreadId(threadData.threadId)
+        setChatRequested()
 
         return onForward(e)
       } catch (err) {
-        console.log('Request Chat Error', err)
+        console.log('[Request Chat Error]', err)
       }
     }
 

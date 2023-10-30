@@ -5,6 +5,8 @@ import { PreChat } from '../screens/pre-chat.jsx'
 import { RequestChat } from '../screens/request-chat.jsx'
 import { Chat } from '../chat/chat.jsx'
 import { useApp } from '../../store/AppProvider.jsx'
+import { Unavailable } from '../screens/unavailable.jsx'
+import { EndChat } from '../screens/end-chat.jsx'
 
 export const setAriaHidden = (bool) => {
   for (const node of document.body.children) {
@@ -29,7 +31,7 @@ export const getFocusableElements = () => {
 }
 
 export function Panel ({ showScreen = 0, onClose }) {
-  const { isCustomerConnected } = useApp()
+  const { availability, isCustomerConnected } = useApp()
   const [screen, setScreen] = useState(showScreen)
   const [panelElements, setPanelElements] = useState([])
 
@@ -102,8 +104,15 @@ export function Panel ({ showScreen = 0, onClose }) {
     case 2:
       ScreenComponent = <Chat setScreen={setScreen} />
       break
+    case 3:
+      ScreenComponent = <EndChat setScreen={setScreen} />
+      break
     default:
       ScreenComponent = <PreChat onForward={onForward} />
+  }
+
+  if (availability === 'UNAVAILABLE') {
+    ScreenComponent = <Unavailable />
   }
 
   const Component = (

@@ -4,11 +4,9 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { RequestChat } from '../../../src/client/components/screens/request-chat'
-import { useApp } from '../../../src/client/store/AppProvider'
-import { useCXOne } from '../../../src/client/lib/useCXOne'
+import { useApp, useChatSdk } from '../../../src/client/store/AppProvider'
 
 jest.mock('../../../src/client/store/AppProvider')
-jest.mock('../../../src/client/lib/useCXOne')
 
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
   ChatSdk: function () {
@@ -28,7 +26,7 @@ jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
 
 const mocks = {
   useApp: jest.mocked(useApp),
-  useCXOne: jest.mocked(useCXOne)
+  useChatSdk: jest.mocked(useChatSdk)
 }
 
 mocks.useApp.mockReturnValue({
@@ -40,10 +38,11 @@ mocks.useApp.mockReturnValue({
     }
   }),
   setCustomerId: jest.fn(),
-  setThreadId: jest.fn()
+  setThreadId: jest.fn(),
+  setChatRequested: jest.fn()
 })
 
-mocks.useCXOne.mockReturnValue({
+mocks.useChatSdk.mockReturnValue({
   connect: jest.fn(),
   getCustomerId: jest.fn(),
   recoverThread: jest.fn(),

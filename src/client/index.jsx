@@ -16,5 +16,6 @@ export async function init (container, options) {
   root.render(
     <AppProvider availability={availability} options={options}>
       <Availability availability={availability} />
-    </AppProvider>)
+    </AppProvider>
+  )
 }
