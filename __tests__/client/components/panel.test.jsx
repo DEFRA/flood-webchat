@@ -3,22 +3,18 @@ import { userEvent } from '@testing-library/user-event'
 import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
-import { AppProvider } from '../../../src/client/store/AppProvider'
 import { Panel } from '../../../src/client/components/panel/panel'
 
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
-  ChatSdk: function () {
-    this.onChatEvent = jest.fn()
-  },
   ChatEvent: {
-    LIVECHAT_RECOVERED: true,
-    MESSAGE_CREATED: true,
-    AGENT_TYPING_STARTED: true,
-    AGENT_TYPING_ENDED: true,
-    MESSAGE_SEEN_BY_END_USER: true,
-    ASSIGNED_AGENT_CHANGED: true,
-    CONTACT_CREATED: true,
-    CONTACT_STATUS_CHANGED: true
+    LIVECHAT_RECOVERED: jest.mocked(),
+    MESSAGE_CREATED: jest.mocked(),
+    AGENT_TYPING_STARTED: jest.mocked(),
+    AGENT_TYPING_ENDED: jest.mocked(),
+    MESSAGE_SEEN_BY_END_USER: jest.mocked(),
+    ASSIGNED_AGENT_CHANGED: jest.mocked(),
+    CONTACT_CREATED: jest.mocked(),
+    CONTACT_STATUS_CHANGED: jest.mocked()
   }
 }))
 
@@ -121,18 +117,9 @@ describe('<Panel />', () => {
 })
 
 describe('<Panel /> screens', () => {
-  const options = {
-    availabilityEndpoint: '/webchat-availability',
-    brandId: '123',
-    channelId: 'chat_123',
-    environment: 'UK1'
-  }
-
   it('should go back a screen', () => {
     render(
-      <AppProvider availability='AVAILABLE' options={options}>
-        <Panel onClose={onClose} />
-      </AppProvider>
+      <Panel onClose={onClose} />
     )
 
     fireEvent.click(screen.getByText('Continue'))

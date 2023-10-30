@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer, useContext, useMemo } from 'react'
-import { ChatSdk, ChatEvent } from '@nice-devone/nice-cxone-chat-web-sdk'
+import { ChatEvent } from '@nice-devone/nice-cxone-chat-web-sdk'
 import * as uuid from 'uuid'
 
 import { initialState, appReducer, CUSTOMER_ID_STORAGE_KEY, THEAD_ID_STORAGE_KEY } from './appReducer.jsx'
@@ -7,15 +7,8 @@ import { transformMessage } from '../lib/transform-messages.js'
 
 export const AppContext = createContext(initialState)
 
-export const AppProvider = ({ availability, options, children }) => {
+export const AppProvider = ({ sdk, availability, children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState)
-
-  const sdk = new ChatSdk({
-    brandId: options.brandId,
-    channelId: options.channelId,
-    customerId: window.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY) || '',
-    environment: options.environment
-  })
 
   const onLiveChatRecovered = (e) => {
     console.log('onLiveChatRecovered', e)
@@ -156,8 +149,8 @@ export const useApp = () => {
 export const useChatSdk = () => {
   const context = useContext(AppContext)
 
-  if (context?.sdk === undefined) {
-    throw new Error('"sdk" undefined in AppProvider')
+  if (context === undefined) {
+    throw new Error('useChatSdk must be used within AppContext')
   }
 
   const { sdk } = context

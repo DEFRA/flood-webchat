@@ -4,8 +4,8 @@ import { classnames } from '../../lib/classnames'
 import { Panel } from '../panel/panel.jsx'
 import { useApp } from '../../store/AppProvider.jsx'
 
-export function Availability ({ availability }) {
-  const { messages, isChatOpen, setChatVisibility } = useApp()
+export function Availability () {
+  const { availability, messages, isChatOpen, setChatVisibility } = useApp()
 
   const [isFixed, setFixed] = useState(false)
   const buttonRef = useRef()
@@ -72,6 +72,8 @@ export function Availability ({ availability }) {
   if (!messages.length) {
     TextComponent = (<>Start Chat</>)
   }
+
+  console.log(availability)
 
   switch (availability) {
     case 'AVAILABLE':
