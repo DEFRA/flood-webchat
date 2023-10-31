@@ -73,8 +73,6 @@ export function Availability () {
     TextComponent = (<>Start Chat</>)
   }
 
-  console.log(availability)
-
   switch (availability) {
     case 'AVAILABLE':
       return (
