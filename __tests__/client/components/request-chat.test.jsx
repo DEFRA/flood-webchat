@@ -36,7 +36,8 @@ mocks.useApp.mockReturnValue({
   }),
   setCustomerId: jest.fn(),
   setThreadId: jest.fn(),
-  setChatRequested: jest.fn()
+  setChatRequested: jest.fn(),
+  setThread: jest.fn()
 })
 
 mocks.useChatSdk.mockReturnValue({

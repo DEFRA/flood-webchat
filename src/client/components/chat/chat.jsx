@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import sanitizeHtml from 'sanitize-html'
 
 import { PanelHeader } from '../panel/panel-header.jsx'
 import { PanelFooter } from '../panel/panel-footer.jsx'
@@ -10,7 +11,7 @@ import { useTextareaAutosize } from '../../lib/useTextareaAutosize.js'
 import { transformMessages } from '../../lib/transform-messages.js'
 
 export function Chat ({ setScreen }) {
-  const { availability, threadId, setThreadId, messages, setMessages, agent, agentStatus, isAgentTyping, isChatRequested } = useApp()
+  const { availability, thread, threadId, setThreadId, messages, setMessages, agent, agentStatus, isAgentTyping, isChatRequested } = useApp()
   const { recoverThread } = useChatSdk()
 
   const [message, setMessage] = useState('')
@@ -69,6 +70,17 @@ export function Chat ({ setScreen }) {
     connectionHeadlineText = 'Webchat is not currently available'
   }
 
+  console.log(thread)
+
+  const sendMessage = (e) => {
+    e.preventDefault()
+
+    if (messageRef.current.value.length === 0) return
+
+    thread.sendTextMessage(sanitizeHtml(messageRef.current.value.trim()))
+    setMessage('')
+  }
+
   const onEndChat = (e) => {
     e.preventDefault()
     setScreen(3)
@@ -78,11 +90,12 @@ export function Chat ({ setScreen }) {
     <>
       <PanelHeader />
 
+      <div className='wc-status'>
+        <p className='wc-status__availability govuk-body-s'>{connectionHeadlineText}</p>
+        <a className='wc-status__link govuk-!-font-size-16' href='#' role='button' data-module='govuk-button' onClick={onEndChat}>End chat</a>
+      </div>
+
       <div className='wc-body'>
-        <div className='wc-chat__header'>
-          <p className='wc-chat__availability govuk-body-s'>{connectionHeadlineText}</p>
-          <a className='wc-chat__link' href='#' role='button' data-module='govuk-button' onClick={onEndChat}>End chat</a>
-        </div>
         <div className='wc-chat__body'>
           <ul className='wc-chat__messages'>
             {messages.map((message, index) => <Message key={message.id} message={message} previousMessage={messages[index - 1]} />)}
@@ -123,7 +136,13 @@ export function Chat ({ setScreen }) {
               value={message}
             />
 
-            <input type='submit' className='wc-message__button govuk-button govuk-!-font-size-16' value='Send' data-prevent-double-click='true' />
+            <input
+              type='submit'
+              className='wc-message__button govuk-button govuk-!-font-size-16'
+              value='Send'
+              data-prevent-double-click='true'
+              onClick={sendMessage}
+            />
           </form>
         </div>
 

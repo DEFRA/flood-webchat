@@ -4,21 +4,23 @@
   }
 }
 
-.wc-chat {
-  &__header {
-    display: flex;
-    border-bottom: 1px solid $govuk-border-colour;
-  }
+.wc-status {
+  display: flex;
+  border-bottom: 1px solid $govuk-border-colour;
+  padding: govuk-spacing(2);
 
   &__availability {
-    margin-bottom: govuk-spacing(2);
+    margin-bottom: 0;
   }
 
   &__link {
     margin-left: auto;
   }
+}
 
+.wc-chat {
   &__messages {
+    overflow: scroll;
     list-style: none;
     padding: 0;
     margin: govuk-spacing(2) 0;
@@ -36,7 +38,6 @@
     color: govuk-colour('dark-grey');
     margin-bottom: 0;
   }
-   
 
   &__text {
     padding: govuk-spacing(2);

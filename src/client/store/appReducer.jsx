@@ -2,6 +2,7 @@ export const initialState = {
   availability: null,
   customerId: null,
   threadId: null,
+  thread: null,
   messages: [],
   agent: null,
   agentStatus: null,
@@ -61,6 +62,12 @@ export const appReducer = (state, action) => {
       return {
         ...state,
         threadId: payload
+      }
+
+    case 'SET_THREAD':
+      return {
+        ...state,
+        thread: payload
       }
 
     case 'SET_MESSAGE': {

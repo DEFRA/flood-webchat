@@ -77,6 +77,13 @@ export const AppProvider = ({ sdk, availability, children }) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (state.messages.length === 0) return
+
+    const chatBody = document.querySelector('.wc-body')
+    chatBody.scrollTop = chatBody.scrollHeight
+  }, [state.messages, state.isAgentTyping])
+
   const setChatVisibility = (payload) => {
     if (!payload) window.location.hash = ''
     dispatch({ type: 'SET_CHAT_VISIBILITY', payload })
@@ -92,6 +99,10 @@ export const AppProvider = ({ sdk, availability, children }) => {
 
   const setThreadId = (threadId) => {
     dispatch({ type: 'SET_THREAD_ID', payload: threadId })
+  }
+
+  const setThread = (thread) => {
+    dispatch({ type: 'SET_THREAD', payload: thread })
   }
 
   const setMessage = (message) => {
@@ -123,6 +134,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
     sdk,
     setCustomerId,
     setThreadId,
+    setThread,
     setMessages,
     setAgent,
     setChatVisibility,
@@ -153,7 +165,7 @@ export const useChatSdk = () => {
     throw new Error('useChatSdk must be used within AppContext')
   }
 
-  const { sdk } = context
+  const { sdk, setThread } = context
 
   const connect = async () => {
     console.log('[useChatSdk] connect')
@@ -172,6 +184,7 @@ export const useChatSdk = () => {
     if (!threadId) threadId = uuid.v4()
 
     const thread = await sdk.getThread(threadId)
+    setThread(thread)
 
     return {
       thread,

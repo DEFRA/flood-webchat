@@ -8,7 +8,7 @@ import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
 const QUESTION_MAX_LENGTH = 500
 
 export function RequestChat ({ onForward, onBack }) {
-  const { sdk, threadId, setCustomerId, setThreadId, setChatRequested } = useApp()
+  const { sdk, threadId, setCustomerId, setThreadId, setThread, setChatRequested } = useApp()
   const { getCustomerId, getThread } = useChatSdk()
 
   const [errors, setErrors] = useState({})
@@ -54,6 +54,7 @@ export function RequestChat ({ onForward, onBack }) {
         await threadData.thread.startChat(questionRef.current.value || 'Begin conversation')
 
         setCustomerId(cid)
+        setThread(threadData.thread)
         setThreadId(threadData.threadId)
         setChatRequested()
 
@@ -148,7 +149,7 @@ export function RequestChat ({ onForward, onBack }) {
             </div>
           </div>
 
-          <button className='govuk-button govuk-!-margin-top-1' data-module='govuk-button' onClick={onRequestChat}>
+          <button className='govuk-button govuk-!-margin-top-1 govuk-!-font-size-16' data-module='govuk-button' onClick={onRequestChat}>
             Request chat
           </button>
         </form>
