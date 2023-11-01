@@ -3,7 +3,7 @@ import sanitizeHtml from 'sanitize-html'
 
 import { PanelHeader } from '../panel/panel-header.jsx'
 import { PanelFooter } from '../panel/panel-footer.jsx'
-import { Message } from './message.jsx'
+import { Message } from '../message/message.jsx'
 
 import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
 import { useTextareaAutosize } from '../../lib/useTextareaAutosize.js'
@@ -60,17 +60,17 @@ export function Chat ({ setScreen }) {
 
   if (agentStatus === 'closed') {
     connectionHeadlineText = agentName ? `${agentName} ended the session` : 'Session ended by advisor'
-  } else if (agentName) {
-    connectionHeadlineText = `You are speaking with ${agentName}`
   } else {
-    connectionHeadlineText = 'No advisers currently available'
+    if (agentName) {
+      connectionHeadlineText = `You are speaking with ${agentName}`
+    } else {
+      connectionHeadlineText = 'No advisers currently available'
+    }
   }
 
   if (availability === 'UNAVAILABLE') {
     connectionHeadlineText = 'Webchat is not currently available'
   }
-
-  console.log(thread)
 
   const sendMessage = (e) => {
     e.preventDefault()
