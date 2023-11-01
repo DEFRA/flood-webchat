@@ -29,11 +29,9 @@ module.exports = async function getAvailability ({
 
   const host = await getHost({ tenantId })
 
-  const isPreProd = environment === 'pre'
-
   const [{ hasCapacity, hasAgentsAvailable }, isOpen] = await Promise.all([
-    getActivity({ tokenType, token, host, skillEndpoint, maxQueueCount, isPreProd }),
-    getIsOpen({ token, tokenType, host, hoursEndpoint, isPreProd })
+    getActivity({ tokenType, token, host, skillEndpoint, maxQueueCount }),
+    getIsOpen({ token, tokenType, host, hoursEndpoint })
   ])
 
   const isAvailable = isOpen && hasAgentsAvailable && hasCapacity
