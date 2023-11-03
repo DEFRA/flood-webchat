@@ -6,7 +6,6 @@ import { RequestChat } from '../screens/request-chat.jsx'
 import { Chat } from '../chat/chat.jsx'
 import { useApp } from '../../store/AppProvider.jsx'
 import { Unavailable } from '../screens/unavailable.jsx'
-import { EndChat } from '../screens/end-chat.jsx'
 
 export const setAriaHidden = (bool) => {
   for (const node of document.body.children) {
@@ -36,7 +35,9 @@ export function Panel ({ showScreen = 0, onClose }) {
   const [panelElements, setPanelElements] = useState([])
 
   const onKeyDown = useCallback((e) => {
-    if (e.key === 'Escape' || e.key === 'Esc') return onClose()
+    if (e.key === 'Escape' || e.key === 'Esc') {
+      return onClose()
+    }
 
     if (e.key === 'Tab') {
       const webchatPanelElement = document.querySelector('#wc-panel')
@@ -103,9 +104,6 @@ export function Panel ({ showScreen = 0, onClose }) {
       break
     case 2:
       ScreenComponent = <Chat setScreen={setScreen} />
-      break
-    case 3:
-      ScreenComponent = <EndChat setScreen={setScreen} />
       break
     default:
       ScreenComponent = <PreChat onForward={onForward} />

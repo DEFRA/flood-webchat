@@ -38,15 +38,15 @@ const useAppMock = {
   agentStatus: null,
   isAgentTyping: false
 }
-
-mocks.useApp.mockReturnValue(useAppMock)
-
-mocks.useChatSdk.mockReturnValue({
+const useChatSdkMock = {
   connect: jest.fn(),
   getThread: jest.fn(),
   getCustomerId: jest.fn(),
-  recoverThread: jest.fn().mockReturnValue({ messages: [] })
-})
+  recoverThread: jest.fn()
+}
+
+mocks.useApp.mockReturnValue(useAppMock)
+mocks.useChatSdk.mockReturnValue(useChatSdkMock)
 
 describe('<Chat />', () => {
   describe('Tagline', () => {
@@ -117,9 +117,14 @@ describe('<Chat />', () => {
   })
 
   describe('Messages', () => {
-    it('should show message from the user', () => {
+    it('should show message from the user', async () => {
+      const { container } = render(<Chat />)
+
+      expect(useChatSdkMock.recoverThread).toHaveBeenCalled()
+
       mocks.useApp.mockReturnValueOnce({
         ...useAppMock,
+        isChatRequested: true,
         messages: [{
           id: '1234',
           text: 'test message from user',
@@ -130,9 +135,7 @@ describe('<Chat />', () => {
         }]
       })
 
-      const { container } = render(<Chat />)
-
-      expect(screen.getByText('test message from user')).toBeTruthy()
+      expect(await screen.findByText('test message from user')).toBeTruthy()
       expect(container.querySelector('.wc-chat__from').textContent).toEqual('You:')
     })
 
@@ -148,7 +151,11 @@ describe('<Chat />', () => {
       expect(screen.getByText('test is typing')).toBeTruthy()
     })
 
-    it('should show message from the agent', () => {
+    it('should show message from the agent', async () => {
+      const { container } = render(<Chat />)
+
+      expect(useChatSdkMock.recoverThread).toHaveBeenCalled()
+
       mocks.useApp.mockReturnValueOnce({
         ...useAppMock,
         messages: [{
@@ -161,9 +168,7 @@ describe('<Chat />', () => {
         }]
       })
 
-      const { container } = render(<Chat />)
-
-      expect(screen.getByText('test message from agent')).toBeTruthy()
+      expect(await screen.findByText('test message from agent')).toBeInTheDocument()
       expect(container.querySelector('.wc-chat__from').textContent).toEqual('test-agent-name:')
     })
   })

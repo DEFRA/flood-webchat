@@ -8,13 +8,29 @@ import { Message } from '../message/message.jsx'
 import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
 import { useTextareaAutosize } from '../../lib/useTextareaAutosize.js'
 
-import { transformMessages } from '../../lib/transform-messages.js'
+function EndChatScreen ({ onResume, onEndChatConfirm }) {
+  return (
+    <>
+      <PanelHeader />
+      <div className='wc-body'>
+        <h3 className='govuk-heading-s' aria-live='polite'>Are you sure you want to end the chat?</h3>
+        <div className='govuk-button-group'>
+          <a href='#' className='govuk-button govuk-!-font-size-16' data-module='govuk-button' onClick={onEndChatConfirm}>Yes, end chat</a>
+          <a href='#' className='govuk-link govuk-!-font-size-16' onClick={onResume}>No, resume chat</a>
+        </div>
+      </div>
+    </>
+  )
+}
 
 export function Chat ({ setScreen }) {
-  const { availability, thread, threadId, setThreadId, messages, setMessages, agent, agentStatus, isAgentTyping, isChatRequested } = useApp()
+  const { availability, thread, threadId, setThreadId, messages, agent, agentStatus, isAgentTyping, isChatRequested } = useApp()
   const { recoverThread } = useChatSdk()
 
+  const [threadRecovered, setThreadRecovered] = useState(false)
+  const [showEndChatScreen, setEndChatScreen] = useState(false)
   const [message, setMessage] = useState('')
+
   const messageRef = useRef()
 
   useTextareaAutosize(messageRef.current, message)
@@ -22,9 +38,8 @@ export function Chat ({ setScreen }) {
   useEffect(() => {
     const fetchThread = async () => {
       try {
-        const recoveredThread = await recoverThread(threadId)
-        console.log('[Chat] recovered thread', recoveredThread)
-        setMessages(transformMessages(recoveredThread.messages))
+        await recoverThread(threadId)
+        setThreadRecovered(true)
       } catch (err) {
         console.log('[Chat Error] fetchThread', err)
 
@@ -75,16 +90,38 @@ export function Chat ({ setScreen }) {
   const sendMessage = (e) => {
     e.preventDefault()
 
-    if (messageRef.current.value.length === 0) return
+    if (messageRef.current.value.length === 0) {
+      return
+    }
 
-    thread.sendTextMessage(sanitizeHtml(messageRef.current.value.trim()))
+    try {
+      thread.sendTextMessage(sanitizeHtml(messageRef.current.value.trim()))
+    } catch (err) {
+      console.log('[Chat Error] sendMessage', err)
+    }
+
     setMessage('')
+  }
+
+  const onResume = (e) => {
+    e.preventDefault()
+    setEndChatScreen(false)
   }
 
   const onEndChat = (e) => {
     e.preventDefault()
-    setScreen(3)
+    setEndChatScreen(true)
   }
+
+  const onEndChatConfirm = (e) => {
+    e.preventDefault()
+  }
+
+  if (showEndChatScreen) {
+    return <EndChatScreen onResume={onResume} onEndChatConfirm={onEndChatConfirm} />
+  }
+
+  console.log(threadRecovered, messages)
 
   return (
     <>
@@ -98,8 +135,9 @@ export function Chat ({ setScreen }) {
       <div className='wc-body'>
         <div className='wc-chat__body'>
           <ul className='wc-chat__messages'>
-            {messages.map((message, index) => <Message key={message.id} message={message} previousMessage={messages[index - 1]} />)}
-
+            {threadRecovered
+              ? messages.map((message, index) => <Message key={message.id} message={message} previousMessage={messages[index - 1]} />)
+              : null}
             {isAgentTyping
               ? (
                 <li className='wc-chat__message govuk-body outbound'>

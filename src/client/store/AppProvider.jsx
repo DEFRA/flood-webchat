@@ -3,7 +3,6 @@ import { ChatEvent } from '@nice-devone/nice-cxone-chat-web-sdk'
 import * as uuid from 'uuid'
 
 import { initialState, appReducer, CUSTOMER_ID_STORAGE_KEY, THEAD_ID_STORAGE_KEY } from './appReducer.jsx'
-import { transformMessage } from '../lib/transform-messages.js'
 
 export const AppContext = createContext(initialState)
 
@@ -33,8 +32,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
 
   const onMessageCreated = (e) => {
     console.log('onMessageCreated', e)
-    const message = transformMessage(e.detail.data.message)
-    setMessage(message)
+    setMessage(e.detail.data.message)
   }
 
   const onMessageSeenByUser = (e) => {
@@ -78,14 +76,19 @@ export const AppProvider = ({ sdk, availability, children }) => {
   }, [])
 
   useEffect(() => {
-    if (state.messages.length === 0) return
+    if (state.messages.length === 0) {
+      return
+    }
 
     const chatBody = document.querySelector('.wc-body')
     chatBody.scrollTop = chatBody.scrollHeight
   }, [state.messages, state.isAgentTyping])
 
   const setChatVisibility = (payload) => {
-    if (!payload) window.location.hash = ''
+    if (!payload) {
+      window.location.hash = ''
+    }
+
     dispatch({ type: 'SET_CHAT_VISIBILITY', payload })
   }
 
@@ -135,6 +138,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
     setCustomerId,
     setThreadId,
     setThread,
+    setMessage,
     setMessages,
     setAgent,
     setChatVisibility,
@@ -165,7 +169,7 @@ export const useChatSdk = () => {
     throw new Error('useChatSdk must be used within AppContext')
   }
 
-  const { sdk, setThread } = context
+  const { sdk, setThread, setMessages } = context
 
   const connect = async () => {
     console.log('[useChatSdk] connect')
@@ -181,7 +185,10 @@ export const useChatSdk = () => {
 
   const getThread = async (threadId) => {
     console.log('[useChatSdk] getThread')
-    if (!threadId) threadId = uuid.v4()
+
+    if (!threadId) {
+      threadId = uuid.v4()
+    }
 
     const thread = await sdk.getThread(threadId)
     setThread(thread)
@@ -193,12 +200,34 @@ export const useChatSdk = () => {
   }
 
   const recoverThread = async (threadId) => {
-    if (!threadId) throw new Error('Invalid Thread ID')
+    console.log('[useChatSdk] recoverThread')
+
+    if (!threadId) {
+      throw new Error('Invalid Thread ID')
+    }
 
     await connect()
+
     const { thread } = await getThread(threadId)
 
-    return await thread.recover(threadId)
+    const recovered = await thread.recover(threadId)
+
+    const allMessages = []
+    let fetchedMessages = recovered.messages
+
+    while (fetchedMessages.length) {
+      fetchedMessages.map(msg => allMessages.push(msg))
+
+      try {
+        const response = await thread.loadMoreMessages()
+        fetchedMessages = response.data.messages
+      } catch (err) {
+        console.log('[useChatSdk Error] loadMoreMessages', err)
+        fetchedMessages = []
+      }
+    }
+
+    setMessages(allMessages)
   }
 
   return { connect, getCustomerId, getThread, recoverThread }

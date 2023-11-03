@@ -1,3 +1,5 @@
+import { transformMessages, transformMessage } from '../lib/transform-messages'
+
 export const initialState = {
   availability: null,
   customerId: null,
@@ -73,14 +75,14 @@ export const appReducer = (state, action) => {
     case 'SET_MESSAGE': {
       return {
         ...state,
-        messages: [...state.messages, payload]
+        messages: [...state.messages, transformMessage(payload)]
       }
     }
 
     case 'SET_MESSAGES':
       return {
         ...state,
-        messages: payload.reverse()
+        messages: transformMessages(payload).reverse()
       }
 
     case 'SET_AGENT':
