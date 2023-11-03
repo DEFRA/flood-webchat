@@ -1,4 +1,4 @@
-const { authenticate, getHost, getIsOpen, getActivity } = require('./lib/client.js')
+const { authenticate, getApiBaseUrl, getIsOpen, getActivity } = require('./lib/client.js')
 
 /**
  * Returns webchat availability
@@ -9,6 +9,8 @@ const { authenticate, getHost, getIsOpen, getActivity } = require('./lib/client.
  * @param options.accessSecret {string}
  * @param options.skillEndpoint {string}
  * @param options.hoursEndpoint {string}
+ * @param options.authenticationUri {string}
+ * @param options.wellKnownUri {string}
  * @param options.maxQueueCount {string}
  * @returns {Promise<{date: Date, availability: (string)}>}
  */
@@ -17,20 +19,27 @@ module.exports = async function getAvailability ({
   clientSecret,
   accessKey,
   accessSecret,
+  maxQueueCount,
   skillEndpoint,
   hoursEndpoint,
-  maxQueueCount
+  wellKnownUri = 'https://cxone.niceincontact.com/.well-known/cxone-configuration',
+  authenticationUri = 'https://cxone.niceincontact.com/auth/token'
 }) {
   const authorisation = 'Basic ' + Buffer.from(`${encodeURIComponent(clientId)}:${encodeURIComponent(clientSecret)}`).toString('base64')
 
   // Cache authentication and re-authenticate when needed (lasts 1 hour?)
-  const { tenantId, token, tokenType } = await authenticate({ authorisation, accessKey, accessSecret })
+  const { tenantId, token, tokenType } = await authenticate({
+    authenticationUri,
+    authorisation,
+    accessKey,
+    accessSecret
+  })
 
-  const host = await getHost({ tenantId })
+  const apiBaseUrl = await getApiBaseUrl({ wellKnownUri, tenantId })
 
   const [{ hasCapacity, hasAgentsAvailable }, isOpen] = await Promise.all([
-    getActivity({ tokenType, token, host, skillEndpoint, maxQueueCount }),
-    getIsOpen({ token, tokenType, host, hoursEndpoint })
+    getActivity({ tokenType, token, baseUrl: apiBaseUrl, skillEndpoint, maxQueueCount }),
+    getIsOpen({ token, tokenType, baseUrl: apiBaseUrl, hoursEndpoint })
   ])
 
   const isAvailable = isOpen && hasAgentsAvailable && hasCapacity
