@@ -38,8 +38,8 @@ module.exports = async function getAvailability ({
   const apiBaseUrl = await getApiBaseUrl({ wellKnownUri, tenantId })
 
   const [{ hasCapacity, hasAgentsAvailable }, isOpen] = await Promise.all([
-    getActivity({ tokenType, token, baseUrl: apiBaseUrl, skillEndpoint, maxQueueCount }),
-    getIsOpen({ token, tokenType, baseUrl: apiBaseUrl, hoursEndpoint })
+    getActivity({ baseUrl: apiBaseUrl, tokenType, token, skillEndpoint, maxQueueCount }),
+    getIsOpen({ baseUrl: apiBaseUrl, token, tokenType, hoursEndpoint })
   ])
 
   const isAvailable = isOpen && hasAgentsAvailable && hasCapacity
