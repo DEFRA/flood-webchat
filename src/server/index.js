@@ -13,7 +13,6 @@ const { authenticate, getHost, getIsOpen, getActivity } = require('./lib/client.
  * @returns {Promise<{date: Date, availability: (string)}>}
  */
 module.exports = async function getAvailability ({
-  environment,
   clientId,
   clientSecret,
   accessKey,

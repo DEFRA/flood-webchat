@@ -10,8 +10,7 @@ export const initialState = {
   agentStatus: null,
   isAgentTyping: false,
   isCustomerConnected: false,
-  isChatOpen: false,
-  isChatRequested: false
+  isChatOpen: false
 }
 
 export const CUSTOMER_ID_STORAGE_KEY = 'webchat_customer_id'
@@ -29,12 +28,6 @@ export const appReducer = (state, action) => {
         isChatOpen: payload
       }
 
-    case 'SET_CHAT_REQUESTED':
-      return {
-        ...state,
-        isChatRequested: true
-      }
-
     case 'SET_AVAILABILITY':
       return {
         ...state,
@@ -50,7 +43,7 @@ export const appReducer = (state, action) => {
 
       return {
         ...state,
-        customerId: payload ?? null,
+        customerId: payload,
         isCustomerConnected: !!payload
       }
 

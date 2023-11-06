@@ -4,84 +4,55 @@ import { createPortal } from 'react-dom'
 import { PreChat } from '../screens/pre-chat.jsx'
 import { RequestChat } from '../screens/request-chat.jsx'
 import { Chat } from '../chat/chat.jsx'
-import { useApp } from '../../store/AppProvider.jsx'
 import { Unavailable } from '../screens/unavailable.jsx'
+import { EndChat } from '../screens/end-chat.jsx'
 
-export const setAriaHidden = (bool) => {
-  for (const node of document.body.children) {
-    if (node.id !== 'wc-panel') {
-      (bool) ? node.setAttribute('aria-hidden', 'true') : node.removeAttribute('aria-hidden')
+import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
+import { useFocusedElements } from '../../hooks/useFocusedElements.js'
+
+export function Panel ({ onClose }) {
+  const { availability, threadId, setMessages } = useApp()
+  const { recoverThread } = useChatSdk()
+
+  const [screen, setScreen] = useState(threadId ? 2 : 0)
+
+  useFocusedElements(screen)
+
+  useEffect(() => {
+    const escapeKeyEvent = document.addEventListener('keydown', onEscapeKey)
+
+    return () => {
+      document.removeEventListener('keydown', escapeKeyEvent)
     }
-  }
-}
+  }, [])
 
-export const getFocusableElements = () => {
-  const selectors = [
-    '#wc-panel a:not([disabled])',
-    '#wc-panel button:not([disabled])',
-    '#wc-panel select:not([disabled])',
-    '#wc-panel input:not([disabled])',
-    '#wc-panel textarea:not([disabled])',
-    '#wc-panel *[tabindex="0"]:not([disabled])'
-  ]
+  useEffect(() => {
+    if (!threadId) return
 
-  const elements = document.body.querySelectorAll(selectors.join(','))
-  return Array.from(elements).filter(e => !e.closest('[hidden]') && !e.closest('[aria-hidden="true"]'))
-}
+    setScreen(2)
 
-export function Panel ({ showScreen = 0, onClose }) {
-  const { availability, isCustomerConnected } = useApp()
-  const [screen, setScreen] = useState(showScreen)
-  const [panelElements, setPanelElements] = useState([])
+    const recover = async () => {
+      try {
+        const recoveredMessages = await recoverThread(threadId)
+        setMessages(recoveredMessages)
+      } catch (err) {
+        console.log('[Chat Error] fetchThread', err)
 
-  const onKeyDown = useCallback((e) => {
+        // if (err.error.errorCode === 'RecoveringLivechatFailed') {
+        //   setThreadId()
+        //   setScreen(0)
+        // }
+      }
+    }
+
+    recover()
+  }, [threadId])
+
+  const onEscapeKey = useCallback((e) => {
     if (e.key === 'Escape' || e.key === 'Esc') {
       return onClose()
     }
-
-    if (e.key === 'Tab') {
-      const webchatPanelElement = document.querySelector('#wc-panel')
-
-      if (webchatPanelElement && !document.activeElement.closest('#wc-panel')) {
-        webchatPanelElement.focus()
-      }
-
-      if (e.shiftKey) {
-        if (document.activeElement === panelElements[0]) {
-          panelElements[panelElements.length - 1].focus()
-          e.preventDefault()
-        } else if (document.activeElement === document.querySelector('#wc-panel')) {
-          panelElements[panelElements.length - 1]?.focus()
-          e.preventDefault()
-        }
-      } else if (document.activeElement === panelElements[panelElements.length - 1]) {
-        panelElements[0].focus()
-        e.preventDefault()
-      }
-    }
-  }, [panelElements])
-
-  useEffect(() => {
-    if (isCustomerConnected) {
-      setScreen(2)
-    }
-  }, [isCustomerConnected])
-
-  useEffect(() => {
-    setPanelElements(getFocusableElements())
-  }, [screen])
-
-  useEffect(() => {
-    setAriaHidden(true)
-    document.querySelector('#wc-panel').focus()
-    document.addEventListener('keydown', onKeyDown)
-
-    return () => {
-      setAriaHidden()
-      document.body.querySelector('.wc-availability__link')?.focus()
-      document.removeEventListener('keydown', onKeyDown)
-    }
-  }, [panelElements])
+  }, [])
 
   const onForward = (e) => {
     e.preventDefault()
@@ -93,6 +64,21 @@ export function Panel ({ showScreen = 0, onClose }) {
     setScreen(screen - 1)
   }
 
+  const onEndChat = (e) => {
+    e.preventDefault()
+    setScreen(3)
+  }
+
+  const onEndChatConfirm = (e) => {
+    e.preventDefault()
+    console.log('confirmed end chat')
+  }
+
+  const onResume = (e) => {
+    e.preventDefault()
+    setScreen(2)
+  }
+
   let ScreenComponent
 
   switch (screen) {
@@ -100,10 +86,13 @@ export function Panel ({ showScreen = 0, onClose }) {
       ScreenComponent = <PreChat onForward={onForward} />
       break
     case 1:
-      ScreenComponent = <RequestChat onForward={onForward} onBack={onBack} />
+      ScreenComponent = <RequestChat onBack={onBack} />
       break
     case 2:
-      ScreenComponent = <Chat setScreen={setScreen} />
+      ScreenComponent = <Chat setScreen={setScreen} onEndChat={onEndChat} />
+      break
+    case 3:
+      ScreenComponent = <EndChat onResume={onResume} onEndChatConfirm={onEndChatConfirm} />
       break
     default:
       ScreenComponent = <PreChat onForward={onForward} />

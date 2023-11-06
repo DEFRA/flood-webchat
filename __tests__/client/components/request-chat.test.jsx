@@ -51,13 +51,11 @@ mocks.useChatSdk.mockReturnValue({
   })
 })
 
-const onForward = jest.fn()
-
 describe('<RequestChat />', () => {
   let container
 
   beforeEach(() => {
-    const result = render(<RequestChat onForward={onForward} onBack={jest.fn()} />)
+    const result = render(<RequestChat onBack={jest.fn()} />)
     container = result.container
   })
 
@@ -108,6 +106,7 @@ describe('<RequestChat />', () => {
 
     await user.click(button)
 
-    expect(onForward).toHaveBeenCalled()
+    expect(mocks.useApp().setCustomerId).toHaveBeenCalled()
+    expect(mocks.useApp().setThreadId).toHaveBeenCalled()
   })
 })

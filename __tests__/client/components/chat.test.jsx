@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { Chat } from '../../../src/client/components/chat/chat'
@@ -24,6 +24,7 @@ const mocks = {
   useApp: jest.mocked(useApp),
   useChatSdk: jest.mocked(useChatSdk)
 }
+
 const useAppMock = {
   sdk: jest.mocked({
     authorize: jest.fn(),
@@ -36,8 +37,12 @@ const useAppMock = {
   threadId: 'thread_123',
   agent: null,
   agentStatus: null,
-  isAgentTyping: false
+  isAgentTyping: false,
+  thread: {
+    sendTextMessage: jest.fn()
+  }
 }
+
 const useChatSdkMock = {
   connect: jest.fn(),
   getThread: jest.fn(),
@@ -50,7 +55,15 @@ mocks.useChatSdk.mockReturnValue(useChatSdkMock)
 
 describe('<Chat />', () => {
   describe('Tagline', () => {
+    it('should show connecting tagline when no agent status is set but the chat is available', () => {
+      render(<Chat />)
+
+      expect(screen.getByText('Connecting to Floodline')).toBeTruthy()
+    })
+
     it('should show no advisors tagline when no agent is available but the chat is available', () => {
+      mocks.useApp.mockReturnValueOnce({ ...useAppMock, agentStatus: 'pending' })
+
       render(<Chat />)
 
       expect(screen.getByText('No advisers currently available')).toBeTruthy()
@@ -67,6 +80,7 @@ describe('<Chat />', () => {
     it('should show the agent you are speaking with', () => {
       mocks.useApp.mockReturnValueOnce({
         ...useAppMock,
+        agentStatus: 'pending',
         agent: { firstName: 'test' }
       })
 
@@ -114,17 +128,37 @@ describe('<Chat />', () => {
       expect(screen.getByText('Your message')).toBeTruthy()
       expect(screen.getByText('Send')).toBeTruthy()
     })
+
+    it('should remove the label when the user starts typing', () => {
+      const { container } = render(<Chat />)
+
+      const label = container.querySelector('label')
+      const textarea = container.querySelector('textarea')
+
+      expect(label.classList.contains('govuk-visually-hidden')).toBeFalsy()
+
+      fireEvent.change(textarea, { target: { value: 'text' } })
+
+      expect(label.classList.contains('govuk-visually-hidden')).toBeTruthy()
+    })
+
+    it('should send a message', () => {
+      const { container } = render(<Chat />)
+
+      const input = container.querySelector('input')
+      const textarea = container.querySelector('textarea')
+
+      fireEvent.change(textarea, { target: { value: 'text' } })
+      fireEvent.click(input)
+
+      expect(mocks.useApp().thread.sendTextMessage).toHaveBeenCalled()
+    })
   })
 
   describe('Messages', () => {
     it('should show message from the user', async () => {
-      const { container } = render(<Chat />)
-
-      expect(useChatSdkMock.recoverThread).toHaveBeenCalled()
-
       mocks.useApp.mockReturnValueOnce({
         ...useAppMock,
-        isChatRequested: true,
         messages: [{
           id: '1234',
           text: 'test message from user',
@@ -134,6 +168,8 @@ describe('<Chat />', () => {
           direction: 'inbound'
         }]
       })
+
+      const { container } = render(<Chat />)
 
       expect(await screen.findByText('test message from user')).toBeTruthy()
       expect(container.querySelector('.wc-chat__from').textContent).toEqual('You:')
@@ -152,10 +188,6 @@ describe('<Chat />', () => {
     })
 
     it('should show message from the agent', async () => {
-      const { container } = render(<Chat />)
-
-      expect(useChatSdkMock.recoverThread).toHaveBeenCalled()
-
       mocks.useApp.mockReturnValueOnce({
         ...useAppMock,
         messages: [{
@@ -167,6 +199,8 @@ describe('<Chat />', () => {
           direction: 'outbound'
         }]
       })
+
+      const { container } = render(<Chat />)
 
       expect(await screen.findByText('test message from agent')).toBeInTheDocument()
       expect(container.querySelector('.wc-chat__from').textContent).toEqual('test-agent-name:')

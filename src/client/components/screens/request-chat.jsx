@@ -7,8 +7,8 @@ import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
 
 const QUESTION_MAX_LENGTH = 500
 
-export function RequestChat ({ onForward, onBack }) {
-  const { sdk, threadId, setCustomerId, setThreadId, setThread, setChatRequested } = useApp()
+export function RequestChat ({ onBack }) {
+  const { sdk, threadId, setCustomerId, setThreadId, setThread } = useApp()
   const { getCustomerId, getThread } = useChatSdk()
 
   const [errors, setErrors] = useState({})
@@ -56,9 +56,6 @@ export function RequestChat ({ onForward, onBack }) {
         setCustomerId(cid)
         setThread(threadData.thread)
         setThreadId(threadData.threadId)
-        setChatRequested()
-
-        return onForward(e)
       } catch (err) {
         console.log('[Request Chat Error]', err)
       }

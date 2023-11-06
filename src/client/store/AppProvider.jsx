@@ -75,15 +75,6 @@ export const AppProvider = ({ sdk, availability, children }) => {
     }
   }, [])
 
-  useEffect(() => {
-    if (state.messages.length === 0) {
-      return
-    }
-
-    const chatBody = document.querySelector('.wc-body')
-    chatBody.scrollTop = chatBody.scrollHeight
-  }, [state.messages, state.isAgentTyping])
-
   const setChatVisibility = (payload) => {
     if (!payload) {
       window.location.hash = ''
@@ -128,10 +119,6 @@ export const AppProvider = ({ sdk, availability, children }) => {
     dispatch({ type: 'SET_AGENT_STATUS', payload: status })
   }
 
-  const setChatRequested = () => {
-    dispatch({ type: 'SET_CHAT_REQUESTED' })
-  }
-
   const store = useMemo(() => ({
     ...state,
     sdk,
@@ -141,8 +128,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
     setMessage,
     setMessages,
     setAgent,
-    setChatVisibility,
-    setChatRequested
+    setChatVisibility
   }))
 
   return (
@@ -153,26 +139,14 @@ export const AppProvider = ({ sdk, availability, children }) => {
 }
 
 export const useApp = () => {
-  const context = useContext(AppContext)
-
-  if (context === undefined) {
-    throw new Error('useApp must be used within AppContext')
-  }
-
-  return context
+  return useContext(AppContext)
 }
 
 export const useChatSdk = () => {
-  const context = useContext(AppContext)
-
-  if (context === undefined) {
-    throw new Error('useChatSdk must be used within AppContext')
-  }
-
-  const { sdk, setThread, setMessages } = context
+  const { sdk, setThread } = useContext(AppContext)
 
   const connect = async () => {
-    console.log('[useChatSdk] connect')
+    console.log('[useChatSdk] sdk.connect')
     return await sdk.authorize()
   }
 
@@ -190,6 +164,7 @@ export const useChatSdk = () => {
       threadId = uuid.v4()
     }
 
+    console.log('[useChatSdk sdk.getThread')
     const thread = await sdk.getThread(threadId)
     setThread(thread)
 
@@ -210,6 +185,7 @@ export const useChatSdk = () => {
 
     const { thread } = await getThread(threadId)
 
+    console.log('[useChatSdk] sdk.thread.recover')
     const recovered = await thread.recover(threadId)
 
     const allMessages = []
@@ -219,6 +195,7 @@ export const useChatSdk = () => {
       fetchedMessages.map(msg => allMessages.push(msg))
 
       try {
+        console.log('[useChatSdk] sdk.thread.loadMoreMessages')
         const response = await thread.loadMoreMessages()
         fetchedMessages = response.data.messages
       } catch (err) {
@@ -227,7 +204,7 @@ export const useChatSdk = () => {
       }
     }
 
-    setMessages(allMessages)
+    return allMessages
   }
 
   return { connect, getCustomerId, getThread, recoverThread }

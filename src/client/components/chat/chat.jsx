@@ -5,30 +5,12 @@ import { PanelHeader } from '../panel/panel-header.jsx'
 import { PanelFooter } from '../panel/panel-footer.jsx'
 import { Message } from '../message/message.jsx'
 
-import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
-import { useTextareaAutosize } from '../../lib/useTextareaAutosize.js'
+import { useApp } from '../../store/AppProvider.jsx'
+import { useTextareaAutosize } from '../../hooks/useTextareaAutosize.js'
 
-function EndChatScreen ({ onResume, onEndChatConfirm }) {
-  return (
-    <>
-      <PanelHeader />
-      <div className='wc-body'>
-        <h3 className='govuk-heading-s' aria-live='polite'>Are you sure you want to end the chat?</h3>
-        <div className='govuk-button-group'>
-          <a href='#' className='govuk-button govuk-!-font-size-16' data-module='govuk-button' onClick={onEndChatConfirm}>Yes, end chat</a>
-          <a href='#' className='govuk-link govuk-!-font-size-16' onClick={onResume}>No, resume chat</a>
-        </div>
-      </div>
-    </>
-  )
-}
+export function Chat ({ onEndChat }) {
+  const { availability, thread, messages, agent, agentStatus, isAgentTyping } = useApp()
 
-export function Chat ({ setScreen }) {
-  const { availability, thread, threadId, setThreadId, messages, agent, agentStatus, isAgentTyping, isChatRequested } = useApp()
-  const { recoverThread } = useChatSdk()
-
-  const [threadRecovered, setThreadRecovered] = useState(false)
-  const [showEndChatScreen, setEndChatScreen] = useState(false)
   const [message, setMessage] = useState('')
 
   const messageRef = useRef()
@@ -36,24 +18,11 @@ export function Chat ({ setScreen }) {
   useTextareaAutosize(messageRef.current, message)
 
   useEffect(() => {
-    const fetchThread = async () => {
-      try {
-        await recoverThread(threadId)
-        setThreadRecovered(true)
-      } catch (err) {
-        console.log('[Chat Error] fetchThread', err)
-
-        if (err.error.errorCode === 'RecoveringLivechatFailed') {
-          setThreadId()
-          return setScreen(0)
-        }
-      }
+    if (messages.length !== 0) {
+      const chatBody = document.querySelector('.wc-body')
+      chatBody.scrollTop = chatBody.scrollHeight
     }
-
-    if (!isChatRequested) {
-      fetchThread()
-    }
-  }, [])
+  }, [messages, isAgentTyping])
 
   useEffect(() => {
     const label = document.querySelector('.wc-message__label')
@@ -71,16 +40,18 @@ export function Chat ({ setScreen }) {
 
   const agentName = agent?.nickname || agent?.firstName
 
-  let connectionHeadlineText = 'Connecting to Floodline'
+  let connectionHeadlineText
 
   if (agentStatus === 'closed') {
     connectionHeadlineText = agentName ? `${agentName} ended the session` : 'Session ended by advisor'
-  } else {
+  } else if (agentStatus) {
     if (agentName) {
       connectionHeadlineText = `You are speaking with ${agentName}`
     } else {
       connectionHeadlineText = 'No advisers currently available'
     }
+  } else {
+    connectionHeadlineText = 'Connecting to Floodline'
   }
 
   if (availability === 'UNAVAILABLE') {
@@ -103,40 +74,20 @@ export function Chat ({ setScreen }) {
     setMessage('')
   }
 
-  const onResume = (e) => {
-    e.preventDefault()
-    setEndChatScreen(false)
-  }
-
-  const onEndChat = (e) => {
-    e.preventDefault()
-    setEndChatScreen(true)
-  }
-
-  const onEndChatConfirm = (e) => {
-    e.preventDefault()
-  }
-
-  if (showEndChatScreen) {
-    return <EndChatScreen onResume={onResume} onEndChatConfirm={onEndChatConfirm} />
-  }
-
-  console.log(threadRecovered, messages)
-
   return (
     <>
       <PanelHeader />
 
       <div className='wc-status'>
         <p className='wc-status__availability govuk-body-s'>{connectionHeadlineText}</p>
-        <a className='wc-status__link govuk-!-font-size-16' href='#' role='button' data-module='govuk-button' onClick={onEndChat}>End chat</a>
+        <a className='wc-status__link govuk-!-font-size-16' href='#' data-module='govuk-button' onClick={onEndChat}>End chat</a>
       </div>
 
       <div className='wc-body'>
         <div className='wc-chat__body'>
           <ul className='wc-chat__messages'>
-            {threadRecovered
-              ? messages.map((message, index) => <Message key={message.id} message={message} previousMessage={messages[index - 1]} />)
+            {messages.length
+              ? messages.map((msg, index) => <Message key={msg.id} message={msg} previousMessage={messages[index - 1]} />)
               : null}
             {isAgentTyping
               ? (
@@ -185,8 +136,8 @@ export function Chat ({ setScreen }) {
         </div>
 
         <div className='wc-footer__settings'>
-          <a href='#' className='wc-footer__settings-link' role='button' data-module='govuk-button'>Settings</a>
-          <a href='#' className='wc-footer__settings-link' role='button' data-module='govuk-button' download='transcript.txt'>Save chat</a>
+          <a href='#' className='wc-footer__settings-link' data-module='govuk-button'>Settings</a>
+          <a href='#' className='wc-footer__settings-link' data-module='govuk-button' download='transcript.txt'>Save chat</a>
         </div>
       </PanelFooter>
     </>

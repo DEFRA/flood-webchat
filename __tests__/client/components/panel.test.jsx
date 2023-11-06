@@ -4,6 +4,9 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { Panel } from '../../../src/client/components/panel/panel'
+import { useApp, useChatSdk } from '../../../src/client/store/AppProvider'
+
+jest.mock('../../../src/client/store/AppProvider')
 
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
   ChatEvent: {
@@ -18,7 +21,38 @@ jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
   }
 }))
 
-const onClose = jest.fn()
+const useAppMock = {
+  sdk: jest.mocked({
+    authorize: jest.fn(),
+    getCustomer: function () {
+      this.setName = jest.fn()
+      return this
+    }
+  }),
+  messages: [],
+  setCustomerId: jest.fn(),
+  setThreadId: jest.fn(),
+  setChatRequested: jest.fn(),
+  setThread: jest.fn()
+}
+
+const mocks = {
+  useApp: jest.mocked(useApp),
+  useChatSdk: jest.mocked(useChatSdk)
+}
+
+mocks.useApp.mockReturnValue(useAppMock)
+
+mocks.useChatSdk.mockReturnValue({
+  connect: jest.fn(),
+  getCustomerId: jest.fn(),
+  recoverThread: jest.fn(),
+  getThread: () => ({
+    thread: {
+      startChat: jest.fn
+    }
+  })
+})
 
 describe('<Panel />', () => {
   let container
@@ -28,7 +62,7 @@ describe('<Panel />', () => {
       <>
         <a href='#' className='wc-availability__link'>Start Chat</a>
         <div id='wc-panel'>
-          <Panel onClose={onClose} />
+          <Panel onClose={jest.fn()} />
         </div>
       </>
     )
@@ -119,7 +153,7 @@ describe('<Panel />', () => {
 describe('<Panel /> screens', () => {
   it('should go back a screen', () => {
     render(
-      <Panel onClose={onClose} />
+      <Panel onClose={jest.fn()} />
     )
 
     fireEvent.click(screen.getByText('Continue'))
@@ -130,9 +164,19 @@ describe('<Panel /> screens', () => {
 
   it('should default to the pre-chat screen', () => {
     render(
-      <Panel onClose={onClose} />
+      <Panel onClose={jest.fn()} />
     )
 
     expect(screen.getByText('What you can use webchat for')).toBeTruthy()
+  })
+
+  it('should recover a thread when a threadId exists', () => {
+    mocks.useApp.mockReturnValue({ ...useAppMock, threadId: 'thread_123' })
+
+    render(
+      <Panel onClose={jest.fn()} />
+    )
+
+    expect(mocks.useChatSdk().recoverThread).toHaveBeenCalled()
   })
 })
