@@ -56,29 +56,19 @@ export function Panel () {
     }
   }, [])
 
-  const onForward = e => {
+  const handleScreenChange = newScreen => e => {
     e.preventDefault()
-    setScreen(screen + 1)
+    setScreen(newScreen)
   }
 
-  const onBack = e => {
-    e.preventDefault()
-    setScreen(screen - 1)
-  }
-
-  const onEndChat = e => {
-    e.preventDefault()
-    setScreen(3)
-  }
+  const onForward = handleScreenChange(screen + 1)
+  const onBack = handleScreenChange(screen - 1)
+  const onEndChat = handleScreenChange(3)
+  const onResume = handleScreenChange(2)
 
   const onEndChatConfirm = e => {
     e.preventDefault()
     console.log('confirmed end chat')
-  }
-
-  const onResume = e => {
-    e.preventDefault()
-    setScreen(2)
   }
 
   let ScreenComponent

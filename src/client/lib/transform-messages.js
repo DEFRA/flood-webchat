@@ -11,6 +11,4 @@ export const transformMessage = message => {
   }
 }
 
-export const transformMessages = messages => {
-  return messages.map(message => transformMessage(message))
-}
+export const transformMessages = messages => messages.map(message => transformMessage(message))
