@@ -10,8 +10,8 @@ import { EndChat } from '../screens/end-chat.jsx'
 import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
 import { useFocusedElements } from '../../hooks/useFocusedElements.js'
 
-export function Panel () {
-  const { availability, threadId, setThreadId, setMessages, setChatVisibility } = useApp()
+export const Panel = () => {
+  const { availability, threadId, setMessages, setChatVisibility } = useApp()
   const { recoverThread } = useChatSdk()
 
   const [screen, setScreen] = useState(threadId ? 2 : 0)
