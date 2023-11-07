@@ -2,7 +2,7 @@ import React from 'react'
 import { useApp } from '../../store/AppProvider.jsx'
 
 export function PanelHeader ({ onBack }) {
-  const { isCustomerConnected, setChatVisibility } = useApp()
+  const { thread, setChatVisibility } = useApp()
 
   const onClose = e => {
     e.preventDefault()
@@ -17,7 +17,7 @@ export function PanelHeader ({ onBack }) {
     </button>
   )
 
-  if (isCustomerConnected) {
+  if (thread) {
     ButtonComponent = (
       <button className='wc-header__hide' aria-label='Minimise the webchat' onClick={onClose}>
         <svg aria-hidden='true' focusable='false' width='20' height='20' viewBox='0 0 20 20'>

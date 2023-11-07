@@ -30,6 +30,7 @@ const useAppMock = {
     }
   }),
   messages: [],
+  setMessages: jest.fn(),
   setCustomerId: jest.fn(),
   setThreadId: jest.fn(),
   setChatRequested: jest.fn(),

@@ -18,6 +18,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
   const onAssignedAgentChanged = e => {
     console.log('onAssignedAgentChanged', e)
     setAgent(e.detail.data.inboxAssignee)
+    setAgentStatus(e.detail.data.case.status)
   }
 
   const onAgentTypingStarted = e => {
@@ -33,6 +34,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
   const onMessageCreated = e => {
     console.log('onMessageCreated', e)
     setMessage(e.detail.data.message)
+    setAgentStatus(e.detail.data.case.status)
   }
 
   const onMessageSeenByUser = e => {

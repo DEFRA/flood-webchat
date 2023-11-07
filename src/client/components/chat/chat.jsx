@@ -56,8 +56,6 @@ export function Chat ({ onEndChat }) {
     connectionHeadlineText = 'Webchat is not currently available'
   }
 
-  console.log(agent, agentName, agentStatus)
-
   const sendMessage = e => {
     e.preventDefault()
 

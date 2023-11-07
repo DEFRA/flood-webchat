@@ -9,7 +9,6 @@ export const initialState = {
   agent: null,
   agentStatus: null,
   isAgentTyping: false,
-  isCustomerConnected: false,
   isChatOpen: false
 }
 
@@ -43,8 +42,7 @@ export const appReducer = (state, action) => {
 
       return {
         ...state,
-        customerId: payload,
-        isCustomerConnected: !!payload
+        customerId: payload
       }
 
     case 'SET_THREAD_ID':

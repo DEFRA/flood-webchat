@@ -7,20 +7,22 @@ import { useApp } from '../../../src/client/store/AppProvider.jsx'
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => {})
 jest.mock('../../../src/client/store/AppProvider.jsx')
 
-const onBack = jest.fn()
-const onClose = jest.fn()
-
 const mocks = {
   useApp: jest.mocked(useApp)
 }
 
+mocks.useApp.mockReturnValue({
+  thread: {},
+  setChatVisibility: jest.fn()
+})
+
 describe('<PanelHeader />', () => {
-  afterEach(() => {
+  afterAll(() => {
     jest.resetAllMocks()
   })
 
   it('should render the close webchat button and no "back" button', () => {
-    mocks.useApp.mockReturnValue({ isCustomerConnected: false })
+    mocks.useApp.mockReturnValueOnce({ thread: null })
 
     const { container } = render(
       <PanelHeader />
@@ -31,20 +33,18 @@ describe('<PanelHeader />', () => {
   })
 
   it('should render the minimise webchat button', () => {
-    mocks.useApp.mockReturnValue({ isCustomerConnected: true })
-
     render(
-      <PanelHeader onBack={onBack} onClose={onClose} />
+      <PanelHeader onBack={jest.fn()} />
     )
 
     expect(screen.getByLabelText('Minimise the webchat')).toBeTruthy()
   })
 
   it('should render the back button', () => {
-    mocks.useApp.mockReturnValue({ isCustomerConnected: false })
+    mocks.useApp.mockReturnValueOnce({ thread: null })
 
     const { container } = render(
-      <PanelHeader onBack={onBack} onClose={onClose} />
+      <PanelHeader onBack={jest.fn()} />
     )
 
     expect(container.querySelector('.govuk-back-link')).toBeTruthy()
