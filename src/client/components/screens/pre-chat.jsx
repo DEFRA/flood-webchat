@@ -18,7 +18,10 @@ export function PreChat ({ onForward }) {
         </ul>
 
         <p className='govuk-body-s'>
-          There are other ways to <a className='govuk-link' href='https://www.gov.uk/sign-up-for-flood-warnings'>sign up for flood warnings</a> and <a className='govuk-link' href='https://www.fws.environment-agency.gov.uk/app/olr/login'>manage your flood warnings account</a>.
+          {'There are other ways to '}
+          <a className='govuk-link' href='https://www.gov.uk/sign-up-for-flood-warnings'>sign up for flood warnings</a>
+          {' and '}
+          <a className='govuk-link' href='https://www.fws.environment-agency.gov.uk/app/olr/login'>manage your flood warnings account</a>.
         </p>
         <p className='govuk-body-s'>Do not use webchat to <a className='govuk-link' href='https://www.gov.uk/report-flood-cause'>report a flood</a>.</p>
 
