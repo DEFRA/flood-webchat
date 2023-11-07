@@ -140,9 +140,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
   )
 }
 
-export const useApp = () => {
-  return useContext(AppContext)
-}
+export const useApp = () => useContext(AppContext)
 
 export const useChatSdk = () => {
   const { sdk, setThread } = useContext(AppContext)
