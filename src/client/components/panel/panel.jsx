@@ -56,7 +56,7 @@ export function Panel () {
     }
   }, [])
 
-  const handleScreenChange = (newScreen) => e => {
+  const handleScreenChange = newScreen => e => {
     e.preventDefault()
     setScreen(newScreen)
   }
