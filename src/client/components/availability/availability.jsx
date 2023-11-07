@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { classnames } from '../../lib/classnames'
 
+import { classnames } from '../../lib/classnames'
 import { Panel } from '../panel/panel.jsx'
 import { useApp } from '../../store/AppProvider.jsx'
 

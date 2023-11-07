@@ -40,7 +40,7 @@ export function Chat ({ onEndChat }) {
 
   const agentName = agent?.nickname || agent?.firstName
 
-  let connectionHeadlineText
+  let connectionHeadlineText = 'Connecting to Floodline'
 
   if (agentStatus === 'closed') {
     connectionHeadlineText = agentName ? `${agentName} ended the session` : 'Session ended by advisor'
@@ -50,13 +50,13 @@ export function Chat ({ onEndChat }) {
     } else {
       connectionHeadlineText = 'No advisers currently available'
     }
-  } else {
-    connectionHeadlineText = 'Connecting to Floodline'
   }
 
   if (availability === 'UNAVAILABLE') {
     connectionHeadlineText = 'Webchat is not currently available'
   }
+
+  console.log(agent, agentName, agentStatus)
 
   const sendMessage = e => {
     e.preventDefault()
