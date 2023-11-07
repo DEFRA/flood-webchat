@@ -23,11 +23,11 @@ export function RequestChat ({ onBack }) {
     }
   }, [errors])
 
-  const onQuestionChange = (e) => {
+  const onQuestionChange = e => {
     setQuestionLength(e.target.value.length)
   }
 
-  const onRequestChat = async (e) => {
+  const onRequestChat = async e => {
     e.preventDefault()
 
     const errs = {}

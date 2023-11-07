@@ -1,6 +1,6 @@
 import sanitizeHtml from 'sanitize-html'
 
-export const transformMessage = (message) => {
+export const transformMessage = message => {
   return {
     id: message.id,
     text: sanitizeHtml(message.messageContent?.text),
@@ -11,6 +11,6 @@ export const transformMessage = (message) => {
   }
 }
 
-export const transformMessages = (messages) => {
+export const transformMessages = messages => {
   return messages.map(message => transformMessage(message))
 }

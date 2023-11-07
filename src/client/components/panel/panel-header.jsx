@@ -4,7 +4,7 @@ import { useApp } from '../../store/AppProvider.jsx'
 export function PanelHeader ({ onBack }) {
   const { isCustomerConnected, setChatVisibility } = useApp()
 
-  const onClose = (e) => {
+  const onClose = e => {
     e.preventDefault()
     setChatVisibility(false)
   }

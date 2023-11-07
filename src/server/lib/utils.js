@@ -1,6 +1,6 @@
 const { DateTime } = require('luxon')
 
-const getHour = (time) => Number(time.split(':')[0])
+const getHour = time => Number(time.split(':')[0])
 
 const isWithinHours = (days, date) => {
   const now = date ? DateTime.fromISO(date) : DateTime.local()

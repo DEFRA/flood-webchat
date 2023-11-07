@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
-const setAriaHidden = (bool) => {
+const setAriaHidden = bool => {
   for (const node of document.body.children) {
     if (node.id !== 'wc-panel') {
       (bool) ? node.setAttribute('aria-hidden', 'true') : node.removeAttribute('aria-hidden')
@@ -22,10 +22,10 @@ export const getFocusableElements = () => {
   return Array.from(elements).filter(e => !e.closest('[hidden]') && !e.closest('[aria-hidden="true"]'))
 }
 
-const useFocusedElements = (screen) => {
+const useFocusedElements = screen => {
   const [panelElements, setPanelElements] = useState([])
 
-  const onKeyDown = useCallback((e) => {
+  const onKeyDown = useCallback(e => {
     const webchatPanelElement = document.querySelector('#wc-panel')
 
     if (e.key === 'Tab') {
