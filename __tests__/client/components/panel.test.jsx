@@ -158,9 +158,9 @@ describe('<Panel /> screens', () => {
     )
 
     fireEvent.click(screen.getByText('Continue'))
-    fireEvent.click(screen.getByText('Back'))
+    fireEvent.click(screen.getByText('What you can use webchat for'))
 
-    expect(screen.getByText('What you can use webchat for')).toBeTruthy()
+    expect(screen.getByText('Webchat lets you talk directly to a Floodline adviser.')).toBeTruthy()
   })
 
   it('should default to the pre-chat screen', () => {
@@ -168,7 +168,7 @@ describe('<Panel /> screens', () => {
       <Panel />
     )
 
-    expect(screen.getByText('What you can use webchat for')).toBeTruthy()
+    expect(screen.getByText('Webchat lets you talk directly to a Floodline adviser.')).toBeTruthy()
   })
 
   it('should recover a thread when a threadId exists', () => {

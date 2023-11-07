@@ -40,7 +40,7 @@ export function RequestChat ({ onBack }) {
       errs.question = 'Enter your question'
     }
 
-    if (questionRef.current.value.length > 500) {
+    if (questionRef.current.value.length > QUESTION_MAX_LENGTH) {
       errs.question = 'Your question must be 500 characters or less'
     }
 
@@ -76,7 +76,7 @@ export function RequestChat ({ onBack }) {
 
   return (
     <>
-      <PanelHeader onBack={onBack} />
+      <PanelHeader />
 
       <div className='wc-body'>
         <a href='#' className='wc-back-link govuk-back-link' onClick={onBack}>What you can use webchat for</a>

@@ -21,7 +21,7 @@ describe('<PanelHeader />', () => {
     jest.resetAllMocks()
   })
 
-  it('should render the close webchat button and no "back" button', () => {
+  it('should render the close webchat button', () => {
     mocks.useApp.mockReturnValueOnce({ thread: null })
 
     const { container } = render(
@@ -34,19 +34,9 @@ describe('<PanelHeader />', () => {
 
   it('should render the minimise webchat button', () => {
     render(
-      <PanelHeader onBack={jest.fn()} />
+      <PanelHeader />
     )
 
     expect(screen.getByLabelText('Minimise the webchat')).toBeTruthy()
-  })
-
-  it('should render the back button', () => {
-    mocks.useApp.mockReturnValueOnce({ thread: null })
-
-    const { container } = render(
-      <PanelHeader onBack={jest.fn()} />
-    )
-
-    expect(container.querySelector('.govuk-back-link')).toBeTruthy()
   })
 })

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useApp } from '../../store/AppProvider.jsx'
 
-export function PanelHeader ({ onBack }) {
+export function PanelHeader () {
   const { thread, setChatVisibility } = useApp()
 
   const onClose = e => {
@@ -27,12 +27,8 @@ export function PanelHeader ({ onBack }) {
     )
   }
 
-  const BackButtonComponent = onBack ? <a href='#' className='wc-header__link govuk-back-link govuk-back-link--inverse' onClick={onBack}>Back</a> : null
-
   return (
     <div className='wc-header'>
-      {BackButtonComponent}
-
       <h2 id='wc-header-title' className='wc-header__title govuk-heading-s'>
         Floodline Webchat
       </h2>
