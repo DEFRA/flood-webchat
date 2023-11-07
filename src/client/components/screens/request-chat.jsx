@@ -81,7 +81,7 @@ export function RequestChat ({ onBack }) {
       <div className='wc-body'>
         <a href='#' className='wc-back-link govuk-back-link' onClick={onBack}>What you can use webchat for</a>
 
-        {errors.name || errors.question
+        {Object.keys(errors).length > 0
           ? (
             <div className='govuk-error-summary govuk-!-static-margin-bottom-7' data-module='govuk-error-summary' tabIndex='-1'>
               <div role='alert'>

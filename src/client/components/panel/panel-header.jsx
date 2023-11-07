@@ -9,11 +9,6 @@ export function PanelHeader ({ onBack }) {
     setChatVisibility(false)
   }
 
-  const onHide = (e) => {
-    e.preventDefault()
-    setChatVisibility(false)
-  }
-
   let ButtonComponent = (
     <button className='wc-header__close' aria-label='Close the webchat' onClick={onClose}>
       <svg aria-hidden='true' focusable='false' width='20' height='20' viewBox='0 0 20 20'>
@@ -24,7 +19,7 @@ export function PanelHeader ({ onBack }) {
 
   if (isCustomerConnected) {
     ButtonComponent = (
-      <button className='wc-header__hide' aria-label='Minimise the webchat' onClick={onHide}>
+      <button className='wc-header__hide' aria-label='Minimise the webchat' onClick={onClose}>
         <svg aria-hidden='true' focusable='false' width='20' height='20' viewBox='0 0 20 20'>
           <path d='M10 14.4l-7-7L4.4 6l5.6 5.6L15.6 6 17 7.4l-7 7z' fill='currentColor' />
         </svg>

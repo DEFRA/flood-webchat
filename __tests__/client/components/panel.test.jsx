@@ -62,7 +62,7 @@ describe('<Panel />', () => {
       <>
         <a href='#' className='wc-availability__link'>Start Chat</a>
         <div id='wc-panel'>
-          <Panel onClose={jest.fn()} />
+          <Panel />
         </div>
       </>
     )
@@ -153,7 +153,7 @@ describe('<Panel />', () => {
 describe('<Panel /> screens', () => {
   it('should go back a screen', () => {
     render(
-      <Panel onClose={jest.fn()} />
+      <Panel />
     )
 
     fireEvent.click(screen.getByText('Continue'))
@@ -164,7 +164,7 @@ describe('<Panel /> screens', () => {
 
   it('should default to the pre-chat screen', () => {
     render(
-      <Panel onClose={jest.fn()} />
+      <Panel />
     )
 
     expect(screen.getByText('What you can use webchat for')).toBeTruthy()
@@ -174,7 +174,7 @@ describe('<Panel /> screens', () => {
     mocks.useApp.mockReturnValue({ ...useAppMock, threadId: 'thread_123' })
 
     render(
-      <Panel onClose={jest.fn()} />
+      <Panel />
     )
 
     expect(mocks.useChatSdk().recoverThread).toHaveBeenCalled()

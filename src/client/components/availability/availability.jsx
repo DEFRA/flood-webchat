@@ -93,7 +93,7 @@ export function Availability () {
               </a>
             </div>
           </div>
-          {isChatOpen && <Panel onClose={onClick} />}
+          {isChatOpen && <Panel />}
         </>
       )
     case 'EXISTING':
