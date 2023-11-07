@@ -34,7 +34,7 @@ export function Chat ({ onEndChat }) {
     }
   }, [message])
 
-  const onChange = (e) => {
+  const onChange = e => {
     setMessage(e.target?.value)
   }
 
@@ -58,7 +58,7 @@ export function Chat ({ onEndChat }) {
     connectionHeadlineText = 'Webchat is not currently available'
   }
 
-  const sendMessage = (e) => {
+  const sendMessage = e => {
     e.preventDefault()
 
     if (messageRef.current.value.length === 0) {

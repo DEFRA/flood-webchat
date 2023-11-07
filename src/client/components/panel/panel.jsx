@@ -50,33 +50,33 @@ export function Panel () {
     recover()
   }, [threadId])
 
-  const onEscapeKey = useCallback((e) => {
+  const onEscapeKey = useCallback(e => {
     if (e.key === 'Escape' || e.key === 'Esc') {
       setChatVisibility(false)
     }
   }, [])
 
-  const onForward = (e) => {
+  const onForward = e => {
     e.preventDefault()
     setScreen(screen + 1)
   }
 
-  const onBack = (e) => {
+  const onBack = e => {
     e.preventDefault()
     setScreen(screen - 1)
   }
 
-  const onEndChat = (e) => {
+  const onEndChat = e => {
     e.preventDefault()
     setScreen(3)
   }
 
-  const onEndChatConfirm = (e) => {
+  const onEndChatConfirm = e => {
     e.preventDefault()
     console.log('confirmed end chat')
   }
 
-  const onResume = (e) => {
+  const onResume = e => {
     e.preventDefault()
     setScreen(2)
   }

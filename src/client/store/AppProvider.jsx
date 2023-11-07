@@ -9,42 +9,42 @@ export const AppContext = createContext(initialState)
 export const AppProvider = ({ sdk, availability, children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState)
 
-  const onLiveChatRecovered = (e) => {
+  const onLiveChatRecovered = e => {
     console.log('onLiveChatRecovered', e)
     setAgent(e.detail.data.inboxAssignee)
     setAgentStatus(e.detail.data.contact.status)
   }
 
-  const onAssignedAgentChanged = (e) => {
+  const onAssignedAgentChanged = e => {
     console.log('onAssignedAgentChanged', e)
     setAgent(e.detail.data.inboxAssignee)
   }
 
-  const onAgentTypingStarted = (e) => {
+  const onAgentTypingStarted = e => {
     console.log('onAgentTypingStarted', e)
     setAgentTyping(true)
   }
 
-  const onAgentTypingEnded = (e) => {
+  const onAgentTypingEnded = e => {
     console.log('onAgentTypingEnded', e)
     setAgentTyping(false)
   }
 
-  const onMessageCreated = (e) => {
+  const onMessageCreated = e => {
     console.log('onMessageCreated', e)
     setMessage(e.detail.data.message)
   }
 
-  const onMessageSeenByUser = (e) => {
+  const onMessageSeenByUser = e => {
     console.log('onMessageSeenByUser', e)
   }
 
-  const onContactStatusChanged = (e) => {
+  const onContactStatusChanged = e => {
     console.log('ContactStatusChanged', e)
     setAgentStatus(e.detail.data.case.status)
   }
 
-  const onContactCreated = (e) => {
+  const onContactCreated = e => {
     console.log('onContactCreated', e)
   }
 
@@ -75,7 +75,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
     }
   }, [])
 
-  const setChatVisibility = (payload) => {
+  const setChatVisibility = payload => {
     if (!payload) {
       window.location.hash = ''
     }
@@ -83,39 +83,39 @@ export const AppProvider = ({ sdk, availability, children }) => {
     dispatch({ type: 'SET_CHAT_VISIBILITY', payload })
   }
 
-  const setAvailability = (status) => {
+  const setAvailability = status => {
     dispatch({ type: 'SET_AVAILABILITY', payload: status })
   }
 
-  const setCustomerId = (customerId) => {
+  const setCustomerId = customerId => {
     dispatch({ type: 'SET_CUSTOMER_ID', payload: customerId })
   }
 
-  const setThreadId = (threadId) => {
+  const setThreadId = threadId => {
     dispatch({ type: 'SET_THREAD_ID', payload: threadId })
   }
 
-  const setThread = (thread) => {
+  const setThread = thread => {
     dispatch({ type: 'SET_THREAD', payload: thread })
   }
 
-  const setMessage = (message) => {
+  const setMessage = message => {
     dispatch({ type: 'SET_MESSAGE', payload: message })
   }
 
-  const setMessages = (messages) => {
+  const setMessages = messages => {
     dispatch({ type: 'SET_MESSAGES', payload: messages })
   }
 
-  const setAgent = (agent) => {
+  const setAgent = agent => {
     dispatch({ type: 'SET_AGENT', payload: agent })
   }
 
-  const setAgentTyping = (isAgentTyping) => {
+  const setAgentTyping = isAgentTyping => {
     dispatch({ type: 'SET_AGENT_TYPING', payload: isAgentTyping })
   }
 
-  const setAgentStatus = (status) => {
+  const setAgentStatus = status => {
     dispatch({ type: 'SET_AGENT_STATUS', payload: status })
   }
 
@@ -147,7 +147,7 @@ export const useChatSdk = () => {
 
   const connect = async () => {
     console.log('[useChatSdk] sdk.connect')
-    return await sdk.authorize()
+    return sdk.authorize()
   }
 
   const getCustomerId = async () => {
@@ -157,7 +157,7 @@ export const useChatSdk = () => {
     return response?.consumerIdentity.idOnExternalPlatform
   }
 
-  const getThread = async (threadId) => {
+  const getThread = async threadId => {
     console.log('[useChatSdk] getThread')
 
     if (!threadId) {
@@ -174,7 +174,7 @@ export const useChatSdk = () => {
     }
   }
 
-  const recoverThread = async (threadId) => {
+  const recoverThread = async threadId => {
     console.log('[useChatSdk] recoverThread')
 
     if (!threadId) {

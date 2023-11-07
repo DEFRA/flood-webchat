@@ -5,7 +5,7 @@ const { isWithinHours } = require('./utils.js')
 
 const contentType = 'application/x-www-form-urlencoded'
 
-const isFullUrl = (endpoint) => /^(https?:)?\/\//i.test(endpoint)
+const isFullUrl = endpoint => /^(https?:)?\/\//i.test(endpoint)
 
 const authenticate = async ({ authorisation, accessKey, accessSecret }) => {
   const uri = 'https://cxone.niceincontact.com/auth/token'
