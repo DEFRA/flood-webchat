@@ -25,7 +25,7 @@ export function Chat ({ onEndChat }) {
   }, [messages, isAgentTyping])
 
   useEffect(() => {
-    const label = document.querySelector('.wc-message__label')
+    const label = document.querySelector('.wc-form__label')
 
     if (message.length === 0) {
       label.classList.remove('govuk-visually-hidden')
@@ -107,8 +107,8 @@ export function Chat ({ onEndChat }) {
 
       <PanelFooter>
         <div className='wc-footer__input'>
-          <form className='wc-message__form' noValidate>
-            <label className='govuk-label wc-message__label govuk-!-font-size-16' htmlFor='wc-message'>
+          <form className='wc-form' noValidate>
+            <label className='govuk-label wc-form__label govuk-!-font-size-16' htmlFor='wc-form-textarea'>
               Your message<span className='govuk-visually-hidden'> (enter key submits)</span>
             </label>
 
@@ -116,8 +116,8 @@ export function Chat ({ onEndChat }) {
               ref={messageRef}
               rows='1'
               aria-required='true'
-              className='wc-message__textarea govuk-textarea govuk-!-font-size-16'
-              id='wc-message'
+              className='wc-form__textarea govuk-textarea govuk-!-font-size-16'
+              id='wc-form-textarea'
               name='message'
               onChange={onChange}
               value={message}
@@ -125,7 +125,7 @@ export function Chat ({ onEndChat }) {
 
             <input
               type='submit'
-              className='wc-message__button govuk-button govuk-!-font-size-16'
+              className='wc-form__button govuk-button govuk-!-font-size-16'
               value='Send'
               data-prevent-double-click='true'
               onClick={sendMessage}

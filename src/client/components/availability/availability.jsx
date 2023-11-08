@@ -7,7 +7,7 @@ import { useApp } from '../../store/AppProvider.jsx'
 export function Availability () {
   const { availability, messages, isChatOpen, setChatVisibility } = useApp()
 
-  const [isFixed, setFixed] = useState(false)
+  const [isFixed, setIsFixed] = useState(false)
   const buttonRef = useRef()
 
   const onClick = () => {
@@ -29,7 +29,7 @@ export function Availability () {
   const intersectionCallback = entries => {
     const [entry] = entries
     const isBelowFold = !entry.isIntersecting && entry.boundingClientRect.top > 0
-    setFixed(!isChatOpen && isBelowFold)
+    setIsFixed(!isChatOpen && isBelowFold)
   }
 
   useEffect(() => {
@@ -57,17 +57,7 @@ export function Availability () {
 
   // const unreadMessageCount = messages.filter(message => !message.read).length
 
-  let TextComponent = (
-    <>
-      Show Chat
-      {/* {!!unreadMessageCount && (
-        <>
-          <span className='wc-availability__unseen'>{unreadMessageCount}</span>
-          <span className='govuk-visually-hidden'> {unreadMessageCount === 1 ? 'new message' : 'new messages'}</span>
-        </>
-    )} */}
-    </>
-  )
+  let TextComponent = (<>Show Chat</>)
 
   if (!messages.length) {
     TextComponent = (<>Start Chat</>)
@@ -84,7 +74,8 @@ export function Availability () {
             <div className='wc-availability__inner'>
               <a
                 className='wc-availability__link'
-                href='#webchat' role='button' draggable='false'
+                href='#webchat'
+                draggable='false'
                 onClick={onClick}
                 onKeyUp={onKeyUp}
                 onKeyDown={onKeyDown}

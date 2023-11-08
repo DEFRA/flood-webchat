@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react'
 
 import { classnames } from '../../lib/classnames.js'
 import { PanelHeader } from '../panel/panel-header.jsx'
-
 import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
 
 const QUESTION_MAX_LENGTH = 500
