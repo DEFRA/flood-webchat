@@ -206,4 +206,32 @@ describe('<Chat />', () => {
       expect(container.querySelector('.wc-chat__from').textContent).toEqual('test-agent-name:')
     })
   })
+
+  it('should only show who the message is from once, when multiple messages from the same person is sent', async () => {
+    mocks.useApp.mockReturnValueOnce({
+      ...useAppMock,
+      messages: [
+        {
+          id: '1234',
+          text: 'test message from agent',
+          createdAt: new Date(),
+          user: 'test-user',
+          assignee: 'test-agent-name',
+          direction: 'outbound'
+        },
+        {
+          id: '5678',
+          text: 'second test message from agent',
+          createdAt: new Date(),
+          user: 'test-user',
+          assignee: 'test-agent-name',
+          direction: 'outbound'
+        }
+      ]
+    })
+
+    render(<Chat />)
+
+    expect(screen.getAllByText('test-agent-name')).toHaveLength(1)
+  })
 })

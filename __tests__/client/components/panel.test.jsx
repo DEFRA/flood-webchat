@@ -34,7 +34,8 @@ const useAppMock = {
   setCustomerId: jest.fn(),
   setThreadId: jest.fn(),
   setChatRequested: jest.fn(),
-  setThread: jest.fn()
+  setThread: jest.fn(),
+  setChatVisibility: jest.fn()
 }
 
 const mocks = {
@@ -179,5 +180,17 @@ describe('<Panel /> screens', () => {
     )
 
     expect(mocks.useChatSdk().recoverThread).toHaveBeenCalled()
+  })
+
+  it('should close the chat when "ESC" is pressed', async () => {
+    render(
+      <Panel />
+    )
+
+    const user = userEvent.setup()
+
+    await user.keyboard('{Escape}')
+
+    expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
   })
 })

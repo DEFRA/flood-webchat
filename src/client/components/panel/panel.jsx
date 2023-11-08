@@ -11,7 +11,7 @@ import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
 import { useFocusedElements } from '../../hooks/useFocusedElements.js'
 
 export function Panel () {
-  const { availability, threadId, setThreadId, setMessages, setChatVisibility } = useApp()
+  const { availability, threadId, setMessages, setChatVisibility } = useApp()
   const { recoverThread } = useChatSdk()
 
   const [screen, setScreen] = useState(threadId ? 2 : 0)
@@ -40,10 +40,10 @@ export function Panel () {
       } catch (err) {
         console.log('[Chat Error] fetchThread', err)
 
-        if (err.error.errorCode === 'RecoveringLivechatFailed') {
-          setThreadId()
-          setScreen(0)
-        }
+        // if (err.error.errorCode === 'RecoveringLivechatFailed') {
+        //   setThreadId()
+        //   setScreen(0)
+        // }
       }
     }
 

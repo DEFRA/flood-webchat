@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 
 import { PanelHeader } from '../../../src/client/components/panel/panel-header'
 import { useApp } from '../../../src/client/store/AppProvider.jsx'
@@ -11,9 +11,11 @@ const mocks = {
   useApp: jest.mocked(useApp)
 }
 
+const setChatVisibility = jest.fn()
+
 mocks.useApp.mockReturnValue({
   thread: {},
-  setChatVisibility: jest.fn()
+  setChatVisibility
 })
 
 describe('<PanelHeader />', () => {
@@ -38,5 +40,15 @@ describe('<PanelHeader />', () => {
     )
 
     expect(screen.getByLabelText('Minimise the webchat')).toBeTruthy()
+  })
+
+  it('should close chat on click', () => {
+    const { container } = render(
+      <PanelHeader />
+    )
+
+    fireEvent.click(container.querySelector('button'))
+
+    expect(setChatVisibility).toHaveBeenCalled()
   })
 })
