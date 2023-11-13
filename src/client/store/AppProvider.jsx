@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useReducer, useContext, useMemo } from
 import { ChatEvent } from '@nice-devone/nice-cxone-chat-web-sdk'
 import * as uuid from 'uuid'
 
-import { initialState, appReducer, CUSTOMER_ID_STORAGE_KEY, THEAD_ID_STORAGE_KEY } from './appReducer.jsx'
+import { initialState, appReducer, CUSTOMER_ID_STORAGE_KEY, THEAD_ID_STORAGE_KEY } from './appReducer.js'
 
 export const AppContext = createContext(initialState)
 

@@ -4,7 +4,7 @@ import { ChatSdk } from '@nice-devone/nice-cxone-chat-web-sdk'
 import { Availability } from './components/availability/availability.jsx'
 import { checkAvailability } from './lib/check-availability'
 import { AppProvider } from './store/AppProvider.jsx'
-import { CUSTOMER_ID_STORAGE_KEY } from './store/appReducer.jsx'
+import { CUSTOMER_ID_STORAGE_KEY } from './store/appReducer.js'
 
 export async function init (container, options) {
   const sdk = new ChatSdk({
