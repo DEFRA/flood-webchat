@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { authenticate, getHost, getActivity, getIsOpen } from '../../../src/server/lib/client'
+import { authenticate, getApiBaseUrl, getActivity, getIsOpen } from '../../../src/server/lib/client'
 
 jest.mock('axios')
 
-describe('getHost()', () => {
+describe('getApiBaseUrl()', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })
@@ -13,15 +13,16 @@ describe('getHost()', () => {
 
     axios.get.mockResolvedValue({
       data: {
-        area: 'uk123456789'
+        api_endpoint: 'https://api-uk123456789.niceincontact.com'
       }
     })
 
-    const result = await getHost({
+    const result = await getApiBaseUrl({
+      wellKnownUri: 'https://cxone.niceincontact.com/.well-known/cxone-configuration',
       tenantId: 12345
     })
 
-    expect(result).toBe('api-uk123456789.niceincontact.com')
+    expect(result).toBe('https://api-uk123456789.niceincontact.com')
     expect(axiosGetSpy.mock.calls[0][0]).toEqual('https://cxone.niceincontact.com/.well-known/cxone-configuration?tenantId=12345')
   })
 })
@@ -46,13 +47,13 @@ describe('getActivity', () => {
     const result = await getActivity({
       token: 'some-token',
       tokenType: 'some-token-type',
-      host: 'test-host',
+      baseUrl: 'https://test.example',
       skillEndpoint: '/test-endpoint',
       maxQueueCount: '2'
     })
 
     expect(result).toStrictEqual({ hasAgentsAvailable: true, hasCapacity: true })
-    expect(axiosGetSpy.mock.calls[0][0]).toEqual('https://test-host/test-endpoint')
+    expect(axiosGetSpy.mock.calls[0][0]).toEqual('https://test.example/test-endpoint')
   })
 
   it('should return false when agent is NOT availible and the is No capacity', async () => {
@@ -70,13 +71,13 @@ describe('getActivity', () => {
     const result = await getActivity({
       token: 'some-token',
       tokenType: 'some-token-type',
-      host: 'test-host',
+      baseUrl: 'https://test.example',
       skillEndpoint: '/test-endpoint',
       maxQueueCount: '2'
     })
 
     expect(result).toStrictEqual({ hasAgentsAvailable: false, hasCapacity: false })
-    expect(axiosGetSpy.mock.calls[0][0]).toEqual('https://test-host/test-endpoint')
+    expect(axiosGetSpy.mock.calls[0][0]).toEqual('https://test.example/test-endpoint')
   })
 })
 
@@ -170,12 +171,12 @@ describe('getIsOpen()', () => {
     const result = await getIsOpen({
       token: 'test-token',
       tokenType: 'test-token-type',
-      host: 'test-host',
+      baseUrl: 'https://test.example',
       hoursEndpoint: '/test-endpoint'
     })
 
     expect(result).toBe(true)
-    expect(axiosGetSpy.mock.calls[0][0]).toEqual('https://test-host/test-endpoint')
+    expect(axiosGetSpy.mock.calls[0][0]).toEqual('https://test.example/test-endpoint')
   })
 })
 
@@ -195,6 +196,7 @@ describe('authenticate()', () => {
     })
 
     const result = await authenticate({
+      authenticationUri: 'https://cxone.niceincontact.com/auth/token',
       authorisation: 'some-token',
       accessKey: 'some-acess-token',
       accessSecret: 'secret-key'
@@ -211,7 +213,7 @@ describe('authenticate()', () => {
     expect(axios.post).toHaveBeenCalledWith('https://cxone.niceincontact.com/auth/token', expectedRequestBody, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Host: 'eu1.niceincontact.com',
+        Host: 'cxone.niceincontact.com',
         Authorization: 'some-token'
       },
       signal: expect.any(Object)
