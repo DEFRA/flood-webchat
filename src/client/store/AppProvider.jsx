@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useReducer, useContext, useMemo } from
 import { ChatEvent } from '@nice-devone/nice-cxone-chat-web-sdk'
 import * as uuid from 'uuid'
 
-import { initialState, appReducer, CUSTOMER_ID_STORAGE_KEY, THEAD_ID_STORAGE_KEY } from './appReducer.js'
+import { initialState, appReducer, CUSTOMER_ID_STORAGE_KEY, THREAD_ID_STORAGE_KEY } from './appReducer.js'
 
 export const AppContext = createContext(initialState)
 
@@ -61,11 +61,14 @@ export const AppProvider = ({ sdk, availability, children }) => {
     sdk.onChatEvent(ChatEvent.CONTACT_STATUS_CHANGED, onContactStatusChanged)
   }, [sdk])
 
+  /**
+   * Initialize customerId, threadId and whether the webchat should be open
+   */
   useEffect(() => {
     setAvailability(availability)
 
     const customerId = window.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY)
-    const threadId = window.localStorage.getItem(THEAD_ID_STORAGE_KEY)
+    const threadId = window.localStorage.getItem(THREAD_ID_STORAGE_KEY)
 
     if (customerId && threadId) {
       setCustomerId(customerId)

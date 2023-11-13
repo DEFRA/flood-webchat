@@ -18,6 +18,9 @@ export function Panel () {
 
   useFocusedElements(screen)
 
+  /**
+   * Initializes the eventListener for pressing the escape key
+   */
   useEffect(() => {
     const escapeKeyEvent = document.addEventListener('keydown', onEscapeKey)
 
@@ -26,9 +29,10 @@ export function Panel () {
     }
   }, [])
 
+  /**
+   * Recovers the thread if there is a threadId but no thread loaded in to state
+   */
   useEffect(() => {
-    setScreen(2)
-
     const recover = async () => {
       try {
         const recoveredMessages = await recoverThread(threadId)
@@ -36,18 +40,21 @@ export function Panel () {
       } catch (err) {
         console.log('[Chat Error] fetchThread', err)
 
-        if (err.error.errorCode === 'RecoveringLivechatFailed') {
-          setThreadId()
-        }
+        setThreadId()
+        setScreen(0)
       }
     }
 
-    if (!threadId && !thread) {
-      return setScreen(0)
+    if (thread && threadId) {
+      setScreen(2)
     }
 
-    if (threadId && !thread) {
-      recover()
+    if (!thread) {
+      if (!threadId) {
+        setScreen(0)
+      } else {
+        recover()
+      }
     }
   }, [thread, threadId])
 

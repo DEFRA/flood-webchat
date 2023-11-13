@@ -55,8 +55,6 @@ export function Availability () {
     document.body.classList.toggle('wc-scroll-padding', isFixed)
   }, [isFixed])
 
-  // const unreadMessageCount = messages.filter(message => !message.read).length
-
   let TextComponent = (<>Show Chat</>)
 
   if (!messages.length) {

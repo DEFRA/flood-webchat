@@ -113,7 +113,14 @@ export function RequestChat ({ onBack }) {
                 <span className='govuk-visually-hidden'>Error:</span> {errors.name}
               </p>
             )}
-            <input ref={nameRef} className={classnames('govuk-input', errors.name && 'govuk-input--error')} id='wc-name' name='name' type='text' />
+            <input
+              ref={nameRef}
+              className={classnames('govuk-input', errors.name && 'govuk-input--error')}
+              id='wc-name'
+              name='name'
+              type='text'
+              data-testid='request-chat-user-name'
+            />
           </div>
 
           <div className='govuk-character-count' data-module='govuk-character-count' data-maxlength='500'>
@@ -135,6 +142,7 @@ export function RequestChat ({ onBack }) {
                 aria-describedby='wc-question-info'
                 onChange={onQuestionChange}
                 className={classnames('govuk-textarea', 'govuk-js-character-count', !isQuestionLengthValid || errors.question ? 'govuk-textarea--error' : '')}
+                data-testid='request-chat-user-question'
               />
               <div id='wc-question-info' className='govuk-hint govuk-character-count__message' style={{ color: `${!isQuestionLengthValid ? '#d4351c' : ''}` }} aria-hidden='true'>
                 {questionHint}

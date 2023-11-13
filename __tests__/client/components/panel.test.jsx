@@ -57,140 +57,209 @@ mocks.useChatSdk.mockReturnValue({
 })
 
 describe('<Panel />', () => {
-  let container
+  describe('UI elements', () => {
+    it('should render the panel title', () => {
+      render(
+        <Panel />
+      )
 
-  beforeEach(() => {
-    const result = render(
-      <>
-        <a href='#' className='wc-availability__link'>Start Chat</a>
-        <div id='wc-panel'>
-          <Panel />
-        </div>
-      </>
-    )
+      expect(screen.getByText('Floodline Webchat')).toBeTruthy()
+    })
 
-    container = result.container
+    it('should render panel close button', () => {
+      render(
+        <Panel />
+      )
+
+      expect(screen.getByLabelText('Close the webchat')).toBeTruthy()
+    })
+
+    it('should add [aria-hidden="true"] to <body> child elements', () => {
+      const { container } = render(
+        <>
+          <a href='#' className='wc-availability__link'>Start Chat</a>
+          <div id='wc-panel'>
+            <Panel />
+          </div>
+        </>
+      )
+
+      expect(container.getAttribute('aria-hidden')).toEqual('true')
+    })
   })
 
-  it('should render the panel title', () => {
-    expect(screen.getByText('Floodline Webchat')).toBeTruthy()
+  describe('Accessibility', () => {
+    it('should focus elements within the webchat when tab targeting and return to the top after the last element has been focused', async () => {
+      render(
+        <>
+          <a href='#' className='wc-availability__link'>Start Chat</a>
+          <div id='wc-panel'>
+            <Panel />
+          </div>
+        </>
+      )
+
+      const user = userEvent.setup()
+
+      const closeButton = screen.getByLabelText('Close the webchat')
+      const link1 = screen.getByText('sign up for flood warnings')
+      const link2 = screen.getByText('manage your flood warnings account')
+      const link3 = screen.getByText('report a flood')
+      const button = screen.getByText('Continue')
+      const link4 = screen.getByText('Find out more about call charges')
+
+      await user.tab()
+      expect(closeButton).toHaveFocus()
+
+      await user.tab()
+      expect(link1).toHaveFocus()
+
+      await user.tab()
+      expect(link2).toHaveFocus()
+
+      await user.tab()
+      expect(link3).toHaveFocus()
+
+      await user.tab()
+      expect(button).toHaveFocus()
+
+      await user.tab()
+      expect(link4).toHaveFocus()
+
+      await user.tab()
+      expect(closeButton).toHaveFocus()
+    })
+
+    it('should focus the elements, in reverse-order, within the webchat when shift-tab targeting and return to the bottom after the first element has been focused', async () => {
+      render(
+        <>
+          <a href='#' className='wc-availability__link'>Start Chat</a>
+          <div id='wc-panel'>
+            <Panel />
+          </div>
+        </>
+      )
+
+      const user = userEvent.setup()
+
+      const closeButton = screen.getByLabelText('Close the webchat')
+      const link1 = screen.getByText('sign up for flood warnings')
+      const link2 = screen.getByText('manage your flood warnings account')
+      const link3 = screen.getByText('report a flood')
+      const button = screen.getByText('Continue')
+      const link4 = screen.getByText('Find out more about call charges')
+
+      // have to shift twice here. This isn't the case manually
+      await user.tab({ shift: true })
+      await user.tab({ shift: true })
+
+      expect(link4).toHaveFocus()
+
+      await user.tab({ shift: true })
+      expect(button).toHaveFocus()
+
+      await user.tab({ shift: true })
+      expect(link3).toHaveFocus()
+
+      await user.tab({ shift: true })
+      expect(link2).toHaveFocus()
+
+      await user.tab({ shift: true })
+      expect(link1).toHaveFocus()
+
+      await user.tab({ shift: true })
+      expect(closeButton).toHaveFocus()
+
+      await user.tab({ shift: true })
+      expect(link4).toHaveFocus()
+    })
+
+    it('should close the chat when "ESC" is pressed', async () => {
+      render(
+        <Panel />
+      )
+
+      const user = userEvent.setup()
+
+      await user.keyboard('{Escape}')
+
+      expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
+    })
   })
 
-  it('should render panel close button', () => {
-    expect(screen.getByLabelText('Close the webchat')).toBeTruthy()
+  describe('Screens', () => {
+    it('should go back a screen', () => {
+      render(
+        <Panel />
+      )
+
+      fireEvent.click(screen.getByText('Continue'))
+      fireEvent.click(screen.getByText('What you can use webchat for'))
+
+      expect(screen.getByText('Webchat lets you talk directly to a Floodline adviser.')).toBeTruthy()
+    })
+
+    it('should default to the pre-chat screen', () => {
+      render(
+        <Panel />
+      )
+
+      expect(screen.getByText('Webchat lets you talk directly to a Floodline adviser.')).toBeTruthy()
+    })
+
+    it('should go to request-chat screen', async () => {
+      render(
+        <Panel />
+      )
+
+      fireEvent.click(screen.getByText('Continue'))
+
+      expect(screen.getByText('Your question')).toBeTruthy()
+    })
+
+    it('should go to unavailable screen', async () => {
+      mocks.useApp.mockReturnValueOnce({ ...useAppMock, availability: 'UNAVAILABLE' })
+
+      render(
+        <Panel />
+      )
+
+      fireEvent.click(screen.getByText('Continue'))
+
+      expect(screen.getByText('Your question')).toBeTruthy()
+    })
+
+    xit('should go to chat screen', async () => {
+      render(
+        <Panel />
+      )
+
+      fireEvent.click(screen.getByText('Continue'))
+
+      const input = screen.getByTestId('request-chat-user-name')
+      const textarea = screen.getByTestId('request-chat-user-question')
+      const button = screen.getByText('Request chat')
+
+      const user = userEvent.setup()
+
+      fireEvent.change(input, { target: { value: 'name' } })
+      fireEvent.change(textarea, { target: { value: 'question' } })
+
+      await user.click(button)
+
+      expect(await screen.findByText('Connecting to floodline')).toBeTruthy()
+    })
   })
 
-  it('should add [aria-hidden="true"] to <body> child elements', () => {
-    expect(container.getAttribute('aria-hidden')).toEqual('true')
-  })
+  describe('Data fetch', () => {
+    it('should recover a thread when a threadId exists', () => {
+      mocks.useApp.mockReturnValueOnce({ ...useAppMock, threadId: 'thread_123' })
 
-  it('should focus elements within the webchat when tab targeting and return to the top after the last element has been focused', async () => {
-    const user = userEvent.setup()
+      render(
+        <Panel />
+      )
 
-    const closeButton = screen.getByLabelText('Close the webchat')
-    const link1 = screen.getByText('sign up for flood warnings')
-    const link2 = screen.getByText('manage your flood warnings account')
-    const link3 = screen.getByText('report a flood')
-    const button = screen.getByText('Continue')
-    const link4 = screen.getByText('Find out more about call charges')
-
-    await user.tab()
-    expect(closeButton).toHaveFocus()
-
-    await user.tab()
-    expect(link1).toHaveFocus()
-
-    await user.tab()
-    expect(link2).toHaveFocus()
-
-    await user.tab()
-    expect(link3).toHaveFocus()
-
-    await user.tab()
-    expect(button).toHaveFocus()
-
-    await user.tab()
-    expect(link4).toHaveFocus()
-
-    await user.tab()
-    expect(closeButton).toHaveFocus()
-  })
-
-  it('should focus the elements, in reverse-order, within the webchat when shift-tab targeting and return to the bottom after the first element has been focused', async () => {
-    const user = userEvent.setup()
-
-    const closeButton = screen.getByLabelText('Close the webchat')
-    const link1 = screen.getByText('sign up for flood warnings')
-    const link2 = screen.getByText('manage your flood warnings account')
-    const link3 = screen.getByText('report a flood')
-    const button = screen.getByText('Continue')
-    const link4 = screen.getByText('Find out more about call charges')
-
-    // have to shift twice here. This isn't the case manually
-    await user.tab({ shift: true })
-    await user.tab({ shift: true })
-
-    expect(link4).toHaveFocus()
-
-    await user.tab({ shift: true })
-    expect(button).toHaveFocus()
-
-    await user.tab({ shift: true })
-    expect(link3).toHaveFocus()
-
-    await user.tab({ shift: true })
-    expect(link2).toHaveFocus()
-
-    await user.tab({ shift: true })
-    expect(link1).toHaveFocus()
-
-    await user.tab({ shift: true })
-    expect(closeButton).toHaveFocus()
-
-    await user.tab({ shift: true })
-    expect(link4).toHaveFocus()
-  })
-})
-
-describe('<Panel /> screens', () => {
-  it('should go back a screen', () => {
-    render(
-      <Panel />
-    )
-
-    fireEvent.click(screen.getByText('Continue'))
-    fireEvent.click(screen.getByText('What you can use webchat for'))
-
-    expect(screen.getByText('Webchat lets you talk directly to a Floodline adviser.')).toBeTruthy()
-  })
-
-  it('should default to the pre-chat screen', () => {
-    render(
-      <Panel />
-    )
-
-    expect(screen.getByText('Webchat lets you talk directly to a Floodline adviser.')).toBeTruthy()
-  })
-
-  it('should recover a thread when a threadId exists', () => {
-    mocks.useApp.mockReturnValue({ ...useAppMock, threadId: 'thread_123' })
-
-    render(
-      <Panel />
-    )
-
-    expect(mocks.useChatSdk().recoverThread).toHaveBeenCalled()
-  })
-
-  it('should close the chat when "ESC" is pressed', async () => {
-    render(
-      <Panel />
-    )
-
-    const user = userEvent.setup()
-
-    await user.keyboard('{Escape}')
-
-    expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
+      expect(mocks.useChatSdk().recoverThread).toHaveBeenCalled()
+    })
   })
 })

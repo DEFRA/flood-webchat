@@ -13,7 +13,7 @@ export const initialState = {
 }
 
 export const CUSTOMER_ID_STORAGE_KEY = 'webchat_customer_id'
-export const THEAD_ID_STORAGE_KEY = 'webchat_thread_id'
+export const THREAD_ID_STORAGE_KEY = 'webchat_thread_id'
 
 export const setChatVisibility = (state, payload) => {
   return {
@@ -44,9 +44,9 @@ export const setCustomerId = (state, payload) => {
 
 export const setThreadId = (state, payload) => {
   if (payload) {
-    window.localStorage.setItem(THEAD_ID_STORAGE_KEY, payload)
+    window.localStorage.setItem(THREAD_ID_STORAGE_KEY, payload)
   } else {
-    window.localStorage.removeItem(THEAD_ID_STORAGE_KEY)
+    window.localStorage.removeItem(THREAD_ID_STORAGE_KEY)
   }
 
   return {
