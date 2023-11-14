@@ -1,4 +1,4 @@
-import { authenticate, getActivity, getHost, getIsOpen } from '../../src/server/lib/client.js'
+import { authenticate, getActivity, getApiBaseUrl, getIsOpen } from '../../src/server/lib/client.js'
 import getAvailability from '../../src/server/index.js'
 
 jest.mock('../../src/server/lib/client.js')
@@ -9,7 +9,7 @@ const mocks = {
     token: 'some-token',
     tokenType: 'some-token-type'
   }),
-  getHost: jest.mocked(getHost).mockReturnValue('some-host'),
+  getApiBaseUrl: jest.mocked(getApiBaseUrl).mockReturnValue('https://some-host.example'),
   getIsOpen: jest.mocked(getIsOpen),
   getActivity: jest.mocked(getActivity)
 }

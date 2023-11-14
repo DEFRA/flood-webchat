@@ -5,27 +5,22 @@ const { isWithinHours } = require('./utils.js')
 
 const contentType = 'application/x-www-form-urlencoded'
 
-const isFullUrl = endpoint => /^(https?:)?\/\//i.test(endpoint)
-
-const authenticate = async ({ authorisation, accessKey, accessSecret }) => {
-  const uri = 'https://cxone.niceincontact.com/auth/token'
-
-  const config = {
-    signal: AbortSignal.timeout(3000),
-    headers: {
-      Host: 'eu1.niceincontact.com',
-      'Content-Type': contentType,
-      Authorization: authorisation
-    }
-  }
-
+const authenticate = async ({ authenticationUri, authorisation, accessKey, accessSecret }) => {
+  const url = new URL(authenticationUri)
   const body = querystring.stringify({
     grant_type: 'password',
     username: accessKey,
     password: accessSecret
   })
 
-  const auth = await axios.post(uri, body, config)
+  const auth = await axios.post(url.href, body, {
+    signal: AbortSignal.timeout(3000),
+    headers: {
+      Host: url.host,
+      'Content-Type': contentType,
+      Authorization: authorisation
+    }
+  })
 
   return {
     token: auth.data.access_token,
@@ -34,30 +29,31 @@ const authenticate = async ({ authorisation, accessKey, accessSecret }) => {
   }
 }
 
-const getHost = async ({ tenantId }) => {
-  const uri = `https://cxone.niceincontact.com/.well-known/cxone-configuration?tenantId=${tenantId}`
+const getApiBaseUrl = async ({ wellKnownUri, tenantId }) => {
+  const url = new URL(wellKnownUri)
+  url.searchParams.set('tenantId', tenantId)
 
-  const config = {
+  const { data } = await axios.get(url.href, {
+    headers: {
+      Host: url.host
+    },
     signal: AbortSignal.timeout(3000)
-  }
+  })
 
-  const api = await axios.get(uri, config)
-
-  return `api-${api.data.area}.niceincontact.com`
+  return data.api_endpoint
 }
 
-const getActivity = async ({ tokenType, token, host, skillEndpoint, maxQueueCount }) => {
-  const config = {
+const getActivity = async ({ tokenType, token, baseUrl, skillEndpoint, maxQueueCount }) => {
+  const url = new URL(skillEndpoint, baseUrl)
+
+  const skill = await axios.get(url.href, {
     signal: AbortSignal.timeout(3000),
     headers: {
-      Host: host,
+      Host: url.host,
       Authorization: `${tokenType} ${token}`,
       'Content-Type': contentType
     }
-  }
-  const uri = isFullUrl(skillEndpoint) ? skillEndpoint : `https://${host}${skillEndpoint}`
-
-  const skill = await axios.get(uri, config)
+  })
 
   const activity = skill.data.skillActivity[0]
 
@@ -67,19 +63,17 @@ const getActivity = async ({ tokenType, token, host, skillEndpoint, maxQueueCoun
   }
 }
 
-const getIsOpen = async ({ host, token, tokenType, hoursEndpoint }) => {
-  const config = {
+const getIsOpen = async ({ baseUrl, token, tokenType, hoursEndpoint }) => {
+  const url = new URL(hoursEndpoint, baseUrl)
+
+  const hours = await axios.get(url.href, {
     signal: AbortSignal.timeout(3000),
     headers: {
-      Host: 'api-l36.niceincontact.com',
+      Host: url.host,
       Authorization: `${tokenType} ${token}`,
       'Content-Type': contentType
     }
-  }
-
-  const uri = isFullUrl(hoursEndpoint) ? hoursEndpoint : `https://${host}${hoursEndpoint}`
-
-  const hours = await axios.get(uri, config)
+  })
 
   const days = hours.data.resultSet.hoursOfOperationProfiles[0].days
 
@@ -88,7 +82,7 @@ const getIsOpen = async ({ host, token, tokenType, hoursEndpoint }) => {
 
 module.exports = {
   authenticate,
-  getHost,
+  getApiBaseUrl,
   getIsOpen,
   getActivity
 }
