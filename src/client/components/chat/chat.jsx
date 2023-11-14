@@ -5,7 +5,7 @@ import { PanelHeader } from '../panel/panel-header.jsx'
 import { PanelFooter } from '../panel/panel-footer.jsx'
 import { Message } from '../message/message.jsx'
 
-import { useApp } from '../../store/AppProvider.jsx'
+import { useApp } from '../../store/useApp.js'
 import { useTextareaAutosize } from '../../hooks/useTextareaAutosize.js'
 
 export function Chat ({ onEndChat }) {

@@ -1,53 +1,41 @@
-import React, { createContext, useEffect, useReducer, useContext, useMemo } from 'react'
+import React, { createContext, useEffect, useReducer, useMemo } from 'react'
 import { ChatEvent } from '@nice-devone/nice-cxone-chat-web-sdk'
-import * as uuid from 'uuid'
 
-import { initialState, appReducer, CUSTOMER_ID_STORAGE_KEY, THREAD_ID_STORAGE_KEY } from './appReducer.js'
+import { initialState, reducer, CUSTOMER_ID_STORAGE_KEY, THREAD_ID_STORAGE_KEY } from './reducer.js'
 
 export const AppContext = createContext(initialState)
 
 export const AppProvider = ({ sdk, availability, children }) => {
-  const [state, dispatch] = useReducer(appReducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState)
 
+  /**
+   * SDK event handlers
+   */
   const onLiveChatRecovered = e => {
-    console.log('onLiveChatRecovered', e)
-    setAgent(e.detail.data.inboxAssignee)
-    setAgentStatus(e.detail.data.contact.status)
+    dispatch({ type: 'SET_AGENT', payload: e.detail.data.inboxAssignee })
+    dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.contact.status })
   }
 
   const onAssignedAgentChanged = e => {
-    console.log('onAssignedAgentChanged', e)
-    setAgent(e.detail.data.inboxAssignee)
-    setAgentStatus(e.detail.data.case.status)
+    dispatch({ type: 'SET_AGENT', payload: e.detail.data.inboxAssignee })
+    dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.case.status })
   }
 
   const onAgentTypingStarted = e => {
-    console.log('onAgentTypingStarted', e)
-    setAgentTyping(true)
+    dispatch({ type: 'SET_AGENT_TYPING', payload: true })
   }
 
   const onAgentTypingEnded = e => {
-    console.log('onAgentTypingEnded', e)
-    setAgentTyping(false)
+    dispatch({ type: 'SET_AGENT_TYPING', payload: false })
   }
 
   const onMessageCreated = e => {
-    console.log('onMessageCreated', e)
     setMessage(e.detail.data.message)
-    setAgentStatus(e.detail.data.case.status)
-  }
-
-  const onMessageSeenByUser = e => {
-    console.log('onMessageSeenByUser', e)
+    dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.case.status })
   }
 
   const onContactStatusChanged = e => {
-    console.log('ContactStatusChanged', e)
-    setAgentStatus(e.detail.data.case.status)
-  }
-
-  const onContactCreated = e => {
-    console.log('onContactCreated', e)
+    dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.case.status })
   }
 
   useEffect(() => {
@@ -55,9 +43,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
     sdk.onChatEvent(ChatEvent.MESSAGE_CREATED, onMessageCreated)
     sdk.onChatEvent(ChatEvent.AGENT_TYPING_STARTED, onAgentTypingStarted)
     sdk.onChatEvent(ChatEvent.AGENT_TYPING_ENDED, onAgentTypingEnded)
-    sdk.onChatEvent(ChatEvent.MESSAGE_SEEN_BY_END_USER, onMessageSeenByUser)
     sdk.onChatEvent(ChatEvent.ASSIGNED_AGENT_CHANGED, onAssignedAgentChanged)
-    sdk.onChatEvent(ChatEvent.CONTACT_CREATED, onContactCreated)
     sdk.onChatEvent(ChatEvent.CONTACT_STATUS_CHANGED, onContactStatusChanged)
   }, [sdk])
 
@@ -65,7 +51,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
    * Initialize customerId, threadId and whether the webchat should be open
    */
   useEffect(() => {
-    setAvailability(availability)
+    dispatch({ type: 'SET_AVAILABILITY', payload: availability })
 
     const customerId = window.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY)
     const threadId = window.localStorage.getItem(THREAD_ID_STORAGE_KEY)
@@ -80,16 +66,15 @@ export const AppProvider = ({ sdk, availability, children }) => {
     }
   }, [])
 
+  /**
+   * State update functions
+   */
   const setChatVisibility = payload => {
     if (!payload) {
       window.location.hash = ''
     }
 
     dispatch({ type: 'SET_CHAT_VISIBILITY', payload })
-  }
-
-  const setAvailability = status => {
-    dispatch({ type: 'SET_AVAILABILITY', payload: status })
   }
 
   const setCustomerId = customerId => {
@@ -112,18 +97,9 @@ export const AppProvider = ({ sdk, availability, children }) => {
     dispatch({ type: 'SET_MESSAGES', payload: messages })
   }
 
-  const setAgent = agent => {
-    dispatch({ type: 'SET_AGENT', payload: agent })
-  }
-
-  const setAgentTyping = isAgentTyping => {
-    dispatch({ type: 'SET_AGENT_TYPING', payload: isAgentTyping })
-  }
-
-  const setAgentStatus = status => {
-    dispatch({ type: 'SET_AGENT_STATUS', payload: status })
-  }
-
+  /**
+   * Application-wide state and state functions
+   */
   const store = useMemo(() => ({
     ...state,
     sdk,
@@ -132,7 +108,6 @@ export const AppProvider = ({ sdk, availability, children }) => {
     setThread,
     setMessage,
     setMessages,
-    setAgent,
     setChatVisibility
   }))
 
@@ -141,74 +116,4 @@ export const AppProvider = ({ sdk, availability, children }) => {
       {children}
     </AppContext.Provider>
   )
-}
-
-export const useApp = () => useContext(AppContext)
-
-export const useChatSdk = () => {
-  const { sdk, setThread } = useContext(AppContext)
-
-  const connect = async () => {
-    console.log('[useChatSdk] sdk.connect')
-    return sdk.authorize()
-  }
-
-  const getCustomerId = async () => {
-    console.log('[useChatSdk] getCustomerId')
-
-    const response = await connect()
-    return response?.consumerIdentity.idOnExternalPlatform
-  }
-
-  const getThread = async threadId => {
-    console.log('[useChatSdk] getThread')
-
-    if (!threadId) {
-      threadId = uuid.v4()
-    }
-
-    console.log('[useChatSdk sdk.getThread')
-    const thread = await sdk.getThread(threadId)
-    setThread(thread)
-
-    return {
-      thread,
-      threadId
-    }
-  }
-
-  const recoverThread = async threadId => {
-    console.log('[useChatSdk] recoverThread')
-
-    if (!threadId) {
-      throw new Error('Invalid Thread ID')
-    }
-
-    await connect()
-
-    const { thread } = await getThread(threadId)
-
-    console.log('[useChatSdk] sdk.thread.recover')
-    const recovered = await thread.recover(threadId)
-
-    const allMessages = []
-    let fetchedMessages = recovered.messages
-
-    while (fetchedMessages.length) {
-      fetchedMessages.map(msg => allMessages.push(msg))
-
-      try {
-        console.log('[useChatSdk] sdk.thread.loadMoreMessages')
-        const response = await thread.loadMoreMessages()
-        fetchedMessages = response.data.messages
-      } catch (err) {
-        console.log('[useChatSdk Error] loadMoreMessages', err)
-        fetchedMessages = []
-      }
-    }
-
-    return allMessages
-  }
-
-  return { connect, getCustomerId, getThread, recoverThread }
 }

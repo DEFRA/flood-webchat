@@ -42,6 +42,6 @@ describe('<AppProvider />', () => {
   it('should setup the sdk onChatEvents', () => {
     render(<AppProvider sdk={sdkMock} availability='AVAILABLE' />)
 
-    expect(sdkMock.onChatEvent).toHaveBeenCalledTimes(8)
+    expect(sdkMock.onChatEvent).toHaveBeenCalledTimes(6)
   })
 })

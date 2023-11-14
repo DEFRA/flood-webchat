@@ -3,66 +3,39 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { Chat } from '../../../src/client/components/chat/chat'
-import { useApp, useChatSdk } from '../../../src/client/store/AppProvider'
+import { useApp } from '../../../src/client/store/useApp'
+import { useChatSdk } from '../../../src/client/store/useChatSdk'
 
-jest.mock('../../../src/client/store/AppProvider')
-
-jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
-  ChatEvent: {
-    LIVECHAT_RECOVERED: jest.mocked(),
-    MESSAGE_CREATED: jest.mocked(),
-    AGENT_TYPING_STARTED: jest.mocked(),
-    AGENT_TYPING_ENDED: jest.mocked(),
-    MESSAGE_SEEN_BY_END_USER: jest.mocked(),
-    ASSIGNED_AGENT_CHANGED: jest.mocked(),
-    CONTACT_CREATED: jest.mocked(),
-    CONTACT_STATUS_CHANGED: jest.mocked()
-  }
-}))
+jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({}))
+jest.mock('../../../src/client/store/useApp')
+jest.mock('../../../src/client/store/useChatSdk')
 
 const mocks = {
   useApp: jest.mocked(useApp),
   useChatSdk: jest.mocked(useChatSdk)
 }
 
-const useAppMock = {
-  sdk: jest.mocked({
-    authorize: jest.fn(),
-    getThread: jest.fn('thread_123'),
-    setCustomerId: jest.fn()
-  }),
-  messages: [],
-  setMessages: jest.fn(),
-  availability: 'AVAILABLE',
-  threadId: 'thread_123',
-  agent: null,
-  agentStatus: null,
-  isAgentTyping: false,
-  thread: {
-    sendTextMessage: jest.fn()
-  }
-}
-
-const useChatSdkMock = {
-  connect: jest.fn(),
-  getThread: jest.fn(),
-  getCustomerId: jest.fn(),
-  recoverThread: jest.fn()
-}
-
-mocks.useApp.mockReturnValue(useAppMock)
-mocks.useChatSdk.mockReturnValue(useChatSdkMock)
-
 describe('<Chat />', () => {
+  afterAll(() => {
+    jest.clearAllMocks()
+  })
+
   describe('Tagline', () => {
     it('should show connecting tagline when no agent status is set but the chat is available', () => {
+      mocks.useApp.mockReturnValue({
+        messages: []
+      })
+
       render(<Chat />)
 
       expect(screen.getByText('Connecting to Floodline')).toBeTruthy()
     })
 
     it('should show no advisors tagline when no agent is available but the chat is available', () => {
-      mocks.useApp.mockReturnValueOnce({ ...useAppMock, agentStatus: 'pending' })
+      mocks.useApp.mockReturnValue({
+        messages: [],
+        agentStatus: 'pending'
+      })
 
       render(<Chat />)
 
@@ -70,7 +43,10 @@ describe('<Chat />', () => {
     })
 
     it('should show unavilable tagline', () => {
-      mocks.useApp.mockReturnValueOnce({ ...useAppMock, availability: 'UNAVAILABLE' })
+      mocks.useApp.mockReturnValue({
+        messages: [],
+        availability: 'UNAVAILABLE'
+      })
 
       render(<Chat />)
 
@@ -78,8 +54,8 @@ describe('<Chat />', () => {
     })
 
     it('should show the agent you are speaking with', () => {
-      mocks.useApp.mockReturnValueOnce({
-        ...useAppMock,
+      mocks.useApp.mockReturnValue({
+        messages: [],
         agentStatus: 'pending',
         agent: { firstName: 'test' }
       })
@@ -90,8 +66,8 @@ describe('<Chat />', () => {
     })
 
     it('should show the agent who closed the chat', () => {
-      mocks.useApp.mockReturnValueOnce({
-        ...useAppMock,
+      mocks.useApp.mockReturnValue({
+        messages: [],
         agent: { firstName: 'test' },
         agentStatus: 'closed'
       })
@@ -102,8 +78,8 @@ describe('<Chat />', () => {
     })
 
     it('should show the chat as closed when there is no agent data available', () => {
-      mocks.useApp.mockReturnValueOnce({
-        ...useAppMock,
+      mocks.useApp.mockReturnValue({
+        messages: [],
         agentStatus: 'closed'
       })
 
@@ -115,6 +91,10 @@ describe('<Chat />', () => {
 
   describe('UI elements', () => {
     it('should show the "Settings" and "Save chat" chat links', () => {
+      mocks.useApp.mockReturnValue({
+        messages: []
+      })
+
       render(<Chat />)
 
       expect(screen.getByText('Settings')).toBeTruthy()
@@ -122,6 +102,11 @@ describe('<Chat />', () => {
     })
 
     it('should show the chat input', () => {
+      mocks.useApp.mockReturnValue({
+        messages: [],
+        agentStatus: 'closed'
+      })
+
       const { container } = render(<Chat />)
 
       expect(container.querySelector('textarea')).toBeTruthy()
@@ -130,6 +115,10 @@ describe('<Chat />', () => {
     })
 
     it('should remove the label when the user starts typing', () => {
+      mocks.useApp.mockReturnValue({
+        messages: []
+      })
+
       const { container } = render(<Chat />)
 
       const label = container.querySelector('label')
@@ -143,6 +132,13 @@ describe('<Chat />', () => {
     })
 
     it('should send a message', () => {
+      mocks.useApp.mockReturnValue({
+        messages: [],
+        thread: {
+          sendTextMessage: jest.fn()
+        }
+      })
+
       const { container } = render(<Chat />)
 
       const input = container.querySelector('input')
@@ -157,8 +153,7 @@ describe('<Chat />', () => {
 
   describe('Messages', () => {
     it('should show message from the user', async () => {
-      mocks.useApp.mockReturnValueOnce({
-        ...useAppMock,
+      mocks.useApp.mockReturnValue({
         messages: [{
           id: '1234',
           text: 'test message from user',
@@ -176,8 +171,8 @@ describe('<Chat />', () => {
     })
 
     it('should show agent typing', () => {
-      mocks.useApp.mockReturnValueOnce({
-        ...useAppMock,
+      mocks.useApp.mockReturnValue({
+        messages: [],
         agent: { firstName: 'test' },
         isAgentTyping: true
       })
@@ -188,8 +183,7 @@ describe('<Chat />', () => {
     })
 
     it('should show message from the agent', async () => {
-      mocks.useApp.mockReturnValueOnce({
-        ...useAppMock,
+      mocks.useApp.mockReturnValue({
         messages: [{
           id: '1234',
           text: 'test message from agent',
@@ -208,8 +202,7 @@ describe('<Chat />', () => {
   })
 
   it('should only show who the message is from once, when multiple messages from the same person is sent', async () => {
-    mocks.useApp.mockReturnValueOnce({
-      ...useAppMock,
+    mocks.useApp.mockReturnValue({
       messages: [
         {
           id: '1234',

@@ -2,29 +2,22 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 
 import { PanelHeader } from '../../../src/client/components/panel/panel-header'
-import { useApp } from '../../../src/client/store/AppProvider.jsx'
+import { useApp } from '../../../src/client/store/useApp'
 
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => {})
-jest.mock('../../../src/client/store/AppProvider.jsx')
+jest.mock('../../../src/client/store/useApp')
 
 const mocks = {
   useApp: jest.mocked(useApp)
 }
 
-const setChatVisibility = jest.fn()
-
-mocks.useApp.mockReturnValue({
-  thread: {},
-  setChatVisibility
-})
-
 describe('<PanelHeader />', () => {
   afterAll(() => {
-    jest.resetAllMocks()
+    jest.clearAllMocks()
   })
 
   it('should render the close webchat button', () => {
-    mocks.useApp.mockReturnValueOnce({ thread: null })
+    mocks.useApp.mockReturnValue({ thread: null })
 
     const { container } = render(
       <PanelHeader />
@@ -35,6 +28,8 @@ describe('<PanelHeader />', () => {
   })
 
   it('should render the minimise webchat button', () => {
+    mocks.useApp.mockReturnValue({ thread: {} })
+
     render(
       <PanelHeader />
     )
@@ -43,12 +38,14 @@ describe('<PanelHeader />', () => {
   })
 
   it('should close chat on click', () => {
+    mocks.useApp.mockReturnValue({ setChatVisibility: jest.fn() })
+
     const { container } = render(
       <PanelHeader />
     )
 
     fireEvent.click(container.querySelector('button'))
 
-    expect(setChatVisibility).toHaveBeenCalled()
+    expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
   })
 })

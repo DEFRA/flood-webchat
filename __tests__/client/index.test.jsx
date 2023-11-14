@@ -30,7 +30,7 @@ jest.mock('../../src/client/components/availability/availability')
 
 describe('init()', () => {
   afterEach(() => {
-    jest.resetAllMocks()
+    jest.clearAllMocks()
   })
 
   it('should render an <Avalability/> component using the target element as a root using the result of checkAvailability()', async () => {

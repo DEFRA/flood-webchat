@@ -1,5 +1,5 @@
 import React from 'react'
-import { useApp } from '../../store/AppProvider.jsx'
+import { useApp } from '../../store/useApp.js'
 
 export function PanelHeader () {
   const { thread, setChatVisibility } = useApp()

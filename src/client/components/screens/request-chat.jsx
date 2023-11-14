@@ -2,7 +2,8 @@ import React, { useRef, useState, useEffect } from 'react'
 
 import { classnames } from '../../lib/classnames.js'
 import { PanelHeader } from '../panel/panel-header.jsx'
-import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
+import { useApp } from '../../store/useApp.js'
+import { useChatSdk } from '../../store/useChatSdk.js'
 
 const QUESTION_MAX_LENGTH = 500
 
@@ -153,7 +154,11 @@ export function RequestChat ({ onBack }) {
             </div>
           </div>
 
-          <button className='govuk-button govuk-!-margin-top-1 govuk-!-font-size-16' data-module='govuk-button' onClick={onRequestChat}>
+          <button
+            className='govuk-button govuk-!-margin-top-1 govuk-!-font-size-16'
+            data-module='govuk-button'
+            onClick={onRequestChat}
+          >
             Request chat
           </button>
         </form>

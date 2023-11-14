@@ -7,11 +7,12 @@ import { Chat } from '../chat/chat.jsx'
 import { Unavailable } from '../screens/unavailable.jsx'
 import { EndChat } from '../screens/end-chat.jsx'
 
-import { useApp, useChatSdk } from '../../store/AppProvider.jsx'
+import { useApp } from '../../store/useApp.js'
+import { useChatSdk } from '../../store/useChatSdk.js'
 import { useFocusedElements } from '../../hooks/useFocusedElements.js'
 
 export function Panel () {
-  const { availability, thread, threadId, setThreadId, setMessages, setChatVisibility } = useApp()
+  const { availability, thread, threadId, setThread, setThreadId, setMessages, setChatVisibility } = useApp()
   const { recoverThread } = useChatSdk()
 
   const [screen, setScreen] = useState(threadId ? 2 : 0)
@@ -41,6 +42,7 @@ export function Panel () {
         console.log('[Chat Error] fetchThread', err)
 
         setThreadId()
+        setThread()
         setScreen(0)
       }
     }

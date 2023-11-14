@@ -4,66 +4,41 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { RequestChat } from '../../../src/client/components/screens/request-chat'
-import { useApp, useChatSdk } from '../../../src/client/store/AppProvider'
+import { useApp } from '../../../src/client/store/useApp'
+import { useChatSdk } from '../../../src/client/store/useChatSdk'
 
-jest.mock('../../../src/client/store/AppProvider')
-
-jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
-  ChatEvent: {
-    LIVECHAT_RECOVERED: jest.mocked(),
-    MESSAGE_CREATED: jest.mocked(),
-    AGENT_TYPING_STARTED: jest.mocked(),
-    AGENT_TYPING_ENDED: jest.mocked(),
-    MESSAGE_SEEN_BY_END_USER: jest.mocked(),
-    ASSIGNED_AGENT_CHANGED: jest.mocked(),
-    CONTACT_CREATED: jest.mocked(),
-    CONTACT_STATUS_CHANGED: jest.mocked()
-  }
-}))
+jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({}))
+jest.mock('../../../src/client/store/useApp')
+jest.mock('../../../src/client/store/useChatSdk')
 
 const mocks = {
   useApp: jest.mocked(useApp),
   useChatSdk: jest.mocked(useChatSdk)
 }
 
-mocks.useApp.mockReturnValue({
-  sdk: jest.mocked({
-    authorize: jest.fn(),
-    getCustomer: function () {
-      this.setName = jest.fn()
-      return this
-    }
-  }),
-  setCustomerId: jest.fn(),
-  setThreadId: jest.fn(),
-  setChatRequested: jest.fn(),
-  setThread: jest.fn()
-})
-
-mocks.useChatSdk.mockReturnValue({
-  connect: jest.fn(),
-  getCustomerId: jest.fn(),
-  recoverThread: jest.fn(),
-  getThread: () => ({
-    thread: {
-      startChat: jest.fn
-    }
-  })
-})
-
 describe('<RequestChat />', () => {
-  let container
-
-  beforeEach(() => {
-    const result = render(<RequestChat onBack={jest.fn()} />)
-    container = result.container
+  afterAll(() => {
+    jest.clearAllMocks()
   })
 
   it('should render the screen', () => {
+    mocks.useApp.mockReturnValue({ sdk: jest.fn() })
+    mocks.useChatSdk.mockReturnValue({ getCustomerId: jest.fn(), getThread: jest.fn() })
+
+    render(
+      <RequestChat onBack={jest.fn()} />
+    )
+
     expect(screen.getByText('Your name and question')).toBeTruthy()
   })
 
   it('should show the error summary when no inputs have been filled', () => {
+    mocks.useChatSdk.mockReturnValue({ getCustomerId: jest.fn(), getThread: jest.fn() })
+
+    const { container } = render(
+      <RequestChat onBack={jest.fn()} />
+    )
+
     fireEvent.click(screen.getByText('Request chat'))
 
     expect(screen.getByText('There is a problem')).toBeTruthy()
@@ -74,6 +49,12 @@ describe('<RequestChat />', () => {
   })
 
   it('should update the question characters remaining hint text', () => {
+    mocks.useChatSdk.mockReturnValue({ getCustomerId: jest.fn(), getThread: jest.fn() })
+
+    const { container } = render(
+      <RequestChat onBack={jest.fn()} />
+    )
+
     const hint = container.querySelector('.govuk-hint')
     const textarea = container.querySelector('textarea')
 
@@ -85,6 +66,13 @@ describe('<RequestChat />', () => {
   })
 
   it('should show question length error', () => {
+    mocks.useApp.mockReturnValue({ sdk: jest.fn() })
+    mocks.useChatSdk.mockReturnValue({ getCustomerId: jest.fn(), getThread: jest.fn() })
+
+    const { container } = render(
+      <RequestChat onBack={jest.fn()} />
+    )
+
     const textarea = container.querySelector('textarea')
 
     fireEvent.change(textarea, { target: { value: 'input'.repeat(101) } })
@@ -95,6 +83,30 @@ describe('<RequestChat />', () => {
   })
 
   it('should submit the message', async () => {
+    mocks.useApp.mockReturnValue({
+      sdk: ({
+        getCustomer: jest.fn().mockReturnValue({
+          setName: jest.fn()
+        })
+      }),
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setThread: jest.fn()
+    })
+
+    mocks.useChatSdk.mockReturnValue({
+      getCustomerId: jest.fn(),
+      getThread: () => ({
+        thread: {
+          startChat: jest.fn
+        }
+      })
+    })
+
+    const { container } = render(
+      <RequestChat onBack={jest.fn()} />
+    )
+
     const input = container.querySelector('form input')
     const textarea = container.querySelector('form textarea')
     const button = container.querySelector('form button')
