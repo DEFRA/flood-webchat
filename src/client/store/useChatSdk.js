@@ -1,6 +1,6 @@
 export const useChatSdk = sdk => {
   const connect = async () => {
-    return await sdk.authorize()
+    return sdk.authorize()
   }
 
   const fetchCustomerId = async () => {
@@ -10,7 +10,7 @@ export const useChatSdk = sdk => {
 
   const fetchThread = async threadId => {
     await connect()
-    return await sdk.getThread(threadId)
+    return sdk.getThread(threadId)
   }
 
   const fetchMessages = async (thread, threadId) => {
