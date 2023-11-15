@@ -1,42 +1,20 @@
-import * as uuid from 'uuid'
-import { useContext } from 'react'
-
-import { AppContext } from './AppProvider.jsx'
-
-export const useChatSdk = () => {
-  const { sdk, setThread } = useContext(AppContext)
-
+export const useChatSdk = sdk => {
   const connect = async () => {
-    return sdk.authorize()
+    return await sdk.authorize()
   }
 
-  const getCustomerId = async () => {
+  const fetchCustomerId = async () => {
     const response = await connect()
     return response?.consumerIdentity.idOnExternalPlatform
   }
 
-  const getThread = async threadId => {
-    if (!threadId) {
-      threadId = uuid.v4()
-    }
-
-    const thread = await sdk.getThread(threadId)
-    setThread(thread)
-
-    return {
-      thread,
-      threadId
-    }
+  const fetchThread = async threadId => {
+    await connect()
+    return await sdk.getThread(threadId)
   }
 
-  const recoverThread = async threadId => {
-    if (!threadId) {
-      throw new Error('Invalid Thread ID')
-    }
-
+  const fetchMessages = async (thread, threadId) => {
     await connect()
-
-    const { thread } = await getThread(threadId)
 
     const recovered = await thread.recover(threadId)
 
@@ -57,5 +35,5 @@ export const useChatSdk = () => {
     return allMessages
   }
 
-  return { connect, getCustomerId, getThread, recoverThread }
+  return { connect, fetchCustomerId, fetchThread, fetchMessages }
 }

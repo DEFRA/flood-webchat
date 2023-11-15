@@ -12,8 +12,8 @@ import { useChatSdk } from '../../store/useChatSdk.js'
 import { useFocusedElements } from '../../hooks/useFocusedElements.js'
 
 export function Panel () {
-  const { availability, thread, threadId, setThread, setThreadId, setMessages, setChatVisibility } = useApp()
-  const { recoverThread } = useChatSdk()
+  const { sdk, availability, thread, threadId, setThread, setThreadId, setChatVisibility, setMessages } = useApp()
+  const { fetchThread, fetchMessages } = useChatSdk(sdk)
 
   const [screen, setScreen] = useState(threadId ? 2 : 0)
 
@@ -36,8 +36,11 @@ export function Panel () {
   useEffect(() => {
     const recover = async () => {
       try {
-        const recoveredMessages = await recoverThread(threadId)
-        setMessages(recoveredMessages)
+        const fetchedThread = await fetchThread(threadId)
+        setThread(fetchedThread)
+
+        const fetchedMessages = await fetchMessages(fetchedThread, threadId)
+        setMessages(fetchedMessages)
       } catch (err) {
         console.log('[Chat Error] fetchThread', err)
 
@@ -47,16 +50,8 @@ export function Panel () {
       }
     }
 
-    if (thread && threadId) {
-      setScreen(2)
-    }
-
-    if (!thread) {
-      if (!threadId) {
-        setScreen(0)
-      } else {
-        recover()
-      }
+    if (threadId) {
+      (thread) ? setScreen(2) : recover()
     }
   }, [thread, threadId])
 

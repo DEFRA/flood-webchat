@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
+import * as uuid from 'uuid'
 
 import { classnames } from '../../lib/classnames.js'
 import { PanelHeader } from '../panel/panel-header.jsx'
@@ -8,8 +9,8 @@ import { useChatSdk } from '../../store/useChatSdk.js'
 const QUESTION_MAX_LENGTH = 500
 
 export function RequestChat ({ onBack }) {
-  const { sdk, threadId, setCustomerId, setThreadId, setThread } = useApp()
-  const { getCustomerId, getThread } = useChatSdk()
+  const { sdk, setCustomerId, setThreadId, setThread } = useApp()
+  const { fetchCustomerId, fetchThread } = useChatSdk(sdk)
 
   const [errors, setErrors] = useState({})
   const [questionLength, setQuestionLength] = useState(0)
@@ -46,16 +47,17 @@ export function RequestChat ({ onBack }) {
 
     if (Object.keys(errs).length === 0) {
       try {
-        const cid = await getCustomerId()
-        const threadData = await getThread(threadId)
+        const threadId = uuid.v4()
+        const customerId = await fetchCustomerId()
+        const thread = await fetchThread(threadId)
 
         sdk.getCustomer().setName(nameRef.current.value)
 
-        await threadData.thread.startChat(questionRef.current.value || 'Begin conversation')
+        await thread.startChat(questionRef.current.value || 'Begin conversation')
 
-        setCustomerId(cid)
-        setThread(threadData.thread)
-        setThreadId(threadData.threadId)
+        setCustomerId(customerId)
+        setThreadId(threadId)
+        setThread(thread)
       } catch (err) {
         console.log('[Request Chat Error]', err)
       }

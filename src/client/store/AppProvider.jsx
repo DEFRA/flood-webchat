@@ -21,11 +21,11 @@ export const AppProvider = ({ sdk, availability, children }) => {
     dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.case.status })
   }
 
-  const onAgentTypingStarted = e => {
+  const onAgentTypingStarted = () => {
     dispatch({ type: 'SET_AGENT_TYPING', payload: true })
   }
 
-  const onAgentTypingEnded = e => {
+  const onAgentTypingEnded = () => {
     dispatch({ type: 'SET_AGENT_TYPING', payload: false })
   }
 
@@ -53,13 +53,8 @@ export const AppProvider = ({ sdk, availability, children }) => {
   useEffect(() => {
     dispatch({ type: 'SET_AVAILABILITY', payload: availability })
 
-    const customerId = window.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY)
-    const threadId = window.localStorage.getItem(THREAD_ID_STORAGE_KEY)
-
-    if (customerId && threadId) {
-      setCustomerId(customerId)
-      setThreadId(threadId)
-    }
+    setCustomerId(window.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY))
+    setThreadId(window.localStorage.getItem(THREAD_ID_STORAGE_KEY))
 
     if (window.location.hash === '#webchat') {
       setChatVisibility(true)

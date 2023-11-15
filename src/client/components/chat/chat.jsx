@@ -11,11 +11,11 @@ import { useTextareaAutosize } from '../../hooks/useTextareaAutosize.js'
 export function Chat ({ onEndChat }) {
   const { availability, thread, messages, agent, agentStatus, isAgentTyping } = useApp()
 
-  const [message, setMessage] = useState('')
+  const [userMessage, setUserMessage] = useState('')
 
   const messageRef = useRef()
 
-  useTextareaAutosize(messageRef.current, message)
+  useTextareaAutosize(messageRef.current, userMessage)
 
   useEffect(() => {
     if (messages.length !== 0) {
@@ -27,15 +27,15 @@ export function Chat ({ onEndChat }) {
   useEffect(() => {
     const label = document.querySelector('.wc-form__label')
 
-    if (message.length === 0) {
+    if (userMessage.length === 0) {
       label.classList.remove('govuk-visually-hidden')
     } else {
       label.classList.add('govuk-visually-hidden')
     }
-  }, [message])
+  }, [userMessage])
 
   const onChange = e => {
-    setMessage(e.target?.value)
+    setUserMessage(e.target?.value)
   }
 
   const agentName = agent?.nickname || agent?.firstName
@@ -69,7 +69,7 @@ export function Chat ({ onEndChat }) {
       console.log('[Chat Error] sendMessage', err)
     }
 
-    setMessage('')
+    setUserMessage('')
   }
 
   return (
@@ -120,7 +120,7 @@ export function Chat ({ onEndChat }) {
               id='wc-form-textarea'
               name='message'
               onChange={onChange}
-              value={message}
+              value={userMessage}
             />
 
             <input

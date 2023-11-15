@@ -22,8 +22,14 @@ describe('<RequestChat />', () => {
   })
 
   it('should render the screen', () => {
-    mocks.useApp.mockReturnValue({ sdk: jest.fn() })
-    mocks.useChatSdk.mockReturnValue({ getCustomerId: jest.fn(), getThread: jest.fn() })
+    mocks.useApp.mockReturnValue({
+      sdk: jest.fn()
+    })
+
+    mocks.useChatSdk.mockReturnValue({
+      fetchCustomerId: jest.fn(),
+      fetchThread: jest.fn()
+    })
 
     render(
       <RequestChat onBack={jest.fn()} />
@@ -33,7 +39,10 @@ describe('<RequestChat />', () => {
   })
 
   it('should show the error summary when no inputs have been filled', () => {
-    mocks.useChatSdk.mockReturnValue({ getCustomerId: jest.fn(), getThread: jest.fn() })
+    mocks.useChatSdk.mockReturnValue({
+      fetchCustomerId: jest.fn(),
+      fetchThread: jest.fn()
+    })
 
     const { container } = render(
       <RequestChat onBack={jest.fn()} />
@@ -49,7 +58,10 @@ describe('<RequestChat />', () => {
   })
 
   it('should update the question characters remaining hint text', () => {
-    mocks.useChatSdk.mockReturnValue({ getCustomerId: jest.fn(), getThread: jest.fn() })
+    mocks.useChatSdk.mockReturnValue({
+      fetchCustomerId: jest.fn(),
+      fetchThread: jest.fn()
+    })
 
     const { container } = render(
       <RequestChat onBack={jest.fn()} />
@@ -66,8 +78,14 @@ describe('<RequestChat />', () => {
   })
 
   it('should show question length error', () => {
-    mocks.useApp.mockReturnValue({ sdk: jest.fn() })
-    mocks.useChatSdk.mockReturnValue({ getCustomerId: jest.fn(), getThread: jest.fn() })
+    mocks.useApp.mockReturnValue({
+      sdk: jest.fn()
+    })
+
+    mocks.useChatSdk.mockReturnValue({
+      fetchCustomerId: jest.fn(),
+      fetchThread: jest.fn()
+    })
 
     const { container } = render(
       <RequestChat onBack={jest.fn()} />
@@ -95,11 +113,9 @@ describe('<RequestChat />', () => {
     })
 
     mocks.useChatSdk.mockReturnValue({
-      getCustomerId: jest.fn(),
-      getThread: () => ({
-        thread: {
-          startChat: jest.fn
-        }
+      fetchCustomerId: jest.fn(),
+      fetchThread: () => ({
+        startChat: jest.fn
       })
     })
 
@@ -120,5 +136,6 @@ describe('<RequestChat />', () => {
 
     expect(mocks.useApp().setCustomerId).toHaveBeenCalled()
     expect(mocks.useApp().setThreadId).toHaveBeenCalled()
+    expect(mocks.useApp().setThread).toHaveBeenCalled()
   })
 })

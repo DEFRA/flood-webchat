@@ -23,8 +23,15 @@ describe('<Panel />', () => {
 
   describe('UI elements', () => {
     it('should render the panel title', () => {
-      mocks.useApp.mockReturnValue({ setThread: jest.fn() })
-      mocks.useChatSdk.mockReturnValue({ recoverThread: jest.fn() })
+      mocks.useApp.mockReturnValue({
+        setThread: jest.fn(),
+        setMessages: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
 
       render(
         <Panel />
@@ -34,8 +41,15 @@ describe('<Panel />', () => {
     })
 
     it('should render panel close button', () => {
-      mocks.useApp.mockReturnValue({ setThread: jest.fn() })
-      mocks.useChatSdk.mockReturnValue({ recoverThread: jest.fn() })
+      mocks.useApp.mockReturnValue({
+        setThread: jest.fn(),
+        setMessages: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
 
       render(
         <Panel />
@@ -45,8 +59,15 @@ describe('<Panel />', () => {
     })
 
     it('should add [aria-hidden="true"] to <body> child elements', () => {
-      mocks.useApp.mockReturnValue({ setThread: jest.fn() })
-      mocks.useChatSdk.mockReturnValue({ recoverThread: jest.fn() })
+      mocks.useApp.mockReturnValue({
+        setThread: jest.fn(),
+        setMessages: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
 
       const { container } = render(
         <>
@@ -63,8 +84,15 @@ describe('<Panel />', () => {
 
   describe('Accessibility', () => {
     it('should focus elements within the webchat when tab targeting and return to the top after the last element has been focused', async () => {
-      mocks.useApp.mockReturnValue({ setThread: jest.fn() })
-      mocks.useChatSdk.mockReturnValue({ recoverThread: jest.fn() })
+      mocks.useApp.mockReturnValue({
+        setThread: jest.fn(),
+        setMessages: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
 
       render(
         <>
@@ -107,8 +135,15 @@ describe('<Panel />', () => {
     })
 
     it('should focus the elements, in reverse-order, within the webchat when shift-tab targeting and return to the bottom after the first element has been focused', async () => {
-      mocks.useApp.mockReturnValue({ setThread: jest.fn() })
-      mocks.useChatSdk.mockReturnValue({ recoverThread: jest.fn() })
+      mocks.useApp.mockReturnValue({
+        setThread: jest.fn(),
+        setMessages: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
 
       render(
         <>
@@ -155,7 +190,7 @@ describe('<Panel />', () => {
 
     xit('should close the chat when "ESC" is pressed', async () => {
       mocks.useApp.mockReturnValue({ setChatVisibility: jest.fn() })
-      mocks.useChatSdk.mockReturnValue({ recoverThread: jest.fn() })
+      mocks.useChatSdk.mockReturnValue({ fetchThread: jest.fn() })
 
       render(
         <Panel />
@@ -171,8 +206,15 @@ describe('<Panel />', () => {
 
   describe('Screens', () => {
     it('should go back a screen', () => {
-      mocks.useApp.mockReturnValue({ setThread: jest.fn() })
-      mocks.useChatSdk.mockReturnValue({ recoverThread: jest.fn() })
+      mocks.useApp.mockReturnValue({
+        setThread: jest.fn(),
+        setMessages: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
 
       render(
         <Panel />
@@ -185,8 +227,15 @@ describe('<Panel />', () => {
     })
 
     it('should default to the pre-chat screen', () => {
-      mocks.useApp.mockReturnValue({ setThread: jest.fn() })
-      mocks.useChatSdk.mockReturnValue({ recoverThread: jest.fn() })
+      mocks.useApp.mockReturnValue({
+        setThread: jest.fn(),
+        setMessages: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
 
       render(
         <Panel />
@@ -196,8 +245,15 @@ describe('<Panel />', () => {
     })
 
     it('should go to request-chat screen', async () => {
-      mocks.useApp.mockReturnValue({ setThread: jest.fn() })
-      mocks.useChatSdk.mockReturnValue({ recoverThread: jest.fn() })
+      mocks.useApp.mockReturnValue({
+        setThread: jest.fn(),
+        setMessages: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
 
       render(
         <Panel />
@@ -209,8 +265,16 @@ describe('<Panel />', () => {
     })
 
     it('should go to unavailable screen', () => {
-      mocks.useApp.mockReturnValue({ setThread: jest.fn(), availability: 'UNAVAILABLE' })
-      mocks.useChatSdk.mockReturnValue({ recoverThread: jest.fn() })
+      mocks.useApp.mockReturnValue({
+        setThread: jest.fn(),
+        setMessages: jest.fn(),
+        availability: 'UNAVAILABLE'
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
 
       render(
         <Panel />
@@ -221,19 +285,48 @@ describe('<Panel />', () => {
 
     it('should go to chat screen', () => {
       mocks.useApp.mockReturnValue({
+        thread: {},
         threadId: 'thread_123',
         messages: [],
         setThreadId: jest.fn(),
-        setThread: jest.fn()
+        setThread: jest.fn(),
+        setMessages: jest.fn()
       })
 
-      mocks.useChatSdk.mockReturnValue({ recoverThread: jest.fn() })
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
 
       render(
         <Panel />
       )
 
       expect(screen.getByText('Connecting to Floodline')).toBeTruthy()
+    })
+
+    it('should go to the end chat screen', () => {
+      mocks.useApp.mockReturnValue({
+        thread: {},
+        threadId: 'thread_123',
+        messages: [],
+        setThreadId: jest.fn(),
+        setThread: jest.fn(),
+        setMessages: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
+
+      render(
+        <Panel />
+      )
+
+      fireEvent.click(screen.getByText('End chat'))
+
+      expect(screen.getByText('Yes, end chat')).toBeTruthy()
     })
   })
 
@@ -247,11 +340,16 @@ describe('<Panel />', () => {
         setMessages: jest.fn()
       })
 
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
+
       render(
         <Panel />
       )
 
-      expect(mocks.useChatSdk().recoverThread).toHaveBeenCalled()
+      expect(mocks.useChatSdk().fetchThread).toHaveBeenCalled()
     })
   })
 })
