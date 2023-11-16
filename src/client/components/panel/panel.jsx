@@ -105,5 +105,9 @@ export function Panel () {
     </div>
   )
 
-  return createPortal(Component, document.body)
+  return (
+    <>
+      {createPortal(Component, document.body)}
+    </>
+  )
 }
