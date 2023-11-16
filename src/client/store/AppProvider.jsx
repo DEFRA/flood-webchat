@@ -30,7 +30,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
   }
 
   const onMessageCreated = e => {
-    setMessage(e.detail.data.message)
+    dispatch({ type: 'SET_MESSAGE', payload: e.detail.data.message })
     dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.case.status })
   }
 
@@ -84,10 +84,6 @@ export const AppProvider = ({ sdk, availability, children }) => {
     dispatch({ type: 'SET_THREAD', payload: thread })
   }
 
-  const setMessage = message => {
-    dispatch({ type: 'SET_MESSAGE', payload: message })
-  }
-
   const setMessages = messages => {
     dispatch({ type: 'SET_MESSAGES', payload: messages })
   }
@@ -101,7 +97,6 @@ export const AppProvider = ({ sdk, availability, children }) => {
     setCustomerId,
     setThreadId,
     setThread,
-    setMessage,
     setMessages,
     setChatVisibility
   }))
