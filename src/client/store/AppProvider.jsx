@@ -98,7 +98,13 @@ export const AppProvider = ({ sdk, availability, children }) => {
     setThreadId,
     setThread,
     setMessages,
-    setChatVisibility
+    setChatVisibility,
+    onLiveChatRecovered,
+    onAssignedAgentChanged,
+    onAgentTypingStarted,
+    onAgentTypingEnded,
+    onMessageCreated,
+    onContactStatusChanged
   }))
 
   return (
