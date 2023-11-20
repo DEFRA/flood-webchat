@@ -7,9 +7,9 @@ import { Panel } from '../../../src/client/components/panel/panel'
 import { useApp } from '../../../src/client/store/useApp'
 import { useChatSdk } from '../../../src/client/store/useChatSdk'
 
+jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({}))
 jest.mock('../../../src/client/store/useApp')
 jest.mock('../../../src/client/store/useChatSdk')
-jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({}))
 
 const mocks = {
   useApp: jest.mocked(useApp),

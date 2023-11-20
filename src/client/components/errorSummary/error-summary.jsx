@@ -7,6 +7,12 @@ export const ErrorSummary = ({ errors }) => {
     return null
   }
 
+  const goToInput = (e) => {
+    e.preventDefault()
+    const key = e.target.getAttribute('data-key')
+    document.querySelector(`#wc-${key}`).focus()
+  }
+
   return (
     <div className='govuk-error-summary govuk-!-static-margin-bottom-7' data-module='govuk-error-summary' tabIndex='-1'>
       <div role='alert'>
@@ -17,7 +23,7 @@ export const ErrorSummary = ({ errors }) => {
           <ul className='govuk-list govuk-error-summary__list'>
             {errs.map(key => (
               <li key={key}>
-                <a href={`#${key}`}>{errors[key]}</a>
+                <a href='#' data-key={key} onClick={goToInput}>{errors[key]}</a>
               </li>
             ))}
           </ul>

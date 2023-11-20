@@ -100,6 +100,27 @@ describe('<RequestChat />', () => {
     expect(container.querySelector('.govuk-hint').textContent).toEqual('You have 5 characters too many')
   })
 
+  it('should focus the input when the error is clicked', () => {
+    mocks.useApp.mockReturnValue({
+      sdk: jest.fn()
+    })
+
+    mocks.useChatSdk.mockReturnValue({
+      fetchCustomerId: jest.fn(),
+      fetchThread: jest.fn()
+    })
+
+    const { container } = render(
+      <RequestChat />
+    )
+
+    fireEvent.click(screen.getByText('Request chat'))
+    fireEvent.click(container.querySelector('a[data-key="name"]'))
+
+    expect(container.querySelector('.govuk-error-summary')).toBeTruthy()
+    expect(container.querySelector('input')).toHaveFocus()
+  })
+
   it('should submit the message', async () => {
     mocks.useApp.mockReturnValue({
       sdk: ({
