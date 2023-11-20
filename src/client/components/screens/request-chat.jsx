@@ -5,6 +5,7 @@ import { classnames } from '../../lib/classnames.js'
 import { PanelHeader } from '../panel/panel-header.jsx'
 import { useApp } from '../../store/useApp.js'
 import { useChatSdk } from '../../store/useChatSdk.js'
+import { ErrorSummary } from '../errorSummary/error-summary.jsx'
 
 const QUESTION_MAX_LENGTH = 500
 
@@ -81,30 +82,15 @@ export function RequestChat ({ onBack }) {
       <PanelHeader />
 
       <div className='wc-body'>
-        <a href='#' className='wc-back-link govuk-back-link' onClick={onBack}>What you can use webchat for</a>
+        <a href='#' className='wc-back-link govuk-back-link' onClick={onBack}>
+          What you can use webchat for
+        </a>
 
-        {Object.keys(errors).length > 0
-          ? (
-            <div className='govuk-error-summary govuk-!-static-margin-bottom-7' data-module='govuk-error-summary' tabIndex='-1'>
-              <div role='alert'>
-                <h2 id='wc-error' className='govuk-error-summary__title'>
-                  There is a problem
-                </h2>
-                <div className='govuk-error-summary__body'>
-                  <ul className='govuk-list govuk-error-summary__list'>
-                    {Object.keys(errors).map(key => (
-                      <li key={key}>
-                        <a href={`#${key}`}>{errors[key]}</a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-            )
-          : null}
+        <ErrorSummary errors={errors} />
 
-        <h3 className='govuk-heading-s' aria-live='polite'>Your name and question</h3>
+        <h3 className='govuk-heading-s' aria-live='polite'>
+          Your name and question
+        </h3>
 
         <form>
           <div className={classnames('govuk-form-group', errors.name && 'govuk-form-group--error')}>
