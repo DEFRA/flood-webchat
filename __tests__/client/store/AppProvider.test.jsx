@@ -20,8 +20,38 @@ const mockSdk = {
 }
 
 describe('<AppProvider />', () => {
+  const realLocation = window.location
+
+  beforeAll(() => {
+    delete window.location
+    window.location = { ...realLocation, hash: '#webchat' }
+  })
+
+  afterAll(() => {
+    window.location = realLocation
+  })
+
   afterEach(() => {
     jest.clearAllMocks()
+  })
+
+  it('should show chat panel when #webchat hash is in the url', () => {
+    const Component = () => {
+      const context = useContext(AppContext)
+
+      return (
+        <div id='is-open'>{context.isChatOpen.toString()}</div>
+      )
+    }
+
+    const { container } = render(
+      <AppProvider sdk={mockSdk} availability='AVAILABLE'>
+        <Component />
+      </AppProvider>
+    )
+
+    expect(window.location.hash).toEqual('#webchat')
+    expect(container.querySelector('#is-open').textContent).toEqual('true')
   })
 
   it('LIVECHAT_RECOVERED sets agent and agent status', () => {
