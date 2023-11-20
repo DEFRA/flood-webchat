@@ -3,14 +3,14 @@ import React from 'react'
 export const ErrorSummary = ({ errors }) => {
   const errs = Object.keys(errors)
 
-  if (errs.length === 0) {
-    return null
-  }
-
   const goToInput = e => {
     e.preventDefault()
     const key = e.target.getAttribute('data-key')
     document.querySelector(`#wc-${key}`).focus()
+  }
+
+  if (errs.length === 0) {
+    return null
   }
 
   return (
