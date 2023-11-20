@@ -1,9 +1,19 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
+import { ChatSdk } from '@nice-devone/nice-cxone-chat-web-sdk'
 import { Availability } from './components/availability/availability.jsx'
 import { checkAvailability } from './lib/check-availability'
+import { AppProvider } from './store/AppProvider.jsx'
+import { CUSTOMER_ID_STORAGE_KEY } from './store/reducer.js'
 
 export async function init (container, options) {
+  const sdk = new ChatSdk({
+    brandId: options.brandId,
+    channelId: options.channelId,
+    customerId: window.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY) || '',
+    environment: options.environment
+  })
+
   const root = createRoot(container)
   let availability
   try {
@@ -12,5 +22,9 @@ export async function init (container, options) {
   } catch (e) {
     availability = 'UNAVAILABLE'
   }
-  root.render(<Availability availability={availability} />)
+  root.render(
+    <AppProvider sdk={sdk} availability={availability}>
+      <Availability availability={availability} />
+    </AppProvider>
+  )
 }

@@ -79,6 +79,30 @@ describe('getActivity', () => {
     expect(result).toStrictEqual({ hasAgentsAvailable: false, hasCapacity: false })
     expect(axiosGetSpy.mock.calls[0][0]).toEqual('https://test.example/test-endpoint')
   })
+
+  it('should return true when a full url is passed in', async () => {
+    const axiosGetSpy = jest.spyOn(axios, 'get')
+
+    axios.get.mockResolvedValue({
+      data: {
+        skillActivity: [{
+          queueCount: 0,
+          agentsAvailable: 1
+        }]
+      }
+    })
+
+    const result = await getActivity({
+      token: 'some-token',
+      tokenType: 'some-token-type',
+      host: 'test-host',
+      skillEndpoint: 'https://test.com/test-endpoint',
+      maxQueueCount: '2'
+    })
+
+    expect(result).toStrictEqual({ hasAgentsAvailable: true, hasCapacity: true })
+    expect(axiosGetSpy.mock.calls[0][0]).toEqual('https://test.com/test-endpoint')
+  })
 })
 
 describe('getIsOpen()', () => {
@@ -177,6 +201,98 @@ describe('getIsOpen()', () => {
 
     expect(result).toBe(true)
     expect(axiosGetSpy.mock.calls[0][0]).toEqual('https://test.example/test-endpoint')
+  })
+
+  it('should return true when a full url is passed in', async () => {
+    jest.useFakeTimers({ now: 1695200400000 }) // 20 Sept 2023 '09:00:00'
+
+    const axiosGetSpy = jest.spyOn(axios, 'get')
+
+    axios.get.mockResolvedValue({
+      data: {
+        resultSet: {
+          hoursOfOperationProfiles: [
+            {
+              days: [
+                {
+                  day: 'Monday',
+                  openTime: '09:00:00',
+                  closeTime: '17:00:00',
+                  hasAdditionalHours: 'False',
+                  additionalOpenTime: '',
+                  additionalCloseTime: '',
+                  isClosedAllDay: 'False'
+                },
+                {
+                  day: 'Tuesday',
+                  openTime: '09:00:00',
+                  closeTime: '17:00:00',
+                  hasAdditionalHours: 'False',
+                  additionalOpenTime: '',
+                  additionalCloseTime: '',
+                  isClosedAllDay: 'False'
+                },
+                {
+                  day: 'Wednesday',
+                  openTime: '09:00:00',
+                  closeTime: '17:00:00',
+                  hasAdditionalHours: 'False',
+                  additionalOpenTime: '',
+                  additionalCloseTime: '',
+                  isClosedAllDay: 'False'
+                },
+                {
+                  day: 'Thursday',
+                  openTime: '09:00:00',
+                  closeTime: '17:00:00',
+                  hasAdditionalHours: 'False',
+                  additionalOpenTime: '',
+                  additionalCloseTime: '',
+                  isClosedAllDay: 'False'
+                },
+                {
+                  day: 'Friday',
+                  openTime: '09:00:00',
+                  closeTime: '17:00:00',
+                  hasAdditionalHours: 'False',
+                  additionalOpenTime: '',
+                  additionalCloseTime: '',
+                  isClosedAllDay: 'False'
+                },
+                {
+                  day: 'Saturday',
+                  openTime: '',
+                  closeTime: '',
+                  hasAdditionalHours: 'False',
+                  additionalOpenTime: '',
+                  additionalCloseTime: '',
+                  isClosedAllDay: 'True'
+                },
+                {
+                  day: 'Sunday',
+                  openTime: '',
+                  closeTime: '',
+                  hasAdditionalHours: 'False',
+                  additionalOpenTime: '',
+                  additionalCloseTime: '',
+                  isClosedAllDay: 'True'
+                }
+              ]
+            }
+          ]
+        }
+      }
+    })
+
+    const result = await getIsOpen({
+      token: 'test-token',
+      tokenType: 'test-token-type',
+      host: 'test-host',
+      hoursEndpoint: 'https://test.com/test-endpoint'
+    })
+
+    expect(result).toBe(true)
+    expect(axiosGetSpy.mock.calls[0][0]).toEqual('https://test.com/test-endpoint')
   })
 })
 

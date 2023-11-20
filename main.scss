@@ -5,7 +5,8 @@
 
 // Components
 @import "./src/client/components/availability/availability";
-
+@import "./src/client/components/panel/panel";
+@import "./src/client/components/chat/chat";
 
 .wc-scroll-padding {
   scroll-padding-bottom: calc(2rem + 20px);

@@ -11,7 +11,7 @@ describe('check-availability', () => {
     delete window.fetch
   })
   afterEach(() => {
-    jest.resetAllMocks()
+    jest.clearAllMocks()
   })
   it('calls the provided availability endpoint and returns an object containing the "availability" key in the response if present', async () => {
     // Arrange
