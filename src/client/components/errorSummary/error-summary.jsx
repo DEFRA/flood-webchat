@@ -7,7 +7,7 @@ export const ErrorSummary = ({ errors }) => {
     return null
   }
 
-  const goToInput = (e) => {
+  const goToInput = e => {
     e.preventDefault()
     const key = e.target.getAttribute('data-key')
     document.querySelector(`#wc-${key}`).focus()
