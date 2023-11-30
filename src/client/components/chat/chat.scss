@@ -18,9 +18,18 @@
   }
 }
 
+.defra-context-footer {
+  border-top:2px solid govuk-colour('blue');
+  margin-top: 30px;
+  padding-top: 10px;
+  @include mq ($from: tablet) {
+      margin-top: 40px;
+  }
+}
+
 .wc-chat {
   &__messages {
-    overflow: scroll;
+    overflow: auto;
     list-style: none;
     padding: 0;
     margin: govuk-spacing(2) 0;
@@ -60,10 +69,10 @@
       color: govuk-colour('dark-grey');
     }
 
-    svg circle { 
+    svg circle {
       animation: 1s blink infinite;
       fill: currentcolor;
-      
+
       &:nth-child(2) {
         animation-delay: 250ms
       }

@@ -122,6 +122,42 @@ describe('<Availability/>', () => {
     })
   })
 
+  describe('Resume chat behaviour', () => {
+    it('displays "Show Chat" link when chat is in progress, advisor is available but chat window has been minimised', async () => {
+      mocks.useApp.mockReturnValue({
+        setChatVisibility: jest.fn(),
+        isChatOpen: false,
+        availability: 'AVAILABLE',
+        messages: [{}]
+      })
+
+      const { container } = render(<Availability />)
+
+      const user = userEvent.setup()
+
+      await user.click(container.querySelector('a'))
+
+      expect(screen.getByText('Show Chat')).toBeTruthy()
+    })
+
+    it('allows a keyboard user to toggle between displaying chat and not using "Show Chat" link', async () => {
+      mocks.useApp.mockReturnValue({
+        setChatVisibility: jest.fn(),
+        isChatOpen: false,
+        availability: 'AVAILABLE',
+        messages: [{}]
+      })
+
+      render(<Availability />)
+
+      const showChatLink = screen.getByText('Show Chat')
+
+      await userEvent.type(showChatLink, '{enter}')
+
+      expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
+    })
+  })
+
   describe('Sticky behaviour', () => {
     it('is not sticky when webchat is already open and the availability link is below the fold', async () => {
       mocks.useApp.mockReturnValue({
