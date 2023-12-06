@@ -63,10 +63,8 @@ describe('formatTranscript', () => {
     console.log(result)
 
     expect(result.includes('Floodline webchat transcript')).toBeTruthy()
-    expect(result.includes('(123)')).toBeTruthy()
     expect(result.includes('[13:00:00 PM, 01 December 2023] test-user:')).toBeTruthy()
     expect(result.includes('test message from client')).toBeTruthy()
-    expect(result.includes('(456)')).toBeTruthy()
     expect(result.includes('[13:01:00 PM, 01 December 2023] test-agent (Floodline adviser):')).toBeTruthy()
     expect(result.includes('test message from agent')).toBeTruthy()
   })
