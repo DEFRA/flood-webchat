@@ -7,6 +7,7 @@ import { Message } from '../message/message.jsx'
 
 import { useApp } from '../../store/useApp.js'
 import { useTextareaAutosize } from '../../hooks/useTextareaAutosize.js'
+import { formatTranscript } from '../../lib/transform-messages.js'
 
 export function Chat ({ onEndChat }) {
   const { availability, thread, messages, agent, agentStatus, isAgentTyping } = useApp()
@@ -72,6 +73,15 @@ export function Chat ({ onEndChat }) {
     setUserMessage('')
   }
 
+  const saveChat = () => {
+    const transcript = formatTranscript(messages)
+
+    const saveChatLink = document.querySelector('#transcript-download')
+
+    saveChatLink.setAttribute('href', `data:text/plain;charset=utf-8,${transcript}`)
+    saveChatLink.click()
+  }
+
   return (
     <>
       <PanelHeader />
@@ -134,8 +144,23 @@ export function Chat ({ onEndChat }) {
         </div>
 
         <div className='wc-footer__settings'>
-          <a href='#' className='wc-footer__settings-link' data-module='govuk-button'>Settings</a>
-          <a href='#' className='wc-footer__settings-link' data-module='govuk-button' download='transcript.txt'>Save chat</a>
+          <a
+            href='#'
+            className='wc-footer__settings-link'
+            data-module='govuk-button'
+          >
+            Settings
+          </a>
+          <a
+            href='#'
+            id='transcript-download'
+            className='wc-footer__settings-link'
+            data-module='govuk-button'
+            download='floodline-webchat-transcript.txt'
+            onClick={saveChat}
+          >
+            Save chat
+          </a>
         </div>
       </PanelFooter>
     </>
