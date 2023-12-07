@@ -262,4 +262,33 @@ describe('<Availability/>', () => {
       expect(element.className).toEqual('wc-availability')
     })
   })
+  describe('Unread Link Behaviour', () => {
+    it('displays number of unread messages next to Show Chat link when at least 1 unread message', async () => {
+      mocks.useApp.mockReturnValue({
+        setChatVisibility: jest.fn(),
+        isChatOpen: false,
+        availability: 'AVAILABLE',
+        messages: [{}],
+        unseenCount: 1
+      })
+
+      const { container } = render(<Availability />)
+
+      expect(container.querySelector('.wc-open-btn__unseen').textContent).toEqual('1')
+    })
+
+    it('does not display any numbers next to Show Chat when no unread messages', async () => {
+      mocks.useApp.mockReturnValue({
+        setChatVisibility: jest.fn(),
+        isChatOpen: false,
+        availability: 'AVAILABLE',
+        messages: [{}],
+        unseenCount: 0
+      })
+
+      const { container } = render(<Availability />)
+
+      expect(container.querySelector('.wc-open-btn__unseen')).toBeNull()
+    })
+  })
 })

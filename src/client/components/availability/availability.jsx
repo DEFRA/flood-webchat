@@ -5,7 +5,7 @@ import { Panel } from '../panel/panel.jsx'
 import { useApp } from '../../store/useApp'
 
 export function Availability () {
-  const { availability, messages, isChatOpen, setChatVisibility } = useApp()
+  const { availability, messages, isChatOpen, setChatVisibility, unseenCount } = useApp()
 
   const [isFixed, setIsFixed] = useState(false)
   const buttonRef = useRef()
@@ -79,6 +79,7 @@ export function Availability () {
                 onKeyDown={onKeyDown}
               >
                 {TextComponent}
+                {unseenCount > 0 ? <span className='wc-open-btn__unseen'>{unseenCount}</span> : ''}
               </a>
             </div>
           </div>

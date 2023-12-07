@@ -14,6 +14,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
   const onLiveChatRecovered = e => {
     dispatch({ type: 'SET_AGENT', payload: e.detail.data.inboxAssignee })
     dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.contact.status })
+    dispatch({ type: 'SET_UNSEEN_COUNT', payload: e.detail.data.contact.customerStatistics.unseenMessagesCount })
   }
 
   const onAssignedAgentChanged = e => {
@@ -32,6 +33,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
   const onMessageCreated = e => {
     dispatch({ type: 'SET_MESSAGE', payload: e.detail.data.message })
     dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.case.status })
+    dispatch({ type: 'SET_UNSEEN_COUNT', payload: e.detail.data.case.customerStatistics.unseenMessagesCount })
   }
 
   const onContactStatusChanged = e => {
@@ -88,6 +90,10 @@ export const AppProvider = ({ sdk, availability, children }) => {
     dispatch({ type: 'SET_MESSAGES', payload: messages })
   }
 
+  const setUnseenCount = unseenCount => {
+    dispatch({ type: 'SET_UNSEEN_COUNT', payload: unseenCount })
+  }
+
   /**
    * Application-wide state and state functions
    */
@@ -98,6 +104,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
     setThreadId,
     setThread,
     setMessages,
+    setUnseenCount,
     setChatVisibility,
     onLiveChatRecovered,
     onAssignedAgentChanged,
