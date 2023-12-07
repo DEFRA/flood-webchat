@@ -199,32 +199,51 @@ describe('<Chat />', () => {
       expect(await screen.findByText('test message from agent')).toBeInTheDocument()
       expect(container.querySelector('.wc-chat__from').textContent).toEqual('test-agent-name:')
     })
+
+    it('should only show who the message is from once, when multiple messages from the same person is sent', async () => {
+      mocks.useApp.mockReturnValue({
+        messages: [
+          {
+            id: '1234',
+            text: 'test message from agent',
+            createdAt: new Date(),
+            user: 'test-user',
+            assignee: 'test-agent-name',
+            direction: 'outbound'
+          },
+          {
+            id: '5678',
+            text: 'second test message from agent',
+            createdAt: new Date(),
+            user: 'test-user',
+            assignee: 'test-agent-name',
+            direction: 'outbound'
+          }
+        ]
+      })
+
+      render(<Chat />)
+
+      expect(screen.getAllByText('test-agent-name')).toHaveLength(1)
+    })
   })
 
-  it('should only show who the message is from once, when multiple messages from the same person is sent', async () => {
-    mocks.useApp.mockReturnValue({
-      messages: [
-        {
-          id: '1234',
-          text: 'test message from agent',
-          createdAt: new Date(),
-          user: 'test-user',
-          assignee: 'test-agent-name',
-          direction: 'outbound'
-        },
-        {
-          id: '5678',
-          text: 'second test message from agent',
-          createdAt: new Date(),
-          user: 'test-user',
-          assignee: 'test-agent-name',
-          direction: 'outbound'
-        }
-      ]
+  describe('Settings', () => {
+    it('should save the chat', () => {
+      mocks.useApp.mockReturnValue({
+        messages: [
+          { id: '123', text: 'test message from client', direction: 'inbound', user: 'test-user', createdAt: new Date('Wed Dec 01 2023 13:00:00 GMT+0000 (Greenwich Mean Time)') },
+          { id: '456', text: 'test message from agent', direction: 'outbound', assignee: 'test-agent', createdAt: new Date('Wed Dec 01 2023 13:01:00 GMT+0000 (Greenwich Mean Time)') }
+        ]
+      })
+
+      const { container } = render(<Chat />)
+
+      const saveChatLink = container.querySelector('#transcript-download')
+
+      fireEvent.click(saveChatLink)
+
+      expect(saveChatLink.getAttribute('href').includes('data:text/plain;charset=utf-8')).toBeTruthy()
     })
-
-    render(<Chat />)
-
-    expect(screen.getAllByText('test-agent-name')).toHaveLength(1)
   })
 })
