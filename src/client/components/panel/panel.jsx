@@ -51,11 +51,13 @@ export function Panel () {
     }
 
     if (threadId) {
-      (thread) ? setScreen(2) : recover()
-    }
-    if (thread) {
-      thread.lastMessageSeen()
-      setUnseenCount(0)
+      if (thread) {
+        thread.lastMessageSeen()
+        setUnseenCount(0)
+        setScreen(2)
+      } else {
+        recover()
+      }
     }
   }, [thread, threadId])
 
