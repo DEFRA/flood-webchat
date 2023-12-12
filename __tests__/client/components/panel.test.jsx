@@ -303,6 +303,34 @@ describe('<Panel />', () => {
       expect(screen.getByText('Connecting to Floodline')).toBeTruthy()
     })
 
+    it('should go to settings screen', () => {
+      mocks.useApp.mockReturnValue({
+        thread: {
+          lastMessageSeen: jest.fn()
+        },
+        threadId: 'thread_123',
+        messages: [],
+        settings: { audio: true, scroll: true },
+        setThreadId: jest.fn(),
+        setThread: jest.fn(),
+        setMessages: jest.fn(),
+        setUnseenCount: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
+
+      render(
+        <Panel />
+      )
+
+      fireEvent.click(screen.getByText('Settings'))
+
+      expect(screen.getByText('Change settings')).toBeTruthy()
+    })
+
     it('should go to the end chat screen', () => {
       mocks.useApp.mockReturnValue({
         thread: {
