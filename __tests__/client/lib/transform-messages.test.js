@@ -60,8 +60,6 @@ describe('formatTranscript', () => {
 
     const result = decodeURIComponent(formatTranscript(messages))
 
-    console.log(result)
-
     expect(result.includes('Floodline webchat transcript')).toBeTruthy()
     expect(result.includes('[13:00:00 PM, 01 December 2023] test-user:')).toBeTruthy()
     expect(result.includes('test message from client')).toBeTruthy()

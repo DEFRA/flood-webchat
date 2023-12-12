@@ -1,12 +1,17 @@
 import React, { createContext, useEffect, useReducer, useMemo } from 'react'
 import { ChatEvent } from '@nice-devone/nice-cxone-chat-web-sdk'
 
-import { initialState, reducer, CUSTOMER_ID_STORAGE_KEY, THREAD_ID_STORAGE_KEY } from './reducer.js'
+import { messageNotification } from '../lib/message-notification.js'
+
+import { initialState, reducer } from './reducer.js'
+import { CUSTOMER_ID_STORAGE_KEY, THREAD_ID_STORAGE_KEY, SETTINGS_STORAGE_KEY } from './constants.js'
 
 export const AppContext = createContext(initialState)
 
-export const AppProvider = ({ sdk, availability, children }) => {
+export const AppProvider = ({ sdk, availability, options, children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
+
+  const playSound = messageNotification(options.audioUrl)
 
   /**
    * SDK event handlers
@@ -32,6 +37,12 @@ export const AppProvider = ({ sdk, availability, children }) => {
   const onMessageCreated = e => {
     dispatch({ type: 'SET_MESSAGE', payload: e.detail.data.message })
     dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.case.status })
+
+    const isAudioOn = JSON.parse(window.localStorage.getItem(SETTINGS_STORAGE_KEY)).audio
+
+    if (isAudioOn && e.detail.data.message.direction === 'outbound') {
+      playSound()
+    }
   }
 
   const onContactStatusChanged = e => {
@@ -55,6 +66,7 @@ export const AppProvider = ({ sdk, availability, children }) => {
 
     setCustomerId(window.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY))
     setThreadId(window.localStorage.getItem(THREAD_ID_STORAGE_KEY))
+    setSettings(JSON.parse(window.localStorage.getItem(SETTINGS_STORAGE_KEY)) || state.settings)
 
     if (window.location.hash === '#webchat') {
       setChatVisibility(true)
@@ -88,12 +100,17 @@ export const AppProvider = ({ sdk, availability, children }) => {
     dispatch({ type: 'SET_MESSAGES', payload: messages })
   }
 
+  const setSettings = data => {
+    dispatch({ type: 'SET_SETTINGS', payload: data })
+  }
+
   /**
    * Application-wide state and state functions
    */
   const store = useMemo(() => ({
     ...state,
     sdk,
+    setSettings,
     setCustomerId,
     setThreadId,
     setThread,
