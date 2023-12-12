@@ -1,5 +1,18 @@
 import { transformMessages, transformMessage } from '../lib/transform-messages'
-import { CUSTOMER_ID_STORAGE_KEY, THREAD_ID_STORAGE_KEY } from './reducer'
+import { CUSTOMER_ID_STORAGE_KEY, THREAD_ID_STORAGE_KEY, SETTINGS_STORAGE_KEY } from './constants'
+
+const setSettings = (state, payload) => {
+  if (payload) {
+    window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(payload))
+  } else {
+    window.localStorage.removeItem(SETTINGS_STORAGE_KEY)
+  }
+
+  return {
+    ...state,
+    settings: payload
+  }
+}
 
 const setCustomerId = (state, payload) => {
   if (payload) {
@@ -93,6 +106,7 @@ const setUnseenCount = (state, payload) => {
 export const actionsMap = {
   SET_CHAT_VISIBILITY: setChatVisibility,
   SET_AVAILABILITY: setAvailability,
+  SET_SETTINGS: setSettings,
   SET_CUSTOMER_ID: setCustomerId,
   SET_THREAD_ID: setThreadId,
   SET_THREAD: setThread,

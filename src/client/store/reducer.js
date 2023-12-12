@@ -1,8 +1,5 @@
 import { actionsMap } from './actions-map'
 
-export const CUSTOMER_ID_STORAGE_KEY = 'webchat_customer_id'
-export const THREAD_ID_STORAGE_KEY = 'webchat_thread_id'
-
 export const initialState = {
   availability: null,
   customerId: null,
@@ -13,7 +10,8 @@ export const initialState = {
   agent: null,
   agentStatus: null,
   isAgentTyping: false,
-  isChatOpen: false
+  isChatOpen: false,
+  settings: { audio: true, scroll: true }
 }
 
 export const reducer = (state, action) => {

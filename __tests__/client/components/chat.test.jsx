@@ -23,7 +23,8 @@ describe('<Chat />', () => {
   describe('Tagline', () => {
     it('should show connecting tagline when no agent status is set but the chat is available', () => {
       mocks.useApp.mockReturnValue({
-        messages: []
+        messages: [],
+        settings: { audio: true, scroll: true }
       })
 
       render(<Chat />)
@@ -34,7 +35,8 @@ describe('<Chat />', () => {
     it('should show no advisors tagline when no agent is available but the chat is available', () => {
       mocks.useApp.mockReturnValue({
         messages: [],
-        agentStatus: 'pending'
+        agentStatus: 'pending',
+        settings: { audio: true, scroll: true }
       })
 
       render(<Chat />)
@@ -45,7 +47,8 @@ describe('<Chat />', () => {
     it('should show unavilable tagline', () => {
       mocks.useApp.mockReturnValue({
         messages: [],
-        availability: 'UNAVAILABLE'
+        availability: 'UNAVAILABLE',
+        settings: { audio: true, scroll: true }
       })
 
       render(<Chat />)
@@ -57,7 +60,8 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         messages: [],
         agentStatus: 'pending',
-        agent: { firstName: 'test' }
+        agent: { firstName: 'test' },
+        settings: { audio: true, scroll: true }
       })
 
       render(<Chat />)
@@ -69,7 +73,8 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         messages: [],
         agent: { firstName: 'test' },
-        agentStatus: 'closed'
+        agentStatus: 'closed',
+        settings: { audio: true, scroll: true }
       })
 
       render(<Chat />)
@@ -80,7 +85,8 @@ describe('<Chat />', () => {
     it('should show the chat as closed when there is no agent data available', () => {
       mocks.useApp.mockReturnValue({
         messages: [],
-        agentStatus: 'closed'
+        agentStatus: 'closed',
+        settings: { audio: true, scroll: true }
       })
 
       render(<Chat />)
@@ -92,7 +98,8 @@ describe('<Chat />', () => {
   describe('UI elements', () => {
     it('should show the "Settings" and "Save chat" chat links', () => {
       mocks.useApp.mockReturnValue({
-        messages: []
+        messages: [],
+        settings: { audio: true, scroll: true }
       })
 
       render(<Chat />)
@@ -104,7 +111,8 @@ describe('<Chat />', () => {
     it('should show the chat input', () => {
       mocks.useApp.mockReturnValue({
         messages: [],
-        agentStatus: 'closed'
+        agentStatus: 'closed',
+        settings: { audio: true, scroll: true }
       })
 
       const { container } = render(<Chat />)
@@ -116,7 +124,8 @@ describe('<Chat />', () => {
 
     it('should remove the label when the user starts typing', () => {
       mocks.useApp.mockReturnValue({
-        messages: []
+        messages: [],
+        settings: { audio: true, scroll: true }
       })
 
       const { container } = render(<Chat />)
@@ -133,6 +142,7 @@ describe('<Chat />', () => {
 
     it('should send a message', () => {
       mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
         messages: [],
         thread: {
           sendTextMessage: jest.fn()
@@ -154,6 +164,7 @@ describe('<Chat />', () => {
   describe('Messages', () => {
     it('should show message from the user', async () => {
       mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
         messages: [{
           id: '1234',
           text: 'test message from user',
@@ -174,7 +185,8 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         messages: [],
         agent: { firstName: 'test' },
-        isAgentTyping: true
+        isAgentTyping: true,
+        settings: { audio: true, scroll: true }
       })
 
       render(<Chat />)
@@ -184,6 +196,7 @@ describe('<Chat />', () => {
 
     it('should show message from the agent', async () => {
       mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
         messages: [{
           id: '1234',
           text: 'test message from agent',
@@ -202,6 +215,7 @@ describe('<Chat />', () => {
 
     it('should only show who the message is from once, when multiple messages from the same person is sent', async () => {
       mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
         messages: [
           {
             id: '1234',
@@ -231,6 +245,7 @@ describe('<Chat />', () => {
   describe('Settings', () => {
     it('should save the chat', () => {
       mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
         messages: [
           { id: '123', text: 'test message from client', direction: 'inbound', user: 'test-user', createdAt: new Date('Wed Dec 01 2023 13:00:00 GMT+0000 (Greenwich Mean Time)') },
           { id: '456', text: 'test message from agent', direction: 'outbound', assignee: 'test-agent', createdAt: new Date('Wed Dec 01 2023 13:01:00 GMT+0000 (Greenwich Mean Time)') }

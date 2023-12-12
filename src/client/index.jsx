@@ -4,7 +4,7 @@ import { ChatSdk } from '@nice-devone/nice-cxone-chat-web-sdk'
 import { Availability } from './components/availability/availability.jsx'
 import { checkAvailability } from './lib/check-availability'
 import { AppProvider } from './store/AppProvider.jsx'
-import { CUSTOMER_ID_STORAGE_KEY } from './store/reducer.js'
+import { CUSTOMER_ID_STORAGE_KEY } from './store/constants.js'
 
 export async function init (container, options) {
   const sdk = new ChatSdk({
@@ -23,8 +23,8 @@ export async function init (container, options) {
     availability = 'UNAVAILABLE'
   }
   root.render(
-    <AppProvider sdk={sdk} availability={availability}>
-      <Availability availability={availability} />
+    <AppProvider sdk={sdk} availability={availability} options={options}>
+      <Availability />
     </AppProvider>
   )
 }

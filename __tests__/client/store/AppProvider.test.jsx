@@ -19,19 +19,38 @@ const mockSdk = {
   onChatEvent: jest.fn()
 }
 
+const mocks = {
+  location: {
+    ...window.location,
+    hash: '#webchat'
+  },
+  fetch: jest.fn(() =>
+    Promise.resolve({
+      arrayBuffer: () => Promise.resolve({})
+    })
+  ),
+  AudioContext: jest.fn().mockImplementation(() => ({
+    decodeAudioData: jest.fn()
+  }))
+}
+
 describe('<AppProvider />', () => {
+  const realFetch = window.fetch
   const realLocation = window.location
+  const realAudioContext = window.AudioContext
 
   beforeAll(() => {
     delete window.location
-    window.location = { ...realLocation, hash: '#webchat' }
+
+    window.location = mocks.location
+    window.fetch = mocks.fetch
+    window.AudioContext = mocks.AudioContext
   })
 
   afterAll(() => {
+    window.fetch = realFetch
     window.location = realLocation
-  })
-
-  afterEach(() => {
+    window.AudioContext = realAudioContext
     jest.clearAllMocks()
   })
 
@@ -45,7 +64,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE'>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
         <Component />
       </AppProvider>
     )
@@ -81,7 +100,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE'>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
         <Component />
       </AppProvider>
     )
@@ -119,7 +138,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE'>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
         <Component />
       </AppProvider>
     )
@@ -145,14 +164,12 @@ describe('<AppProvider />', () => {
       }, [])
 
       return (
-        <>
-          <div id='agent-status'>{context.agentStatus}</div>
-        </>
+        <div id='agent-status'>{context.agentStatus}</div>
       )
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE'>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
         <Component />
       </AppProvider>
     )
@@ -186,7 +203,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE'>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
         <Component />
       </AppProvider>
     )
@@ -209,7 +226,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE'>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
         <Component />
       </AppProvider>
     )
@@ -232,7 +249,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE'>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
         <Component />
       </AppProvider>
     )

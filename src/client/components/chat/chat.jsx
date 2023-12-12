@@ -9,8 +9,8 @@ import { useApp } from '../../store/useApp.js'
 import { useTextareaAutosize } from '../../hooks/useTextareaAutosize.js'
 import { formatTranscript } from '../../lib/transform-messages.js'
 
-export function Chat ({ onEndChat }) {
-  const { availability, thread, messages, agent, agentStatus, isAgentTyping } = useApp()
+export function Chat ({ onEndChat, onSettings }) {
+  const { availability, thread, messages, agent, agentStatus, isAgentTyping, settings } = useApp()
 
   const [userMessage, setUserMessage] = useState('')
 
@@ -19,7 +19,7 @@ export function Chat ({ onEndChat }) {
   useTextareaAutosize(messageRef.current, userMessage)
 
   useEffect(() => {
-    if (messages.length !== 0) {
+    if (settings.scroll && messages.length !== 0) {
       const chatBody = document.querySelector('.wc-body')
       chatBody.scrollTop = chatBody.scrollHeight
     }
@@ -146,8 +146,10 @@ export function Chat ({ onEndChat }) {
         <div className='wc-footer__settings'>
           <a
             href='#'
+            id='wc-settings'
             className='wc-footer__settings-link'
             data-module='govuk-button'
+            onClick={onSettings}
           >
             Settings
           </a>

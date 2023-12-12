@@ -1,6 +1,6 @@
 import React from 'react'
 import { userEvent } from '@testing-library/user-event'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { Panel } from '../../../src/client/components/panel/panel'
@@ -24,6 +24,7 @@ describe('<Panel />', () => {
   describe('UI elements', () => {
     it('should render the panel title', () => {
       mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
         setThread: jest.fn(),
         setMessages: jest.fn()
       })
@@ -42,6 +43,7 @@ describe('<Panel />', () => {
 
     it('should render panel close button', () => {
       mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
         setThread: jest.fn(),
         setMessages: jest.fn()
       })
@@ -60,6 +62,7 @@ describe('<Panel />', () => {
 
     it('should add [aria-hidden="true"] to <body> child elements', () => {
       mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
         setThread: jest.fn(),
         setMessages: jest.fn()
       })
@@ -95,12 +98,7 @@ describe('<Panel />', () => {
       })
 
       render(
-        <>
-          <a href='#' className='wc-availability__link'>Start Chat</a>
-          <div id='wc-panel'>
-            <Panel />
-          </div>
-        </>
+        <Panel />
       )
 
       const user = userEvent.setup()
@@ -146,12 +144,7 @@ describe('<Panel />', () => {
       })
 
       render(
-        <>
-          <a href='#' className='wc-availability__link'>Start Chat</a>
-          <div id='wc-panel'>
-            <Panel />
-          </div>
-        </>
+        <Panel />
       )
 
       const user = userEvent.setup()
@@ -163,10 +156,7 @@ describe('<Panel />', () => {
       const button = screen.getByText('Continue')
       const link4 = screen.getByText('Find out more about call charges')
 
-      // have to shift twice here. This isn't the case manually
       await user.tab({ shift: true })
-      await user.tab({ shift: true })
-
       expect(link4).toHaveFocus()
 
       await user.tab({ shift: true })
@@ -207,6 +197,7 @@ describe('<Panel />', () => {
   describe('Screens', () => {
     it('should go back a screen', () => {
       mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
         setThread: jest.fn(),
         setMessages: jest.fn()
       })
@@ -228,6 +219,7 @@ describe('<Panel />', () => {
 
     it('should default to the pre-chat screen', () => {
       mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
         setThread: jest.fn(),
         setMessages: jest.fn()
       })
@@ -246,6 +238,7 @@ describe('<Panel />', () => {
 
     it('should go to request-chat screen', async () => {
       mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
         setThread: jest.fn(),
         setMessages: jest.fn()
       })
@@ -268,7 +261,8 @@ describe('<Panel />', () => {
       mocks.useApp.mockReturnValue({
         setThread: jest.fn(),
         setMessages: jest.fn(),
-        availability: 'UNAVAILABLE'
+        availability: 'UNAVAILABLE',
+        settings: { audio: true, scroll: true }
       })
 
       mocks.useChatSdk.mockReturnValue({
@@ -290,6 +284,7 @@ describe('<Panel />', () => {
         },
         threadId: 'thread_123',
         messages: [],
+        settings: { audio: true, scroll: true },
         setThreadId: jest.fn(),
         setThread: jest.fn(),
         setMessages: jest.fn(),
@@ -308,6 +303,34 @@ describe('<Panel />', () => {
       expect(screen.getByText('Connecting to Floodline')).toBeTruthy()
     })
 
+    it('should go to settings screen', () => {
+      mocks.useApp.mockReturnValue({
+        thread: {
+          lastMessageSeen: jest.fn()
+        },
+        threadId: 'thread_123',
+        messages: [],
+        settings: { audio: true, scroll: true },
+        setThreadId: jest.fn(),
+        setThread: jest.fn(),
+        setMessages: jest.fn(),
+        setUnseenCount: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn(),
+        fetchMessages: jest.fn()
+      })
+
+      render(
+        <Panel />
+      )
+
+      fireEvent.click(screen.getByText('Settings'))
+
+      expect(screen.getByText('Change settings')).toBeTruthy()
+    })
+
     it('should go to the end chat screen', () => {
       mocks.useApp.mockReturnValue({
         thread: {
@@ -315,6 +338,7 @@ describe('<Panel />', () => {
         },
         threadId: 'thread_123',
         messages: [],
+        settings: { audio: true, scroll: true },
         setThreadId: jest.fn(),
         setThread: jest.fn(),
         setMessages: jest.fn(),
@@ -341,6 +365,7 @@ describe('<Panel />', () => {
       mocks.useApp.mockReturnValue({
         messages: [],
         threadId: 'thread_123',
+        settings: { audio: true, scroll: true },
         setThreadId: jest.fn(),
         setThread: jest.fn(),
         setMessages: jest.fn()
@@ -356,6 +381,30 @@ describe('<Panel />', () => {
       )
 
       expect(mocks.useChatSdk().fetchThread).toHaveBeenCalled()
+    })
+
+    it('should clear thread if there is an error', async () => {
+      mocks.useApp.mockReturnValue({
+        messages: [],
+        threadId: 'thread_123',
+        settings: { audio: true, scroll: true },
+        setThreadId: jest.fn(),
+        setThread: jest.fn(),
+        setMessages: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn().mockImplementation(() => Promise.reject(new Error('Error')))
+      })
+
+      render(
+        <Panel />
+      )
+
+      await waitFor(() => {
+        expect(mocks.useApp().setThreadId).toHaveBeenCalled()
+        expect(mocks.useApp().setThread).toHaveBeenCalled()
+      })
     })
   })
 })

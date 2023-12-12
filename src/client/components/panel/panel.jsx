@@ -6,6 +6,7 @@ import { RequestChat } from '../screens/request-chat.jsx'
 import { Chat } from '../chat/chat.jsx'
 import { Unavailable } from '../screens/unavailable.jsx'
 import { EndChat } from '../screens/end-chat.jsx'
+import { Settings } from '../screens/settings.jsx'
 
 import { useApp } from '../../store/useApp.js'
 import { useChatSdk } from '../../store/useChatSdk.js'
@@ -76,6 +77,7 @@ export function Panel () {
   const onBack = handleScreenChange(screen - 1)
   const onEndChat = handleScreenChange(3)
   const onResume = handleScreenChange(2)
+  const onSettings = handleScreenChange(5)
 
   const onEndChatConfirm = e => {
     e.preventDefault()
@@ -92,10 +94,13 @@ export function Panel () {
       ScreenComponent = <RequestChat onBack={onBack} />
       break
     case 2:
-      ScreenComponent = <Chat setScreen={setScreen} onEndChat={onEndChat} />
+      ScreenComponent = <Chat onSettings={onSettings} onEndChat={onEndChat} />
       break
     case 3:
       ScreenComponent = <EndChat onResume={onResume} onEndChatConfirm={onEndChatConfirm} />
+      break
+    case 5:
+      ScreenComponent = <Settings onCancel={onResume} />
       break
     default:
       ScreenComponent = <PreChat onForward={onForward} />
@@ -106,7 +111,7 @@ export function Panel () {
   }
 
   const Component = (
-    <div id='wc-panel' className='wc-panel' role='dialog' tabIndex='-1' aria-modal='true' aria-labelledby='wc-header-title'>
+    <div id='wc-panel' role='dialog' className='wc-panel' tabIndex='-1' aria-modal='true' aria-labelledby='wc-header-title'>
       {ScreenComponent}
     </div>
   )
