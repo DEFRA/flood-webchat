@@ -12,7 +12,7 @@ import { useChatSdk } from '../../store/useChatSdk.js'
 import { useFocusedElements } from '../../hooks/useFocusedElements.js'
 
 export function Panel () {
-  const { sdk, availability, thread, threadId, setThread, setThreadId, setChatVisibility, setMessages } = useApp()
+  const { sdk, availability, thread, threadId, setThread, setThreadId, setChatVisibility, setMessages, setUnseenCount } = useApp()
   const { fetchThread, fetchMessages } = useChatSdk(sdk)
 
   const [screen, setScreen] = useState(threadId ? 2 : 0)
@@ -52,6 +52,10 @@ export function Panel () {
 
     if (threadId) {
       (thread) ? setScreen(2) : recover()
+    }
+    if (thread) {
+      thread.lastMessageSeen()
+      setUnseenCount(0)
     }
   }, [thread, threadId])
 

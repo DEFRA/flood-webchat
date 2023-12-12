@@ -290,5 +290,19 @@ describe('<Availability/>', () => {
 
       expect(container.querySelector('.wc-open-btn__unseen')).toBeNull()
     })
+
+    it('when chat is open no unread messages icon will be visible', async () => {
+      mocks.useApp.mockReturnValue({
+        setChatVisibility: jest.fn(),
+        isChatOpen: true,
+        availability: 'AVAILABLE',
+        messages: [{}],
+        unseenCount: 0
+      })
+
+      const { container } = render(<Availability />)
+
+      expect(container.querySelector('.wc-open-btn__unseen')).toBeNull()
+    })
   })
 })

@@ -285,12 +285,15 @@ describe('<Panel />', () => {
 
     it('should go to chat screen', () => {
       mocks.useApp.mockReturnValue({
-        thread: {},
+        thread: {
+          lastMessageSeen: jest.fn()
+        },
         threadId: 'thread_123',
         messages: [],
         setThreadId: jest.fn(),
         setThread: jest.fn(),
-        setMessages: jest.fn()
+        setMessages: jest.fn(),
+        setUnseenCount: jest.fn()
       })
 
       mocks.useChatSdk.mockReturnValue({
@@ -307,12 +310,15 @@ describe('<Panel />', () => {
 
     it('should go to the end chat screen', () => {
       mocks.useApp.mockReturnValue({
-        thread: {},
+        thread: {
+          lastMessageSeen: jest.fn()
+        },
         threadId: 'thread_123',
         messages: [],
         setThreadId: jest.fn(),
         setThread: jest.fn(),
-        setMessages: jest.fn()
+        setMessages: jest.fn(),
+        setUnseenCount: jest.fn()
       })
 
       mocks.useChatSdk.mockReturnValue({
