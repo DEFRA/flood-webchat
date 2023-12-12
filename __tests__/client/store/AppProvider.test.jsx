@@ -64,7 +64,8 @@ describe('<AppProvider />', () => {
             data: {
               inboxAssignee: 'test-agent',
               contact: {
-                status: 'Online'
+                status: 'Online',
+                customerStatistics: { unseenMessagesCount: 0 }
               }
             }
           }
@@ -101,7 +102,8 @@ describe('<AppProvider />', () => {
                 id: 'message_123'
               },
               case: {
-                status: 'Online'
+                status: 'Online',
+                customerStatistics: { unseenMessagesCount: 0 }
               }
             }
           }

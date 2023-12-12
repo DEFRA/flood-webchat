@@ -153,4 +153,17 @@ describe('actions-map', () => {
 
     expect(newState.agentStatus).toEqual('new')
   })
+
+  it('should update state: unseeenCount', () => {
+    const action = actionsMap.SET_UNSEEN_COUNT
+
+    const mockState = {
+      ...initialState,
+      unseenCount: 0
+    }
+
+    const newState = action(mockState, 1)
+
+    expect(newState.unseenCount).toEqual(1)
+  })
 })
