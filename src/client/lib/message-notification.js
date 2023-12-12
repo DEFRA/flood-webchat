@@ -1,4 +1,4 @@
-export const messageNotification = (audioUrl) => {
+export const messageNotification = audioUrl => {
   let buffer
 
   const context = new (window.AudioContext || window.webkitAudioContext)()
@@ -19,7 +19,7 @@ export const messageNotification = (audioUrl) => {
 
   fetch(audioUrl)
     .then(response => response.arrayBuffer())
-    .then(buffer => context.decodeAudioData(buffer))
+    .then(data => context.decodeAudioData(data))
     .then(decodedData => {
       buffer = decodedData
     })

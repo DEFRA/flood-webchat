@@ -9,7 +9,7 @@ export function Settings ({ onCancel }) {
   const [optionAudio, setOptionAudio] = useState(settings.audio)
   const [optionScroll, setOptionScroll] = useState(settings.scroll)
 
-  const onSave = (e) => {
+  const onSave = e => {
     e.preventDefault()
 
     setSettings({ audio: optionAudio, scroll: optionScroll })

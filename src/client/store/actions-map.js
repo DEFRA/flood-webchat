@@ -61,7 +61,7 @@ const setThread = (state, payload) => {
   }
 }
 
-const setMessage = (state, payload, playSound) => {
+const setMessage = (state, payload) => {
   return {
     ...state,
     messages: [...state.messages, transformMessage(payload)]
