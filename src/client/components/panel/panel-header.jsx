@@ -2,11 +2,12 @@ import React from 'react'
 import { useApp } from '../../store/useApp.js'
 
 export function PanelHeader () {
-  const { thread, setChatVisibility } = useApp()
+  const { thread, setChatVisibility, setUnseenCount } = useApp()
 
   const onClose = e => {
     e.preventDefault()
     setChatVisibility(false)
+    setUnseenCount(0)
   }
 
   let ButtonComponent = (

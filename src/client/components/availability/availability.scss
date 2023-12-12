@@ -34,10 +34,6 @@
   margin-bottom: 0;
   fill: govuk-colour('black');
 
-  @include mq ($from: tablet) {
-    margin-right: 10px;
-  }
-
   .govuk-visually-hidden, .wc-availability__unseen {
     pointer-events: none;
   }
@@ -85,5 +81,109 @@
     top: -1px;
     padding-left: 7px;
     padding-right: 7px;
+  }
+}
+
+// Define a mixin for the common styles
+@mixin link-icon-styles {
+  position: relative;
+  display: inline-block;
+  margin-right: 5px;
+  fill: govuk-colour('black');
+  @include govuk-font($size: 19);
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  @include mq ($from: tablet) {
+    margin-right: 10px;
+  }
+
+  &__icon {
+    color: govuk-colour('black');
+  }
+
+  svg {
+    position: relative;
+    display: inline-block;
+    color: currentcolor;
+    vertical-align: top;
+    margin-right: 7px;
+    top: 1px;
+
+    @include mq ($from: tablet) {
+      margin-right: 8px;
+      top: 4px;
+    }
+  }
+
+  &:hover {
+    color: $govuk-link-hover-colour;
+  }
+
+  &:active {
+    color: govuk-colour('black');
+  }
+}
+
+.defra-link-icon {
+  @include link-icon-styles;
+}
+
+.wc-open-btn {
+  @include link-icon-styles;
+  margin-bottom: 0;
+
+  &:visited {
+    color: $govuk-link-colour;
+  }
+
+  span {
+    pointer-events: none;
+  }
+
+  svg {
+    @include mq ($from: 'tablet') {
+      top: 3px;
+    }
+    color: govuk-colour('black');
+    pointer-events: none;
+  }
+
+  &:focus {
+    box-shadow: none;
+    background-color: transparent;
+    text-decoration: underline;
+    color: $govuk-focus-colour;
+  }
+
+  &:hover:not(:focus):not(:active) {
+    color: $govuk-link-hover-colour;
+
+    svg {
+      color: govuk-colour('dark-blue');
+    }
+
+    .wc-open-btn__unseen {
+      background-color: govuk-colour('dark-blue');
+    }
+  }
+
+  &__unseen {
+    display: inline-block;
+    position: relative;
+    border-radius: 10px;
+    background-color: govuk-colour('black');
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 0 6px;
+    margin-left: 5px;
+    @include mq ($from: tablet) {
+      top: -1px;
+      padding-left: 7px;
+      padding-right: 7px;
+    }
   }
 }
