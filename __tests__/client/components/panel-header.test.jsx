@@ -40,7 +40,10 @@ describe('<PanelHeader />', () => {
   it('should close chat on click', () => {
     mocks.useApp.mockReturnValue({
       setChatVisibility: jest.fn(),
-      setUnseenCount: jest.fn()
+      setUnseenCount: jest.fn(),
+      thread: {
+        lastMessageSeen: jest.fn()
+      }
     })
 
     const { container } = render(
