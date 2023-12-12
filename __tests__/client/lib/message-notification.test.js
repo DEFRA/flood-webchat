@@ -6,6 +6,7 @@ const mocks = {
       arrayBuffer: () => Promise.resolve({})
     })
   ),
+  addEventListener: jest.fn(),
   resume: jest.fn(),
   decodeAudioData: jest.fn(),
   createBufferSource: jest.fn().mockReturnValue({
@@ -13,13 +14,13 @@ const mocks = {
     start: jest.fn()
   }),
   AudioContext: jest.fn()
-    .mockImplementation(() => ({
+    .mockImplementationOnce(() => ({
       state: 'suspended',
       resume: mocks.resume,
       decodeAudioData: mocks.decodeAudioData,
       createBufferSource: mocks.createBufferSource
     }))
-    .mockImplementation(() => ({
+    .mockImplementationOnce(() => ({
       state: 'running',
       decodeAudioData: mocks.decodeAudioData,
       createBufferSource: mocks.createBufferSource
@@ -29,24 +30,33 @@ const mocks = {
 describe('message-notification', () => {
   const realFetch = window.fetch
   const realAudioContext = window.AudioContext
+  const realAddEventListener = document.body.addEventListener
 
   beforeAll(() => {
     window.fetch = mocks.fetch
     window.AudioContext = mocks.AudioContext
+    document.body.addEventListener = mocks.addEventListener
   })
 
   afterAll(() => {
     window.fetch = realFetch
     window.AudioContext = realAudioContext
+    document.body.addEventListener = realAddEventListener
 
     jest.clearAllMocks()
+  })
+
+  it('should unlock AudioContext', () => {
+    messageNotification('/audio.mp3')
+
+    expect(mocks.addEventListener).toHaveBeenCalledTimes(6)
   })
 
   it('should play sound', () => {
     const playSound = messageNotification('/audio.mp3')
     playSound()
 
-    expect(mocks.fetch).toBeCalledTimes(1)
+    expect(mocks.fetch).toHaveBeenCalled()
     expect(mocks.createBufferSource).toHaveBeenCalled()
     expect(mocks.createBufferSource().start).toHaveBeenCalled()
     expect(mocks.createBufferSource().connect).toHaveBeenCalled()

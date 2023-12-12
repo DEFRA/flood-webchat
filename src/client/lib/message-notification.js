@@ -10,8 +10,10 @@ export const messageNotification = audioUrl => {
       events.forEach(event => {
         document.body.removeEventListener(event, unlock)
       })
+
       context.resume()
     }
+
     events.forEach(event => {
       document.body.addEventListener(event, unlock, false)
     })
