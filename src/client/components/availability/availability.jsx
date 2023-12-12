@@ -79,7 +79,7 @@ export function Availability () {
                 onKeyDown={onKeyDown}
               >
                 {TextComponent}
-                {unseenCount > 0 && !isChatOpen ? <span className='wc-open-btn__unseen'>{unseenCount}</span> : ''}
+                {unseenCount > 0 && !isChatOpen ? <span className='wc-open-btn__unseen'>{unseenCount}</span> : null}
               </a>
             </div>
           </div>
