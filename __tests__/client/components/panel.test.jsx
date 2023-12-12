@@ -1,6 +1,6 @@
 import React from 'react'
 import { userEvent } from '@testing-library/user-event'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { Panel } from '../../../src/client/components/panel/panel'
@@ -353,6 +353,30 @@ describe('<Panel />', () => {
       )
 
       expect(mocks.useChatSdk().fetchThread).toHaveBeenCalled()
+    })
+
+    it('should clear thread if there is an error', async () => {
+      mocks.useApp.mockReturnValue({
+        messages: [],
+        threadId: 'thread_123',
+        settings: { audio: true, scroll: true },
+        setThreadId: jest.fn(),
+        setThread: jest.fn(),
+        setMessages: jest.fn()
+      })
+
+      mocks.useChatSdk.mockReturnValue({
+        fetchThread: jest.fn().mockImplementation(() => Promise.reject(new Error('Error')))
+      })
+
+      render(
+        <Panel />
+      )
+
+      await waitFor(() => {
+        expect(mocks.useApp().setThreadId).toHaveBeenCalled()
+        expect(mocks.useApp().setThread).toHaveBeenCalled()
+      })
     })
   })
 })

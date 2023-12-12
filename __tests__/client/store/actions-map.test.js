@@ -154,6 +154,20 @@ describe('actions-map', () => {
     expect(newState.agentStatus).toEqual('new')
   })
 
+  it('should update state: settings', () => {
+    const action = actionsMap.SET_SETTINGS
+
+    const mockState = {
+      ...initialState,
+      settings: { audio: true, scroll: true }
+    }
+
+    const newState = action(mockState, { audio: false, scroll: false })
+
+    expect(newState.settings.audio).toEqual(false)
+    expect(newState.settings.scroll).toEqual(false)
+  })
+
   it('should update state: unseeenCount', () => {
     const action = actionsMap.SET_UNSEEN_COUNT
 

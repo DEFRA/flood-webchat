@@ -164,9 +164,7 @@ describe('<AppProvider />', () => {
       }, [])
 
       return (
-        <>
-          <div id='agent-status'>{context.agentStatus}</div>
-        </>
+        <div id='agent-status'>{context.agentStatus}</div>
       )
     }
 
