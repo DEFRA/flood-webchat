@@ -19,8 +19,25 @@ const outputMessage = {
   createdAt: new Date('2023-01-01T00:00:00.000Z')
 }
 
+const mocks = {
+  localStorage: {
+    setItem: jest.fn(),
+    removeItem: jest.fn()
+  }
+}
+
 describe('actions-map', () => {
+  const realLocalStorage = window.localStorage
+
+  beforeAll(() => {
+    delete window.localStorage
+
+    window.localStorage = mocks.localStorage
+  })
+
   afterAll(() => {
+    window.localStorage = realLocalStorage
+
     jest.clearAllMocks()
   })
 
@@ -61,6 +78,20 @@ describe('actions-map', () => {
     const newState = action(mockState, 'customer_123')
 
     expect(newState.customerId).toEqual('customer_123')
+    expect(mocks.localStorage.setItem).toHaveBeenCalled()
+  })
+
+  it('should update state: remove customerId', () => {
+    const action = actionsMap.SET_CUSTOMER_ID
+
+    const mockState = {
+      ...initialState,
+      customerId: null
+    }
+
+    action(mockState, null)
+
+    expect(mocks.localStorage.removeItem).toHaveBeenCalled()
   })
 
   it('should update state: threadId', () => {
@@ -74,6 +105,20 @@ describe('actions-map', () => {
     const newState = action(mockState, 'thread_123')
 
     expect(newState.threadId).toEqual('thread_123')
+    expect(mocks.localStorage.setItem).toHaveBeenCalled()
+  })
+
+  it('should update state: remove threadId', () => {
+    const action = actionsMap.SET_THREAD_ID
+
+    const mockState = {
+      ...initialState,
+      threadId: null
+    }
+
+    action(mockState, null)
+
+    expect(mocks.localStorage.removeItem).toHaveBeenCalled()
   })
 
   it('should update state: thread', () => {
@@ -166,6 +211,20 @@ describe('actions-map', () => {
 
     expect(newState.settings.audio).toEqual(false)
     expect(newState.settings.scroll).toEqual(false)
+    expect(mocks.localStorage.setItem).toHaveBeenCalled()
+  })
+
+  it('should update state: remove settings', () => {
+    const action = actionsMap.SET_SETTINGS
+
+    const mockState = {
+      ...initialState,
+      settings: { audio: true, scroll: true }
+    }
+
+    action(mockState, null)
+
+    expect(mocks.localStorage.removeItem).toHaveBeenCalled()
   })
 
   it('should update state: unseeenCount', () => {
