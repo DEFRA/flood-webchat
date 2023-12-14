@@ -97,7 +97,7 @@ export function Panel () {
       ScreenComponent = <EndChat onChatScreen={goToChatScreen} />
       break
     case 4:
-      ScreenComponent = <Feedback onCancel={goToChatScreen} /> // onCancel needs to close the webchat window, onSubmit needs 
+      ScreenComponent = <Feedback onCancel={goToChatScreen} /> // onCancel needs to close the webchat window, onSubmit needs
       break
     case 5:
       ScreenComponent = <Settings onCancel={goToChatScreen} />
