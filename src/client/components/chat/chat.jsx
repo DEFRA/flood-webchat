@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import sanitizeHtml from 'sanitize-html'
 
 import { PanelHeader } from '../panel/panel-header.jsx'
 import { PanelFooter } from '../panel/panel-footer.jsx'
@@ -9,7 +8,7 @@ import { useApp } from '../../store/useApp.js'
 import { useTextareaAutosize } from '../../hooks/useTextareaAutosize.js'
 import { formatTranscript } from '../../lib/transform-messages.js'
 
-export function Chat ({ onEndChat, onSettings }) {
+export function Chat ({ onEndChatScreen, onSettingsScreen }) {
   const { availability, thread, messages, agent, agentStatus, isAgentTyping, settings } = useApp()
 
   const [userMessage, setUserMessage] = useState('')
@@ -65,7 +64,7 @@ export function Chat ({ onEndChat, onSettings }) {
     }
 
     try {
-      thread.sendTextMessage(sanitizeHtml(messageRef.current.value.trim()))
+      thread.sendTextMessage(messageRef.current.value.trim())
     } catch (err) {
       console.log('[Chat Error] sendMessage', err)
     }
@@ -88,7 +87,7 @@ export function Chat ({ onEndChat, onSettings }) {
 
       <div className='wc-status'>
         <p className='wc-status__availability govuk-body-s'>{connectionHeadlineText}</p>
-        <a className='wc-status__link govuk-!-font-size-16' href='#' data-module='govuk-button' onClick={onEndChat}>End chat</a>
+        <a className='wc-status__link govuk-!-font-size-16' href='#' data-module='govuk-button' onClick={onEndChatScreen}>End chat</a>
       </div>
 
       <div className='wc-body'>
@@ -149,7 +148,7 @@ export function Chat ({ onEndChat, onSettings }) {
             id='wc-settings'
             className='wc-footer__settings-link'
             data-module='govuk-button'
-            onClick={onSettings}
+            onClick={onSettingsScreen}
           >
             Settings
           </a>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { PanelHeader } from '../panel/panel-header.jsx'
 
-export function PreChat ({ onForward }) {
+export function PreChat ({ onContinue }) {
   return (
     <>
       <PanelHeader />
@@ -21,19 +21,19 @@ export function PreChat ({ onForward }) {
           {
             'There are other ways to '
           }
-          <a className='govuk-link' href='https://www.gov.uk/sign-up-for-flood-warnings'>
+          <a className='govuk-link' href='https://www.gov.uk/sign-up-for-flood-warnings' target='_blank' rel='noreferrer'>
             sign up for flood warnings
           </a>
           {
             ' and '
           }
-          <a className='govuk-link' href='https://www.fws.environment-agency.gov.uk/app/olr/login'>
+          <a className='govuk-link' href='https://www.fws.environment-agency.gov.uk/app/olr/login' target='_blank' rel='noreferrer'>
             manage your flood warnings account
           </a>.
         </p>
-        <p className='govuk-body-s'>Do not use webchat to <a className='govuk-link' href='https://www.gov.uk/report-flood-cause'>report a flood</a>.</p>
+        <p className='govuk-body-s'>Do not use webchat to <a className='govuk-link' href='https://www.gov.uk/report-flood-cause' target='_blank' rel='noreferrer'>report a flood</a>.</p>
 
-        <button className='govuk-button govuk-!-font-size-16' data-module='govuk-button' onClick={onForward}>Continue</button>
+        <button className='govuk-button govuk-!-font-size-16' data-module='govuk-button' onClick={onContinue}>Continue</button>
 
         <h3 className='govuk-heading-s'>Other flood information</h3>
 
@@ -47,7 +47,7 @@ export function PreChat ({ onForward }) {
           <br />
           Open 24 hours a day, 7 days a week
           <br />
-          <a className='govuk-link' href='https://gov.uk/call-charges'>Find out more about call charges</a>
+          <a className='govuk-link' href='https://gov.uk/call-charges' target='_blank' rel='noreferrer'>Find out more about call charges</a>
         </p>
       </div>
     </>

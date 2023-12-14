@@ -9,7 +9,7 @@ import { ErrorSummary } from '../errorSummary/error-summary.jsx'
 
 const QUESTION_MAX_LENGTH = 500
 
-export function RequestChat ({ onBack }) {
+export function RequestChat ({ onPreChatScreen }) {
   const { sdk, setCustomerId, setThreadId, setThread } = useApp()
   const { fetchCustomerId, fetchThread } = useChatSdk(sdk)
 
@@ -82,7 +82,7 @@ export function RequestChat ({ onBack }) {
       <PanelHeader />
 
       <div className='wc-body'>
-        <a href='#' className='wc-back-link govuk-back-link' onClick={onBack}>
+        <a href='#' className='wc-back-link govuk-back-link' onClick={onPreChatScreen}>
           What you can use webchat for
         </a>
 
