@@ -1,11 +1,10 @@
 import * as uuid from 'uuid'
-import sanitizeHtml from 'sanitize-html'
 import { DateTime } from 'luxon'
 
 export const transformMessage = message => {
   return {
     id: message.id,
-    text: sanitizeHtml(message.messageContent?.text),
+    text: message.messageContent?.text,
     createdAt: new Date(message.createdAt),
     user: message.authorEndUserIdentity?.fullName?.trim() || null,
     assignee: message.authorUser?.firstName || null,

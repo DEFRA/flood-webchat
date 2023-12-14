@@ -3,7 +3,7 @@ import { transformMessage, formatTranscript } from '../../../src/client/lib/tran
 const mockSdkMessage = {
   id: '12345678-0e7c-4b2c-b7dd-8ab18ab7abff',
   messageContent: {
-    text: '<script>sanitized h1</script>'
+    text: 'test-text'
   },
   createdAt: '2023-11-08T12:30:53+00:00',
   direction: 'inbound',
@@ -22,7 +22,7 @@ const mockSdkMessage = {
 
 const mockTransformedMessage = {
   id: '12345678-0e7c-4b2c-b7dd-8ab18ab7abff',
-  text: '',
+  text: 'test-text',
   createdAt: new Date('2023-11-08T12:30:53.000Z'),
   user: 'test-agent',
   assignee: 'test',

@@ -73,37 +73,32 @@ export function Panel () {
     setScreen(newScreen)
   }
 
-  const onForward = handleScreenChange(screen + 1)
-  const onBack = handleScreenChange(screen - 1)
-  const onEndChat = handleScreenChange(3)
-  const onResume = handleScreenChange(2)
-  const onSettings = handleScreenChange(5)
-
-  const onEndChatConfirm = e => {
-    e.preventDefault()
-    console.log('confirmed end chat')
-  }
+  const goToPreChatScreen = handleScreenChange(0)
+  const goToRequestChatScreen = handleScreenChange(1)
+  const goToChatScreen = handleScreenChange(2)
+  const goToEndChatScreen = handleScreenChange(3)
+  const goToSettingsScreen = handleScreenChange(5)
 
   let ScreenComponent
 
   switch (screen) {
     case 0:
-      ScreenComponent = <PreChat onForward={onForward} />
+      ScreenComponent = <PreChat onContinue={goToRequestChatScreen} />
       break
     case 1:
-      ScreenComponent = <RequestChat onBack={onBack} />
+      ScreenComponent = <RequestChat onPreChatScreen={goToPreChatScreen} />
       break
     case 2:
-      ScreenComponent = <Chat onSettings={onSettings} onEndChat={onEndChat} />
+      ScreenComponent = <Chat onSettingsScreen={goToSettingsScreen} onEndChatScreen={goToEndChatScreen} />
       break
     case 3:
-      ScreenComponent = <EndChat onResume={onResume} onEndChatConfirm={onEndChatConfirm} />
+      ScreenComponent = <EndChat onChatScreen={goToChatScreen} />
       break
     case 5:
-      ScreenComponent = <Settings onCancel={onResume} />
+      ScreenComponent = <Settings onCancel={goToChatScreen} />
       break
     default:
-      ScreenComponent = <PreChat onForward={onForward} />
+      ScreenComponent = <PreChat onContinue={goToRequestChatScreen} />
   }
 
   if (availability === 'UNAVAILABLE') {
