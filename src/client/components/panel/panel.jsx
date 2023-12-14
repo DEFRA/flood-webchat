@@ -79,11 +79,6 @@ export function Panel () {
   const goToEndChatScreen = handleScreenChange(3)
   const goToSettingsScreen = handleScreenChange(5)
 
-  const onEndChatConfirm = e => {
-    e.preventDefault()
-    console.log('confirmed end chat')
-  }
-
   let ScreenComponent
 
   switch (screen) {
@@ -97,7 +92,7 @@ export function Panel () {
       ScreenComponent = <Chat onSettingsScreen={goToSettingsScreen} onEndChatScreen={goToEndChatScreen} />
       break
     case 3:
-      ScreenComponent = <EndChat onChatScreen={goToChatScreen} onEndChatConfirm={onEndChatConfirm} />
+      ScreenComponent = <EndChat onChatScreen={goToChatScreen} />
       break
     case 5:
       ScreenComponent = <Settings onCancel={goToChatScreen} />
