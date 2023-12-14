@@ -7,6 +7,7 @@ import { Chat } from '../chat/chat.jsx'
 import { Unavailable } from '../screens/unavailable.jsx'
 import { EndChat } from '../screens/end-chat.jsx'
 import { Settings } from '../screens/settings.jsx'
+import { Feedback } from '../screens/feedback.jsx'
 
 import { useApp } from '../../store/useApp.js'
 import { useChatSdk } from '../../store/useChatSdk.js'
@@ -77,6 +78,7 @@ export function Panel () {
   const goToRequestChatScreen = handleScreenChange(1)
   const goToChatScreen = handleScreenChange(2)
   const goToEndChatScreen = handleScreenChange(3)
+  const goToEndChatConfirm = handleScreenChange(4)
   const goToSettingsScreen = handleScreenChange(5)
 
   let ScreenComponent
@@ -93,6 +95,9 @@ export function Panel () {
       break
     case 3:
       ScreenComponent = <EndChat onChatScreen={goToChatScreen} />
+      break
+    case 4:
+      ScreenComponent = <Feedback onCancel={goToChatScreen} /> // onCancel needs to close the webchat window, onSubmit needs 
       break
     case 5:
       ScreenComponent = <Settings onCancel={goToChatScreen} />
