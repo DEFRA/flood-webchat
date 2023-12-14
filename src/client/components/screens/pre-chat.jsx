@@ -31,7 +31,17 @@ export function PreChat ({ onContinue }) {
             manage your flood warnings account
           </a>.
         </p>
-        <p className='govuk-body-s'>Do not use webchat to <a className='govuk-link' href='https://www.gov.uk/report-flood-cause' target='_blank' rel='noreferrer'>report a flood</a>.</p>
+        <p className='govuk-body-s'>
+          {'Do not use webchat to '}
+          <a
+            className='govuk-link'
+            href='https://www.gov.uk/report-flood-cause'
+            target='_blank'
+            rel='noreferrer'
+          >
+            report a flood
+          </a>.
+        </p>
 
         <button className='govuk-button govuk-!-font-size-16' data-module='govuk-button' onClick={onContinue}>Continue</button>
 
