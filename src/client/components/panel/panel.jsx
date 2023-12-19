@@ -12,6 +12,7 @@ import { Feedback } from '../screens/feedback.jsx'
 import { useApp } from '../../store/useApp.js'
 import { useChatSdk } from '../../store/useChatSdk.js'
 import { useFocusedElements } from '../../hooks/useFocusedElements.js'
+import { EndFeedback } from '../screens/end-feedback.jsx'
 
 export function Panel () {
   const { sdk, availability, thread, threadId, setThread, setThreadId, setChatVisibility, setMessages, setUnseenCount } = useApp()
@@ -65,6 +66,10 @@ export function Panel () {
 
   const onEscapeKey = useCallback(e => {
     if (e.key === 'Escape' || e.key === 'Esc') {
+      if (thread) {
+        thread.lastMessageSeen()
+        setUnseenCount(0)
+      }
       setChatVisibility(false)
     }
   }, [])
@@ -78,8 +83,9 @@ export function Panel () {
   const goToRequestChatScreen = handleScreenChange(1)
   const goToChatScreen = handleScreenChange(2)
   const goToEndChatScreen = handleScreenChange(3)
-  const goToEndChatConfirm = handleScreenChange(4)
+  const goToFeedbackScreen = handleScreenChange(4)
   const goToSettingsScreen = handleScreenChange(5)
+  const goToEndFeedbackScreen = handleScreenChange(6)
 
   let ScreenComponent
 
@@ -94,13 +100,16 @@ export function Panel () {
       ScreenComponent = <Chat onSettingsScreen={goToSettingsScreen} onEndChatScreen={goToEndChatScreen} />
       break
     case 3:
-      ScreenComponent = <EndChat onChatScreen={goToChatScreen} />
+      ScreenComponent = <EndChat onChatScreen={goToChatScreen} onEndChatConfirm={goToFeedbackScreen} />
       break
     case 4:
-      ScreenComponent = <Feedback onCancel={goToChatScreen} /> // onCancel needs to close the webchat window, onSubmit needs
+      ScreenComponent = <Feedback onCancel={() => setChatVisibility(false)} onConfirmSubmit={goToEndFeedbackScreen} />
       break
     case 5:
       ScreenComponent = <Settings onCancel={goToChatScreen} />
+      break
+    case 6:
+      ScreenComponent = <EndFeedback onClose={() => setChatVisibility(false)} />
       break
     default:
       ScreenComponent = <PreChat onContinue={goToRequestChatScreen} />
