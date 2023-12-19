@@ -178,106 +178,173 @@ describe('<Panel />', () => {
       expect(link4).toHaveFocus()
     })
 
-    xit('should close the chat when "ESC" is pressed', async () => {
-      mocks.useApp.mockReturnValue({ setChatVisibility: jest.fn() })
-      mocks.useChatSdk.mockReturnValue({ fetchThread: jest.fn() })
+    describe('Screens', () => {
+      it('should go back a screen', () => {
+        mocks.useApp.mockReturnValue({
+          settings: { audio: true, scroll: true },
+          setThread: jest.fn(),
+          setMessages: jest.fn()
+        })
 
-      render(
-        <Panel />
-      )
+        mocks.useChatSdk.mockReturnValue({
+          fetchThread: jest.fn(),
+          fetchMessages: jest.fn()
+        })
 
-      const user = userEvent.setup()
+        render(
+          <Panel />
+        )
 
-      await user.keyboard('{Escape}')
+        fireEvent.click(screen.getByText('Continue'))
+        fireEvent.click(screen.getByText('What you can use webchat for'))
 
-      expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
+        expect(screen.getByText('Webchat lets you talk directly to a Floodline adviser.')).toBeTruthy()
+      })
+
+      it('should default to the pre-chat screen', () => {
+        mocks.useApp.mockReturnValue({
+          settings: { audio: true, scroll: true },
+          setThread: jest.fn(),
+          setMessages: jest.fn()
+        })
+
+        mocks.useChatSdk.mockReturnValue({
+          fetchThread: jest.fn(),
+          fetchMessages: jest.fn()
+        })
+
+        render(
+          <Panel />
+        )
+
+        expect(screen.getByText('Webchat lets you talk directly to a Floodline adviser.')).toBeTruthy()
+      })
+
+      it('should go to request-chat screen', async () => {
+        mocks.useApp.mockReturnValue({
+          settings: { audio: true, scroll: true },
+          setThread: jest.fn(),
+          setMessages: jest.fn()
+        })
+
+        mocks.useChatSdk.mockReturnValue({
+          fetchThread: jest.fn(),
+          fetchMessages: jest.fn()
+        })
+
+        render(
+          <Panel />
+        )
+
+        fireEvent.click(screen.getByText('Continue'))
+
+        expect(screen.getByText('Your question')).toBeTruthy()
+      })
+
+      it('should go to unavailable screen', () => {
+        mocks.useApp.mockReturnValue({
+          setThread: jest.fn(),
+          setMessages: jest.fn(),
+          availability: 'UNAVAILABLE',
+          settings: { audio: true, scroll: true }
+        })
+
+        mocks.useChatSdk.mockReturnValue({
+          fetchThread: jest.fn(),
+          fetchMessages: jest.fn()
+        })
+
+        render(
+          <Panel />
+        )
+
+        expect(screen.getByText('Webchat is currently not available')).toBeTruthy()
+      })
+
+      it('should go to chat screen', () => {
+        mocks.useApp.mockReturnValue({
+          thread: {
+            lastMessageSeen: jest.fn()
+          },
+          threadId: 'thread_123',
+          messages: [],
+          settings: { audio: true, scroll: true },
+          setThreadId: jest.fn(),
+          setThread: jest.fn(),
+          setMessages: jest.fn(),
+          setUnseenCount: jest.fn()
+        })
+
+        mocks.useChatSdk.mockReturnValue({
+          fetchThread: jest.fn(),
+          fetchMessages: jest.fn()
+        })
+
+        render(
+          <Panel />
+        )
+
+        expect(screen.getByText('Connecting to Floodline')).toBeTruthy()
+      })
+
+      it('should go to settings screen', () => {
+        mocks.useApp.mockReturnValue({
+          thread: {
+            lastMessageSeen: jest.fn()
+          },
+          threadId: 'thread_123',
+          messages: [],
+          settings: { audio: true, scroll: true },
+          setThreadId: jest.fn(),
+          setThread: jest.fn(),
+          setMessages: jest.fn(),
+          setUnseenCount: jest.fn()
+        })
+
+        mocks.useChatSdk.mockReturnValue({
+          fetchThread: jest.fn(),
+          fetchMessages: jest.fn()
+        })
+
+        render(
+          <Panel />
+        )
+
+        fireEvent.click(screen.getByText('Settings'))
+
+        expect(screen.getByText('Change settings')).toBeTruthy()
+      })
+
+      it('should go to the end chat screen', () => {
+        mocks.useApp.mockReturnValue({
+          thread: {
+            lastMessageSeen: jest.fn()
+          },
+          threadId: 'thread_123',
+          messages: [],
+          settings: { audio: true, scroll: true },
+          setThreadId: jest.fn(),
+          setThread: jest.fn(),
+          setMessages: jest.fn(),
+          setUnseenCount: jest.fn()
+        })
+
+        mocks.useChatSdk.mockReturnValue({
+          fetchThread: jest.fn(),
+          fetchMessages: jest.fn()
+        })
+
+        render(
+          <Panel />
+        )
+
+        fireEvent.click(screen.getByText('End chat'))
+
+        expect(screen.getByText('Yes, end chat')).toBeTruthy()
+      })
     })
-  })
 
-  describe('Screens', () => {
-    it('should go back a screen', () => {
-      mocks.useApp.mockReturnValue({
-        settings: { audio: true, scroll: true },
-        setThread: jest.fn(),
-        setMessages: jest.fn()
-      })
-
-      mocks.useChatSdk.mockReturnValue({
-        fetchThread: jest.fn(),
-        fetchMessages: jest.fn()
-      })
-
-      render(
-        <Panel />
-      )
-
-      fireEvent.click(screen.getByText('Continue'))
-      fireEvent.click(screen.getByText('What you can use webchat for'))
-
-      expect(screen.getByText('Webchat lets you talk directly to a Floodline adviser.')).toBeTruthy()
-    })
-
-    it('should default to the pre-chat screen', () => {
-      mocks.useApp.mockReturnValue({
-        settings: { audio: true, scroll: true },
-        setThread: jest.fn(),
-        setMessages: jest.fn()
-      })
-
-      mocks.useChatSdk.mockReturnValue({
-        fetchThread: jest.fn(),
-        fetchMessages: jest.fn()
-      })
-
-      render(
-        <Panel />
-      )
-
-      expect(screen.getByText('Webchat lets you talk directly to a Floodline adviser.')).toBeTruthy()
-    })
-
-    it('should go to request-chat screen', async () => {
-      mocks.useApp.mockReturnValue({
-        settings: { audio: true, scroll: true },
-        setThread: jest.fn(),
-        setMessages: jest.fn()
-      })
-
-      mocks.useChatSdk.mockReturnValue({
-        fetchThread: jest.fn(),
-        fetchMessages: jest.fn()
-      })
-
-      render(
-        <Panel />
-      )
-
-      fireEvent.click(screen.getByText('Continue'))
-
-      expect(screen.getByText('Your question')).toBeTruthy()
-    })
-
-    it('should go to unavailable screen', () => {
-      mocks.useApp.mockReturnValue({
-        setThread: jest.fn(),
-        setMessages: jest.fn(),
-        availability: 'UNAVAILABLE',
-        settings: { audio: true, scroll: true }
-      })
-
-      mocks.useChatSdk.mockReturnValue({
-        fetchThread: jest.fn(),
-        fetchMessages: jest.fn()
-      })
-
-      render(
-        <Panel />
-      )
-
-      expect(screen.getByText('Webchat is currently not available')).toBeTruthy()
-    })
-
-    it('should go to chat screen', () => {
+    xit('should go to the feedback screen', () => {
       mocks.useApp.mockReturnValue({
         thread: {
           lastMessageSeen: jest.fn()
@@ -300,63 +367,9 @@ describe('<Panel />', () => {
         <Panel />
       )
 
-      expect(screen.getByText('Connecting to Floodline')).toBeTruthy()
-    })
+      fireEvent.click(screen.getByText('Yes, end chat'))
 
-    it('should go to settings screen', () => {
-      mocks.useApp.mockReturnValue({
-        thread: {
-          lastMessageSeen: jest.fn()
-        },
-        threadId: 'thread_123',
-        messages: [],
-        settings: { audio: true, scroll: true },
-        setThreadId: jest.fn(),
-        setThread: jest.fn(),
-        setMessages: jest.fn(),
-        setUnseenCount: jest.fn()
-      })
-
-      mocks.useChatSdk.mockReturnValue({
-        fetchThread: jest.fn(),
-        fetchMessages: jest.fn()
-      })
-
-      render(
-        <Panel />
-      )
-
-      fireEvent.click(screen.getByText('Settings'))
-
-      expect(screen.getByText('Change settings')).toBeTruthy()
-    })
-
-    it('should go to the end chat screen', () => {
-      mocks.useApp.mockReturnValue({
-        thread: {
-          lastMessageSeen: jest.fn()
-        },
-        threadId: 'thread_123',
-        messages: [],
-        settings: { audio: true, scroll: true },
-        setThreadId: jest.fn(),
-        setThread: jest.fn(),
-        setMessages: jest.fn(),
-        setUnseenCount: jest.fn()
-      })
-
-      mocks.useChatSdk.mockReturnValue({
-        fetchThread: jest.fn(),
-        fetchMessages: jest.fn()
-      })
-
-      render(
-        <Panel />
-      )
-
-      fireEvent.click(screen.getByText('End chat'))
-
-      expect(screen.getByText('Yes, end chat')).toBeTruthy()
+      expect(screen.getByText('Give Feedback on Floodline webchat')).toBeTruthy()
     })
   })
 
