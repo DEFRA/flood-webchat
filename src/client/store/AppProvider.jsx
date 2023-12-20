@@ -52,6 +52,7 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
   }
 
   useEffect(() => {
+    sdk.onChatEvent('SetConsumerContactCustomFields', () => { console.log('Custom field set') })
     sdk.onChatEvent(ChatEvent.LIVECHAT_RECOVERED, onLiveChatRecovered)
     sdk.onChatEvent(ChatEvent.MESSAGE_CREATED, onMessageCreated)
     sdk.onChatEvent(ChatEvent.AGENT_TYPING_STARTED, onAgentTypingStarted)

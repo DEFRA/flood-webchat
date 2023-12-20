@@ -7,8 +7,10 @@ export function PanelHeader () {
   const onClose = e => {
     e.preventDefault()
     setChatVisibility(false)
-    thread.lastMessageSeen()
-    setUnseenCount(0)
+    if (thread) {
+      thread.lastMessageSeen()
+      setUnseenCount(0)
+    }
   }
 
   let ButtonComponent = (

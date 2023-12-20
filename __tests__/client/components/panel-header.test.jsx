@@ -54,22 +54,4 @@ describe('<PanelHeader />', () => {
 
     expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
   })
-
-  xit('should close the chat when "ESC" is pressed', async () => {
-    mocks.useApp.mockReturnValue({
-      setChatVisibility: jest.fn(),
-      setUnseenCount: jest.fn(),
-      thread: {
-        lastMessageSeen: jest.fn()
-      }
-    })
-
-    const { container } = render(
-      <PanelHeader />
-    )
-
-    fireEvent.keyPress(container, { key: 'Escape' })
-
-    expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
-  })
 })

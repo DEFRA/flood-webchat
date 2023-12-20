@@ -6,7 +6,7 @@ export function EndFeedback ({ onClose }) {
     <>
       <PanelHeader />
 
-      <div class='wc-body'>
+      <div className='wc-body'>
         <h3 id='wc-subtitle' class='govuk-heading-m'>Thank you for your feedback</h3>
         <div>
           <a href='#' role='button' draggable='false' data-module='govuk-button' data-wc-focus-visible data-wc-close-btn onClick={onClose}>Close window</a>
