@@ -178,6 +178,24 @@ describe('<Panel />', () => {
       expect(link4).toHaveFocus()
     })
 
+    xit('should close the chat when "ESC" is pressed', () => {
+      mocks.useApp.mockReturnValue({
+        setChatVisibility: jest.fn(),
+        setUnseenCount: jest.fn(),
+        thread: {
+          lastMessageSeen: jest.fn()
+        }
+      })
+
+      render(
+        <Panel />
+      )
+
+      fireEvent.keyPress(window, { key: 'Escape' })
+
+      expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
+    })
+
     describe('Screens', () => {
       it('should go back a screen', () => {
         mocks.useApp.mockReturnValue({
@@ -342,34 +360,6 @@ describe('<Panel />', () => {
 
         expect(screen.getByText('Yes, end chat')).toBeTruthy()
       })
-    })
-
-    xit('should go to the feedback screen', () => {
-      mocks.useApp.mockReturnValue({
-        thread: {
-          lastMessageSeen: jest.fn()
-        },
-        threadId: 'thread_123',
-        messages: [],
-        settings: { audio: true, scroll: true },
-        setThreadId: jest.fn(),
-        setThread: jest.fn(),
-        setMessages: jest.fn(),
-        setUnseenCount: jest.fn()
-      })
-
-      mocks.useChatSdk.mockReturnValue({
-        fetchThread: jest.fn(),
-        fetchMessages: jest.fn()
-      })
-
-      render(
-        <Panel />
-      )
-
-      fireEvent.click(screen.getByText('Yes, end chat'))
-
-      expect(screen.getByText('Give Feedback on Floodline webchat')).toBeTruthy()
     })
   })
 

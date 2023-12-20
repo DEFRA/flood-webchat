@@ -5,7 +5,7 @@ import { Panel } from '../panel/panel.jsx'
 import { useApp } from '../../store/useApp'
 
 export function Availability () {
-  const { availability, messages, isChatOpen, setChatVisibility, unseenCount } = useApp()
+  const { availability, isChatOpen, setChatVisibility, unseenCount, threadId } = useApp()
 
   const [isFixed, setIsFixed] = useState(false)
   const buttonRef = useRef()
@@ -29,7 +29,7 @@ export function Availability () {
   const intersectionCallback = entries => {
     const [entry] = entries
     const isBelowFold = !entry.isIntersecting && entry.boundingClientRect.top > 0
-    setIsFixed(!isChatOpen && isBelowFold)
+    setIsFixed(!isChatOpen && isBelowFold && threadId)
   }
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export function Availability () {
 
   let TextComponent = (<>Show Chat</>)
 
-  if (!messages.length) {
+  if (!threadId) {
     TextComponent = (<>Start Chat</>)
   }
 

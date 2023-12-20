@@ -59,6 +59,7 @@ export function RequestChat ({ onPreChatScreen }) {
         setCustomerId(customerId)
         setThreadId(threadId)
         setThread(thread)
+        thread.setCustomField('threadid', threadId)
       } catch (err) {
         console.log('[Request Chat Error]', err)
       }
