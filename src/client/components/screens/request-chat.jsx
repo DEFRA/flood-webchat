@@ -142,6 +142,11 @@ export function RequestChat ({ onPreChatScreen }) {
             </div>
           </div>
 
+          <div className='govuk-inset-text govuk-!-font-size-16'>
+            By selecting 'Request chat' you agree to the terms of our&nbsp;
+            <a href='https://check-for-flooding.service.gov.uk/privacy-notice' target='_blank' rel='noreferrer' className='govuk-link'>privacy notice</a>.
+          </div>
+
           <button
             className='govuk-button govuk-!-margin-top-1 govuk-!-font-size-16'
             data-module='govuk-button'

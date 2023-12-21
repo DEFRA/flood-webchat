@@ -38,6 +38,23 @@ describe('<RequestChat />', () => {
     expect(screen.getByText('Your name and question')).toBeTruthy()
   })
 
+  it('should contain link to privacy notice', () => {
+    mocks.useApp.mockReturnValue({
+      sdk: jest.fn()
+    })
+
+    mocks.useChatSdk.mockReturnValue({
+      fetchCustomerId: jest.fn(),
+      fetchThread: jest.fn()
+    })
+
+    render(
+      <RequestChat onBack={jest.fn()} />
+    )
+
+    expect(screen.getByText('privacy notice')).toBeTruthy()
+  })
+
   it('should show the error summary when no inputs have been filled', () => {
     mocks.useChatSdk.mockReturnValue({
       fetchCustomerId: jest.fn(),

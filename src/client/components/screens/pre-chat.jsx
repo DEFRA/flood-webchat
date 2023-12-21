@@ -32,7 +32,7 @@ export function PreChat ({ onContinue }) {
           </a>.
         </p>
         <p className='govuk-body-s'>
-          {'Do not use webchat to '}
+          Do not use webchat to&nbsp;
           <a
             className='govuk-link'
             href='https://www.gov.uk/report-flood-cause'
