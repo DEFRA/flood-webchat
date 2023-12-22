@@ -3,7 +3,7 @@ import { PanelHeader } from '../panel/panel-header.jsx'
 import { useApp } from '../../store/useApp.js'
 
 export function EndChat ({ onChatScreen, onEndChatConfirm }) {
-  const { setCustomerId, setThreadId, setMessages, agentStatus, thread } = useApp()
+  const { setCustomerId, setThreadId, setMessages, agentStatus, thread, setUnseenCount } = useApp()
 
   const confirmEndChat = async e => {
     e.preventDefault()
@@ -11,6 +11,8 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
     setThreadId()
     setMessages([])
     setCustomerId()
+    thread.lastMessageSeen()
+    setUnseenCount(0)
 
     // End chat if still open
     if (agentStatus !== 'closed') {

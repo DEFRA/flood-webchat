@@ -23,7 +23,8 @@ describe('<EndChat />', () => {
   it('should render the screen', () => {
     mocks.useApp.mockReturnValue({
       thread: {
-        endChat: jest.fn()
+        endChat: jest.fn(),
+        lastMessageSeen: jest.fn()
       },
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
@@ -42,7 +43,8 @@ describe('<EndChat />', () => {
   it('confirm chat is ended if Yes, end chat clicked', () => {
     mocks.useApp.mockReturnValue({
       thread: {
-        endChat: jest.fn()
+        endChat: jest.fn(),
+        lastMessageSeen: jest.fn()
       },
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
@@ -62,7 +64,8 @@ describe('<EndChat />', () => {
   it('should not end chat if resume chat is clicked ', () => {
     mocks.useApp.mockReturnValue({
       thread: {
-        endChat: jest.fn()
+        endChat: jest.fn(),
+        lastMessageSeen: jest.fn()
       },
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),

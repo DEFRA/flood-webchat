@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 
 import { Feedback } from '../../../src/client/components/screens/feedback'
@@ -34,5 +35,28 @@ describe('<Feedback />', () => {
     render(<Feedback onCancel={jest.fn()} onConfirmSubmit={jest.fn()} />)
 
     expect(screen.getByText('Give Feedback on Floodline webchat')).toBeTruthy()
+  })
+
+  xit('should close the webchat window when cancel is pressed', async () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'pending',
+      setChatVisibility: jest.fn()
+    })
+
+    const { container } = render(<Feedback onCancel={jest.fn()} onConfirmSubmit={jest.fn()} />)
+
+    console.log(container.innerHTML)
+
+    const user = userEvent.setup()
+
+    await user.click(screen.getByText('Cancel'))
+
+    expect(screen.getByText('Give Feedback on Floodline webchat')).toBeFalsy()
   })
 })
