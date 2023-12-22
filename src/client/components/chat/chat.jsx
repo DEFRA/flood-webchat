@@ -78,7 +78,6 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
     const saveChatLink = document.querySelector('#transcript-download')
 
     saveChatLink.setAttribute('href', `data:text/plain;charset=utf-8,${transcript}`)
-    saveChatLink.click()
   }
 
   return (

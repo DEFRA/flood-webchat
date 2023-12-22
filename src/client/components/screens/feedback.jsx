@@ -1,13 +1,16 @@
 import React from 'react'
 import { PanelHeader } from '../panel/panel-header.jsx'
 
-export function Feedback ({ onCancel, onConfirmSubmit }) {
+export function Feedback ({ onConfirmSubmit }) {
   const feedbackSubmit = async e => {
     e.preventDefault()
 
     console.log('feedback submitted')
 
     onConfirmSubmit(e)
+  }
+  const onCancel = async e => {
+
   }
   return (
     <>
