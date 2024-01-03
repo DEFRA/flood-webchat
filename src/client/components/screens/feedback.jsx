@@ -1,17 +1,19 @@
 import React from 'react'
 import { PanelHeader } from '../panel/panel-header.jsx'
 
-export function Feedback ({ onConfirmSubmit }) {
+export function Feedback ({ onCancel, onConfirmSubmit }) {
   const feedbackSubmit = async e => {
     e.preventDefault()
 
-    console.log('feedback submitted')
-
     onConfirmSubmit(e)
   }
-  const onCancel = async e => {
 
+  const onCancelFeedback = (e) => {
+    e.preventDefault()
+
+    onCancel()
   }
+
   return (
     <>
       <PanelHeader />
@@ -144,7 +146,7 @@ export function Feedback ({ onConfirmSubmit }) {
 
         <div className='govuk-button-group'>
           <a id='feedback-save' href='#' className='govuk-button govuk-!-font-size-16' data-module='govuk-button' onClick={feedbackSubmit}>Submit</a>
-          <a id='feedback-cancel' href='#' className='govuk-link govuk-!-font-size-16' data-module='govuk-button' onClick={onCancel}>Cancel</a>
+          <a id='feedback-cancel' href='#' className='govuk-link govuk-!-font-size-16' data-module='govuk-button' onClick={onCancelFeedback}>Cancel</a>
         </div>
       </div>
     </>
