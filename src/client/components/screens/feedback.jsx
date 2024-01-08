@@ -141,7 +141,7 @@ export function Feedback ({ onConfirmSubmit, onCancel }) {
 
         <div className='govuk-button-group'>
           <a id='feedback-save' href='#' className='govuk-button govuk-!-font-size-16' data-module='govuk-button' onClick={feedbackSubmit}>Submit</a>
-          <a id='feedback-cancel' href='#' className='govuk-link govuk-!-font-size-16' data-module='govuk-button' onClick={onCancelFeedback}>Cancel</a>
+          <a id='feedback-cancel' href='#' className='govuk-link govuk-!-font-size-16' data-module='govuk-button' onClick={onCancel}>Cancel</a>
         </div>
       </div>
     </>
