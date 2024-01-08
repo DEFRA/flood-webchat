@@ -1,6 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { Feedback } from '../../../src/client/components/screens/feedback'
@@ -13,7 +12,8 @@ jest.mock('../../../src/client/store/useChatSdk')
 
 const mocks = {
   useApp: jest.mocked(useApp),
-  useChatSdk: jest.mocked(useChatSdk)
+  useChatSdk: jest.mocked(useChatSdk),
+  handleOnCancel: jest.fn()
 }
 
 describe('<Feedback />', () => {
@@ -32,12 +32,12 @@ describe('<Feedback />', () => {
       agentStatus: 'pending'
     })
 
-    render(<Feedback onCancel={jest.fn()} onConfirmSubmit={jest.fn()} />)
+    render(<Feedback onCancel={mocks.handleOnCancel} onConfirmSubmit={jest.fn()} />)
 
     expect(screen.getByText('Give Feedback on Floodline webchat')).toBeTruthy()
   })
 
-  xit('should close the webchat window when cancel is pressed', async () => {
+  it('should close the webchat window when cancel is pressed', async () => {
     mocks.useApp.mockReturnValue({
       thread: {
         endChat: jest.fn()
@@ -49,14 +49,12 @@ describe('<Feedback />', () => {
       setChatVisibility: jest.fn()
     })
 
-    const { container } = render(<Feedback onCancel={jest.fn()} onConfirmSubmit={jest.fn()} />)
+    const { container } = render(<Feedback onCancel={mocks.handleOnCancel} onConfirmSubmit={jest.fn()} />)
 
-    console.log(container.innerHTML)
+    const button = container.querySelector('#feedback-cancel')
 
-    const user = userEvent.setup()
+    fireEvent.click(button)
 
-    await user.click(screen.getByText('Cancel'))
-
-    expect(screen.getByText('Give Feedback on Floodline webchat')).toBeFalsy()
+    expect(mocks.handleOnCancel).toHaveBeenCalled()
   })
 })

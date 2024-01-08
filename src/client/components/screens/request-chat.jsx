@@ -15,6 +15,7 @@ export function RequestChat ({ onPreChatScreen }) {
 
   const [errors, setErrors] = useState({})
   const [questionLength, setQuestionLength] = useState(0)
+  const [isButtonDisabled, setButtonDisabled] = useState(false)
 
   const nameRef = useRef()
   const questionRef = useRef()
@@ -48,6 +49,7 @@ export function RequestChat ({ onPreChatScreen }) {
 
     if (Object.keys(errs).length === 0) {
       try {
+        setButtonDisabled(true)
         const threadId = uuid.v4()
         const customerId = await fetchCustomerId()
         const thread = await fetchThread(threadId)
@@ -147,8 +149,9 @@ export function RequestChat ({ onPreChatScreen }) {
             className='govuk-button govuk-!-margin-top-1 govuk-!-font-size-16'
             data-module='govuk-button'
             onClick={onRequestChat}
+            disabled={isButtonDisabled}
           >
-            Request chat
+            {isButtonDisabled ? 'Requesting...' : 'Request Chat'}
           </button>
         </form>
       </div>
