@@ -18,21 +18,17 @@ export function PreChat ({ onContinue }) {
         </ul>
 
         <p className='govuk-body-s'>
-          {
-            'There are other ways to '
-          }
+          There are other ways to&nbsp;
           <a className='govuk-link' href='https://www.gov.uk/sign-up-for-flood-warnings' target='_blank' rel='noreferrer'>
             sign up for flood warnings
           </a>
-          {
-            ' and '
-          }
+          &nbsp;and&nbsp;
           <a className='govuk-link' href='https://www.fws.environment-agency.gov.uk/app/olr/login' target='_blank' rel='noreferrer'>
             manage your flood warnings account
           </a>.
         </p>
         <p className='govuk-body-s'>
-          {'Do not use webchat to '}
+          Do not use webchat to&nbsp;
           <a
             className='govuk-link'
             href='https://www.gov.uk/report-flood-cause'
