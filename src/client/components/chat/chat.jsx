@@ -57,8 +57,6 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
   }
 
   const sendMessage = e => {
-    e.preventDefault()
-
     if (messageRef.current.value.length === 0) {
       return
     }
@@ -70,6 +68,17 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
     }
 
     setUserMessage('')
+  }
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      sendMessage()
+    }
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    sendMessage()
   }
 
   const saveChat = () => {
@@ -115,7 +124,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
 
       <PanelFooter>
         <div className='wc-footer__input'>
-          <form className='wc-form' noValidate>
+          <form className='wc-form' noValidate onSubmit={handleSubmit}>
             <label className='govuk-label wc-form__label govuk-!-font-size-16' htmlFor='wc-form-textarea'>
               Your message<span className='govuk-visually-hidden'> (enter key submits)</span>
             </label>
@@ -128,6 +137,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
               id='wc-form-textarea'
               name='message'
               onChange={onChange}
+              onKeyPress={handleKeyPress}
               value={userMessage}
             />
 
@@ -136,7 +146,6 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
               className='wc-form__button govuk-button govuk-!-font-size-16'
               value='Send'
               data-prevent-double-click='true'
-              onClick={sendMessage}
             />
           </form>
         </div>

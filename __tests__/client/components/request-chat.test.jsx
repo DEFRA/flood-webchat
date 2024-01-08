@@ -48,7 +48,9 @@ describe('<RequestChat />', () => {
       <RequestChat onBack={jest.fn()} />
     )
 
-    fireEvent.click(screen.getByText('Request chat'))
+    const button = container.querySelector('form button')
+
+    fireEvent.click(button)
 
     expect(screen.getByText('There is a problem')).toBeTruthy()
     expect(container.querySelector('.govuk-error-summary')).toBeTruthy()
@@ -92,9 +94,10 @@ describe('<RequestChat />', () => {
     )
 
     const textarea = container.querySelector('textarea')
+    const button = container.querySelector('form button')
 
     fireEvent.change(textarea, { target: { value: 'input'.repeat(101) } })
-    fireEvent.click(screen.getByText('Request chat'))
+    fireEvent.click(button)
 
     expect(container.querySelectorAll('.govuk-error-summary__list li')[1].textContent).toEqual('Your question must be 500 characters or less')
     expect(container.querySelector('.govuk-hint').textContent).toEqual('You have 5 characters too many')
@@ -114,7 +117,9 @@ describe('<RequestChat />', () => {
       <RequestChat />
     )
 
-    fireEvent.click(screen.getByText('Request chat'))
+    const button = container.querySelector('form button')
+
+    fireEvent.click(button)
     fireEvent.click(container.querySelector('a[data-key="name"]'))
 
     expect(container.querySelector('.govuk-error-summary')).toBeTruthy()
@@ -158,5 +163,43 @@ describe('<RequestChat />', () => {
     expect(mocks.useApp().setCustomerId).toHaveBeenCalled()
     expect(mocks.useApp().setThreadId).toHaveBeenCalled()
     expect(mocks.useApp().setThread).toHaveBeenCalled()
+  })
+
+  it('should disable button and show requesting on click', async () => {
+    mocks.useApp.mockReturnValue({
+      sdk: ({
+        getCustomer: jest.fn().mockReturnValue({
+          setName: jest.fn()
+        })
+      }),
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setThread: jest.fn()
+    })
+
+    mocks.useChatSdk.mockReturnValue({
+      fetchCustomerId: jest.fn(),
+      fetchThread: () => ({
+        startChat: jest.fn
+      })
+    })
+
+    const { container } = render(
+      <RequestChat onBack={jest.fn()} />
+    )
+
+    const input = container.querySelector('form input')
+    const textarea = container.querySelector('form textarea')
+    const button = container.querySelector('form button')
+
+    const user = userEvent.setup()
+
+    fireEvent.change(input, { target: { value: 'name' } })
+    fireEvent.change(textarea, { target: { value: 'question' } })
+
+    await user.click(button)
+
+    expect(button).toBeDisabled()
+    expect(button).toHaveTextContent('Requesting...')
   })
 })
