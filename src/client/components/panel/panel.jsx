@@ -8,7 +8,6 @@ import { Unavailable } from '../screens/unavailable.jsx'
 import { EndChat } from '../screens/end-chat.jsx'
 import { Settings } from '../screens/settings.jsx'
 import { Feedback } from '../screens/feedback.jsx'
-import { EndFeedback } from '../screens/end-feedback.jsx'
 
 import { useApp } from '../../store/useApp.js'
 import { useChatSdk } from '../../store/useChatSdk.js'
@@ -85,8 +84,6 @@ export function Panel () {
   const goToEndChatScreen = handleScreenChange(3)
   const goToFeedbackScreen = handleScreenChange(4)
   const goToSettingsScreen = handleScreenChange(5)
-  const goToEndFeedbackScreen = handleScreenChange(6)
-
   let ScreenComponent
 
   switch (screen) {
@@ -103,13 +100,10 @@ export function Panel () {
       ScreenComponent = <EndChat onChatScreen={goToChatScreen} onEndChatConfirm={goToFeedbackScreen} />
       break
     case 4:
-      ScreenComponent = <Feedback onCancel={() => setChatVisibility(false)} onConfirmSubmit={goToEndFeedbackScreen} />
+      ScreenComponent = <Feedback onCancel={() => setChatVisibility(false)} />
       break
     case 5:
       ScreenComponent = <Settings onCancel={goToChatScreen} />
-      break
-    case 6:
-      ScreenComponent = <EndFeedback onClose={() => setChatVisibility(false)} />
       break
     default:
       ScreenComponent = <PreChat onContinue={goToRequestChatScreen} />

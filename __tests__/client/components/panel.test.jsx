@@ -194,6 +194,8 @@ describe('<Panel />', () => {
       fireEvent.keyPress(window, { key: 'Escape' })
 
       expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
+      expect(mocks.useApp.thread.lastMessageSeen).toHaveBeenCalled()
+      expect(mocks.useApp.setUnseenCount).toHaveBeenCalled()
     })
 
     describe('Screens', () => {

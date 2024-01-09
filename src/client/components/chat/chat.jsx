@@ -56,7 +56,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
     connectionHeadlineText = 'Webchat is not currently available'
   }
 
-  const sendMessage = e => {
+  const sendMessage = () => {
     if (messageRef.current.value.length === 0) {
       return
     }
@@ -72,7 +72,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      sendMessage(e)
+      sendMessage()
     }
   }
 

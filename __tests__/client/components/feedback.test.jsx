@@ -32,7 +32,7 @@ describe('<Feedback />', () => {
       agentStatus: 'pending'
     })
 
-    render(<Feedback onCancel={mocks.handleOnCancel} onConfirmSubmit={jest.fn()} />)
+    render(<Feedback onCancel={mocks.handleOnCancel} />)
 
     expect(screen.getByText('Give Feedback on Floodline webchat')).toBeTruthy()
   })
@@ -49,7 +49,7 @@ describe('<Feedback />', () => {
       setChatVisibility: jest.fn()
     })
 
-    const { container } = render(<Feedback onCancel={mocks.handleOnCancel} onConfirmSubmit={jest.fn()} />)
+    const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
 
     const button = container.querySelector('#feedback-cancel')
 
