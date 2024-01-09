@@ -159,6 +159,27 @@ describe('<Chat />', () => {
 
       expect(mocks.useApp().thread.sendTextMessage).toHaveBeenCalled()
     })
+
+    it('should send a message when Enter key is hit', async () => {
+      const mockSendTextMessage = jest.fn()
+      mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          sendTextMessage: mockSendTextMessage
+        }
+      })
+
+      const { container } = render(<Chat />)
+
+      const textarea = container.querySelector('textarea')
+
+      fireEvent.change(textarea, { target: { value: 'text' } })
+      fireEvent.focus(textarea)
+      fireEvent.keyDown(textarea, { key: 'Enter', code: 'Enter', keyCode: 13 })
+
+      expect(mockSendTextMessage).toHaveBeenCalledWith('text')
+    })
   })
 
   describe('Messages', () => {

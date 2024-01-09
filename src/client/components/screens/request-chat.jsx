@@ -12,13 +12,22 @@ const QUESTION_MAX_LENGTH = 500
 export function RequestChat ({ onPreChatScreen }) {
   const { sdk, setCustomerId, setThreadId, setThread } = useApp()
   const { fetchCustomerId, fetchThread } = useChatSdk(sdk)
-
   const [errors, setErrors] = useState({})
   const [questionLength, setQuestionLength] = useState(0)
   const [isButtonDisabled, setButtonDisabled] = useState(false)
 
   const nameRef = useRef()
   const questionRef = useRef()
+
+  const isQuestionLengthValid = QUESTION_MAX_LENGTH >= questionLength
+  const questionLengthRemaining = QUESTION_MAX_LENGTH - questionLength
+  const questionLengthExceeded = questionLength - QUESTION_MAX_LENGTH
+
+  let questionHint = `You have ${questionLengthRemaining} characters remaining`
+
+  if (!isQuestionLengthValid) {
+    questionHint = `You have ${questionLengthExceeded} characters too many`
+  }
 
   useEffect(() => {
     if (Object.keys(errors).length) {
@@ -70,15 +79,7 @@ export function RequestChat ({ onPreChatScreen }) {
     setErrors(errs)
   }
 
-  const isQuestionLengthValid = QUESTION_MAX_LENGTH >= questionLength
-  const questionLengthRemaining = QUESTION_MAX_LENGTH - questionLength
-  const questionLengthExceeded = questionLength - QUESTION_MAX_LENGTH
 
-  let questionHint = `You have ${questionLengthRemaining} characters remaining`
-
-  if (!isQuestionLengthValid) {
-    questionHint = `You have ${questionLengthExceeded} characters too many`
-  }
 
   return (
     <>
@@ -143,6 +144,11 @@ export function RequestChat ({ onPreChatScreen }) {
                 {questionHint}
               </div>
             </div>
+          </div>
+
+          <div className='govuk-inset-text govuk-!-font-size-16'>
+            By selecting 'Request chat' you agree to the terms of our&nbsp;
+            <a href='https://check-for-flooding.service.gov.uk/privacy-notice' target='_blank' rel='noreferrer' className='govuk-link'>privacy notice</a>.
           </div>
 
           <button

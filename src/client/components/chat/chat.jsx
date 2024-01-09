@@ -72,7 +72,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      sendMessage()
+      sendMessage(e)
     }
   }
 
@@ -137,7 +137,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
               id='wc-form-textarea'
               name='message'
               onChange={onChange}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
               value={userMessage}
             />
 

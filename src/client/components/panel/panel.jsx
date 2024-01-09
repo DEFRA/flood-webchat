@@ -8,11 +8,11 @@ import { Unavailable } from '../screens/unavailable.jsx'
 import { EndChat } from '../screens/end-chat.jsx'
 import { Settings } from '../screens/settings.jsx'
 import { Feedback } from '../screens/feedback.jsx'
+import { EndFeedback } from '../screens/end-feedback.jsx'
 
 import { useApp } from '../../store/useApp.js'
 import { useChatSdk } from '../../store/useChatSdk.js'
 import { useFocusedElements } from '../../hooks/useFocusedElements.js'
-import { EndFeedback } from '../screens/end-feedback.jsx'
 
 export function Panel () {
   const { sdk, availability, thread, threadId, setThread, setThreadId, setChatVisibility, setMessages, setUnseenCount } = useApp()

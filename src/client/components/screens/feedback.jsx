@@ -6,6 +6,8 @@ export function Feedback ({ onConfirmSubmit, onCancel }) {
     e.preventDefault()
 
     onConfirmSubmit(e)
+  }
+  const feedbackCancel = async e => {
     onCancel(e)
   }
 
@@ -140,8 +142,8 @@ export function Feedback ({ onConfirmSubmit, onCancel }) {
         </div>
 
         <div className='govuk-button-group'>
-          <a id='feedback-save' href='#' className='govuk-button govuk-!-font-size-16' data-module='govuk-button' onClick={feedbackSubmit}>Submit</a>
-          <a id='feedback-cancel' href='#' className='govuk-link govuk-!-font-size-16' data-module='govuk-button' onClick={onCancel}>Cancel</a>
+          <a id='feedback-submit' href='#' data-module='govuk-button' onClick={feedbackSubmit}>Submit</a>
+          <a id='feedback-cancel' href='#' data-module='govuk-button' role='button' onClick={feedbackCancel}>Cancel</a>
         </div>
       </div>
     </>
