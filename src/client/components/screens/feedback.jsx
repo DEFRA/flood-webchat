@@ -13,8 +13,7 @@ export function Feedback ({ onCancel }) {
       <div className='wc-body'>
         <h3 id='wc-subtitle' className='govuk-heading-s'>Give Feedback on Floodline webchat</h3>
         <p>Please note we’re unable to respond to feedback.</p>
-        <a>Feedback Link Here</a>
-
+        <a className='govuk-link' href='#' target='_blank' rel='noreferrer'>Feedback Link</a>
         <div className='govuk-button-group'>
           <a id='feedback-cancel' href='#' data-module='govuk-button' role='button' onClick={feedbackCancel}>Close</a>
         </div>
