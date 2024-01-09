@@ -79,8 +79,6 @@ export function RequestChat ({ onPreChatScreen }) {
     setErrors(errs)
   }
 
-
-
   return (
     <>
       <PanelHeader />
