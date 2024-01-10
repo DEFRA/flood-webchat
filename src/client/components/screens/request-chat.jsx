@@ -148,7 +148,7 @@ export function RequestChat ({ onPreChatScreen }) {
           </div>
 
           <button
-            className='govuk-button govuk-!-margin-top-1 govuk-!-font-size-16'
+            className='govuk-button govuk-!-margin-bottom-3 govuk-!-font-size-16'
             data-module='govuk-button'
             onClick={onRequestChat}
           >
