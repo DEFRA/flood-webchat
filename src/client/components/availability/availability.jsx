@@ -72,6 +72,7 @@ export function Availability () {
             <div className='wc-availability__inner'>
               <a
                 className='wc-availability__link'
+                role='button'
                 href='#webchat'
                 draggable='false'
                 onClick={onClick}
@@ -79,7 +80,7 @@ export function Availability () {
                 onKeyDown={onKeyDown}
               >
                 {TextComponent}
-                {unseenCount > 0 && !isChatOpen ? <span className='wc-open-btn__unseen'>{unseenCount}</span> : null}
+                {unseenCount > 0 && !isChatOpen ? <span className='wc-availability__unseen'>{unseenCount}</span> : null}
               </a>
             </div>
           </div>

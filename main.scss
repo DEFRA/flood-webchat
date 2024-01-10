@@ -1,9 +1,13 @@
 
 // Required GOVUK Styles
 @import "govuk-frontend/govuk/core/typography";
+@import "govuk-frontend/govuk/core/links";
 @import "govuk-frontend/govuk/utilities/visually-hidden";
 
-// Components
+// Common objects (ITCSS)
+@import "./src/client/scss/objects";
+
+// React components
 @import "./src/client/components/availability/availability";
 @import "./src/client/components/panel/panel";
 @import "./src/client/components/chat/chat";

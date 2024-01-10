@@ -1,0 +1,29 @@
+.wc-button {
+    @extend %govuk-link;
+    position: relative;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    outline: 3px solid transparent;
+
+    &:visited {
+        color: govuk-colour('blue');
+    }
+
+    &:active {
+        color: govuk-colour('black');
+      }
+
+    &:focus {
+        box-shadow: none;
+        background-color: transparent;
+        text-decoration: underline;
+        color: govuk-colour('blue');
+    }
+
+    &:focus-visible {
+        background-color: $govuk-focus-colour;
+        box-shadow: 0 -2px $govuk-focus-colour, 0 4px govuk-colour('black');
+        text-decoration: none;
+        color: govuk-colour('black');
+    }
+}

@@ -294,7 +294,7 @@ describe('<Availability/>', () => {
 
       const { container } = render(<Availability />)
 
-      expect(container.querySelector('.wc-open-btn__unseen').textContent).toEqual('1')
+      expect(container.querySelector('.wc-availability__unseen').textContent).toEqual('1')
     })
 
     it('does not display any numbers next to Show Chat when no unread messages', async () => {
