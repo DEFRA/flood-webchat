@@ -39,6 +39,8 @@ export function RequestChat ({ onPreChatScreen }) {
     setQuestionLength(e.target.value.length)
   }
 
+  const buttonLabel = isButtonDisabled ? 'Requesting...' : 'Request Chat'
+
   const onRequestChat = async e => {
     e.preventDefault()
 
@@ -155,7 +157,7 @@ export function RequestChat ({ onPreChatScreen }) {
             onClick={onRequestChat}
             disabled={isButtonDisabled}
           >
-            {isButtonDisabled ? 'Requesting...' : 'Request Chat'}
+            {buttonLabel}
           </button>
         </form>
       </div>

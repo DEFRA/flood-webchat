@@ -362,6 +362,47 @@ describe('<Panel />', () => {
 
         expect(screen.getByText('Yes, end chat')).toBeTruthy()
       })
+
+      it('should go to the feedback screen', async () => {
+        mocks.useApp.mockReturnValue({
+          thread: {
+            lastMessageSeen: jest.fn(),
+            endChat: jest.fn()
+          },
+          threadId: 'thread_123',
+          messages: [],
+          settings: { audio: true, scroll: true },
+          setThreadId: jest.fn(),
+          setThread: jest.fn(),
+          setMessages: jest.fn(),
+          setUnseenCount: jest.fn(),
+          setCustomerId: jest.fn()
+        })
+
+        mocks.useChatSdk.mockReturnValue({
+          fetchThread: jest.fn(),
+          fetchMessages: jest.fn()
+        })
+
+        render(
+          <Panel />
+        )
+
+        fireEvent.click(screen.getByText('End chat'))
+
+        await waitFor(() => {
+          expect(screen.getByText('Yes, end chat')).toBeTruthy()
+        })
+
+        const confirmEndChatButton = document.getElementById('confirmEndChat')
+        fireEvent.click(confirmEndChatButton)
+
+        console.log(document.body.innerHTML)
+
+        await waitFor(() => {
+          expect(screen.getByText('Give Feedback on Floodline webchat')).toBeTruthy()
+        })
+      })
     })
   })
 
