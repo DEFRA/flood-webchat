@@ -6,7 +6,6 @@ import { PanelHeader } from '../panel/panel-header.jsx'
 import { useApp } from '../../store/useApp.js'
 import { useChatSdk } from '../../store/useChatSdk.js'
 import { ErrorSummary } from '../errorSummary/error-summary.jsx'
-import ButtonLabel from './screen-components/button-label.jsx'
 
 const QUESTION_MAX_LENGTH = 500
 
@@ -39,6 +38,8 @@ export function RequestChat ({ onPreChatScreen }) {
   const onQuestionChange = e => {
     setQuestionLength(e.target.value.length)
   }
+
+  const buttonLabel = isButtonDisabled ? 'Requesting...' : 'Request Chat'
 
   const onRequestChat = async e => {
     e.preventDefault()
@@ -151,12 +152,12 @@ export function RequestChat ({ onPreChatScreen }) {
           </div>
 
           <button
-            className='govuk-button govuk-!-margin-bottom-3 govuk-!-font-size-16'
+            className='govuk-button govuk-!-margin-top-1 govuk-!-font-size-16'
             data-module='govuk-button'
             onClick={onRequestChat}
             disabled={isButtonDisabled}
           >
-            <ButtonLabel isButtonDisabled={isButtonDisabled} />
+            {buttonLabel}
           </button>
         </form>
       </div>
