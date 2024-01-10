@@ -69,14 +69,14 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
 
     setUserMessage('')
   }
-  const handleKeyPress = (e) => {
+  const handleKeyPress = e => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       sendMessage()
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault()
     sendMessage()
   }

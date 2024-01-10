@@ -21,6 +21,16 @@ export function Panel () {
 
   useFocusedElements(screen)
 
+  const onEscapeKey = useCallback(e => {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+      if (threadId) {
+        thread?.lastMessageSeen()
+        setUnseenCount(0)
+      }
+      setChatVisibility(false)
+    }
+  }, [thread, threadId, setUnseenCount, setChatVisibility])
+
   /**
    * Initializes the eventListener for pressing the escape key
    */
@@ -30,7 +40,7 @@ export function Panel () {
     return () => {
       document.removeEventListener('keydown', escapeKeyEvent)
     }
-  }, [])
+  }, [onEscapeKey, setChatVisibility])
 
   /**
    * Recovers the thread if there is a threadId but no thread loaded in to state
@@ -62,16 +72,6 @@ export function Panel () {
       }
     }
   }, [thread, threadId])
-
-  const onEscapeKey = useCallback(e => {
-    if (e.key === 'Escape' || e.key === 'Esc') {
-      if (thread) {
-        thread.lastMessageSeen()
-        setUnseenCount(0)
-      }
-      setChatVisibility(false)
-    }
-  }, [])
 
   const handleScreenChange = newScreen => e => {
     e.preventDefault()

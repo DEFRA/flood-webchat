@@ -180,22 +180,25 @@ describe('<Panel />', () => {
 
     xit('should close the chat when "ESC" is pressed', () => {
       mocks.useApp.mockReturnValue({
-        setChatVisibility: jest.fn(),
         setUnseenCount: jest.fn(),
+        setChatVisibility: jest.fn(),
+        messages: [],
+        isChatOpen: true,
+        threadId: 'thread_123',
         thread: {
           lastMessageSeen: jest.fn()
-        }
+        },
+        settings: { audio: true, scroll: true }
       })
 
-      render(
+      const { container } = render(
         <Panel />
       )
 
-      fireEvent.keyPress(window, { key: 'Escape' })
+      fireEvent.keyDown(container, { key: 'Escape' })
 
-      expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
-      expect(mocks.useApp.thread.lastMessageSeen).toHaveBeenCalled()
-      expect(mocks.useApp.setUnseenCount).toHaveBeenCalled()
+      expect(mocks.useApp().thread.lastMessageSeen).toHaveBeenCalled()
+      expect(mocks.useApp().setChatVisibility).toHaveBeenCalledTimes(1)
     })
 
     describe('Screens', () => {
@@ -396,8 +399,6 @@ describe('<Panel />', () => {
 
         const confirmEndChatButton = document.getElementById('confirmEndChat')
         fireEvent.click(confirmEndChatButton)
-
-        console.log(document.body.innerHTML)
 
         await waitFor(() => {
           expect(screen.getByText('Give Feedback on Floodline webchat')).toBeTruthy()
