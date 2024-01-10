@@ -7,7 +7,7 @@ export function PanelHeader () {
   const onClose = e => {
     e.preventDefault()
     setChatVisibility(false)
-    thread.lastMessageSeen()
+    thread?.lastMessageSeen()
     setUnseenCount(0)
   }
 
