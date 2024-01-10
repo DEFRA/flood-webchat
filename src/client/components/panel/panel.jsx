@@ -23,6 +23,7 @@ export function Panel () {
 
   const onEscapeKey = useCallback(e => {
     if (e.key === 'Escape' || e.key === 'Esc') {
+      e.preventDefault()
       if (threadId) {
         thread?.lastMessageSeen()
         setUnseenCount(0)
