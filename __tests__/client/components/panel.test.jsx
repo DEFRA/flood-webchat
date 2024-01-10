@@ -191,14 +191,15 @@ describe('<Panel />', () => {
         settings: { audio: true, scroll: true }
       })
 
-      const { container } = render(
+      render(
         <Panel />
       )
 
-      fireEvent.keyDown(container, { key: 'Escape' })
+      fireEvent.keyDown(document, { key: 'Escape' })
 
       expect(mocks.useApp().thread.lastMessageSeen).toHaveBeenCalled()
-      expect(mocks.useApp().setChatVisibility).toHaveBeenCalledTimes(1)
+      expect(mocks.useApp().setUnseenCount).toBeCalledWith(0)
+      expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
     })
 
     describe('Screens', () => {
