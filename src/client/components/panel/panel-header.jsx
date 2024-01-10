@@ -11,7 +11,6 @@ export function PanelHeader () {
       thread?.lastMessageSeen()
       setUnseenCount(0)
     }
-  }
 
   let ButtonComponent = (
     <button className='wc-header__close' aria-label='Close the webchat' onClick={onClose}>
