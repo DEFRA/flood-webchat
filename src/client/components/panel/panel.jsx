@@ -7,6 +7,7 @@ import { Chat } from '../chat/chat.jsx'
 import { Unavailable } from '../screens/unavailable.jsx'
 import { EndChat } from '../screens/end-chat.jsx'
 import { Settings } from '../screens/settings.jsx'
+import { Feedback } from '../screens/feedback.jsx'
 
 import { useApp } from '../../store/useApp.js'
 import { useChatSdk } from '../../store/useChatSdk.js'
@@ -20,6 +21,16 @@ export function Panel () {
 
   useFocusedElements(screen)
 
+  const onEscapeKey = useCallback(e => {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+      if (threadId) {
+        thread?.lastMessageSeen()
+        setUnseenCount(0)
+      }
+      setChatVisibility(false)
+    }
+  }, [thread, threadId, setUnseenCount, setChatVisibility])
+
   /**
    * Initializes the eventListener for pressing the escape key
    */
@@ -29,7 +40,7 @@ export function Panel () {
     return () => {
       document.removeEventListener('keydown', escapeKeyEvent)
     }
-  }, [])
+  }, [onEscapeKey, setChatVisibility])
 
   /**
    * Recovers the thread if there is a threadId but no thread loaded in to state
@@ -62,12 +73,6 @@ export function Panel () {
     }
   }, [thread, threadId])
 
-  const onEscapeKey = useCallback(e => {
-    if (e.key === 'Escape' || e.key === 'Esc') {
-      setChatVisibility(false)
-    }
-  }, [])
-
   const handleScreenChange = newScreen => e => {
     e.preventDefault()
     setScreen(newScreen)
@@ -77,8 +82,8 @@ export function Panel () {
   const goToRequestChatScreen = handleScreenChange(1)
   const goToChatScreen = handleScreenChange(2)
   const goToEndChatScreen = handleScreenChange(3)
+  const goToFeedbackScreen = handleScreenChange(4)
   const goToSettingsScreen = handleScreenChange(5)
-
   let ScreenComponent
 
   switch (screen) {
@@ -92,7 +97,10 @@ export function Panel () {
       ScreenComponent = <Chat onSettingsScreen={goToSettingsScreen} onEndChatScreen={goToEndChatScreen} />
       break
     case 3:
-      ScreenComponent = <EndChat onChatScreen={goToChatScreen} />
+      ScreenComponent = <EndChat onChatScreen={goToChatScreen} onEndChatConfirm={goToFeedbackScreen} />
+      break
+    case 4:
+      ScreenComponent = <Feedback onCancel={() => setChatVisibility(false)} />
       break
     case 5:
       ScreenComponent = <Settings onCancel={goToChatScreen} />

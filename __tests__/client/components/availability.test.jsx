@@ -43,7 +43,8 @@ describe('<Availability/>', () => {
     it('contains the text "Show Chat" when there is existing thread with no unread messages', () => {
       mocks.useApp.mockReturnValueOnce({
         availability: 'AVAILABLE',
-        messages: [{}]
+        messages: [{}],
+        threadId: 'thread_123'
       })
 
       render(<Availability />)
@@ -54,7 +55,8 @@ describe('<Availability/>', () => {
     it('tells the user to expect the start chat link when availability = "EXISTING"', () => {
       mocks.useApp.mockReturnValue({
         availability: 'EXISTING',
-        messages: []
+        messages: [],
+        threadId: 'thread_123'
       })
 
       const { container: { children: [element] } } = render(<Availability />)
@@ -65,7 +67,8 @@ describe('<Availability/>', () => {
     it('tells the user to expect the start chat link when availability = "UNAVAILABLE"', () => {
       mocks.useApp.mockReturnValue({
         availability: 'UNAVAILABLE',
-        messages: []
+        messages: [],
+        threadId: 'thread_123'
       })
 
       const { container: { children: [element] } } = render(<Availability />)
@@ -76,7 +79,8 @@ describe('<Availability/>', () => {
     it('tells the user that availability is being checked when the availability prop is undefined', () => {
       mocks.useApp.mockReturnValue({
         availability: null,
-        messages: []
+        messages: [],
+        threadId: 'thread_123'
       })
 
       const { container: { children: [element] } } = render(<Availability />)
@@ -90,7 +94,8 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         availability: 'AVAILABLE',
-        messages: []
+        messages: [],
+        threadId: 'thread_123'
       })
 
       const { container } = render(<Availability />)
@@ -106,7 +111,8 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         availability: 'AVAILABLE',
-        messages: []
+        messages: [],
+        threadId: 'thread_123'
       })
 
       render(<Availability />)
@@ -128,7 +134,8 @@ describe('<Availability/>', () => {
         setChatVisibility: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
-        messages: [{}]
+        messages: [{}],
+        threadId: 'thread_123'
       })
 
       const { container } = render(<Availability />)
@@ -145,7 +152,8 @@ describe('<Availability/>', () => {
         setChatVisibility: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
-        messages: [{}]
+        messages: [{}],
+        threadId: 'thread_123'
       })
 
       render(<Availability />)
@@ -164,7 +172,11 @@ describe('<Availability/>', () => {
         setChatVisibility: jest.fn(),
         isChatOpen: true,
         availability: 'AVAILABLE',
-        messages: []
+        messages: [],
+        threadId: 'thread_123',
+        settings: { audio: true, scroll: true },
+        setThreadId: jest.fn(),
+        setThread: jest.fn()
       })
 
       const mockIntersectionEntry = {
@@ -178,7 +190,7 @@ describe('<Availability/>', () => {
 
       const user = userEvent.setup()
 
-      await user.click(screen.getByText('Start Chat'))
+      await user.click(screen.getByText('Show Chat'))
 
       const listener = mocks.IntersectionObserver.mock.calls[0][0]
 
@@ -194,7 +206,10 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         availability: 'AVAILABLE',
-        messages: []
+        messages: [],
+        threadId: 'thread_123',
+        settings: { audio: true, scroll: true },
+        setThreadId: jest.fn()
       })
 
       const mockIntersectionEntry = {
@@ -218,7 +233,10 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         availability: 'AVAILABLE',
-        messages: []
+        messages: [],
+        threadId: 'thread_123',
+        settings: { audio: true, scroll: true },
+        setThreadId: jest.fn()
       })
 
       const mockIntersectionEntry = {
@@ -242,7 +260,8 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         availability: 'AVAILABLE',
-        messages: []
+        messages: [],
+        threadId: 'thread_123'
       })
 
       const mockIntersectionEntry = {
@@ -269,7 +288,8 @@ describe('<Availability/>', () => {
         isChatOpen: false,
         availability: 'AVAILABLE',
         messages: [{}],
-        unseenCount: 1
+        unseenCount: 1,
+        threadId: 'thread_123'
       })
 
       const { container } = render(<Availability />)
@@ -283,7 +303,8 @@ describe('<Availability/>', () => {
         isChatOpen: false,
         availability: 'AVAILABLE',
         messages: [{}],
-        unseenCount: 0
+        unseenCount: 0,
+        threadId: 'thread_123'
       })
 
       const { container } = render(<Availability />)

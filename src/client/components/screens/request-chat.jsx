@@ -12,12 +12,22 @@ const QUESTION_MAX_LENGTH = 500
 export function RequestChat ({ onPreChatScreen }) {
   const { sdk, setCustomerId, setThreadId, setThread } = useApp()
   const { fetchCustomerId, fetchThread } = useChatSdk(sdk)
-
   const [errors, setErrors] = useState({})
   const [questionLength, setQuestionLength] = useState(0)
+  const [isButtonDisabled, setButtonDisabled] = useState(false)
 
   const nameRef = useRef()
   const questionRef = useRef()
+
+  const isQuestionLengthValid = QUESTION_MAX_LENGTH >= questionLength
+  const questionLengthRemaining = QUESTION_MAX_LENGTH - questionLength
+  const questionLengthExceeded = questionLength - QUESTION_MAX_LENGTH
+
+  let questionHint = `You have ${questionLengthRemaining} characters remaining`
+
+  if (!isQuestionLengthValid) {
+    questionHint = `You have ${questionLengthExceeded} characters too many`
+  }
 
   useEffect(() => {
     if (Object.keys(errors).length) {
@@ -28,6 +38,8 @@ export function RequestChat ({ onPreChatScreen }) {
   const onQuestionChange = e => {
     setQuestionLength(e.target.value.length)
   }
+
+  const buttonLabel = isButtonDisabled ? 'Requesting...' : 'Request Chat'
 
   const onRequestChat = async e => {
     e.preventDefault()
@@ -48,6 +60,7 @@ export function RequestChat ({ onPreChatScreen }) {
 
     if (Object.keys(errs).length === 0) {
       try {
+        setButtonDisabled(true)
         const threadId = uuid.v4()
         const customerId = await fetchCustomerId()
         const thread = await fetchThread(threadId)
@@ -59,22 +72,13 @@ export function RequestChat ({ onPreChatScreen }) {
         setCustomerId(customerId)
         setThreadId(threadId)
         setThread(thread)
+        thread.setCustomField('threadid', threadId)
       } catch (err) {
         console.log('[Request Chat Error]', err)
       }
     }
 
     setErrors(errs)
-  }
-
-  const isQuestionLengthValid = QUESTION_MAX_LENGTH >= questionLength
-  const questionLengthRemaining = QUESTION_MAX_LENGTH - questionLength
-  const questionLengthExceeded = questionLength - QUESTION_MAX_LENGTH
-
-  let questionHint = `You have ${questionLengthRemaining} characters remaining`
-
-  if (!isQuestionLengthValid) {
-    questionHint = `You have ${questionLengthExceeded} characters too many`
   }
 
   return (
@@ -148,11 +152,12 @@ export function RequestChat ({ onPreChatScreen }) {
           </div>
 
           <button
-            className='govuk-button govuk-!-margin-bottom-3 govuk-!-font-size-16'
+            className='govuk-button govuk-!-margin-top-1 govuk-!-font-size-16'
             data-module='govuk-button'
             onClick={onRequestChat}
+            disabled={isButtonDisabled}
           >
-            Request chat
+            {buttonLabel}
           </button>
         </form>
       </div>

@@ -41,6 +41,7 @@ describe('<PanelHeader />', () => {
     mocks.useApp.mockReturnValue({
       setChatVisibility: jest.fn(),
       setUnseenCount: jest.fn(),
+      threadId: 'thread_123',
       thread: {
         lastMessageSeen: jest.fn()
       }
@@ -53,5 +54,22 @@ describe('<PanelHeader />', () => {
     fireEvent.click(container.querySelector('button'))
 
     expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
+    expect(mocks.useApp().thread.lastMessageSeen).toHaveBeenCalled()
+  })
+
+  it('if no chat when closed it will not reset unseen count', () => {
+    mocks.useApp.mockReturnValue({
+      setChatVisibility: jest.fn(),
+      setUnseenCount: jest.fn()
+    })
+
+    const { container } = render(
+      <PanelHeader />
+    )
+
+    fireEvent.click(container.querySelector('button'))
+
+    expect(mocks.useApp().setChatVisibility).toHaveBeenCalledTimes(1)
+    expect(mocks.useApp().setUnseenCount).toHaveBeenCalledTimes(0)
   })
 })
