@@ -51,6 +51,10 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.case.status })
   }
 
+  const onMatchMedia = e => {
+    dispatch({ type: 'TOGGLE_IS_MOBILE', payload: e.matches })
+  }
+
   useEffect(() => {
     sdk.onChatEvent(ChatEvent.LIVECHAT_RECOVERED, onLiveChatRecovered)
     sdk.onChatEvent(ChatEvent.MESSAGE_CREATED, onMessageCreated)
@@ -58,6 +62,12 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     sdk.onChatEvent(ChatEvent.AGENT_TYPING_ENDED, onAgentTypingEnded)
     sdk.onChatEvent(ChatEvent.ASSIGNED_AGENT_CHANGED, onAssignedAgentChanged)
     sdk.onChatEvent(ChatEvent.CONTACT_STATUS_CHANGED, onContactStatusChanged)
+    // We need to know if it is a mobile
+    window.matchMedia('(max-width: 640px)').addEventListener('change', onMatchMedia)
+    // Removing events when component is removed
+    return () => {
+      window.removeEventListener('change', onMatchMedia)
+    }
   }, [sdk])
 
   /**

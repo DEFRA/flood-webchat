@@ -1,3 +1,4 @@
+import '../methods.mock'
 import React from 'react'
 import { userEvent } from '@testing-library/user-event'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'

@@ -4,14 +4,12 @@
 @import "govuk-frontend/govuk/core/links";
 @import "govuk-frontend/govuk/utilities/visually-hidden";
 
-// Common objects (ITCSS)
+// (ITCSS)
+@import "./src/client/scss/tools";
 @import "./src/client/scss/objects";
+@import "./src/client/scss/utilities";
 
 // React components
 @import "./src/client/components/availability/availability";
 @import "./src/client/components/panel/panel";
 @import "./src/client/components/chat/chat";
-
-.wc-scroll-padding {
-  scroll-padding-bottom: calc(2rem + 20px);
-}

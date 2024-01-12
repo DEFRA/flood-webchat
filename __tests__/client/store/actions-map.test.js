@@ -1,3 +1,4 @@
+import '../methods.mock'
 import { initialState } from '../../../src/client/store/reducer'
 import { actionsMap } from '../../../src/client/store/actions-map'
 

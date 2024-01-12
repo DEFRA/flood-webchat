@@ -26,9 +26,14 @@
 }
 
 .wc-availability__link {
-  @extend %wc-button;
+  @extend %govuk-link;
+  display: inline-block;
   @include govuk-font($size: 19);
   margin-right: 5px;
+
+  &:visited:not(:hover):not(:focus) {
+    color: govuk-colour('blue');
+  }
 
   .govuk-visually-hidden, .wc-availability__unseen {
     pointer-events: none;

@@ -103,6 +103,13 @@ const setUnseenCount = (state, payload) => {
   }
 }
 
+const toggleIsMobile = (state, payload) => {
+  return {
+    ...state,
+    isMobile: payload
+  }
+}
+
 export const actionsMap = {
   SET_CHAT_VISIBILITY: setChatVisibility,
   SET_AVAILABILITY: setAvailability,
@@ -115,5 +122,6 @@ export const actionsMap = {
   SET_AGENT: setAgent,
   SET_AGENT_TYPING: setAgentIsTyping,
   SET_AGENT_STATUS: setAgentStatus,
-  SET_UNSEEN_COUNT: setUnseenCount
+  SET_UNSEEN_COUNT: setUnseenCount,
+  TOGGLE_IS_MOBILE: toggleIsMobile
 }

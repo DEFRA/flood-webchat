@@ -51,8 +51,8 @@ export function Availability () {
   }, [buttonRef, isChatOpen])
 
   useEffect(() => {
-    document.documentElement.classList.toggle('wc-scroll-padding', isFixed)
-    document.body.classList.toggle('wc-scroll-padding', isFixed)
+    document.documentElement.classList.toggle('wc-u-scroll-padding', isFixed)
+    document.body.classList.toggle('wc-u-scroll-padding', isFixed)
   }, [isFixed])
 
   let TextComponent = (<>Show Chat</>)

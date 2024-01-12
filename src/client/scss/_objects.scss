@@ -1,23 +1,27 @@
-.wc-button {
+%wc-button {
     @extend %govuk-link;
     position: relative;
     display: inline-block;
-    -webkit-font-smoothing: antialiased;
-    outline: 3px solid transparent;
+    font-size: 16px;
+    color: govuk-colour('black');
 
-    &:visited {
-        color: govuk-colour('blue');
+    &:hover {
+        color: govuk-colour('black');
+    }
+
+    &:visited:not(:hover):not(:focus) {
+        color: govuk-colour('black');
     }
 
     &:active {
         color: govuk-colour('black');
-      }
+    }
 
     &:focus {
         box-shadow: none;
         background-color: transparent;
         text-decoration: underline;
-        color: govuk-colour('blue');
+        color: govuk-colour('black');
     }
 
     &:focus-visible {

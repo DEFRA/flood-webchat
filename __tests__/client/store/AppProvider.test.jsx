@@ -1,3 +1,4 @@
+import '../methods.mock'
 import React, { useContext, useEffect } from 'react'
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
