@@ -9,10 +9,10 @@ import { useTextareaAutosize } from '../../hooks/useTextareaAutosize.js'
 import { formatTranscript } from '../../lib/transform-messages.js'
 
 export function Chat ({ onEndChatScreen, onSettingsScreen }) {
-  const { availability, thread, messages, agent, agentStatus, isAgentTyping, settings } = useApp()
+  const { availability, thread, messages, agent, agentStatus, isAgentTyping, settings, isKeyboard } = useApp()
 
   const [userMessage, setUserMessage] = useState('')
-  const [focusWithin, setFocusWithin] = useState(false)
+  const [focusVisibleWithin, setFocusVisibleWithin] = useState(false)
 
   const messageRef = useRef()
 
@@ -100,7 +100,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
       </div>
 
       <div className='wc-body' tabIndex='0'>
-        <ul className='wc-chat__messages'>
+        <ul className='wc-chat'>
           {messages.length
             ? messages.map((msg, index) => <Message key={msg.id} message={msg} previousMessage={messages[index - 1]} />)
             : null}
@@ -122,7 +122,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
       </div>
 
       <PanelFooter>
-        <form className={`wc-form${focusWithin ? ' wc-focus-within' : ''}`} noValidate onSubmit={handleSubmit}>
+        <form className={`wc-form${focusVisibleWithin ? ' wc-focus-within' : ''}`} noValidate onSubmit={handleSubmit}>
           <label className='govuk-label wc-form__label' htmlFor='wc-form-textarea'>
             Your message<span className='govuk-visually-hidden'> (enter key submits)</span>
           </label>
@@ -136,8 +136,8 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
             name='message'
             onChange={onChange}
             onKeyDown={handleKeyPress}
-            onFocus={() => { setFocusWithin(true) }}
-            onBlur={() => { setFocusWithin(false) }}
+            onFocus={() => { setFocusVisibleWithin(isKeyboard) }}
+            onBlur={() => { setFocusVisibleWithin(false) }}
             value={userMessage}
           />
 

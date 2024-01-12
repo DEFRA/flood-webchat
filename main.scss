@@ -3,8 +3,10 @@
 @import "govuk-frontend/govuk/core/typography";
 @import "govuk-frontend/govuk/core/links";
 @import "govuk-frontend/govuk/utilities/visually-hidden";
+@import "govuk-frontend/govuk/components/button/button";
 
 // (ITCSS)
+@import "./src/client/scss/settings";
 @import "./src/client/scss/tools";
 @import "./src/client/scss/objects";
 @import "./src/client/scss/utilities";

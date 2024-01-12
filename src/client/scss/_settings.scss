@@ -1,0 +1,80 @@
+.wc-heading {
+    @extend %govuk-heading-m;
+    font-size: 19px;
+    margin-bottom: 15px;
+}
+
+.wc-list {
+    @extend %govuk-list;
+    @extend %govuk-list--bullet;
+    font-size: 16px;
+    line-height: 1.25;
+}
+
+.wc-body p {
+    font-size: 16px;
+    line-height: 1.25;
+    margin-bottom: 15px;
+    @extend %govuk-body-s;
+}
+
+.wc-body .govuk-error-message {
+    color: govuk-colour('red');
+    font-weight: 700;
+}
+
+.wc-link,
+.wc-button,
+.govuk-button-group .wc-button,
+.govuk-button-group .wc-link {
+    font-size: 16px;
+}
+
+.wc-label {
+    font-size: 16px;
+    line-height: 1.25;
+}
+
+.wc-form-group {
+    margin-bottom: 15px;
+}
+
+.wc-hint {
+    font-size: 16px;
+    line-height: 1.25;
+}
+
+.wc-inset-text {
+    margin: 0 0 20px;
+    padding: 5px 5px 5px 15px;
+    font-size: 16px;
+    border-left-width: 5px;
+}
+
+.wc-error-summary__title {
+    font-size: 19px;
+    line-height: 1.25;
+    margin-bottom: 15px;
+}
+
+.wc-error-summary__list,
+.wc-error-message {
+    font-size: 16px;
+    line-height: 1.25;
+}
+
+.wc-input, .wc-textarea {
+    font-size: 16px;
+    line-height: 1.25;
+}
+
+.wc-back-link {
+    font-size: 16px;
+    line-height: 1.25;
+    margin: 0 0 25px;
+  }
+
+// .wc-text {
+//     @extend %govuk-body-s;
+//     font-size: 16px;
+// }

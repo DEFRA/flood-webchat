@@ -110,6 +110,13 @@ const toggleIsMobile = (state, payload) => {
   }
 }
 
+const toggleIsKeyboard = (state, payload) => {
+  return {
+    ...state,
+    isKeyboard: payload
+  }
+}
+
 export const actionsMap = {
   SET_CHAT_VISIBILITY: setChatVisibility,
   SET_AVAILABILITY: setAvailability,
@@ -123,5 +130,6 @@ export const actionsMap = {
   SET_AGENT_TYPING: setAgentIsTyping,
   SET_AGENT_STATUS: setAgentStatus,
   SET_UNSEEN_COUNT: setUnseenCount,
-  TOGGLE_IS_MOBILE: toggleIsMobile
+  TOGGLE_IS_MOBILE: toggleIsMobile,
+  TOGGLE_IS_KEYBOARD: toggleIsKeyboard
 }

@@ -55,6 +55,14 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     dispatch({ type: 'TOGGLE_IS_MOBILE', payload: e.matches })
   }
 
+  const onKeydown = () => {
+    dispatch({ type: 'TOGGLE_IS_KEYBOARD', payload: true })
+  }
+
+  const onPointerdown = () => {
+    dispatch({ type: 'TOGGLE_IS_KEYBOARD', payload: false })
+  }
+
   useEffect(() => {
     sdk.onChatEvent(ChatEvent.LIVECHAT_RECOVERED, onLiveChatRecovered)
     sdk.onChatEvent(ChatEvent.MESSAGE_CREATED, onMessageCreated)
@@ -62,11 +70,15 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     sdk.onChatEvent(ChatEvent.AGENT_TYPING_ENDED, onAgentTypingEnded)
     sdk.onChatEvent(ChatEvent.ASSIGNED_AGENT_CHANGED, onAssignedAgentChanged)
     sdk.onChatEvent(ChatEvent.CONTACT_STATUS_CHANGED, onContactStatusChanged)
-    // We need to know if it is a mobile
+    // We need to know if it is a mobile and if it is a keyboard interaction
     window.matchMedia('(max-width: 640px)').addEventListener('change', onMatchMedia)
-    // Removing events when component is removed
+    window.addEventListener('keydown', onKeydown)
+    window.addEventListener('pointerdown', onPointerdown)
+    // Tidying up
     return () => {
       window.removeEventListener('change', onMatchMedia)
+      window.removeEventListener('keydown', onKeydown)
+      window.removeEventListener('pointerdown', onPointerdown)
     }
   }, [sdk])
 

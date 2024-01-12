@@ -21,6 +21,10 @@
     right: 15px;
     height: 0;
     border-bottom: 1px solid $govuk-border-colour;
+    @include mq ($from: tablet) {
+      left: 10px;
+      right: 10px;
+    }
   }
 
   &__availability {
@@ -29,7 +33,7 @@
   }
 
   &__link {
-    @extend %wc-button;
+    @extend %wc-link-button;
     margin-left: auto;
   }
 }
@@ -44,17 +48,23 @@
 }
 
 .wc-chat {
-  &__messages {
-    @extend %govuk-body-s;
-    line-height: 1.25;
-    font-size: 14px;
-    overflow: auto;
-    list-style: none;
-    padding: 0;
-  }
+  @extend %govuk-body-s;
+  line-height: 1.25;
+  font-size: 14px;
+  overflow: auto;
+  list-style: none;
+  padding: 0;
 
   &__message {
-    margin-bottom: govuk-spacing(1);
+    margin: 5px 15px 0;
+    @include mq ($from: tablet) {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    &:first-child {
+      padding-top: 15px;
+    }
 
     &.inbound {
       text-align: right;
@@ -119,6 +129,9 @@
     font-size: 16px;
     line-height: 20px;
     margin: 20px;
+    @include mq ($from: tablet) {
+      margin: 18px 18px 19px;
+    }
     left: 0;
     bottom: 0;
     color: $govuk-secondary-text-colour;
@@ -135,6 +148,9 @@
     flex: 1 1 auto;
     align-self: flex-end;
     margin: 20px;
+    @include mq ($from: tablet) {
+      margin: 18px 18px 19px;
+    }
     padding: 0;
     border: 0;
     height: 20px;
@@ -151,6 +167,9 @@
 
   &__button {
     margin: 10px 15px 12px 0;
+    @include mq ($from: tablet) {
+      margin-right: 10px;
+    }
     font-size: 16px;
     position: relative;
     flex: 0 0 auto;
@@ -187,7 +206,7 @@
     flex-direction: row;
 
     &-link {
-      @extend %wc-button;
+      @extend %wc-link-button;
 
       &:first-child {
         margin-right: govuk-spacing(3);
