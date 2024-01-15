@@ -82,7 +82,7 @@ describe('<EndChat />', () => {
 
     expect(mocks.useApp().thread.endChat).toHaveBeenCalledTimes(0)
   })
-
+  
   it('should not end chat if resume chat is clicked ', () => {
     mocks.useApp.mockReturnValue({
       thread: {

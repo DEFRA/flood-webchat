@@ -17,7 +17,6 @@ export function PreChat ({ onContinue }) {
             <li>information on the flood warning service</li>
             <li>advice on what to do before, during and after a flood</li>
           </ul>
-
           <p>
             There are other ways to&nbsp;
             <a className='govuk-link' href='https://www.gov.uk/sign-up-for-flood-warnings' target='_blank' rel='noreferrer'>

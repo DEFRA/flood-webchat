@@ -121,7 +121,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
         </ul>
       </div>
 
-      <PanelFooter>
+       <PanelFooter>
         <form className={`wc-form${focusVisibleWithin ? ' wc-focus-within' : ''}`} noValidate onSubmit={handleSubmit}>
           <label className='govuk-label wc-form__label' htmlFor='wc-form-textarea'>
             Your message<span className='govuk-visually-hidden'> (enter key submits)</span>

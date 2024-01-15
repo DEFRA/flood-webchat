@@ -161,7 +161,6 @@ export function RequestChat ({ onPreChatScreen }) {
               {buttonLabel}
             </button>
           </form>
-        </div>
       </div>
     </>
   )
