@@ -108,7 +108,7 @@ describe('<PanelHeader />', () => {
     expect(container.querySelector('.wc-header__hide')).toBeTruthy()
   })
 
-  it('[mobile] should show no button when there is browser history', () => {
+  it('[mobile] should show back button when there is browser history', () => {
     mocks.useApp.mockReturnValue({ thread: {} })
 
     window.innerWidth = 500

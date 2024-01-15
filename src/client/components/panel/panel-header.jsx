@@ -47,10 +47,10 @@ export function PanelHeader () {
 
   if (thread) {
     RightButtonComponent = MinimiseButtonComponent
-  }
 
-  if (thread && isMobile && !window.history.state) {
-    RightButtonComponent = MinimiseButtonComponent
+    if (isMobile && !window.history.state) {
+      RightButtonComponent = MinimiseButtonComponent
+    }
   }
 
   if (!thread && isMobile && !window.history.state) {
