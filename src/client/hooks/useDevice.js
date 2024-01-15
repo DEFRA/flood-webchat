@@ -16,10 +16,10 @@ export const useDevice = () => {
 
     handleResize()
 
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('load', handleResize)
 
     return () => {
-      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('load', handleResize)
     }
   }, [])
 

@@ -66,14 +66,6 @@
       display: none
     }
   }
-
-  &__close {
-    display: none;
-
-    @include mq ($from: 'tablet') {
-      display: flex
-    }
-  }
 }
 
 .wc-body {
