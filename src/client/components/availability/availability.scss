@@ -46,17 +46,6 @@
     color: govuk-colour('black');
   }
 
-  &:visited {
-    color: $govuk-link-colour;
-  }
-
-  &:focus {
-    box-shadow: none;
-    background-color: transparent;
-    text-decoration: underline;
-    color: $govuk-focus-colour;
-  }
-
   &:hover:not(:focus):not(:active) {
     color: $govuk-link-hover-colour;
 

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { classnames } from '../../lib/classnames'
 import { Panel } from '../panel/panel.jsx'
 import { useApp } from '../../store/useApp'
+import { historyPushState } from '../../lib/history.js'
 
 export function Availability () {
   const { availability, isChatOpen, setChatVisibility, unseenCount, threadId } = useApp()
@@ -10,8 +11,10 @@ export function Availability () {
   const [isFixed, setIsFixed] = useState(false)
   const buttonRef = useRef()
 
-  const onClick = () => {
+  const onClick = (e) => {
+    e.preventDefault()
     setChatVisibility(!isChatOpen)
+    historyPushState()
   }
 
   const onKeyDown = event => {
@@ -77,6 +80,8 @@ export function Availability () {
                 onClick={onClick}
                 onKeyUp={onKeyUp}
                 onKeyDown={onKeyDown}
+                role='button'
+                data-module='govuk-button'
               >
                 {TextComponent}
                 {unseenCount > 0 && !isChatOpen ? <span className='wc-open-btn__unseen'>{unseenCount}</span> : null}

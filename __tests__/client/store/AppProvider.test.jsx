@@ -3,6 +3,7 @@ import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { AppContext, AppProvider } from '../../../src/client/store/AppProvider'
+import { act } from 'react-dom/test-utils'
 
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
   ChatEvent: {
@@ -71,6 +72,26 @@ describe('<AppProvider />', () => {
 
     expect(window.location.hash).toEqual('#webchat')
     expect(container.querySelector('#is-open').textContent).toEqual('true')
+  })
+
+  xit('should remove #webchat from the url when going back', async () => {
+    const Component = () => {
+      return (
+        <div id='is-open'>test</div>
+      )
+    }
+
+    render(
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+        <Component />
+      </AppProvider>
+    )
+
+    act(() => {
+      window.history.back()
+    })
+
+    expect(window.location.hash).toEqual('')
   })
 
   it('LIVECHAT_RECOVERED sets agent and agent status', () => {

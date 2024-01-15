@@ -12,6 +12,7 @@ import { Feedback } from '../screens/feedback.jsx'
 import { useApp } from '../../store/useApp.js'
 import { useChatSdk } from '../../store/useChatSdk.js'
 import { useFocusedElements } from '../../hooks/useFocusedElements.js'
+import { historyReplaceState } from '../../lib/history.js'
 
 export function Panel () {
   const { sdk, availability, thread, threadId, setThread, setThreadId, setChatVisibility, setMessages, setUnseenCount } = useApp()
@@ -28,6 +29,7 @@ export function Panel () {
         setUnseenCount(0)
       }
       setChatVisibility(false)
+      historyReplaceState()
     }
   }, [thread, threadId, setUnseenCount, setChatVisibility])
 
@@ -35,10 +37,10 @@ export function Panel () {
    * Initializes the eventListener for pressing the escape key
    */
   useEffect(() => {
-    const escapeKeyEvent = document.addEventListener('keydown', onEscapeKey)
+    document.addEventListener('keydown', onEscapeKey)
 
     return () => {
-      document.removeEventListener('keydown', escapeKeyEvent)
+      document.removeEventListener('keydown', onEscapeKey)
     }
   }, [onEscapeKey, setChatVisibility])
 
