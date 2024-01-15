@@ -11,7 +11,7 @@ export function Availability () {
   const [isFixed, setIsFixed] = useState(false)
   const buttonRef = useRef()
 
-  const onClick = (e) => {
+  const onClick = e => {
     e.preventDefault()
     setChatVisibility(!isChatOpen)
     historyPushState()
