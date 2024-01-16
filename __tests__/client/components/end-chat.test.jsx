@@ -1,3 +1,4 @@
+import '../methods.mock'
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
@@ -59,6 +60,27 @@ describe('<EndChat />', () => {
     fireEvent.click(screen.getByText('Yes, end chat'))
 
     expect(mocks.useApp().thread.endChat).toHaveBeenCalled()
+  })
+
+  it('confirm chat is not ended if agent has already closed the chat', () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn(),
+        lastMessageSeen: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'closed',
+      setChatVisibility: jest.fn(),
+      setUnseenCount: jest.fn()
+    })
+
+    render(<EndChat onChatScreen={jest.fn()} onEndChatConfirm={jest.fn()} />)
+
+    fireEvent.click(screen.getByText('Yes, end chat'))
+
+    expect(mocks.useApp().thread.endChat).toHaveBeenCalledTimes(0)
   })
 
   it('should not end chat if resume chat is clicked ', () => {

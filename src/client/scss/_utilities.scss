@@ -1,0 +1,25 @@
+.wc-u-html {
+    @include mq ($until: tablet) {
+        height: 100vh;
+        overflow: hidden;
+    }
+}
+
+.wc-u-body {
+    @include mq ($until: tablet) {
+        position: fixed;
+        overflow: hidden;
+        top:0;
+        right:0;
+        bottom:0;
+        left:0;
+    }
+}
+
+.wc-u-hidden {
+    visibility: hidden;
+}
+
+.wc-u-scroll-padding {
+    scroll-padding-bottom: calc(2rem + 20px);
+}

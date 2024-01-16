@@ -1,0 +1,33 @@
+// Check there is ot already similar functinality in GOV.UK Frontend
+
+@mixin defra-visually-hidden() {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    border: 0;
+    white-space: nowrap;
+}
+
+// Map specific mixins
+@mixin focus($glow: 8px, $strong: 5px, $background: 2px, $inset: 0) {
+    position:absolute;
+    content:'';
+    left: 5px;
+    right: 5px;
+    top: 5px;
+    bottom: 5px;
+    box-shadow:
+        0 0 0 $background #ffffff,
+        inset 0 0 0 $inset govuk-colour('black'),
+        0 0 0 $strong govuk-colour('black'),
+        0 0 0 $glow $govuk-focus-colour;
+    outline: 3px solid transparent;
+    pointer-events: none;
+    z-index: 99;
+}
