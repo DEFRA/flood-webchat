@@ -1,4 +1,3 @@
-import * as uuid from 'uuid'
 import { DateTime } from 'luxon'
 
 export const transformMessage = message => {
@@ -18,7 +17,7 @@ export const formatTranscript = messages => {
   const now = DateTime.local()
   now.setZone('Europe/London')
 
-  let string = `Floodline webchat transcript, ${now.toFormat('HH:mm:ss a, dd LLLL yyyy')}, (ID: ${uuid.v4().split('-')[0]})\n\n`
+  let string = `Floodline webchat transcript, ${now.toFormat('HH:mm:ss a, dd LLLL yyyy')}\n\n`
 
   for (const message of messages) {
     const { text, direction, user, assignee, createdAt } = message
