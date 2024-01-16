@@ -9,7 +9,6 @@
   left: 0;
   padding: 0;
   box-sizing: border-box;
-  // overflow: auto;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
   background-color: #ffffff;
@@ -18,7 +17,6 @@
     left: auto;
     width: 400px;
     height: 540px;
-    // padding: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
   }
@@ -41,7 +39,6 @@
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
-    // background-color: white;
     background-color: transparent;
     border: 0;
     outline: 0;

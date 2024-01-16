@@ -138,7 +138,12 @@ export function RequestChat ({ onPreChatScreen }) {
                   className={classnames('wc-textarea', 'govuk-textarea', 'govuk-js-character-count', !isQuestionLengthValid || errors.question ? 'govuk-textarea--error' : '')}
                   data-testid='request-chat-user-question'
                 />
-                <div id='wc-question-info' className='wc-hint govuk-hint govuk-character-count__message' style={{ color: `${!isQuestionLengthValid ? '#d4351c' : ''}` }} aria-hidden='true'>
+                <div
+                  id='wc-question-info'
+                  className='wc-hint govuk-hint govuk-char-count__msg'
+                  style={{ color: `${!isQuestionLengthValid ? '#d4351c' : ''}` }}
+                  aria-hidden='true'
+                >
                   {questionHint}
                 </div>
                 <div className='govuk-character-count__sr-status govuk-visually-hidden' aria-live='polite'>

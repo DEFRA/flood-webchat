@@ -7,7 +7,6 @@
 .wc-status {
   display: flex;
   position: relative;
-  // border-bottom: 1px solid $govuk-border-colour;
   padding: 15px;
   @include mq ($from: tablet) {
     padding: 10px;
