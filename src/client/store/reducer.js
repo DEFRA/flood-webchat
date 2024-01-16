@@ -11,7 +11,7 @@ export const initialState = {
   agentStatus: null,
   isAgentTyping: false,
   isChatOpen: false,
-  isMobile: window.matchMedia('(max-width: 640px)').matches, // Value needs to come from config?
+  isMobile: window.matchMedia('(max-width: 640px)').matches,
   isKeyboard: false,
   settings: { audio: true, scroll: true }
 }
