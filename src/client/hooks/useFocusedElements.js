@@ -1,16 +1,18 @@
 import { useState, useEffect, useCallback } from 'react'
 
+const ariaHidden = 'aria-hidden'
+const dataWcInert = 'data-wc-inert'
+
 const setAriaHidden = isInert => {
   for (const node of document.body.children) {
     if (node.id !== 'wc-panel') {
-      // (isInert) ? node.setAttribute('aria-hidden', 'true') : node.removeAttribute('aria-hidden')
       // We only want to toggle elements that aren't already inert
-      if (isInert && !node.getAttribute('aria-hidden')) {
-        node.setAttribute('aria-hidden', 'true')
-        node.setAttribute('data-wc-inert', '')
-      } else if (node.hasAttribute('data-wc-inert')) {
-        node.removeAttribute('aria-hidden')
-        node.removeAttribute('data-wc-inert')
+      if (isInert && !node.getAttribute(ariaHidden)) {
+        node.setAttribute(ariaHidden, 'true')
+        node.setAttribute(dataWcInert, '')
+      } else if (node.hasAttribute(dataWcInert)) {
+        node.removeAttribute(ariaHidden)
+        node.removeAttribute(dataWcInert)
       }
     }
   }
