@@ -91,9 +91,26 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     setCustomerId(window.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY))
     setThreadId(window.localStorage.getItem(THREAD_ID_STORAGE_KEY))
     setSettings(JSON.parse(window.localStorage.getItem(SETTINGS_STORAGE_KEY)) || state.settings)
+  }, [])
 
+  /**
+   * Set browser history on start chat click
+   */
+  useEffect(() => {
     if (window.location.hash === '#webchat') {
       setChatVisibility(true)
+    }
+
+    const onBrowserNavigation = window.addEventListener('popstate', () => {
+      if (window.location.hash === '#webchat') {
+        setChatVisibility(true)
+      } else {
+        setChatVisibility(false)
+      }
+    })
+
+    return () => {
+      window.removeEventListener('popstate', onBrowserNavigation)
     }
   }, [])
 
@@ -101,10 +118,6 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
    * State update functions
    */
   const setChatVisibility = payload => {
-    if (!payload) {
-      window.location.hash = ''
-    }
-
     dispatch({ type: 'SET_CHAT_VISIBILITY', payload })
   }
 

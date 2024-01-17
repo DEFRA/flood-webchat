@@ -13,19 +13,24 @@ const mocks = {
 }
 
 describe('<PanelHeader />', () => {
+  const realLocation = window.location
+  const realHistory = window.history
+
   afterAll(() => {
+    window.location = realLocation
+    window.history = realHistory
+
     jest.clearAllMocks()
   })
 
   it('should render the close webchat button', () => {
     mocks.useApp.mockReturnValue({ thread: null })
 
-    const { container } = render(
+    render(
       <PanelHeader />
     )
 
     expect(screen.getByLabelText('Close the webchat')).toBeTruthy()
-    expect(container.querySelector('.govuk-back-link')).toBeFalsy()
   })
 
   it('should render the minimise webchat button', () => {
@@ -72,5 +77,51 @@ describe('<PanelHeader />', () => {
 
     expect(mocks.useApp().setChatVisibility).toHaveBeenCalledTimes(1)
     expect(mocks.useApp().setUnseenCount).toHaveBeenCalledTimes(0)
+  })
+
+  it('[mobile] should show the close button when there is no thread', () => {
+    mocks.useApp.mockReturnValue({ thread: null, isMobile: true })
+
+    window.innerWidth = 500
+    fireEvent(window, new Event('resize'))
+
+    const { container } = render(
+      <PanelHeader />
+    )
+
+    expect(container.querySelector('.wc-header__close')).toBeTruthy()
+    expect(container.querySelector('.wc-header__back')).toBeFalsy()
+    expect(container.querySelector('.wc-header__hide')).toBeFalsy()
+  })
+
+  it('[mobile] should show the minimise button when there is a thread', () => {
+    mocks.useApp.mockReturnValue({ thread: {}, isMobile: true })
+
+    window.innerWidth = 500
+    fireEvent(window, new Event('resize'))
+
+    const { container } = render(
+      <PanelHeader />
+    )
+
+    expect(container.querySelector('.wc-header__close')).toBeFalsy()
+    expect(container.querySelector('.wc-header__back')).toBeFalsy()
+    expect(container.querySelector('.wc-header__hide')).toBeTruthy()
+  })
+
+  it('[mobile] should show no minimise or close button when there is history', () => {
+    mocks.useApp.mockReturnValue({ thread: {}, isMobile: true })
+
+    window.innerWidth = 500
+    window.history.pushState({}, '', '#webchat')
+    fireEvent(window, new Event('resize'))
+
+    const { container } = render(
+      <PanelHeader />
+    )
+
+    expect(container.querySelector('.wc-header__close')).toBeFalsy()
+    expect(container.querySelector('.wc-header__back')).toBeTruthy()
+    expect(container.querySelector('.wc-header__hide')).toBeFalsy()
   })
 })

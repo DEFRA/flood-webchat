@@ -73,7 +73,8 @@
   }
 
   &__close,
-  &__hide {
+  &__hide,
+  &__back {
     display: flex;
     justify-content: center;
     color: govuk-colour('white');
@@ -85,6 +86,15 @@
 
     &:focus {
       outline: 3px solid $govuk-focus-colour;
+    }
+  }
+
+  &__back {
+    margin: 0;
+    display: flex;
+
+    @include mq ($from: 'tablet') {
+      display: none
     }
   }
 }

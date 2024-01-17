@@ -104,7 +104,9 @@ describe('<RequestChat />', () => {
 
     mocks.useChatSdk.mockReturnValue({
       fetchCustomerId: jest.fn(),
-      fetchThread: jest.fn()
+      fetchThread: () => ({
+        setCustomField: jest.fn()
+      })
     })
 
     const { container } = render(
@@ -128,7 +130,9 @@ describe('<RequestChat />', () => {
 
     mocks.useChatSdk.mockReturnValue({
       fetchCustomerId: jest.fn(),
-      fetchThread: jest.fn()
+      fetchThread: () => ({
+        setCustomField: jest.fn()
+      })
     })
 
     const { container } = render(
@@ -159,7 +163,8 @@ describe('<RequestChat />', () => {
     mocks.useChatSdk.mockReturnValue({
       fetchCustomerId: jest.fn(),
       fetchThread: () => ({
-        startChat: jest.fn
+        startChat: jest.fn,
+        setCustomField: jest.fn()
       })
     })
 
@@ -198,7 +203,8 @@ describe('<RequestChat />', () => {
     mocks.useChatSdk.mockReturnValue({
       fetchCustomerId: jest.fn(),
       fetchThread: () => ({
-        startChat: jest.fn
+        startChat: jest.fn,
+        setCustomField: jest.fn()
       })
     })
 

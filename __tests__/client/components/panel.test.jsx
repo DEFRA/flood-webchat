@@ -179,7 +179,7 @@ describe('<Panel />', () => {
       expect(link4).toHaveFocus()
     })
 
-    xit('should close the chat when "ESC" is pressed', () => {
+    it('should close the chat when "ESC" is pressed', () => {
       mocks.useApp.mockReturnValue({
         setUnseenCount: jest.fn(),
         setChatVisibility: jest.fn(),
