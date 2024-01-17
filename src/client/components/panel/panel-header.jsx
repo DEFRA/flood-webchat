@@ -1,12 +1,9 @@
 import React from 'react'
 import { useApp } from '../../store/useApp.js'
-import { useDevice } from '../../hooks/useDevice.js'
 import { historyReplaceState } from '../../lib/history.js'
 
 export function PanelHeader () {
-  const { thread, threadId, setChatVisibility, setUnseenCount } = useApp()
-
-  const { isMobile } = useDevice()
+  const { thread, threadId, setChatVisibility, setUnseenCount, isMobile } = useApp()
 
   const onClose = e => {
     e.preventDefault()
@@ -63,7 +60,7 @@ export function PanelHeader () {
 
   return (
     <div className='wc-header'>
-      {BackButtonComponent}
+      {window.history.state ? BackButtonComponent : null}
 
       <h2 id='wc-header-title' className='wc-header__title'>
         Floodline Webchat

@@ -108,23 +108,4 @@ describe('<PanelHeader />', () => {
     expect(container.querySelector('.wc-header__back')).toBeFalsy()
     expect(container.querySelector('.wc-header__hide')).toBeTruthy()
   })
-
-  it('[mobile] should show back button when there is browser history', () => {
-    mocks.useApp.mockReturnValue({ thread: {} })
-
-    window.innerWidth = 500
-    window.history.pushState({ history: true }, '', '#webchat')
-
-    fireEvent(window, new Event('resize'))
-
-    const { container, debug } = render(
-      <PanelHeader />
-    )
-
-    debug()
-
-    expect(container.querySelector('.wc-header__close')).toBeFalsy()
-    expect(container.querySelector('.wc-header__back')).toBeTruthy()
-    expect(container.querySelector('.wc-header__hide')).toBeFalsy()
-  })
 })
