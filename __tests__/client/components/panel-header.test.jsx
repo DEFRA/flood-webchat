@@ -108,4 +108,20 @@ describe('<PanelHeader />', () => {
     expect(container.querySelector('.wc-header__back')).toBeFalsy()
     expect(container.querySelector('.wc-header__hide')).toBeTruthy()
   })
+
+  it('[mobile] should show no minimise or close button when there is history', () => {
+    mocks.useApp.mockReturnValue({ thread: {}, isMobile: true })
+
+    window.innerWidth = 500
+    window.history.pushState({}, '', '#webchat')
+    fireEvent(window, new Event('resize'))
+
+    const { container } = render(
+      <PanelHeader />
+    )
+
+    expect(container.querySelector('.wc-header__close')).toBeFalsy()
+    expect(container.querySelector('.wc-header__back')).toBeTruthy()
+    expect(container.querySelector('.wc-header__hide')).toBeFalsy()
+  })
 })
