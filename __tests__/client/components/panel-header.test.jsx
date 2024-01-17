@@ -80,7 +80,7 @@ describe('<PanelHeader />', () => {
   })
 
   it('[mobile] should show the close button when there is no thread', () => {
-    mocks.useApp.mockReturnValue({ thread: null })
+    mocks.useApp.mockReturnValue({ thread: null, isMobile: true })
 
     window.innerWidth = 500
     fireEvent(window, new Event('resize'))
@@ -95,7 +95,7 @@ describe('<PanelHeader />', () => {
   })
 
   it('[mobile] should show the minimise button when there is a thread', () => {
-    mocks.useApp.mockReturnValue({ thread: {} })
+    mocks.useApp.mockReturnValue({ thread: {}, isMobile: true })
 
     window.innerWidth = 500
     fireEvent(window, new Event('resize'))
