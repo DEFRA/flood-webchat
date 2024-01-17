@@ -7,14 +7,14 @@ export function Message ({ message, previousMessage }) {
   const messageOwnerSameAsPrevious = message?.direction === previousMessage?.direction
 
   return (
-    <li className={classnames('wc-chat__message govuk-body', outbound ? 'outbound' : 'inbound')}>
-      <div className='wc-chat__from govuk-!-font-size-14'>
+    <li className={classnames('wc-chat__message', outbound ? 'outbound' : 'inbound')}>
+      <div className='wc-chat__from'>
         {messageOwnerSameAsPrevious ? null : <span>{outbound ? message.assignee : 'You'}</span>}
         <span className='govuk-visually-hidden'>:</span>
       </div>
-      <p className={classnames('wc-chat__text', 'govuk-body-s', outbound ? 'outbound' : 'inbound')}>
+      <div className={classnames('wc-chat__text', outbound ? 'outbound' : 'inbound')}>
         {message.text}
-      </p>
+      </div>
     </li>
   )
 }

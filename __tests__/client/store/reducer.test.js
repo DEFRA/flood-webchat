@@ -1,3 +1,4 @@
+import '../methods.mock'
 import { reducer, initialState } from '../../../src/client/store/reducer'
 
 describe('reducer', () => {

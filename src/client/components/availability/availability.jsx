@@ -54,8 +54,8 @@ export function Availability () {
   }, [buttonRef, isChatOpen])
 
   useEffect(() => {
-    document.documentElement.classList.toggle('wc-scroll-padding', isFixed)
-    document.body.classList.toggle('wc-scroll-padding', isFixed)
+    document.documentElement.classList.toggle('wc-u-scroll-padding', isFixed)
+    document.body.classList.toggle('wc-u-scroll-padding', isFixed)
   }, [isFixed])
 
   let TextComponent = (<>Show Chat</>)
@@ -84,7 +84,7 @@ export function Availability () {
                 data-module='govuk-button'
               >
                 {TextComponent}
-                {unseenCount > 0 && !isChatOpen ? <span className='wc-open-btn__unseen'>{unseenCount}</span> : null}
+                {unseenCount > 0 && !isChatOpen ? <span className='wc-availability__unseen'>{unseenCount}</span> : null}
               </a>
             </div>
           </div>

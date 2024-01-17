@@ -1,3 +1,4 @@
+import './methods.mock'
 import React from 'react'
 import { init } from '../../src/client'
 import { act } from '@testing-library/react'

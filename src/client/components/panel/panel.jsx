@@ -15,7 +15,7 @@ import { useFocusedElements } from '../../hooks/useFocusedElements.js'
 import { historyReplaceState } from '../../lib/history.js'
 
 export function Panel () {
-  const { sdk, availability, thread, threadId, setThread, setThreadId, setChatVisibility, setMessages, setUnseenCount } = useApp()
+  const { sdk, availability, thread, threadId, setThread, setThreadId, setChatVisibility, setMessages, setUnseenCount, isMobile } = useApp()
   const { fetchThread, fetchMessages } = useChatSdk(sdk)
 
   const [screen, setScreen] = useState(threadId ? 2 : 0)
@@ -32,6 +32,19 @@ export function Panel () {
       historyReplaceState()
     }
   }, [thread, threadId, setUnseenCount, setChatVisibility])
+
+  /**
+  * We need ammend classes on the body element to handle mobile behaviour
+  */
+  useEffect(() => {
+    document.body.classList.remove('wc-u-hidden')
+    document.getElementsByTagName('html')[0].classList.add('wc-u-html')
+    document.body.classList.add('wc-u-body')
+    return () => {
+      document.getElementsByTagName('html')[0].classList.remove('wc-u-html')
+      document.body.classList.remove('wc-u-body')
+    }
+  }, [isMobile])
 
   /**
    * Initializes the eventListener for pressing the escape key
@@ -117,7 +130,9 @@ export function Panel () {
 
   const Component = (
     <div id='wc-panel' role='dialog' className='wc-panel' tabIndex='-1' aria-modal='true' aria-labelledby='wc-header-title'>
-      {ScreenComponent}
+      <div className='wc-panel__inner'>
+        {ScreenComponent}
+      </div>
     </div>
   )
 

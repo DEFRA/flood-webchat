@@ -63,9 +63,9 @@ export function PanelHeader () {
 
   return (
     <div className='wc-header'>
-      {window.history.state ? BackButtonComponent : null}
+      {BackButtonComponent}
 
-      <h2 id='wc-header-title' className='wc-header__title govuk-heading-s'>
+      <h2 id='wc-header-title' className='wc-header__title'>
         Floodline Webchat
       </h2>
 

@@ -26,10 +26,12 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
     <>
       <PanelHeader />
       <div className='wc-body'>
-        <h3 className='govuk-heading-s' aria-live='polite'>Are you sure you want to end the chat?</h3>
-        <div className='govuk-button-group'>
-          <a href='#endChat' className='govuk-button govuk-!-font-size-16' data-module='govuk-button' id='confirmEndChat' onClick={confirmEndChat}>Yes, end chat</a>
-          <a href='#resumeChat' className='govuk-link govuk-!-font-size-16' onClick={onChatScreen}>No, resume chat</a>
+        <div className='wc-content'>
+          <h3 className='wc-heading' aria-live='polite'>Are you sure you want to end the chat?</h3>
+          <div className='govuk-button-group'>
+            <a href='#endChat' role='button' className='wc-button govuk-button' data-module='govuk-button' id='confirmEndChat' onClick={confirmEndChat}>Yes, end chat</a>
+            <a href='#resumeChat' role='button' className='wc-link govuk-link' onClick={onChatScreen}>No, resume chat</a>
+          </div>
         </div>
       </div>
     </>

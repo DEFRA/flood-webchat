@@ -1,3 +1,4 @@
+import '../methods.mock'
 import { initialState } from '../../../src/client/store/reducer'
 import { actionsMap } from '../../../src/client/store/actions-map'
 
@@ -238,5 +239,40 @@ describe('actions-map', () => {
     const newState = action(mockState, 1)
 
     expect(newState.unseenCount).toEqual(1)
+  })
+
+  it('ToggleIsMobile returns true for window width <= 640px', () => {
+    const action = actionsMap.TOGGLE_IS_MOBILE
+
+    const mockState = {
+      ...initialState,
+      isMobile: false
+    }
+
+    // Mock the window.matchMedia method
+    window.matchMedia = jest.fn().mockImplementation(query => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn()
+    }))
+
+    const newState = action(mockState, true)
+
+    expect(newState.isMobile).toEqual(true)
+  })
+
+  it('should update state: toggleIsKeyboard', () => {
+    const action = actionsMap.TOGGLE_IS_KEYBOARD
+
+    const mockState = {
+      ...initialState,
+      isKeyboard: false
+    }
+
+    const newState = action(mockState, true)
+
+    expect(newState.isKeyboard).toEqual(true)
   })
 })

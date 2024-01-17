@@ -21,45 +21,47 @@ export function Settings ({ onCancel }) {
       <PanelHeader />
 
       <div className='wc-body'>
-        <fieldset className='govuk-fieldset govuk-!-margin-bottom-4'>
-          <legend className='govuk-fieldset__legend govuk-fieldset__legend'>
-            <h3 id='wc-subtitle' className='govuk-heading-s'>Change settings</h3>
-          </legend>
-          <div className='govuk-checkboxes govuk-checkboxes--small' data-module='govuk-checkboxes'>
-            <div className='govuk-checkboxes__item'>
-              <input
-                id='audio'
-                name='audio'
-                type='checkbox'
-                value='audio'
-                className='govuk-checkboxes__input'
-                defaultChecked={optionAudio}
-                onChange={() => setOptionAudio(!optionAudio)}
-              />
-              <label className='govuk-label govuk-checkboxes__label govuk-!-font-size-16' htmlFor='audio'>
-                Play a sound when receiving a new message
-              </label>
+        <div className='wc-content'>
+          <fieldset className='govuk-fieldset govuk-!-margin-bottom-4'>
+            <legend className='govuk-fieldset__legend govuk-fieldset__legend'>
+              <h3 id='wc-subtitle' className='wc-heading'>Change settings</h3>
+            </legend>
+            <div className='govuk-checkboxes govuk-checkboxes--small' data-module='govuk-checkboxes'>
+              <div className='govuk-checkboxes__item'>
+                <input
+                  id='audio'
+                  name='audio'
+                  type='checkbox'
+                  value='audio'
+                  className='govuk-checkboxes__input'
+                  defaultChecked={optionAudio}
+                  onChange={() => setOptionAudio(!optionAudio)}
+                />
+                <label className='wc-label govuk-label govuk-checkboxes__label' htmlFor='audio'>
+                  Play a sound when receiving a new message
+                </label>
+              </div>
+              <div className='govuk-checkboxes__item'>
+                <input
+                  id='scroll'
+                  name='scroll'
+                  type='checkbox'
+                  value='scroll'
+                  className='govuk-checkboxes__input'
+                  defaultChecked={optionScroll}
+                  onChange={() => setOptionScroll(!optionScroll)}
+                />
+                <label className='wc-label govuk-label govuk-checkboxes__label' htmlFor='scroll'>
+                  Scroll automatically to a new message
+                </label>
+              </div>
             </div>
-            <div className='govuk-checkboxes__item'>
-              <input
-                id='scroll'
-                name='scroll'
-                type='checkbox'
-                value='scroll'
-                className='govuk-checkboxes__input'
-                defaultChecked={optionScroll}
-                onChange={() => setOptionScroll(!optionScroll)}
-              />
-              <label className='govuk-label govuk-checkboxes__label govuk-!-font-size-16' htmlFor='scroll'>
-                Scroll automatically to a new message
-              </label>
-            </div>
-          </div>
-        </fieldset>
+          </fieldset>
 
-        <div className='govuk-button-group'>
-          <a id='settings-save' href='#' className='govuk-button govuk-!-font-size-16' data-module='govuk-button' onClick={onSave}>Save</a>
-          <a id='settings-cancel' href='#' className='govuk-link govuk-!-font-size-16' data-module='govuk-button' onClick={onCancel}>Cancel</a>
+          <div className='govuk-button-group'>
+            <a id='settings-save' href='#' className='wc-button govuk-button' data-module='govuk-button' onClick={onSave}>Save</a>
+            <a id='settings-cancel' href='#' className='wc-link govuk-link' data-module='govuk-button' onClick={onCancel}>Cancel</a>
+          </div>
         </div>
       </div>
     </>

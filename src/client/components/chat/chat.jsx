@@ -9,9 +9,10 @@ import { useTextareaAutosize } from '../../hooks/useTextareaAutosize.js'
 import { formatTranscript } from '../../lib/transform-messages.js'
 
 export function Chat ({ onEndChatScreen, onSettingsScreen }) {
-  const { availability, thread, messages, agent, agentStatus, isAgentTyping, settings } = useApp()
+  const { availability, thread, messages, agent, agentStatus, isAgentTyping, settings, isKeyboard } = useApp()
 
   const [userMessage, setUserMessage] = useState('')
+  const [focusVisibleWithin, setFocusVisibleWithin] = useState(false)
 
   const messageRef = useRef()
 
@@ -94,61 +95,59 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
       <PanelHeader />
 
       <div className='wc-status'>
-        <p className='wc-status__availability govuk-body-s'>{connectionHeadlineText}</p>
-        <a className='wc-status__link govuk-!-font-size-16' href='#' data-module='govuk-button' onClick={onEndChatScreen}>End chat</a>
+        <p className='wc-status__availability'>{connectionHeadlineText}</p>
+        <a className='wc-status__link' href='#' data-module='govuk-button' onClick={onEndChatScreen}>End chat</a>
       </div>
 
-      <div className='wc-body'>
-        <div className='wc-chat__body'>
-          <ul className='wc-chat__messages'>
-            {messages.length
-              ? messages.map((msg, index) => <Message key={msg.id} message={msg} previousMessage={messages[index - 1]} />)
-              : null}
-            {isAgentTyping
-              ? (
-                <li className='wc-chat__message govuk-body outbound'>
-                  <div className='wc-chat__from govuk-!-font-size-14'>{agentName} is typing</div>
-                  <div className='wc-chat__text outbound'>
-                    <svg width='28' height='16' x='0px' y='0px' viewBox='0 0 28 16'>
-                      <circle stroke='none' cx='3' cy='8' r='3' fill='currentColor' />
-                      <circle stroke='none' cx='14' cy='8' r='3' fill='currentColor' />
-                      <circle stroke='none' cx='25' cy='8' r='3' fill='currentColor' />
-                    </svg>
-                  </div>
-                </li>
-                )
-              : null}
-          </ul>
-        </div>
+      <div className='wc-body' tabIndex='0'>
+        <ul className='wc-chat'>
+          {messages.length
+            ? messages.map((msg, index) => <Message key={msg.id} message={msg} previousMessage={messages[index - 1]} />)
+            : null}
+          {isAgentTyping
+            ? (
+              <li className='wc-chat__message outbound'>
+                <div className='wc-chat__from'>{agentName} is typing</div>
+                <div className='wc-chat__text outbound'>
+                  <svg width='28' height='16' x='0px' y='0px' viewBox='0 0 28 16'>
+                    <circle stroke='none' cx='3' cy='8' r='3' fill='currentColor' />
+                    <circle stroke='none' cx='14' cy='8' r='3' fill='currentColor' />
+                    <circle stroke='none' cx='25' cy='8' r='3' fill='currentColor' />
+                  </svg>
+                </div>
+              </li>
+              )
+            : null}
+        </ul>
       </div>
 
       <PanelFooter>
-        <div className='wc-footer__input'>
-          <form className='wc-form' noValidate onSubmit={handleSubmit}>
-            <label className='govuk-label wc-form__label govuk-!-font-size-16' htmlFor='wc-form-textarea'>
-              Your message<span className='govuk-visually-hidden'> (enter key submits)</span>
-            </label>
+        <form className={`wc-form${focusVisibleWithin ? ' wc-focus-within' : ''}`} noValidate onSubmit={handleSubmit}>
+          <label className='govuk-label wc-form__label' htmlFor='wc-form-textarea'>
+            Your message<span className='govuk-visually-hidden'> (enter key submits)</span>
+          </label>
 
-            <textarea
-              ref={messageRef}
-              rows='1'
-              aria-required='true'
-              className='wc-form__textarea govuk-textarea govuk-!-font-size-16'
-              id='wc-form-textarea'
-              name='message'
-              onChange={onChange}
-              onKeyDown={handleKeyPress}
-              value={userMessage}
-            />
+          <textarea
+            ref={messageRef}
+            rows='1'
+            aria-required='true'
+            className='wc-form__textarea'
+            id='wc-form-textarea'
+            name='message'
+            onChange={onChange}
+            onKeyDown={handleKeyPress}
+            onFocus={() => { setFocusVisibleWithin(isKeyboard) }}
+            onBlur={() => { setFocusVisibleWithin(false) }}
+            value={userMessage}
+          />
 
-            <input
-              type='submit'
-              className='wc-form__button govuk-button govuk-!-font-size-16'
-              value='Send'
-              data-prevent-double-click='true'
-            />
-          </form>
-        </div>
+          <input
+            type='submit'
+            className='wc-form__button govuk-button'
+            value='Send'
+            data-prevent-double-click='true'
+          />
+        </form>
 
         <div className='wc-footer__settings'>
           <a
