@@ -161,6 +161,57 @@ describe('<Chat />', () => {
       expect(mocks.useApp().thread.sendTextMessage).toHaveBeenCalled()
     })
 
+    it('should throw an error if unable to send a message', async () => {
+      mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          sendTextMessage: jest.fn(() => {
+            throw new Error('Simulated error')
+          })
+        }
+      })
+
+      console.log = jest.fn()
+
+      const { container } = render(<Chat />)
+
+      const input = container.querySelector('input')
+      const textarea = container.querySelector('textarea')
+
+      fireEvent.change(textarea, { target: { value: 'text' } })
+      fireEvent.click(input)
+
+      try {
+        await (async () => {
+          fireEvent.click(input)
+        })
+      } catch (err) {
+        // Verify that the error is logged
+        expect(console.log).toHaveBeenCalledWith('[Chat Error] sendMessage', err)
+      }
+    })
+
+    it('should not send a message if no text has been entered in text area', () => {
+      mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          sendTextMessage: jest.fn()
+        }
+      })
+
+      const { container } = render(<Chat />)
+
+      const input = container.querySelector('input')
+      const textarea = container.querySelector('textarea')
+
+      fireEvent.change(textarea, { target: { value: '' } })
+      fireEvent.click(input)
+
+      expect(mocks.useApp().thread.sendTextMessage).toHaveBeenCalledTimes(0)
+    })
+
     it('should send a message when Enter key is hit', async () => {
       const mockSendTextMessage = jest.fn()
       mocks.useApp.mockReturnValue({

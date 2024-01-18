@@ -1,6 +1,7 @@
 import '../methods.mock'
 import { initialState } from '../../../src/client/store/reducer'
 import { actionsMap } from '../../../src/client/store/actions-map'
+import { AppProvider } from '../../../src/client/store/AppProvider'
 
 const inputMessage = {
   id: 'message_123',
@@ -198,6 +199,19 @@ describe('actions-map', () => {
     const newState = action(mockState, 'new')
 
     expect(newState.agentStatus).toEqual('new')
+  })
+
+  it('should update state: toggleKeyboard', () => {
+    const action = actionsMap.TOGGLE_IS_KEYBOARD
+
+    const mockState = {
+      ...initialState,
+      isKeyboard: false
+    }
+
+    const newState = action(mockState, true)
+
+    expect(newState.isKeyboard).toEqual(true)
   })
 
   it('should update state: settings', () => {

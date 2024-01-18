@@ -6,13 +6,14 @@ import { useApp } from '../../store/useApp'
 import { historyPushState } from '../../lib/history.js'
 
 export function Availability () {
-  const { availability, isChatOpen, setChatVisibility, unseenCount, threadId } = useApp()
+  const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount } = useApp()
 
   const [isFixed, setIsFixed] = useState(false)
   const buttonRef = useRef()
 
   const onClick = e => {
     e.preventDefault()
+    setUnseenCount(0)
     setChatVisibility(!isChatOpen)
     historyPushState()
   }
@@ -25,6 +26,7 @@ export function Availability () {
 
   const onKeyUp = event => {
     if (event.key === ' ') {
+      setUnseenCount(0)
       setChatVisibility(!isChatOpen)
     }
   }
@@ -58,10 +60,10 @@ export function Availability () {
     document.body.classList.toggle('wc-u-scroll-padding', isFixed)
   }, [isFixed])
 
-  let TextComponent = (<>Show Chat</>)
+  let TextComponent = (<>Show chat</>)
 
   if (!threadId) {
-    TextComponent = (<>Start Chat</>)
+    TextComponent = (<>Start chat</>)
   }
 
   switch (availability) {
