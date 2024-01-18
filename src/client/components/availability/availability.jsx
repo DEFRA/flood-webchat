@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { classnames } from '../../lib/classnames'
 import { Panel } from '../panel/panel.jsx'
 import { useApp } from '../../store/useApp'
-import { historyPushState } from '../../lib/history.js'
+import { historyPushState, historyReplaceState } from '../../lib/history.js'
 
 export function Availability () {
   const { availability, isChatOpen, setChatVisibility, unseenCount, threadId } = useApp()
@@ -14,7 +14,12 @@ export function Availability () {
   const onClick = e => {
     e.preventDefault()
     setChatVisibility(!isChatOpen)
-    historyPushState()
+
+    if (!isChatOpen) {
+      historyPushState()
+    } else {
+      historyReplaceState()
+    }
   }
 
   const onKeyDown = event => {
