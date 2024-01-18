@@ -1,7 +1,6 @@
 import '../methods.mock'
 import { initialState } from '../../../src/client/store/reducer'
 import { actionsMap } from '../../../src/client/store/actions-map'
-import { AppProvider } from '../../../src/client/store/AppProvider'
 
 const inputMessage = {
   id: 'message_123',
