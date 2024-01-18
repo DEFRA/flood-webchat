@@ -60,7 +60,7 @@ export function Settings ({ onCancel }) {
 
           <div className='govuk-button-group'>
             <a id='settings-save' href='#' className='wc-button govuk-button' data-module='govuk-button' onClick={onSave}>Save</a>
-            <a id='settings-cancel' href='#' className='wc-link govuk-link' data-module='govuk-button' onClick={onCancel}>Cancel</a>
+            <a id='settings-cancel' href='#' className='wc-link govuk-link' data-module='govuk-button' role='button' onClick={onCancel}>Cancel</a>
           </div>
         </div>
       </div>

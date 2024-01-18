@@ -30,7 +30,7 @@ describe('<Availability/>', () => {
   })
 
   describe('Text content', () => {
-    it('contains the text "Start Chat" when there is no existing thread', () => {
+    it('contains the text "Start chat" when there is no existing thread', () => {
       mocks.useApp.mockReturnValueOnce({
         availability: 'AVAILABLE',
         messages: []
@@ -38,10 +38,10 @@ describe('<Availability/>', () => {
 
       const { container } = render(<Availability />)
 
-      expect(container.querySelector('a').textContent).toEqual('Start Chat')
+      expect(container.querySelector('a').textContent).toEqual('Start chat')
     })
 
-    it('contains the text "Show Chat" when there is existing thread with no unread messages', () => {
+    it('contains the text "Show chat" when there is existing thread with no unread messages', () => {
       mocks.useApp.mockReturnValueOnce({
         availability: 'AVAILABLE',
         messages: [{}],
@@ -50,7 +50,7 @@ describe('<Availability/>', () => {
 
       render(<Availability />)
 
-      expect(screen.getByText('Show Chat')).toBeTruthy()
+      expect(screen.getByText('Show chat')).toBeTruthy()
     })
 
     it('tells the user to expect the start chat link when availability = "EXISTING"', () => {
@@ -94,6 +94,7 @@ describe('<Availability/>', () => {
     it('the webchat open state is toggled on click', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
+        setUnseenCount: jest.fn(),
         availability: 'AVAILABLE',
         messages: [],
         threadId: 'thread_123'
@@ -111,6 +112,7 @@ describe('<Availability/>', () => {
     it('the webchat open state is toggled on space bar keyboard events', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
+        setUnseenCount: jest.fn(),
         availability: 'AVAILABLE',
         messages: [],
         threadId: 'thread_123'
@@ -130,9 +132,10 @@ describe('<Availability/>', () => {
   })
 
   describe('Resume chat behaviour', () => {
-    it('displays "Show Chat" link when chat is in progress, advisor is available but chat window has been minimised', async () => {
+    it('displays "Show chat" link when chat is in progress, advisor is available but chat window has been minimised', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
+        setUnseenCount: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
         messages: [{}],
@@ -145,12 +148,13 @@ describe('<Availability/>', () => {
 
       await user.click(container.querySelector('a'))
 
-      expect(screen.getByText('Show Chat')).toBeTruthy()
+      expect(screen.getByText('Show chat')).toBeTruthy()
     })
 
-    it('allows a keyboard user to toggle between displaying chat and not using "Show Chat" link', async () => {
+    it('allows a keyboard user to toggle between displaying chat and not using "Show chat" link', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
+        setUnseenCount: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
         messages: [{}],
@@ -159,7 +163,7 @@ describe('<Availability/>', () => {
 
       render(<Availability />)
 
-      const showChatLink = screen.getByText('Show Chat')
+      const showChatLink = screen.getByText('Show chat')
 
       await userEvent.type(showChatLink, '{enter}')
 
@@ -171,6 +175,7 @@ describe('<Availability/>', () => {
     it('is not sticky when webchat is already open and the availability link is below the fold', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
+        setUnseenCount: jest.fn(),
         isChatOpen: true,
         availability: 'AVAILABLE',
         messages: [],
@@ -191,7 +196,7 @@ describe('<Availability/>', () => {
 
       const user = userEvent.setup()
 
-      await user.click(screen.getByText('Show Chat'))
+      await user.click(screen.getByText('Show chat'))
 
       const listener = mocks.IntersectionObserver.mock.calls[0][0]
 
@@ -206,6 +211,7 @@ describe('<Availability/>', () => {
     it('is sticky when webchat is closed and the availability link is below the fold', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
+        setUnseenCount: jest.fn(),
         availability: 'AVAILABLE',
         messages: [],
         threadId: 'thread_123',
@@ -233,6 +239,7 @@ describe('<Availability/>', () => {
     it('is not sticky when webchat is closed and the availability link is in view', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
+        setUnseenCount: jest.fn(),
         availability: 'AVAILABLE',
         messages: [],
         threadId: 'thread_123',
@@ -260,6 +267,7 @@ describe('<Availability/>', () => {
     it('is not sticky when webchat is closed and the availability link is above the fold', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
+        setUnseenCount: jest.fn(),
         availability: 'AVAILABLE',
         messages: [],
         threadId: 'thread_123'
@@ -283,7 +291,7 @@ describe('<Availability/>', () => {
     })
   })
   describe('Unread Link Behaviour', () => {
-    it('displays number of unread messages next to Show Chat link when at least 1 unread message', async () => {
+    it('displays number of unread messages next to Show chat link when at least 1 unread message', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         isChatOpen: false,
@@ -298,7 +306,7 @@ describe('<Availability/>', () => {
       expect(container.querySelector('.wc-availability__unseen').textContent).toEqual('1')
     })
 
-    it('does not display any numbers next to Show Chat when no unread messages', async () => {
+    it('does not display any numbers next to Show chat when no unread messages', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         isChatOpen: false,

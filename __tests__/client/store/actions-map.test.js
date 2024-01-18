@@ -200,6 +200,19 @@ describe('actions-map', () => {
     expect(newState.agentStatus).toEqual('new')
   })
 
+  it('should update state: toggleKeyboard', () => {
+    const action = actionsMap.TOGGLE_IS_KEYBOARD
+
+    const mockState = {
+      ...initialState,
+      isKeyboard: false
+    }
+
+    const newState = action(mockState, true)
+
+    expect(newState.isKeyboard).toEqual(true)
+  })
+
   it('should update state: settings', () => {
     const action = actionsMap.SET_SETTINGS
 

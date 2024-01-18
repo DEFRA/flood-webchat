@@ -257,4 +257,30 @@ describe('<AppProvider />', () => {
 
     expect(container.querySelector('#agent-typing').textContent).toEqual('false')
   })
+  it('should toggle isKeyboard state based on events', () => {
+    const Component = () => {
+      const context = useContext(AppContext)
+
+      useEffect(() => {
+        const keydownEvent = new Event('keydown')
+        document.dispatchEvent(keydownEvent)
+
+        const pointerdownEvent = new Event('pointerdown')
+        document.dispatchEvent(pointerdownEvent)
+      }, [])
+
+      return (
+        <div id='is-keyboard'>{context.isKeyboard.toString()}</div>
+      )
+    }
+
+    const { container } = render(
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+        <Component />
+      </AppProvider>
+    )
+
+    // Expect the state to be toggled based on the events
+    expect(container.querySelector('#is-keyboard').textContent).toEqual('false')
+  })
 })
