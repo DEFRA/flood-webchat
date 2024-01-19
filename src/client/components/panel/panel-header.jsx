@@ -60,7 +60,7 @@ export function PanelHeader () {
 
   return (
     <div className='wc-header'>
-      {window.history.state ? BackButtonComponent : null}
+      {isMobile && window.history.state ? BackButtonComponent : null}
 
       <h2 id='wc-header-title' className='wc-header__title'>
         Floodline Webchat
