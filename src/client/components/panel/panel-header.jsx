@@ -40,27 +40,30 @@ export function PanelHeader () {
     </button>
   )
 
+  const isMobileAndHasHistory = isMobile && window.history.state
+  const isMobileAndNoHistory = isMobile && !window.history.state
+
   let RightButtonComponent = CloseButtonComponent
 
   if (thread) {
     RightButtonComponent = MinimiseButtonComponent
 
-    if (isMobile && !window.history.state) {
+    if (isMobileAndNoHistory) {
       RightButtonComponent = MinimiseButtonComponent
     }
   }
 
-  if (!thread && isMobile && !window.history.state) {
+  if (!thread && isMobileAndNoHistory) {
     RightButtonComponent = CloseButtonComponent
   }
 
-  if (isMobile && window.history.state) {
+  if (isMobileAndHasHistory) {
     RightButtonComponent = null
   }
 
   return (
     <div className='wc-header'>
-      {window.history.state ? BackButtonComponent : null}
+      {isMobileAndHasHistory ? BackButtonComponent : null}
 
       <h2 id='wc-header-title' className='wc-header__title'>
         Floodline Webchat
