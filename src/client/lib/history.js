@@ -5,7 +5,7 @@ export const historyPushState = () => {
 
 export const historyReplaceState = () => {
   if (window.history.state?.history) {
-    window.history.back()
+    return window.history.back()
   }
 
   const url = window.location.href.split('#')[0]
