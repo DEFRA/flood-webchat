@@ -9,5 +9,5 @@ export const historyReplaceState = () => {
   }
 
   const url = window.location.href.split('#')[0]
-  window.history.replaceState(null, null, url)
+  return window.history.replaceState(null, null, url)
 }
