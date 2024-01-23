@@ -31,7 +31,7 @@ describe('<Availability/>', () => {
 
   describe('Text content', () => {
     it('contains the text "Start chat" when there is no existing thread', () => {
-      mocks.useApp.mockReturnValueOnce({
+      mocks.useApp.mockReturnValue({
         availability: 'AVAILABLE',
         messages: []
       })
@@ -42,7 +42,7 @@ describe('<Availability/>', () => {
     })
 
     it('contains the text "Show chat" when there is existing thread with no unread messages', () => {
-      mocks.useApp.mockReturnValueOnce({
+      mocks.useApp.mockReturnValue({
         availability: 'AVAILABLE',
         messages: [{}],
         threadId: 'thread_123'
