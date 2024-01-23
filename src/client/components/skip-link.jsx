@@ -22,7 +22,5 @@ export const SkipLink = () => {
       </a>,
       targetContainer
     )
-  } else {
-    return null
   }
 }
