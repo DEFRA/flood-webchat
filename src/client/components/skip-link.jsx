@@ -15,16 +15,20 @@ export const SkipLink = () => {
     return null
   }
 
-  return createPortal(
-    <a
-      href='#webchat'
-      className='govuk-skip-link'
-      data-module='govuk-skip-link'
-      data-wc-skiplink
-      data-wc-open-btn
-    >
-      Skip to webchat
-    </a>,
-    targetContainer
+  return (
+    <>
+      {createPortal(
+        <a
+          href='#webchat'
+          className='govuk-skip-link'
+          data-module='govuk-skip-link'
+          data-wc-skiplink
+          data-wc-open-btn
+        >
+          Skip to webchat
+        </a>,
+        targetContainer
+      )}
+    </>
   )
 }
