@@ -11,18 +11,20 @@ export const SkipLink = () => {
 
   const targetContainer = document.getElementById('skip-links')
 
-  if (targetContainer) {
-    return createPortal(
-      <a
-        href='#webchat'
-        className='govuk-skip-link'
-        data-module='govuk-skip-link'
-        data-wc-skiplink
-        data-wc-open-btn
-      >
-        Skip to webchat
-      </a>,
-      targetContainer
-    )
-  } else { return null }
+  if (!targetContainer) {
+    return null
+  }
+
+  return createPortal(
+    <a
+      href='#webchat'
+      className='govuk-skip-link'
+      data-module='govuk-skip-link'
+      data-wc-skiplink
+      data-wc-open-btn
+    >
+      Skip to webchat
+    </a>,
+    targetContainer
+  )
 }
