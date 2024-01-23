@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { classnames } from '../../lib/classnames'
 import { Panel } from '../panel/panel.jsx'
+import { SkipLink } from '../skip-link.jsx'
+
 import { useApp } from '../../store/useApp'
 import { historyPushState, historyReplaceState } from '../../lib/history.js'
 
@@ -96,6 +98,7 @@ export function Availability () {
             </div>
           </div>
           {isChatOpen && <Panel />}
+          <SkipLink />
         </>
       )
     case 'EXISTING':
