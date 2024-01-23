@@ -15,7 +15,7 @@ import { useFocusedElements } from '../../hooks/useFocusedElements.js'
 import { historyReplaceState } from '../../lib/history.js'
 
 export function Panel () {
-  const { sdk, availability, thread, threadId, setThread, setThreadId, setChatVisibility, setMessages, setUnseenCount, isMobile } = useApp()
+  const { sdk, availability, thread, threadId, setThread, setThreadId, setChatVisibility, setMessages, setUnseenCount, isMobile, isKeyboard } = useApp()
   const { fetchThread, fetchMessages } = useChatSdk(sdk)
 
   const [screen, setScreen] = useState(threadId ? 2 : 0)
@@ -99,6 +99,7 @@ export function Panel () {
   const goToEndChatScreen = handleScreenChange(3)
   const goToFeedbackScreen = handleScreenChange(4)
   const goToSettingsScreen = handleScreenChange(5)
+
   let ScreenComponent
 
   switch (screen) {
@@ -129,7 +130,7 @@ export function Panel () {
   }
 
   const Component = (
-    <div id='wc-panel' role='dialog' className='wc-panel' tabIndex='-1' aria-modal='true' aria-labelledby='wc-header-title'>
+    <div id='wc-panel' role='dialog' className={`wc-panel ${isKeyboard && screen !== 3 ? 'wc-focus-visible' : ''}`} tabIndex='-1' aria-modal='true' aria-labelledby='wc-header-title'>
       <div className='wc-panel__inner'>
         {ScreenComponent}
       </div>

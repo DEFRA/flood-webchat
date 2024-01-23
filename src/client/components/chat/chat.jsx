@@ -96,7 +96,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
 
       <div className='wc-status'>
         <p className='wc-status__availability'>{connectionHeadlineText}</p>
-        <a className='wc-status__link' href='#' data-module='govuk-button' onClick={onEndChatScreen}>End chat</a>
+        <a className='wc-status__link' href='#' role='button' data-module='govuk-button' onClick={onEndChatScreen}>End chat</a>
       </div>
 
       <div className='wc-body' tabIndex='0'>
