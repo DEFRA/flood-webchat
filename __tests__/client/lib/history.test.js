@@ -1,18 +1,14 @@
 import { historyPushState, historyReplaceState } from '../../../src/client/lib/history'
 
 describe('history', () => {
-  const realHistory = window.history
-
-  beforeAll(() => {
-    window.history = {
-      ...realHistory,
-      href: 'http://test'
-    }
+  afterAll(() => {
+    jest.clearAllMocks()
   })
 
-  afterAll(() => {
-    window.history = realHistory
-    jest.clearAllMocks()
+  it('should do a replace state', () => {
+    historyReplaceState()
+
+    expect(window.location.hash).toEqual('')
   })
 
   it('should append the webchat fragment to the url', () => {
@@ -21,9 +17,11 @@ describe('history', () => {
     expect(window.location.hash).toEqual('#webchat')
   })
 
-  it('should remove the webchat fragment from the url', () => {
+  it('should do a browser back if there is history', () => {
+    window.history.back = jest.fn()
+
     historyReplaceState()
 
-    expect(window.location.hash).toEqual('')
+    expect(window.history.back).toHaveBeenCalled()
   })
 })
