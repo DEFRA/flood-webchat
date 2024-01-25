@@ -38,7 +38,7 @@ describe('<Feedback />', () => {
     expect(screen.getByText('Give Feedback on Floodline webchat')).toBeTruthy()
   })
 
-  it('should close the webchat window when cancel is pressed', async () => {
+  it('should close the webchat window when cancel is clicked', async () => {
     mocks.useApp.mockReturnValue({
       thread: {
         endChat: jest.fn()
@@ -55,6 +55,48 @@ describe('<Feedback />', () => {
     const button = container.querySelector('#feedback-cancel')
 
     fireEvent.click(button)
+
+    expect(mocks.handleOnCancel).toHaveBeenCalled()
+  })
+
+  it('should close the webchat window when enter key is presse on cancel', async () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'pending',
+      setChatVisibility: jest.fn()
+    })
+
+    const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#feedback-cancel')
+
+    fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
+
+    expect(mocks.handleOnCancel).toHaveBeenCalled()
+  })
+
+  it('should close the webchat window when spacebar is pressed on cancel', async () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'pending',
+      setChatVisibility: jest.fn()
+    })
+
+    const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#feedback-cancel')
+
+    fireEvent.keyDown(button, { key: ' ', code: 'Space' })
 
     expect(mocks.handleOnCancel).toHaveBeenCalled()
   })

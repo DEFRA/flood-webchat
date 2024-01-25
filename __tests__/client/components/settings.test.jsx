@@ -83,4 +83,76 @@ describe('<Settings />', () => {
 
     expect(mocks.handleOnCancel).toHaveBeenCalled()
   })
+
+  it('should cancel the screen on space bar key press', () => {
+    mocks.useApp.mockReturnValue({
+      settings: {
+        audio: false,
+        scroll: false
+      }
+    })
+
+    const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#settings-cancel')
+
+    fireEvent.keyDown(button, { key: ' ', code: 'Space' })
+
+    expect(mocks.handleOnCancel).toHaveBeenCalled()
+  })
+
+  it('should cancel the screen on Enter key press', () => {
+    mocks.useApp.mockReturnValue({
+      settings: {
+        audio: false,
+        scroll: false
+      }
+    })
+
+    const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#settings-cancel')
+
+    fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
+
+    expect(mocks.handleOnCancel).toHaveBeenCalled()
+  })
+
+  it('should save settings on Enter key press', () => {
+    mocks.useApp.mockReturnValue({
+      setSettings: jest.fn(),
+      settings: {
+        audio: false,
+        scroll: false
+      }
+    })
+
+    const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#settings-save')
+
+    fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
+
+    expect(mocks.useApp().setSettings).toHaveBeenCalled()
+    expect(mocks.handleOnCancel).toHaveBeenCalled()
+  })
+
+  it('should save settings on space bar key press', () => {
+    mocks.useApp.mockReturnValue({
+      setSettings: jest.fn(),
+      settings: {
+        audio: false,
+        scroll: false
+      }
+    })
+
+    const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#settings-save')
+
+    fireEvent.keyDown(button, { key: ' ', code: 'Space' })
+
+    expect(mocks.useApp().setSettings).toHaveBeenCalled()
+    expect(mocks.handleOnCancel).toHaveBeenCalled()
+  })
 })

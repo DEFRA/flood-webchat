@@ -232,6 +232,111 @@ describe('<Chat />', () => {
 
       expect(mockSendTextMessage).toHaveBeenCalledWith('text')
     })
+
+    it('should open settings when Enter key is hit on Settings button', async () => {
+      const mockSendTextMessage = jest.fn()
+      mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          sendTextMessage: mockSendTextMessage
+        }
+      })
+
+      const mockOnSettingsScreen = jest.fn()
+
+      const { container } = render(<Chat onSettingsScreen={mockOnSettingsScreen} />)
+
+      const button = container.querySelector('#wc-settings')
+
+      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter', keyCode: 13 })
+
+      expect(mockOnSettingsScreen).toHaveBeenCalledTimes(1)
+    })
+
+    it('should open settings when sapce bar key is hit on Settings button', async () => {
+      const mockSendTextMessage = jest.fn()
+      mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          sendTextMessage: mockSendTextMessage
+        }
+      })
+
+      const mockOnSettingsScreen = jest.fn()
+
+      const { container } = render(<Chat onSettingsScreen={mockOnSettingsScreen} />)
+
+      const button = container.querySelector('#wc-settings')
+
+      fireEvent.keyDown(button, { key: ' ', code: 'Space' })
+
+      expect(mockOnSettingsScreen).toHaveBeenCalledTimes(1)
+    })
+
+    it('should end chat when enter key is pressed on end chat button', async () => {
+      const mockSendTextMessage = jest.fn()
+      mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          sendTextMessage: mockSendTextMessage
+        }
+      })
+
+      const mockOnEndChatScreen = jest.fn()
+
+      const { container } = render(<Chat onEndChatScreen={mockOnEndChatScreen} />)
+
+      const button = container.querySelector('#end-chat')
+
+      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter', keyCode: 13 })
+
+      expect(mockOnEndChatScreen).toHaveBeenCalledTimes(1)
+    })
+
+    it('should end chat when space bar is pressed on end chat button', async () => {
+      const mockSendTextMessage = jest.fn()
+      mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          sendTextMessage: mockSendTextMessage
+        }
+      })
+
+      const mockOnEndChatScreen = jest.fn()
+
+      const { container } = render(<Chat onEndChatScreen={mockOnEndChatScreen} />)
+
+      const button = container.querySelector('#end-chat')
+
+      fireEvent.keyDown(button, { key: ' ', code: 'Space' })
+
+      expect(mockOnEndChatScreen).toHaveBeenCalledTimes(1)
+    })
+
+    it('should save chat when enter key is pressed on end chat button', async () => {
+      const mockSendTextMessage = jest.fn()
+      mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          sendTextMessage: mockSendTextMessage
+        }
+      })
+
+      const { container } = render(<Chat />)
+
+      jest.spyOn(container.querySelector('#transcript-download'), 'setAttribute')
+
+      const button = container.querySelector('#transcript-download')
+
+      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter', keyCode: 13 })
+
+      expect(container.querySelector('#transcript-download').setAttribute).toHaveBeenCalled()
+    })
   })
 
   describe('Messages', () => {

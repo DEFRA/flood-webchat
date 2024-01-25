@@ -62,6 +62,52 @@ describe('<EndChat />', () => {
     expect(mocks.useApp().thread.endChat).toHaveBeenCalled()
   })
 
+  it('confirm chat is ended if enter key pressed on Yes, end chat', () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn(),
+        lastMessageSeen: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'pending',
+      setChatVisibility: jest.fn(),
+      setUnseenCount: jest.fn()
+    })
+
+    const { container } = render(<EndChat onChatScreen={jest.fn()} onEndChatConfirm={jest.fn()} />)
+
+    const button = container.querySelector('#confirmEndChat')
+
+    fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
+
+    expect(mocks.useApp().thread.endChat).toHaveBeenCalled()
+  })
+
+  it('confirm chat is ended if space bar pressed on Yes, end chat', () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn(),
+        lastMessageSeen: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'pending',
+      setChatVisibility: jest.fn(),
+      setUnseenCount: jest.fn()
+    })
+
+    const { container } = render(<EndChat onChatScreen={jest.fn()} onEndChatConfirm={jest.fn()} />)
+
+    const button = container.querySelector('#confirmEndChat')
+
+    fireEvent.keyDown(button, { key: ' ', code: 'Space' })
+
+    expect(mocks.useApp().thread.endChat).toHaveBeenCalled()
+  })
+
   it('confirm chat is not ended if agent has already closed the chat', () => {
     mocks.useApp.mockReturnValue({
       thread: {
@@ -124,5 +170,51 @@ describe('<EndChat />', () => {
     await waitFor(() => {
       expect(screen.getByText('Yes, end chat')).toHaveFocus()
     })
+  })
+
+  it('should not end chat if Enter is pressed on resume chat ', () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn(),
+        lastMessageSeen: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'pending',
+      setChatVisibility: jest.fn(),
+      setUnseenCount: jest.fn()
+    })
+
+    const { container } = render(<EndChat onChatScreen={jest.fn()} onEndChatConfirm={jest.fn()} />)
+
+    const button = container.querySelector('#resumeChat')
+
+    fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
+
+    expect(mocks.useApp().thread.endChat).toBeCalledTimes(0)
+  })
+
+  it('should not end chat if space bar is pressed on resume chat ', () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn(),
+        lastMessageSeen: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'pending',
+      setChatVisibility: jest.fn(),
+      setUnseenCount: jest.fn()
+    })
+
+    const { container } = render(<EndChat onChatScreen={jest.fn()} onEndChatConfirm={jest.fn()} />)
+
+    const button = container.querySelector('#resumeChat')
+
+    fireEvent.keyDown(button, { key: ' ', code: 'Space' })
+
+    expect(mocks.useApp().thread.endChat).toBeCalledTimes(0)
   })
 })

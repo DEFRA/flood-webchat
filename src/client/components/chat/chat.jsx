@@ -70,12 +70,6 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
 
     setUserMessage('')
   }
-  const handleKeyPress = e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      sendMessage()
-    }
-  }
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -90,13 +84,51 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
     saveChatLink.setAttribute('href', `data:text/plain;charset=utf-8,${transcript}`)
   }
 
+  const handleKeyPress = (event, buttonText) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      switch (buttonText) {
+        case 'send':
+          event.preventDefault()
+          sendMessage()
+          break
+        case 'end':
+          onEndChatScreen(event)
+          break
+        case 'settings':
+          onSettingsScreen(event)
+          break
+        case 'download':
+          saveChat()
+          break
+        default:
+          break
+      }
+    } else if (event.key === ' ') {
+      if (buttonText === 'end') {
+        onEndChatScreen(event)
+      } else if (buttonText === 'settings') {
+        onSettingsScreen(event)
+      }
+    }
+  }
+
   return (
     <>
       <PanelHeader />
 
       <div className='wc-status'>
         <p className='wc-status__availability'>{connectionHeadlineText}</p>
-        <a className='wc-status__link' href='#' role='button' data-module='govuk-button' onClick={onEndChatScreen}>End chat</a>
+        <a
+          id='end-chat'
+          className='wc-status__link'
+          href='#'
+          data-module='govuk-button'
+          role='button'
+          onClick={onEndChatScreen}
+          onKeyDown={(event) => handleKeyPress(event, 'end')}
+        >
+          End chat
+        </a>
       </div>
 
       <div className='wc-body' tabIndex='0'>
@@ -135,7 +167,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
             id='wc-form-textarea'
             name='message'
             onChange={onChange}
-            onKeyDown={handleKeyPress}
+            onKeyDown={(event) => handleKeyPress(event, 'send')}
             onFocus={() => { setFocusVisibleWithin(isKeyboard) }}
             onBlur={() => { setFocusVisibleWithin(false) }}
             value={userMessage}
@@ -155,6 +187,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
             id='wc-settings'
             className='wc-footer__settings-link'
             data-module='govuk-button'
+            onKeyDown={(event) => handleKeyPress(event, 'settings')}
             onClick={onSettingsScreen}
           >
             Settings
@@ -165,6 +198,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
             className='wc-footer__settings-link'
             data-module='govuk-button'
             download='floodline-webchat-transcript.txt'
+            onKeyDown={(event) => handleKeyPress(event, 'download')}
             onClick={saveChat}
           >
             Save chat
