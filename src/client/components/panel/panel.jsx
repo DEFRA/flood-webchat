@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
+import { classnames } from '../../lib/classnames.js'
 
 import { PreChat } from '../screens/pre-chat.jsx'
 import { RequestChat } from '../screens/request-chat.jsx'
@@ -130,7 +131,7 @@ export function Panel () {
   }
 
   const Component = (
-    <div id='wc-panel' role='dialog' className={`wc-panel ${isKeyboard && screen !== 3 ? 'wc-focus-visible' : ''}`} tabIndex='-1' aria-modal='true' aria-labelledby='wc-header-title'>
+    <div id='wc-panel' role='dialog' className={classnames('wc-panel', isKeyboard && screen !== 3 && 'wc-focus-visible')} tabIndex='-1' aria-modal='true' aria-labelledby='wc-header-title'>
       <div className='wc-panel__inner'>
         {ScreenComponent}
       </div>
