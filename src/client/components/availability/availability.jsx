@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { classnames } from '../../lib/classnames'
 import { Panel } from '../panel/panel.jsx'
@@ -10,7 +10,6 @@ import { historyPushState, historyReplaceState } from '../../lib/history.js'
 export function Availability () {
   const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount } = useApp()
 
-  const [isFixed, setIsFixed] = useState(false)
   const buttonRef = useRef()
 
   const onClick = e => {
@@ -38,34 +37,28 @@ export function Availability () {
     }
   }
 
-  const intersectionCallback = entries => {
-    const [entry] = entries
-    const isBelowFold = !entry.isIntersecting && entry.boundingClientRect.top > 0
-    setIsFixed(!isChatOpen && isBelowFold && threadId)
-  }
-
   useEffect(() => {
-    const observer = new window.IntersectionObserver(intersectionCallback, {
-      rootMargin: '35px'
-    })
+    const onScroll = () => {
+      if (!threadId) return
+      if (availability !== 'AVAILABLE') return
 
-    const parentElement = buttonRef.current?.parentElement
+      const rect = buttonRef.current.parentElement.getBoundingClientRect()
 
-    if (parentElement) {
-      observer.observe(parentElement)
+      const isBelowFold = rect.top + 35 > (window.innerHeight || document.documentElement.clientHeight)
+      const isFixed = !isChatOpen && isBelowFold
+
+      document.documentElement.classList.toggle('wc-u-scroll-padding', isFixed)
+      document.body.classList.toggle('wc-u-scroll-padding', isFixed)
+      buttonRef.current.classList.toggle('wc-availability--fixed', isFixed)
     }
+
+    document.addEventListener('scroll', onScroll)
+    onScroll()
 
     return () => {
-      if (parentElement) {
-        observer.unobserve(parentElement)
-      }
+      document.removeEventListener('scroll', onScroll)
     }
-  }, [buttonRef, isChatOpen])
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('wc-u-scroll-padding', isFixed)
-    document.body.classList.toggle('wc-u-scroll-padding', isFixed)
-  }, [isFixed])
+  }, [threadId, isChatOpen, availability])
 
   let TextComponent = (<>Show chat</>)
 
@@ -78,7 +71,7 @@ export function Availability () {
       return (
         <>
           <div
-            className={classnames('wc-availability', isFixed && 'wc-availability--fixed', isChatOpen && 'wc-open')}
+            className={classnames('wc-availability', isChatOpen && 'wc-open')}
             ref={buttonRef}
           >
             <div className='wc-availability__inner'>

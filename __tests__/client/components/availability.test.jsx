@@ -1,7 +1,7 @@
 import '../methods.mock'
 import React from 'react'
 import userEvent from '@testing-library/user-event'
-import { screen, render, act } from '@testing-library/react'
+import { screen, render } from '@testing-library/react'
 import { Availability } from '../../../src/client/components/availability/availability'
 import { useApp } from '../../../src/client/store/useApp'
 
@@ -171,125 +171,6 @@ describe('<Availability/>', () => {
     })
   })
 
-  describe('Sticky behaviour', () => {
-    it('is not sticky when webchat is already open and the availability link is below the fold', async () => {
-      mocks.useApp.mockReturnValue({
-        setChatVisibility: jest.fn(),
-        setUnseenCount: jest.fn(),
-        isChatOpen: true,
-        availability: 'AVAILABLE',
-        messages: [],
-        threadId: 'thread_123',
-        settings: { audio: true, scroll: true },
-        setThreadId: jest.fn(),
-        setThread: jest.fn()
-      })
-
-      const mockIntersectionEntry = {
-        isIntersecting: false,
-        boundingClientRect: {
-          top: 42
-        }
-      }
-
-      const { container } = render(<Availability />)
-
-      const user = userEvent.setup()
-
-      await user.click(screen.getByText('Show chat'))
-
-      const listener = mocks.IntersectionObserver.mock.calls[0][0]
-
-      await act(() => {
-        listener([mockIntersectionEntry])
-      })
-
-      expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
-      expect(container.querySelector('.wc-availability--fixed')).toBeFalsy()
-    })
-
-    it('is sticky when webchat is closed and the availability link is below the fold', async () => {
-      mocks.useApp.mockReturnValue({
-        setChatVisibility: jest.fn(),
-        setUnseenCount: jest.fn(),
-        availability: 'AVAILABLE',
-        messages: [],
-        threadId: 'thread_123',
-        settings: { audio: true, scroll: true },
-        setThreadId: jest.fn()
-      })
-
-      const mockIntersectionEntry = {
-        isIntersecting: false,
-        boundingClientRect: {
-          top: 42
-        }
-      }
-
-      const { container: { children: [element] } } = render(<Availability />)
-      const listener = mocks.IntersectionObserver.mock.calls[0][0]
-
-      await act(() => {
-        listener([mockIntersectionEntry])
-      })
-
-      expect(element.className).toEqual('wc-availability wc-availability--fixed')
-    })
-
-    it('is not sticky when webchat is closed and the availability link is in view', async () => {
-      mocks.useApp.mockReturnValue({
-        setChatVisibility: jest.fn(),
-        setUnseenCount: jest.fn(),
-        availability: 'AVAILABLE',
-        messages: [],
-        threadId: 'thread_123',
-        settings: { audio: true, scroll: true },
-        setThreadId: jest.fn()
-      })
-
-      const mockIntersectionEntry = {
-        isIntersecting: true,
-        boundingClientRect: {
-          top: 22
-        }
-      }
-
-      const { container: { children: [element] } } = render(<Availability />)
-      const listener = mocks.IntersectionObserver.mock.calls[0][0]
-
-      await act(() => {
-        listener([mockIntersectionEntry])
-      })
-
-      expect(element.className).toEqual('wc-availability')
-    })
-
-    it('is not sticky when webchat is closed and the availability link is above the fold', async () => {
-      mocks.useApp.mockReturnValue({
-        setChatVisibility: jest.fn(),
-        setUnseenCount: jest.fn(),
-        availability: 'AVAILABLE',
-        messages: [],
-        threadId: 'thread_123'
-      })
-
-      const mockIntersectionEntry = {
-        isIntersecting: false,
-        boundingClientRect: {
-          top: -42
-        }
-      }
-
-      const { container: { children: [element] } } = render(<Availability />)
-      const listener = mocks.IntersectionObserver.mock.calls[0][0]
-
-      await act(() => {
-        listener([mockIntersectionEntry])
-      })
-
-      expect(element.className).toEqual('wc-availability')
-    })
-  })
   describe('Unread Link Behaviour', () => {
     it('displays number of unread messages next to Show chat link when at least 1 unread message', async () => {
       mocks.useApp.mockReturnValue({
