@@ -39,8 +39,13 @@ export function Availability () {
 
   useEffect(() => {
     const onScroll = () => {
-      if (!threadId) return
-      if (availability !== 'AVAILABLE') return
+      if (!threadId) {
+        return
+      }
+
+      if (availability !== 'AVAILABLE') {
+        return
+      }
 
       const rect = buttonRef.current.parentElement.getBoundingClientRect()
 
