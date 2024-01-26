@@ -125,7 +125,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
           data-module='govuk-button'
           role='button'
           onClick={onEndChatScreen}
-          onKeyDown={(event) => handleKeyPress(event, 'end')}
+          onKeyDown={event => handleKeyPress(event, 'end')}
         >
           End chat
         </a>
@@ -167,7 +167,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
             id='wc-form-textarea'
             name='message'
             onChange={onChange}
-            onKeyDown={(event) => handleKeyPress(event, 'send')}
+            onKeyDown={event => handleKeyPress(event, 'send')}
             onFocus={() => { setFocusVisibleWithin(isKeyboard) }}
             onBlur={() => { setFocusVisibleWithin(false) }}
             value={userMessage}
@@ -187,7 +187,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
             id='wc-settings'
             className='wc-footer__settings-link'
             data-module='govuk-button'
-            onKeyDown={(event) => handleKeyPress(event, 'settings')}
+            onKeyDown={event => handleKeyPress(event, 'settings')}
             onClick={onSettingsScreen}
           >
             Settings
@@ -198,7 +198,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
             className='wc-footer__settings-link'
             data-module='govuk-button'
             download='floodline-webchat-transcript.txt'
-            onKeyDown={(event) => handleKeyPress(event, 'download')}
+            onKeyDown={event => handleKeyPress(event, 'download')}
             onClick={saveChat}
           >
             Save chat

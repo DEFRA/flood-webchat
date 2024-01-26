@@ -7,13 +7,11 @@ export function Feedback ({ onCancel }) {
   }
 
   const handleKeyPress = (event, buttonText) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      if (buttonText === 'Cancel') {
-        onCancel(event)
-      }
+    if ((event.key === 'Enter' || event.key === ' ') && buttonText === 'Cancel') {
+      onCancel(event)
     }
   }
-
+  
   return (
     <>
       <PanelHeader />
@@ -39,7 +37,7 @@ export function Feedback ({ onCancel }) {
               href='#'
               data-module='govuk-button'
               role='button'
-              onKeyDown={(event) => handleKeyPress(event, 'Cancel')}
+              onKeyDown={event => handleKeyPress(event, 'Cancel')}
               onClick={feedbackCancel}
             >
               Close

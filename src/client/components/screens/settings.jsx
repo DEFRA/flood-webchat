@@ -76,7 +76,7 @@ export function Settings ({ onCancel }) {
               data-module='govuk-button'
               role='button'
               onClick={onSave}
-              onKeyDown={(event) => handleKeyPress(event, 'Save')}
+              onKeyDown={event => handleKeyPress(event, 'Save')}
             >
               Save
             </a>
@@ -87,7 +87,7 @@ export function Settings ({ onCancel }) {
               data-module='govuk-button'
               role='button'
               onClick={onCancel}
-              onKeyDown={(event) => handleKeyPress(event, 'Cancel')}
+              onKeyDown={event => handleKeyPress(event, 'Cancel')}
             >
               Cancel
             </a>

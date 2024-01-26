@@ -54,7 +54,7 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
               className='wc-button govuk-button'
               data-module='govuk-button'
               onClick={confirmEndChat}
-              onKeyDown={(event) => handleKeyPress(event, 'Confirm')}
+              onKeyDown={event => handleKeyPress(event, 'Confirm')}
             >
               Yes, end chat
             </a>
@@ -65,7 +65,7 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
               className='wc-link govuk-link'
               data-module='govuk-button'
               onClick={onChatScreen}
-              onKeyDown={(event) => handleKeyPress(event, 'Resume')}
+              onKeyDown={event => handleKeyPress(event, 'Resume')}
             >
               No, resume chat
             </a>
