@@ -11,7 +11,7 @@ export function Feedback ({ onCancel }) {
       onCancel(event)
     }
   }
-  
+
   return (
     <>
       <PanelHeader />
