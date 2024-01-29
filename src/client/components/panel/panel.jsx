@@ -132,7 +132,7 @@ export function Panel () {
   }
 
   const Component = (
-    <div id='wc-panel' role='dialog' className={classnames('wc-panel', isKeyboard && screen !== 3 && 'wc-focus-visible')} tabIndex='-1' aria-modal='true' aria-labelledby='wc-header-title'>
+    <div id='wc-panel' role='dialog' className={classnames('wc-panel', isKeyboard && 'wc-focus-visible')} tabIndex='-1' aria-modal='true' aria-labelledby='wc-header-title'>
       <div className='wc-panel__inner'>
         {ScreenComponent}
       </div>
