@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { useApp } from '../store/useApp'
 
 export const SkipLink = () => {
-  const { thread } = useApp()
+  const { thread, setInstigatorId } = useApp()
 
   if (!thread) {
     return null
@@ -15,13 +15,21 @@ export const SkipLink = () => {
     return null
   }
 
+  const onClick = e => {
+    e.preventDefault()
+    setInstigatorId(e.target.id)
+    window.location.hash = '#webchat'
+  }
+
   return (
     <>
       {createPortal(
         <a
+          id='webchat-skip-link'
           href='#webchat'
           className='govuk-skip-link'
           data-module='govuk-skip-link'
+          onClick={onClick}
           data-wc-skiplink
           data-wc-open-btn
         >

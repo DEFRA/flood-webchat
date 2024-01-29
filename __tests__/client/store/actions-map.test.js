@@ -254,6 +254,19 @@ describe('actions-map', () => {
     expect(newState.unseenCount).toEqual(1)
   })
 
+  it('should update state: instigatorId', () => {
+    const action = actionsMap.SET_INSTIGATOR_ID
+
+    const mockState = {
+      ...initialState,
+      instigatorId: null
+    }
+
+    const newState = action(mockState, 'webchat-test-link')
+
+    expect(newState.instigatorId).toEqual('webchat-test-link')
+  })
+
   it('ToggleIsMobile returns true for window width <= 640px', () => {
     const action = actionsMap.TOGGLE_IS_MOBILE
 

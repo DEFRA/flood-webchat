@@ -95,6 +95,7 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         setUnseenCount: jest.fn(),
+        setInstigatorId: jest.fn(),
         availability: 'AVAILABLE',
         messages: [],
         threadId: 'thread_123'
@@ -113,6 +114,7 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         setUnseenCount: jest.fn(),
+        setInstigatorId: jest.fn(),
         availability: 'AVAILABLE',
         messages: [],
         threadId: 'thread_123'
@@ -129,6 +131,26 @@ describe('<Availability/>', () => {
 
       expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
     })
+
+    it('should set the instigatorId to be the ID of the link clicked to open the webchat', async () => {
+      mocks.useApp.mockReturnValue({
+        setChatVisibility: jest.fn(),
+        setUnseenCount: jest.fn(),
+        setInstigatorId: jest.fn(),
+        availability: 'AVAILABLE',
+        messages: [],
+        threadId: 'thread_123',
+        instigatorId: null
+      })
+
+      const { container } = render(<Availability />)
+
+      const user = userEvent.setup()
+
+      await user.click(container.querySelector('a'))
+
+      expect(mocks.useApp().setInstigatorId).toHaveBeenCalled()
+    })
   })
 
   describe('Resume chat behaviour', () => {
@@ -136,6 +158,7 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         setUnseenCount: jest.fn(),
+        setInstigatorId: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
         messages: [{}],
@@ -155,6 +178,7 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         setUnseenCount: jest.fn(),
+        setInstigatorId: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
         messages: [{}],

@@ -16,7 +16,7 @@ import { useFocusedElements } from '../../hooks/useFocusedElements.js'
 import { historyReplaceState } from '../../lib/history.js'
 
 export function Panel () {
-  const { sdk, availability, thread, threadId, setThread, setThreadId, setChatVisibility, setMessages, setUnseenCount, isMobile, isKeyboard } = useApp()
+  const { sdk, availability, instigatorId, thread, threadId, setThread, setThreadId, setChatVisibility, setMessages, setUnseenCount, isMobile, isKeyboard } = useApp()
   const { fetchThread, fetchMessages } = useChatSdk(sdk)
 
   const [screen, setScreen] = useState(threadId ? 2 : 0)
@@ -31,6 +31,7 @@ export function Panel () {
       }
       setChatVisibility(false)
       historyReplaceState()
+      document.getElementById(instigatorId)?.focus()
     }
   }, [thread, threadId, setUnseenCount, setChatVisibility])
 
