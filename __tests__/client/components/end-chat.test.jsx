@@ -1,6 +1,6 @@
 import '../methods.mock'
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { EndChat } from '../../../src/client/components/screens/end-chat'
@@ -102,5 +102,27 @@ describe('<EndChat />', () => {
     fireEvent.click(screen.getByText('No, resume chat'))
 
     expect(mocks.useApp().thread.endChat).toBeCalledTimes(0)
+  })
+
+  it('should focus the confirm end chat button when the screen is navigated to via keyboard', async () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn(),
+        lastMessageSeen: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'pending',
+      setChatVisibility: jest.fn(),
+      setUnseenCount: jest.fn(),
+      isKeyboard: true
+    })
+
+    render(<EndChat onChatScreen={jest.fn()} onEndChatConfirm={jest.fn()} />)
+
+    await waitFor(() => {
+      expect(screen.getByText('Yes, end chat')).toHaveFocus()
+    })
   })
 })

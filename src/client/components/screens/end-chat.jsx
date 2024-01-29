@@ -26,7 +26,7 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
     if (isKeyboard) {
       setTimeout(() => {
         document.querySelector('#confirmEndChat').focus()
-      }, 100)
+      }, 10)
     }
   }, [])
 
