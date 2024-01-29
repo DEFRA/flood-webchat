@@ -145,6 +145,10 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     dispatch({ type: 'SET_UNSEEN_COUNT', payload: unseenCount })
   }
 
+  const setInstigatorId = id => {
+    dispatch({ type: 'SET_INSTIGATOR_ID', payload: id })
+  }
+
   /**
    * Application-wide state and state functions
    */
@@ -158,6 +162,7 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     setMessages,
     setUnseenCount,
     setChatVisibility,
+    setInstigatorId,
     onLiveChatRecovered,
     onAssignedAgentChanged,
     onAgentTypingStarted,

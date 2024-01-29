@@ -72,7 +72,6 @@ const useFocusedElements = screen => {
 
     return () => {
       setAriaHidden()
-      document.body.querySelector('.wc-availability__link')?.focus({ preventScroll: true })
       document.removeEventListener('keydown', onKeyDown)
     }
   }, [panelElements])

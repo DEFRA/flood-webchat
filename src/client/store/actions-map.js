@@ -103,6 +103,13 @@ const setUnseenCount = (state, payload) => {
   }
 }
 
+const setInstigatorId = (state, payload) => {
+  return {
+    ...state,
+    instigatorId: payload
+  }
+}
+
 const toggleIsMobile = (state, payload) => {
   return {
     ...state,
@@ -130,6 +137,7 @@ export const actionsMap = {
   SET_AGENT_TYPING: setAgentIsTyping,
   SET_AGENT_STATUS: setAgentStatus,
   SET_UNSEEN_COUNT: setUnseenCount,
+  SET_INSTIGATOR_ID: setInstigatorId,
   TOGGLE_IS_MOBILE: toggleIsMobile,
   TOGGLE_IS_KEYBOARD: toggleIsKeyboard
 }

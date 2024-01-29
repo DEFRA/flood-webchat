@@ -7,6 +7,7 @@ export const initialState = {
   thread: null,
   messages: [],
   unseenCount: 0,
+  instigatorId: null,
   agent: null,
   agentStatus: null,
   isAgentTyping: false,

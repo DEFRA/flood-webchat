@@ -8,7 +8,7 @@ import { useApp } from '../../store/useApp'
 import { historyPushState, historyReplaceState } from '../../lib/history.js'
 
 export function Availability () {
-  const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount } = useApp()
+  const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId } = useApp()
 
   const buttonRef = useRef()
 
@@ -16,6 +16,7 @@ export function Availability () {
     e.preventDefault()
     setUnseenCount(0)
     setChatVisibility(!isChatOpen)
+    setInstigatorId(e.target.id)
 
     if (!isChatOpen) {
       historyPushState()
@@ -81,6 +82,7 @@ export function Availability () {
           >
             <div className='wc-availability__inner'>
               <a
+                id='webchat-start-chat-link'
                 className='wc-availability__link'
                 href='#webchat'
                 draggable='false'
