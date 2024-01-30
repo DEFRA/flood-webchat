@@ -17,12 +17,10 @@ export function Settings ({ onCancel }) {
   }
 
   const handleKeyPress = (event, buttonText) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      if (buttonText === 'Save') {
-        onSave(event)
-      } else if (buttonText === 'Cancel') {
-        onCancel(event)
-      }
+    if ((event.key === 'Enter' || event.key === ' ') && buttonText === 'Save') {
+      onSave(event)
+    } else if ((event.key === 'Enter' || event.key === ' ') && buttonText === 'Cancel') {
+      onCancel(event)
     }
   }
 
