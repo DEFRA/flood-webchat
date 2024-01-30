@@ -84,30 +84,30 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
     saveChatLink.setAttribute('href', `data:text/plain;charset=utf-8,${transcript}`)
   }
 
-  const handleKeyPress = (event, buttonText) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      switch (buttonText) {
-        case 'send':
-          event.preventDefault()
+  const handleKeyPress = e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      switch (e.target.id) {
+        case 'text-area':
+          e.preventDefault()
           sendMessage()
           break
-        case 'end':
-          onEndChatScreen(event)
+        case 'end-chat':
+          onEndChatScreen(e)
           break
-        case 'settings':
-          onSettingsScreen(event)
+        case 'wc-settings':
+          onSettingsScreen(e)
           break
-        case 'download':
+        case 'transcript-download':
           saveChat()
           break
         default:
           break
       }
-    } else if (event.key === ' ') {
-      if (buttonText === 'end') {
-        onEndChatScreen(event)
-      } else if (buttonText === 'settings') {
-        onSettingsScreen(event)
+    } else if (e.key === ' ') {
+      if (e.target.id === 'end-chat') {
+        onEndChatScreen(e)
+      } else if (e.target.id === 'wc-settings') {
+        onSettingsScreen(e)
       }
     }
   }
@@ -125,7 +125,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
           data-module='govuk-button'
           role='button'
           onClick={onEndChatScreen}
-          onKeyDown={event => handleKeyPress(event, 'end')}
+          onKeyDown={handleKeyPress}
         >
           End chat
         </a>
@@ -164,10 +164,10 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
             rows='1'
             aria-required='true'
             className='wc-form__textarea'
-            id='wc-form-textarea'
+            id='text-area'
             name='message'
             onChange={onChange}
-            onKeyDown={event => handleKeyPress(event, 'send')}
+            onKeyDown={handleKeyPress}
             onFocus={() => { setFocusVisibleWithin(isKeyboard) }}
             onBlur={() => { setFocusVisibleWithin(false) }}
             value={userMessage}
@@ -187,7 +187,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
             id='wc-settings'
             className='wc-footer__settings-link'
             data-module='govuk-button'
-            onKeyDown={event => handleKeyPress(event, 'settings')}
+            onKeyDown={handleKeyPress}
             onClick={onSettingsScreen}
           >
             Settings
@@ -198,7 +198,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
             className='wc-footer__settings-link'
             data-module='govuk-button'
             download='floodline-webchat-transcript.txt'
-            onKeyDown={event => handleKeyPress(event, 'download')}
+            onKeyDown={handleKeyPress}
             onClick={saveChat}
           >
             Save chat

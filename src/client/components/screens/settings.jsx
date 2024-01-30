@@ -16,11 +16,11 @@ export function Settings ({ onCancel }) {
     onCancel(e)
   }
 
-  const handleKeyPress = (event, buttonText) => {
-    if ((event.key === 'Enter' || event.key === ' ') && buttonText === 'Save') {
-      onSave(event)
-    } else if ((event.key === 'Enter' || event.key === ' ') && buttonText === 'Cancel') {
-      onCancel(event)
+  const handleKeyPress = e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'settings-save') {
+      onSave(e)
+    } else if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'settings-cancel') {
+      onCancel(expect)
     }
   }
 
@@ -74,7 +74,7 @@ export function Settings ({ onCancel }) {
               data-module='govuk-button'
               role='button'
               onClick={onSave}
-              onKeyDown={event => handleKeyPress(event, 'Save')}
+              onKeyDown={handleKeyPress}
             >
               Save
             </a>
@@ -85,7 +85,7 @@ export function Settings ({ onCancel }) {
               data-module='govuk-button'
               role='button'
               onClick={onCancel}
-              onKeyDown={event => handleKeyPress(event, 'Cancel')}
+              onKeyDown={handleKeyPress}
             >
               Cancel
             </a>

@@ -78,7 +78,7 @@ describe('<EndChat />', () => {
 
     const { container } = render(<EndChat onChatScreen={jest.fn()} onEndChatConfirm={jest.fn()} />)
 
-    const button = container.querySelector('#confirmEndChat')
+    const button = container.querySelector('#confirm-endchat')
 
     fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
 
@@ -101,7 +101,7 @@ describe('<EndChat />', () => {
 
     const { container } = render(<EndChat onChatScreen={jest.fn()} onEndChatConfirm={jest.fn()} />)
 
-    const button = container.querySelector('#confirmEndChat')
+    const button = container.querySelector('#confirm-endchat')
 
     fireEvent.keyDown(button, { key: ' ', code: 'Space' })
 
@@ -188,7 +188,7 @@ describe('<EndChat />', () => {
 
     const { container } = render(<EndChat onChatScreen={jest.fn()} onEndChatConfirm={jest.fn()} />)
 
-    const button = container.querySelector('#resumeChat')
+    const button = container.querySelector('#resume-chat')
 
     fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
 
@@ -211,7 +211,7 @@ describe('<EndChat />', () => {
 
     const { container } = render(<EndChat onChatScreen={jest.fn()} onEndChatConfirm={jest.fn()} />)
 
-    const button = container.querySelector('#resumeChat')
+    const button = container.querySelector('#resume-chat')
 
     fireEvent.keyDown(button, { key: ' ', code: 'Space' })
 

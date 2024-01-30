@@ -337,6 +337,48 @@ describe('<Chat />', () => {
 
       expect(container.querySelector('#transcript-download').setAttribute).toHaveBeenCalled()
     })
+
+    it('should not save chat whenany other key other than space or enter are pressed on end chat button', async () => {
+      const mockSendTextMessage = jest.fn()
+      mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          sendTextMessage: mockSendTextMessage
+        }
+      })
+
+      const { container } = render(<Chat />)
+
+      jest.spyOn(container.querySelector('#transcript-download'), 'setAttribute')
+
+      const button = container.querySelector('#transcript-download')
+
+      fireEvent.keyDown(button, { key: 'A', code: 'KeyA' })
+
+      expect(container.querySelector('#transcript-download').setAttribute).not.toHaveBeenCalled()
+    })
+
+    it('should hit default of switch statment if no button text', async () => {
+      const mockSendTextMessage = jest.fn()
+      mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          sendTextMessage: mockSendTextMessage
+        }
+      })
+
+      const mockOnEndChatScreen = jest.fn()
+
+      render(<Chat onEndChatScreen={mockOnEndChatScreen} />)
+
+      const button = document.createElement('button')
+
+      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter', keyCode: 13 })
+
+      expect(mockOnEndChatScreen).not.toHaveBeenCalled()
+    })
   })
 
   describe('Messages', () => {
