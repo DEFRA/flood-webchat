@@ -178,6 +178,5 @@ describe('<Settings />', () => {
 
       expect(mocks.useApp().setSettings).not.toHaveBeenCalled()
     })
-
   })
 })
