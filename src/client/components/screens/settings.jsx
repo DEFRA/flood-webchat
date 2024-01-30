@@ -20,7 +20,7 @@ export function Settings ({ onCancel }) {
     if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'settings-save') {
       onSave(e)
     } else if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'settings-cancel') {
-      onCancel(expect)
+      onCancel(e)
     }
   }
 

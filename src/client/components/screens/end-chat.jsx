@@ -63,7 +63,7 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
               className='wc-link govuk-link'
               data-module='govuk-button'
               onClick={onChatScreen}
-              onKeyDown={event => handleKeyPress(event, 'Resume')}
+              onKeyDown={handleKeyPress}
             >
               No, resume chat
             </a>
