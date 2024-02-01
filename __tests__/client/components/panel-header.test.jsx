@@ -34,10 +34,7 @@ describe('<PanelHeader />', () => {
   })
 
   it('should render the minimise webchat button', () => {
-    mocks.useApp.mockReturnValue({
-      thread: {},
-      threadId: 'thread_123'
-    })
+    mocks.useApp.mockReturnValue({ thread: {}, threadId: 'thread_123' })
 
     render(
       <PanelHeader />
@@ -83,7 +80,7 @@ describe('<PanelHeader />', () => {
   })
 
   it('[mobile] should show the close button when there is no thread', () => {
-    mocks.useApp.mockReturnValue({ thread: null, isMobile: true, threadId: null })
+    mocks.useApp.mockReturnValue({ thread: null, threadId: null, isMobile: true })
 
     window.innerWidth = 500
     fireEvent(window, new Event('resize'))
@@ -97,8 +94,8 @@ describe('<PanelHeader />', () => {
     expect(container.querySelector('.wc-header__hide')).toBeFalsy()
   })
 
-  it('[mobile] should show the minimise button when there is a threadId', () => {
-    mocks.useApp.mockReturnValue({ thread: {}, isMobile: true, threadId: 'thread_123' })
+  it('[mobile] should show the minimise button when there is a thread', () => {
+    mocks.useApp.mockReturnValue({ thread: {}, threadId: 'thread_123', isMobile: true })
 
     window.innerWidth = 500
     fireEvent(window, new Event('resize'))
@@ -113,7 +110,7 @@ describe('<PanelHeader />', () => {
   })
 
   it('[mobile] should show no minimise or close button when there is history', () => {
-    mocks.useApp.mockReturnValue({ thread: {}, isMobile: true, threadId: 'thread_123' })
+    mocks.useApp.mockReturnValue({ thread: {}, threadId: 'thread_123', isMobile: true })
 
     window.innerWidth = 500
     window.history.pushState({}, '', '#webchat')
