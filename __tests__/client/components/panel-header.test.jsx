@@ -24,7 +24,7 @@ describe('<PanelHeader />', () => {
   })
 
   it('should render the close webchat button', () => {
-    mocks.useApp.mockReturnValue({ thread: null })
+    mocks.useApp.mockReturnValue({ thread: null, threadId: null })
 
     render(
       <PanelHeader />

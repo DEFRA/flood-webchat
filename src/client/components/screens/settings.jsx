@@ -16,6 +16,14 @@ export function Settings ({ onCancel }) {
     onCancel(e)
   }
 
+  const handleKeyPress = e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'settings-save') {
+      onSave(e)
+    } else if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'settings-cancel') {
+      onCancel(e)
+    }
+  }
+
   return (
     <>
       <PanelHeader />
@@ -59,8 +67,28 @@ export function Settings ({ onCancel }) {
           </fieldset>
 
           <div className='govuk-button-group'>
-            <a id='settings-save' href='#' className='wc-button govuk-button' data-module='govuk-button' role='button' onClick={onSave}>Save</a>
-            <a id='settings-cancel' href='#' className='wc-link govuk-link' data-module='govuk-button' role='button' onClick={onCancel}>Cancel</a>
+            <a
+              id='settings-save'
+              href='#'
+              className='wc-button govuk-button'
+              data-module='govuk-button'
+              role='button'
+              onClick={onSave}
+              onKeyDown={handleKeyPress}
+            >
+              Save
+            </a>
+            <a
+              id='settings-cancel'
+              href='#'
+              className='wc-link govuk-link'
+              data-module='govuk-button'
+              role='button'
+              onClick={onCancel}
+              onKeyDown={handleKeyPress}
+            >
+              Cancel
+            </a>
           </div>
         </div>
       </div>

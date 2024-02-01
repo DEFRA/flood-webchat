@@ -399,7 +399,7 @@ describe('<Panel />', () => {
           expect(screen.getByText('Yes, end chat')).toBeTruthy()
         })
 
-        const confirmEndChatButton = document.getElementById('confirmEndChat')
+        const confirmEndChatButton = document.getElementById('confirm-endchat')
         fireEvent.click(confirmEndChatButton)
 
         await waitFor(() => {

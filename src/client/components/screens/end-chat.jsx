@@ -25,10 +25,18 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
   useEffect(() => {
     if (isKeyboard) {
       setTimeout(() => {
-        document.querySelector('#confirmEndChat').focus()
+        document.querySelector('#confirm-endchat').focus()
       }, 10)
     }
   }, [])
+
+  const handleKeyPress = e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'confirm-endchat') {
+      confirmEndChat(e)
+    } else if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'resume-chat') {
+      onChatScreen(e)
+    }
+  }
 
   return (
     <>
@@ -37,8 +45,28 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
         <div className='wc-content'>
           <h3 className='wc-heading' aria-live='polite'>Are you sure you want to end the chat?</h3>
           <div className='govuk-button-group'>
-            <a href='#endChat' role='button' className='wc-button govuk-button' data-module='govuk-button' id='confirmEndChat' onClick={confirmEndChat}>Yes, end chat</a>
-            <a href='#resumeChat' role='button' className='wc-link govuk-link' data-module='govuk-button' onClick={onChatScreen}>No, resume chat</a>
+            <a
+              id='confirm-endchat'
+              href='#endChat'
+              role='button'
+              className='wc-button govuk-button'
+              data-module='govuk-button'
+              onClick={confirmEndChat}
+              onKeyDown={handleKeyPress}
+            >
+              Yes, end chat
+            </a>
+            <a
+              id='resume-chat'
+              href='#resumeChat'
+              role='button'
+              className='wc-link govuk-link'
+              data-module='govuk-button'
+              onClick={onChatScreen}
+              onKeyDown={handleKeyPress}
+            >
+              No, resume chat
+            </a>
           </div>
         </div>
       </div>

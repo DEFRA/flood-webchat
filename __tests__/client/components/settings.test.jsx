@@ -15,72 +15,168 @@ const mocks = {
 }
 
 describe('<Settings />', () => {
-  it('should render the screen', () => {
-    mocks.useApp.mockReturnValue({
-      settings: {
-        audio: false,
-        scroll: false
-      }
-    })
-
-    render(<Settings />)
-
-    expect(screen.getByText('Change settings')).toBeTruthy()
+  afterAll(() => {
+    jest.clearAllMocks()
   })
 
-  it('should toggle the options: [on]', () => {
-    mocks.useApp.mockReturnValue({
-      settings: {
-        audio: false,
-        scroll: false
-      }
+  describe('<Settings />', () => {
+    it('should render the screen', () => {
+      mocks.useApp.mockReturnValue({
+        settings: {
+          audio: false,
+          scroll: false
+        }
+      })
+
+      render(<Settings />)
+
+      expect(screen.getByText('Change settings')).toBeTruthy()
     })
 
-    const { container } = render(<Settings />)
+    it('should toggle the options: [on]', () => {
+      mocks.useApp.mockReturnValue({
+        settings: {
+          audio: false,
+          scroll: false
+        }
+      })
 
-    const audioElement = container.querySelector('#audio')
-    const scrollElement = container.querySelector('#scroll')
+      const { container } = render(<Settings />)
 
-    fireEvent.click(audioElement)
-    fireEvent.click(scrollElement)
+      const audioElement = container.querySelector('#audio')
+      const scrollElement = container.querySelector('#scroll')
 
-    expect(audioElement.checked).toEqual(true)
-    expect(scrollElement.checked).toEqual(true)
-  })
+      fireEvent.click(audioElement)
+      fireEvent.click(scrollElement)
 
-  it('should save settings', () => {
-    mocks.useApp.mockReturnValue({
-      setSettings: jest.fn(),
-      settings: {
-        audio: false,
-        scroll: false
-      }
+      expect(audioElement.checked).toEqual(true)
+      expect(scrollElement.checked).toEqual(true)
     })
 
-    const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
+    it('should save settings', () => {
+      mocks.useApp.mockReturnValue({
+        setSettings: jest.fn(),
+        settings: {
+          audio: false,
+          scroll: false
+        }
+      })
 
-    const button = container.querySelector('#settings-save')
+      const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
 
-    fireEvent.click(button)
+      const button = container.querySelector('#settings-save')
 
-    expect(mocks.useApp().setSettings).toHaveBeenCalled()
-    expect(mocks.handleOnCancel).toHaveBeenCalled()
-  })
+      fireEvent.click(button)
 
-  it('should cancel the screen', () => {
-    mocks.useApp.mockReturnValue({
-      settings: {
-        audio: false,
-        scroll: false
-      }
+      expect(mocks.useApp().setSettings).toHaveBeenCalled()
+      expect(mocks.handleOnCancel).toHaveBeenCalled()
     })
 
-    const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
+    it('should cancel the screen', () => {
+      mocks.useApp.mockReturnValue({
+        settings: {
+          audio: false,
+          scroll: false
+        }
+      })
 
-    const button = container.querySelector('#settings-cancel')
+      const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
 
-    fireEvent.click(button)
+      const button = container.querySelector('#settings-cancel')
 
-    expect(mocks.handleOnCancel).toHaveBeenCalled()
+      fireEvent.click(button)
+
+      expect(mocks.handleOnCancel).toHaveBeenCalled()
+    })
+
+    it('should cancel the screen on space bar key press', () => {
+      mocks.useApp.mockReturnValue({
+        settings: {
+          audio: false,
+          scroll: false
+        }
+      })
+
+      const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
+
+      const button = container.querySelector('#settings-cancel')
+
+      fireEvent.keyDown(button, { key: ' ', code: 'Space' })
+
+      expect(mocks.handleOnCancel).toHaveBeenCalled()
+    })
+
+    it('should cancel the screen on Enter key press', () => {
+      mocks.useApp.mockReturnValue({
+        settings: {
+          audio: false,
+          scroll: false
+        }
+      })
+
+      const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
+
+      const button = container.querySelector('#settings-cancel')
+
+      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
+
+      expect(mocks.handleOnCancel).toHaveBeenCalled()
+    })
+
+    it('should save settings on Enter key press', () => {
+      mocks.useApp.mockReturnValue({
+        setSettings: jest.fn(),
+        settings: {
+          audio: false,
+          scroll: false
+        }
+      })
+
+      const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
+
+      const button = container.querySelector('#settings-save')
+
+      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
+
+      expect(mocks.useApp().setSettings).toHaveBeenCalled()
+      expect(mocks.handleOnCancel).toHaveBeenCalled()
+    })
+
+    it('should save settings on space bar key press', () => {
+      mocks.useApp.mockReturnValue({
+        setSettings: jest.fn(),
+        settings: {
+          audio: false,
+          scroll: false
+        }
+      })
+
+      const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
+
+      const button = container.querySelector('#settings-save')
+
+      fireEvent.keyDown(button, { key: ' ', code: 'Space' })
+
+      expect(mocks.useApp().setSettings).toHaveBeenCalled()
+      expect(mocks.handleOnCancel).toHaveBeenCalled()
+    })
+
+    it('should not call onSave when a key other than Enter or Space is pressed', () => {
+      mocks.useApp.mockReturnValue({
+        setSettings: jest.fn(),
+        settings: {
+          audio: false,
+          scroll: false
+        }
+      })
+
+      const { container } = render(<Settings onCancel={mocks.handleOnCancel} />)
+
+      const button = container.querySelector('#settings-save')
+
+      fireEvent.keyDown(button, { key: 'A', code: 'KeyA' })
+
+      expect(mocks.useApp().setSettings).not.toHaveBeenCalled()
+    })
   })
 })
