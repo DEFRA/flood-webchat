@@ -45,7 +45,7 @@ export function PanelHeader () {
 
   let RightButtonComponent = CloseButtonComponent
 
-  if (thread) {
+  if (threadId) {
     RightButtonComponent = MinimiseButtonComponent
 
     if (isMobileAndNoHistory) {
@@ -53,7 +53,7 @@ export function PanelHeader () {
     }
   }
 
-  if (!thread && isMobileAndNoHistory) {
+  if (!threadId && isMobileAndNoHistory) {
     RightButtonComponent = CloseButtonComponent
   }
 
