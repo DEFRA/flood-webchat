@@ -11,6 +11,10 @@
   right: 0;
   padding-left: 15px;
   padding-right: 15px;
+  border: 1px solid transparent;
+  @media (forced-colors: active) {
+    border-color: currentColor;
+  }
 
   @include mq ($from: 'tablet') {
     padding-left: 30px;
@@ -47,6 +51,10 @@
 .wc-availability__unseen {
   display: inline-block;
   position: relative;
+  border: 1px solid transparent;
+  @media (forced-colors: active) {
+    border-color: currentColor;
+  }
   border-radius: 10px;
   background-color: govuk-colour('black');
   color: govuk-colour('white');

@@ -4,6 +4,7 @@ export const initialState = {
   availability: null,
   customerId: null,
   threadId: null,
+  tmpThreadId: null,
   thread: null,
   messages: [],
   unseenCount: 0,

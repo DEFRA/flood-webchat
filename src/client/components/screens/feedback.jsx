@@ -1,7 +1,9 @@
 import React from 'react'
+import { useApp } from '../../store/useApp.js'
 import { PanelHeader } from '../panel/panel-header.jsx'
 
 export function Feedback ({ onCancel }) {
+  const { tmpThreadId } = useApp()
   const feedbackCancel = async e => {
     onCancel(e)
   }
@@ -23,11 +25,11 @@ export function Feedback ({ onCancel }) {
           <p>
             <a
               className='govuk-link'
-              href='#'
+              href={`https://defragroup.eu.qualtrics.com/jfe/form/SV_8dgFSJcxxIfqx5Y?Id=${tmpThreadId}&Source=${window.location.href}`}
               target='_blank'
               rel='noreferrer'
             >
-              Feedback Link
+              Give Feedback
             </a>
           </p>
           <p>

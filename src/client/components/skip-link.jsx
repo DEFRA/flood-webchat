@@ -3,9 +3,9 @@ import { createPortal } from 'react-dom'
 import { useApp } from '../store/useApp'
 
 export const SkipLink = () => {
-  const { thread, setInstigatorId } = useApp()
+  const { threadId, setInstigatorId } = useApp()
 
-  if (!thread) {
+  if (!threadId) {
     return null
   }
 
