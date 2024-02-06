@@ -1,16 +1,26 @@
 import React from 'react'
 import { useApp } from '../../store/useApp.js'
 import { PanelHeader } from '../panel/panel-header.jsx'
-
+import PropTypes from 'prop-types'
 export function Feedback ({ onCancel }) {
   const { tmpThreadId } = useApp()
-  const feedbackCancel = async e => {
+
+  const feedbackSend = e => {
+    window.location.href = `https://defragroup.eu.qualtrics.com/jfe/form/SV_8dgFSJcxxIfqx5Y?Id=${tmpThreadId}&Source=${window.location.href}`
+    onCancel(e)
+  }
+
+  const feedbackClose = async e => {
     onCancel(e)
   }
 
   const handleKeyPress = e => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'feedback-cancel') {
-      onCancel(e)
+    if (e.key === 'Enter' || e.key === ' ') {
+      if (e.target.id === 'feedback-close') {
+        feedbackClose(e)
+      } else if (e.target.id === 'feedback-send') {
+        feedbackSend(e)
+      }
     }
   }
 
@@ -24,29 +34,36 @@ export function Feedback ({ onCancel }) {
           <p>Please note we’re unable to respond to feedback.</p>
           <p>
             <a
+              id='feedback-send'
               className='govuk-link'
-              href={`https://defragroup.eu.qualtrics.com/jfe/form/SV_8dgFSJcxxIfqx5Y?Id=${tmpThreadId}&Source=${window.location.href}`}
+              href='#'
               target='_blank'
               rel='noreferrer'
+              onKeyDown={handleKeyPress}
+              onClick={feedbackSend}
             >
-              Give Feedback
+              Leave Feedback
             </a>
           </p>
           <p>
-            <a
-              id='feedback-cancel'
+            <button
+              id='feedback-close'
               className='wc-link govuk-link'
               href='#'
               data-module='govuk-button'
               role='button'
               onKeyDown={handleKeyPress}
-              onClick={feedbackCancel}
+              onClick={feedbackClose}
             >
               Close
-            </a>
+            </button>
           </p>
         </div>
       </div>
     </>
   )
+}
+
+Feedback.propTypes = {
+  onCancel: PropTypes.func.isRequired
 }

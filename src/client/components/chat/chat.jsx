@@ -58,7 +58,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
   }
 
   const sendMessage = () => {
-    if (messageRef.current.value.length === 0) {
+    if (messageRef.current.value.length === 0 || agentStatus === 'closed') {
       return
     }
 

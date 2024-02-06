@@ -14,7 +14,11 @@ jest.mock('../../../src/client/store/useChatSdk')
 const mocks = {
   useApp: jest.mocked(useApp),
   useChatSdk: jest.mocked(useChatSdk),
-  handleOnCancel: jest.fn()
+  handleOnCancel: jest.fn(),
+  location: {
+    ...window.location,
+    hash: '#webchat'
+  }
 }
 
 describe('<Feedback />', () => {
@@ -30,7 +34,7 @@ describe('<Feedback />', () => {
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
       setMessages: jest.fn(),
-      agentStatus: 'pending'
+      agentStatus: 'closed'
     })
 
     render(<Feedback onCancel={mocks.handleOnCancel} />)
@@ -46,20 +50,20 @@ describe('<Feedback />', () => {
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
       setMessages: jest.fn(),
-      agentStatus: 'pending',
+      agentStatus: 'closed',
       setChatVisibility: jest.fn()
     })
 
     const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
 
-    const button = container.querySelector('#feedback-cancel')
+    const button = container.querySelector('#feedback-close')
 
     fireEvent.click(button)
 
     expect(mocks.handleOnCancel).toHaveBeenCalled()
   })
 
-  it('should close the webchat window when enter key is presse on cancel', async () => {
+  it('should close the webchat window when enter key is pressed on cancel', async () => {
     mocks.useApp.mockReturnValue({
       thread: {
         endChat: jest.fn()
@@ -67,13 +71,13 @@ describe('<Feedback />', () => {
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
       setMessages: jest.fn(),
-      agentStatus: 'pending',
+      agentStatus: 'closed',
       setChatVisibility: jest.fn()
     })
 
     const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
 
-    const button = container.querySelector('#feedback-cancel')
+    const button = container.querySelector('#feedback-close')
 
     fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
 
@@ -88,16 +92,141 @@ describe('<Feedback />', () => {
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
       setMessages: jest.fn(),
-      agentStatus: 'pending',
+      agentStatus: 'closed',
       setChatVisibility: jest.fn()
     })
 
     const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
 
-    const button = container.querySelector('#feedback-cancel')
+    const button = container.querySelector('#feedback-close')
 
     fireEvent.keyDown(button, { key: ' ', code: 'Space' })
 
     expect(mocks.handleOnCancel).toHaveBeenCalled()
+  })
+
+  it('should close the webchat window when send is clicked', async () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'closed',
+      setChatVisibility: jest.fn()
+    })
+
+    const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#feedback-send')
+
+    fireEvent.click(button)
+
+    expect(mocks.handleOnCancel).toHaveBeenCalled()
+  })
+
+  it('should close the webchat window when enter key is pressed on send', async () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'closed',
+      setChatVisibility: jest.fn()
+    })
+
+    const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#feedback-send')
+
+    fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
+
+    expect(mocks.handleOnCancel).toHaveBeenCalled()
+  })
+
+  it('should close the webchat window when spacebar is pressed on send', async () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'closed',
+      setChatVisibility: jest.fn()
+    })
+
+    const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#feedback-send')
+
+    fireEvent.keyDown(button, { key: ' ', code: 'Space' })
+
+    expect(mocks.handleOnCancel).toHaveBeenCalled()
+  })
+
+  it('should append tempThreadId as ID to href when send clicked', async () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'closed',
+      setChatVisibility: jest.fn(),
+      tmpThreadId: 'tmp_thread_123'
+    })
+
+    const realLocation = window.location
+
+    delete window.location
+
+    window.location = mocks.location
+
+    const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#feedback-send')
+
+    fireEvent.click(button)
+
+    expect(mocks.handleOnCancel).toHaveBeenCalled()
+    expect(window.location.href).toContain('Id=tmp_thread_123')
+
+    window.location = realLocation
+  })
+
+  it('should append current href as source href when send clicked', async () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'closed',
+      setChatVisibility: jest.fn(),
+      tmpThreadId: 'tmp_thread_123'
+    })
+
+    const realLocation = window.location
+
+    delete window.location
+
+    window.location = mocks.location
+
+    const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#feedback-send')
+
+    fireEvent.click(button)
+
+    expect(mocks.handleOnCancel).toHaveBeenCalled()
+    expect(window.location.href).toContain('Source=' + realLocation)
+
+    window.location = realLocation
   })
 })

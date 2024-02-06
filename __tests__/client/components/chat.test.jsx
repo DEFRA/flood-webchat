@@ -161,6 +161,27 @@ describe('<Chat />', () => {
       expect(mocks.useApp().thread.sendTextMessage).toHaveBeenCalled()
     })
 
+    it('should not send a message if session has been ended by advisor', () => {
+      mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
+        messages: [],
+        agentStatus: 'closed',
+        thread: {
+          sendTextMessage: jest.fn()
+        }
+      })
+
+      const { container } = render(<Chat />)
+
+      const input = container.querySelector('input')
+      const textarea = container.querySelector('textarea')
+
+      fireEvent.change(textarea, { target: { value: 'text' } })
+      fireEvent.click(input)
+
+      expect(mocks.useApp().thread.sendTextMessage).toHaveBeenCalledTimes(0)
+    })
+
     it('should throw an error if unable to send a message', async () => {
       mocks.useApp.mockReturnValue({
         settings: { audio: true, scroll: true },
@@ -338,7 +359,7 @@ describe('<Chat />', () => {
       expect(container.querySelector('#transcript-download').setAttribute).toHaveBeenCalled()
     })
 
-    it('should not save chat whenany other key other than space or enter are pressed on end chat button', async () => {
+    it('should not save chat when any other key other than space or enter are pressed on end chat button', async () => {
       const mockSendTextMessage = jest.fn()
       mocks.useApp.mockReturnValue({
         settings: { audio: true, scroll: true },
