@@ -94,6 +94,31 @@ describe('<Chat />', () => {
 
       expect(screen.getByText('Session ended by advisor')).toBeTruthy()
     })
+
+    it('should show the agent who resolved the chat', () => {
+      mocks.useApp.mockReturnValue({
+        messages: [],
+        agent: { firstName: 'test' },
+        agentStatus: 'resolved',
+        settings: { audio: true, scroll: true }
+      })
+
+      render(<Chat />)
+
+      expect(screen.getByText('test ended the session')).toBeTruthy()
+    })
+
+    it('should show the chat as resolved when there is no agent data available', () => {
+      mocks.useApp.mockReturnValue({
+        messages: [],
+        agentStatus: 'resolved',
+        settings: { audio: true, scroll: true }
+      })
+
+      render(<Chat />)
+
+      expect(screen.getByText('Session ended by advisor')).toBeTruthy()
+    })
   })
 
   describe('UI elements', () => {

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
 
 import { PanelHeader } from '../panel/panel-header.jsx'
 import { PanelFooter } from '../panel/panel-footer.jsx'
@@ -41,21 +42,26 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
 
   const agentName = agent?.nickname || agent?.firstName
 
-  let connectionHeadlineText = 'Connecting to Floodline'
+  const getConnectionHeadlineText = () => {
+    if (availability === 'UNAVAILABLE') {
+      return 'Webchat is not currently available'
+    }
 
-  if (agentStatus === 'closed') {
-    connectionHeadlineText = agentName ? `${agentName} ended the session` : 'Session ended by advisor'
-  } else if (agentStatus) {
-    if (agentName) {
-      connectionHeadlineText = `You are speaking with ${agentName}`
-    } else {
-      connectionHeadlineText = 'No advisers currently available'
+    if (!agentStatus) {
+      return 'Connecting to Floodline'
+    }
+
+    switch (agentStatus) {
+      case 'closed':
+        return agentName ? `${agentName} ended the session` : 'Session ended by advisor'
+      case 'resolved':
+        return agentName ? `${agentName} ended the session` : 'Session ended by advisor'
+      default:
+        return agentName ? `You are speaking with ${agentName}` : 'No advisers currently available'
     }
   }
 
-  if (availability === 'UNAVAILABLE') {
-    connectionHeadlineText = 'Webchat is not currently available'
-  }
+  const connectionHeadlineText = getConnectionHeadlineText()
 
   const sendMessage = () => {
     if (messageRef.current.value.length === 0 || agentStatus === 'closed') {
@@ -109,6 +115,8 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
       } else if (e.target.id === 'wc-settings') {
         onSettingsScreen(e)
       }
+    } else {
+      // No action to be taken for any other key presses
     }
   }
 
@@ -207,4 +215,9 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
       </PanelFooter>
     </>
   )
+}
+
+Chat.propTypes = {
+  onEndChatScreen: PropTypes.func.isRequired,
+  onSettingsScreen: PropTypes.func.isRequired
 }
