@@ -18,7 +18,8 @@ export function Feedback ({ onCancel }) {
     if (e.key === 'Enter' || e.key === ' ') {
       if (e.target.id === 'feedback-close') {
         feedbackClose(e)
-      } else if (e.target.id === 'feedback-send') {
+      }
+      if (e.target.id === 'feedback-send') {
         feedbackSend(e)
       }
     }

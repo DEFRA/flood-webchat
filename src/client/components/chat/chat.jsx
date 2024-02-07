@@ -109,14 +109,14 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
         default:
           break
       }
-    } else if (e.key === ' ') {
+    }
+    if (e.key === ' ') {
       if (e.target.id === 'end-chat') {
         onEndChatScreen(e)
-      } else if (e.target.id === 'wc-settings') {
+      }
+      if (e.target.id === 'wc-settings') {
         onSettingsScreen(e)
       }
-    } else {
-      // No action to be taken for any other key presses
     }
   }
 
