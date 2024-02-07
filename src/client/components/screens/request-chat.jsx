@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import * as uuid from 'uuid'
+import PropTypes from 'prop-types'
 
 import { classnames } from '../../lib/classnames.js'
 import { PanelHeader } from '../panel/panel-header.jsx'
@@ -174,4 +175,8 @@ export function RequestChat ({ onPreChatScreen }) {
       </div>
     </>
   )
+}
+
+RequestChat.propTypes = {
+  onPreChatScreen: PropTypes.func.isRequired
 }

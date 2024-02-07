@@ -47,7 +47,7 @@ export function Feedback ({ onCancel }) {
             </a>
           </p>
           <p>
-            <button
+            <a
               id='feedback-close'
               className='wc-link govuk-link'
               href='#'
@@ -57,7 +57,7 @@ export function Feedback ({ onCancel }) {
               onClick={feedbackClose}
             >
               Close
-            </button>
+            </a>
           </p>
         </div>
       </div>
