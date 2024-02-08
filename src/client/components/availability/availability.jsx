@@ -6,9 +6,10 @@ import { SkipLink } from '../skip-link.jsx'
 
 import { useApp } from '../../store/useApp'
 import { historyPushState, historyReplaceState } from '../../lib/history.js'
+import { LiveRegion } from '../live-region.jsx'
 
 export function Availability () {
-  const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId } = useApp()
+  const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId, setLiveRegionText } = useApp()
 
   const buttonRef = useRef()
 
@@ -37,6 +38,16 @@ export function Availability () {
       setChatVisibility(!isChatOpen)
     }
   }
+
+  useEffect(() => {
+    if (!isChatOpen && unseenCount > 0) {
+      setLiveRegionText(`Floodline Webchat - ${unseenCount} new messages`)
+    }
+
+    return () => {
+      setLiveRegionText()
+    }
+  }, [unseenCount, isChatOpen])
 
   useEffect(() => {
     const onScroll = () => {
@@ -93,7 +104,14 @@ export function Availability () {
                 data-module='govuk-button'
               >
                 {TextComponent}
-                {unseenCount > 0 && !isChatOpen ? <span className='wc-availability__unseen'>{unseenCount}</span> : null}
+                {unseenCount > 0 && !isChatOpen
+                  ? (
+                    <>
+                      <span className='wc-availability__unseen'>{unseenCount}</span>
+                      <LiveRegion />
+                    </>
+                    )
+                  : null}
               </a>
             </div>
           </div>
