@@ -22,6 +22,10 @@ describe('agent-status-headline', () => {
     expect(agentStatusHeadline(undefined, 'closed', undefined)).toEqual('Session ended by advisor')
   })
 
+  it('should return session ended by advisor when agentStatus is resolved', () => {
+    expect(agentStatusHeadline(undefined, 'resolved', undefined)).toEqual('Session ended by advisor')
+  })
+
   it('should return session ended by advisor with agent name when agentStatus is closed and agentName is provided', () => {
     expect(agentStatusHeadline(undefined, 'closed', 'Lee')).toEqual('Lee ended the session')
   })
