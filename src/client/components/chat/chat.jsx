@@ -8,6 +8,7 @@ import { Message } from '../message/message.jsx'
 import { useApp } from '../../store/useApp.js'
 import { useTextareaAutosize } from '../../hooks/useTextareaAutosize.js'
 import { formatTranscript } from '../../lib/transform-messages.js'
+import { agentStatusHeadline } from '../../lib/agent-status-headline.js'
 
 export function Chat ({ onEndChatScreen, onSettingsScreen }) {
   const { availability, thread, messages, agent, agentStatus, isAgentTyping, settings, isKeyboard } = useApp()
@@ -42,26 +43,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
 
   const agentName = agent?.nickname || agent?.firstName
 
-  const getConnectionHeadlineText = () => {
-    if (availability === 'UNAVAILABLE') {
-      return 'Webchat is not currently available'
-    }
-
-    if (!agentStatus) {
-      return 'Connecting to Floodline'
-    }
-
-    switch (agentStatus) {
-      case 'closed':
-        return agentName ? `${agentName} ended the session` : 'Session ended by advisor'
-      case 'resolved':
-        return agentName ? `${agentName} ended the session` : 'Session ended by advisor'
-      default:
-        return agentName ? `You are speaking with ${agentName}` : 'No advisers currently available'
-    }
-  }
-
-  const connectionHeadlineText = getConnectionHeadlineText()
+  const connectionHeadlineText = agentStatusHeadline(availability, agentStatus, agentName)
 
   const sendMessage = () => {
     if (messageRef.current.value.length === 0 || agentStatus === 'closed') {

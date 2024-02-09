@@ -7,9 +7,15 @@ import { Chat } from '../../../src/client/components/chat/chat'
 import { useApp } from '../../../src/client/store/useApp'
 import { useChatSdk } from '../../../src/client/store/useChatSdk'
 
+import { agentStatusHeadline } from '../../../src/client/lib/agent-status-headline.js'
+
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({}))
 jest.mock('../../../src/client/store/useApp')
 jest.mock('../../../src/client/store/useChatSdk')
+
+jest.mock('../../../src/client/lib/agent-status-headline.js', () => ({
+  agentStatusHeadline: jest.fn()
+}))
 
 const mocks = {
   useApp: jest.mocked(useApp),
@@ -28,6 +34,8 @@ describe('<Chat />', () => {
         settings: { audio: true, scroll: true }
       })
 
+      agentStatusHeadline.mockReturnValue('Connecting to Floodline')
+
       render(<Chat />)
 
       expect(screen.getByText('Connecting to Floodline')).toBeTruthy()
@@ -40,6 +48,8 @@ describe('<Chat />', () => {
         settings: { audio: true, scroll: true }
       })
 
+      agentStatusHeadline.mockReturnValue('No advisers currently available')
+
       render(<Chat />)
 
       expect(screen.getByText('No advisers currently available')).toBeTruthy()
@@ -51,6 +61,8 @@ describe('<Chat />', () => {
         availability: 'UNAVAILABLE',
         settings: { audio: true, scroll: true }
       })
+
+      agentStatusHeadline.mockReturnValue('Webchat is not currently available')
 
       render(<Chat />)
 
@@ -65,6 +77,8 @@ describe('<Chat />', () => {
         settings: { audio: true, scroll: true }
       })
 
+      agentStatusHeadline.mockReturnValue('You are speaking with test')
+
       render(<Chat />)
 
       expect(screen.getByText('You are speaking with test')).toBeTruthy()
@@ -78,6 +92,8 @@ describe('<Chat />', () => {
         settings: { audio: true, scroll: true }
       })
 
+      agentStatusHeadline.mockReturnValue('test ended the session')
+
       render(<Chat />)
 
       expect(screen.getByText('test ended the session')).toBeTruthy()
@@ -89,6 +105,8 @@ describe('<Chat />', () => {
         agentStatus: 'closed',
         settings: { audio: true, scroll: true }
       })
+
+      agentStatusHeadline.mockReturnValue('Session ended by advisor')
 
       render(<Chat />)
 
@@ -103,6 +121,8 @@ describe('<Chat />', () => {
         settings: { audio: true, scroll: true }
       })
 
+      agentStatusHeadline.mockReturnValue('test ended the session')
+
       render(<Chat />)
 
       expect(screen.getByText('test ended the session')).toBeTruthy()
@@ -114,6 +134,8 @@ describe('<Chat />', () => {
         agentStatus: 'resolved',
         settings: { audio: true, scroll: true }
       })
+
+      agentStatusHeadline.mockReturnValue('Session ended by advisor')
 
       render(<Chat />)
 
