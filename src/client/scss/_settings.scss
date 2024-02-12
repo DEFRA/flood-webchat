@@ -30,6 +30,11 @@
     font-size: 16px;
 }
 
+.wc-button[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
 .wc-label {
     font-size: 16px;
     line-height: 1.25;

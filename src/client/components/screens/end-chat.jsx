@@ -4,11 +4,12 @@ import { useApp } from '../../store/useApp.js'
 import { historyReplaceState } from '../../lib/history.js'
 
 export function EndChat ({ onChatScreen, onEndChatConfirm }) {
-  const { setCustomerId, setThreadId, setMessages, agentStatus, thread, setUnseenCount, isKeyboard } = useApp()
+  const { setCustomerId, setThreadId, setMessages, agentStatus, thread, threadId, setUnseenCount, isKeyboard } = useApp()
 
   const confirmEndChat = async e => {
     e.preventDefault()
 
+    window.localStorage.setItem('tmpThreadId', threadId)
     setThreadId()
     setMessages([])
     setCustomerId()
@@ -35,7 +36,8 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
   const handleKeyPress = e => {
     if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'confirm-endchat') {
       confirmEndChat(e)
-    } else if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'resume-chat') {
+    }
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'resume-chat') {
       onChatScreen(e)
     }
   }

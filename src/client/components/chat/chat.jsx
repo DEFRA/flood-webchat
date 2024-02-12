@@ -77,7 +77,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
   }, [messages])
 
   const sendMessage = () => {
-    if (messageRef.current.value.length === 0) {
+    if (messageRef.current.value.length === 0 || agentStatus === 'closed') {
       return
     }
 
@@ -124,10 +124,12 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
         default:
           break
       }
-    } else if (e.key === ' ') {
+    }
+    if (e.key === ' ') {
       if (e.target.id === 'end-chat') {
         onEndChatScreen(e)
-      } else if (e.target.id === 'wc-settings') {
+      }
+      if (e.target.id === 'wc-settings') {
         onSettingsScreen(e)
       }
     }

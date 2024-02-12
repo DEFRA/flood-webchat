@@ -50,6 +50,10 @@ export function RequestChat ({ onPreChatScreen }) {
   const onRequestChat = async e => {
     e.preventDefault()
 
+    if (isButtonDisabled) {
+      return
+    }
+
     const errs = {}
 
     if (nameRef.current.value.length === 0) {
@@ -167,7 +171,7 @@ export function RequestChat ({ onPreChatScreen }) {
               className='wc-button govuk-button govuk-!-margin-top-1'
               data-module='govuk-button'
               onClick={onRequestChat}
-              disabled={isButtonDisabled}
+              aria-disabled={isButtonDisabled}
             >
               {buttonLabel}
             </button>
