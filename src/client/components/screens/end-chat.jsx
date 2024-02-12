@@ -34,7 +34,8 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
   const handleKeyPress = e => {
     if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'confirm-endchat') {
       confirmEndChat(e)
-    } else if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'resume-chat') {
+    }
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'resume-chat') {
       onChatScreen(e)
     }
   }
