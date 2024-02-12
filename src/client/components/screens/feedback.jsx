@@ -10,6 +10,7 @@ export function Feedback ({ onCancel }) {
   }
 
   const feedbackClose = async e => {
+    window.localStorage.removeItem('tmpThreadId')
     onCancel(e)
   }
 

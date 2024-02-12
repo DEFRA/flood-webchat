@@ -125,7 +125,7 @@ describe('<Feedback />', () => {
     expect(mocks.handleOnCancel).toHaveBeenCalled()
   })
 
-  it('should close the webchat window when send is clicked', async () => {
+  it('should close the webchat window when leave feedback is clicked', async () => {
     mocks.useApp.mockReturnValue({
       thread: {
         endChat: jest.fn()
@@ -146,7 +146,7 @@ describe('<Feedback />', () => {
     expect(mocks.handleOnCancel).toHaveBeenCalled()
   })
 
-  it('should close the webchat window when enter key is pressed on send', async () => {
+  it('should close the webchat window when enter key is pressed on leave feedback', async () => {
     mocks.useApp.mockReturnValue({
       thread: {
         endChat: jest.fn()
@@ -167,7 +167,7 @@ describe('<Feedback />', () => {
     expect(mocks.handleOnCancel).toHaveBeenCalled()
   })
 
-  it('should close the webchat window when spacebar is pressed on send', async () => {
+  it('should close the webchat window when spacebar is pressed on leave feedback', async () => {
     mocks.useApp.mockReturnValue({
       thread: {
         endChat: jest.fn()
@@ -188,7 +188,7 @@ describe('<Feedback />', () => {
     expect(mocks.handleOnCancel).toHaveBeenCalled()
   })
 
-  it('should append tempThreadId as ID to href when send clicked', async () => {
+  it('should append tempThreadId as ID to href when leave feedback clicked', async () => {
     mocks.useApp.mockReturnValue({
       thread: {
         endChat: jest.fn()
@@ -235,6 +235,72 @@ describe('<Feedback />', () => {
 
     expect(mocks.handleOnCancel).toHaveBeenCalled()
     expect(window.location.href).toContain('Source=' + realLocation)
+
+    window.location = realLocation
+  })
+
+  it('should clear tempThreadId when leave feedback clicked', async () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'closed',
+      setChatVisibility: jest.fn()
+    })
+
+    window.localStorage.setItem('tmpThreadId', 'tmp_thread_123')
+
+    const realLocation = window.location
+
+    delete window.location
+
+    window.location = mocks.location
+
+    const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#feedback-send')
+
+    fireEvent.click(button)
+
+    const tmpThreadId = window.localStorage.getItem('tmpThreadId')
+
+    expect(tmpThreadId).toBeNull()
+
+    window.location = realLocation
+  })
+
+  it('should clear tempThreadId when cancel clicked', async () => {
+    mocks.useApp.mockReturnValue({
+      thread: {
+        endChat: jest.fn()
+      },
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setMessages: jest.fn(),
+      agentStatus: 'closed',
+      setChatVisibility: jest.fn()
+    })
+
+    window.localStorage.setItem('tmpThreadId', 'tmp_thread_123')
+
+    const realLocation = window.location
+
+    delete window.location
+
+    window.location = mocks.location
+
+    const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
+
+    const button = container.querySelector('#feedback-close')
+
+    fireEvent.click(button)
+
+    const tmpThreadId = window.localStorage.getItem('tmpThreadId')
+
+    expect(tmpThreadId).toBeNull()
 
     window.location = realLocation
   })
