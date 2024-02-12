@@ -7,9 +7,10 @@ import { Message } from '../message/message.jsx'
 import { useApp } from '../../store/useApp.js'
 import { useTextareaAutosize } from '../../hooks/useTextareaAutosize.js'
 import { formatTranscript } from '../../lib/transform-messages.js'
+import { agentStatusHeadline } from '../../lib/agent-status-headline.js'
 
 export function Chat ({ onEndChatScreen, onSettingsScreen }) {
-  const { availability, thread, messages, agent, agentStatus, isAgentTyping, settings, isKeyboard } = useApp()
+  const { availability, thread, messages, agent, agentStatus, isAgentTyping, isChatOpen, settings, isKeyboard, setLiveRegionText } = useApp()
 
   const [userMessage, setUserMessage] = useState('')
   const [focusVisibleWithin, setFocusVisibleWithin] = useState(false)
@@ -41,21 +42,39 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
 
   const agentName = agent?.nickname || agent?.firstName
 
-  let connectionHeadlineText = 'Connecting to Floodline'
+  const connectionHeadlineText = agentStatusHeadline(availability, agentStatus, agentName)
 
-  if (agentStatus === 'closed') {
-    connectionHeadlineText = agentName ? `${agentName} ended the session` : 'Session ended by advisor'
-  } else if (agentStatus) {
-    if (agentName) {
-      connectionHeadlineText = `You are speaking with ${agentName}`
-    } else {
-      connectionHeadlineText = 'No advisers currently available'
+  useEffect(() => {
+    if (connectionHeadlineText) {
+      setLiveRegionText(`Floodline Webchat - ${connectionHeadlineText}`)
     }
-  }
 
-  if (availability === 'UNAVAILABLE') {
-    connectionHeadlineText = 'Webchat is not currently available'
-  }
+    return () => {
+      setLiveRegionText()
+    }
+  }, [connectionHeadlineText])
+
+  useEffect(() => {
+    if (isAgentTyping && isChatOpen) {
+      setLiveRegionText(`${agentName} is typing...`)
+    }
+
+    return () => {
+      setLiveRegionText()
+    }
+  }, [isAgentTyping, isChatOpen])
+
+  useEffect(() => {
+    const lastAgentMessage = messages[messages.length - 1]
+
+    if (agentStatus !== 'closed' && lastAgentMessage?.direction === 'outbound') {
+      setLiveRegionText(`${agentName} said: ${lastAgentMessage.text}`)
+    }
+
+    return () => {
+      setLiveRegionText()
+    }
+  }, [messages])
 
   const sendMessage = () => {
     if (messageRef.current.value.length === 0) {
@@ -63,7 +82,9 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
     }
 
     try {
-      thread.sendTextMessage(messageRef.current.value.trim())
+      const message = messageRef.current.value.trim()
+      thread.sendTextMessage(message)
+      setLiveRegionText(`You said: ${message}`)
     } catch (err) {
       console.log('[Chat Error] sendMessage', err)
     }

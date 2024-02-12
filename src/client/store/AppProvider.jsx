@@ -27,12 +27,13 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.case.status })
   }
 
-  const onAgentTypingStarted = () => {
+  const onAgentTypingStarted = e => {
     dispatch({ type: 'SET_AGENT_TYPING', payload: true })
   }
 
   const onAgentTypingEnded = () => {
     dispatch({ type: 'SET_AGENT_TYPING', payload: false })
+    dispatch({ type: 'SET_LIVE_REGION_TEXT' })
   }
 
   const onMessageCreated = e => {
@@ -149,6 +150,10 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     dispatch({ type: 'SET_INSTIGATOR_ID', payload: id })
   }
 
+  const setLiveRegionText = text => {
+    dispatch({ type: 'SET_LIVE_REGION_TEXT', payload: text })
+  }
+
   /**
    * Application-wide state and state functions
    */
@@ -163,6 +168,7 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     setUnseenCount,
     setChatVisibility,
     setInstigatorId,
+    setLiveRegionText,
     onLiveChatRecovered,
     onAssignedAgentChanged,
     onAgentTypingStarted,

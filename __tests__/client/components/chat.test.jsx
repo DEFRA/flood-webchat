@@ -24,6 +24,7 @@ describe('<Chat />', () => {
   describe('Tagline', () => {
     it('should show connecting tagline when no agent status is set but the chat is available', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         messages: [],
         settings: { audio: true, scroll: true }
       })
@@ -35,6 +36,7 @@ describe('<Chat />', () => {
 
     it('should show no advisors tagline when no agent is available but the chat is available', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         messages: [],
         agentStatus: 'pending',
         settings: { audio: true, scroll: true }
@@ -47,6 +49,7 @@ describe('<Chat />', () => {
 
     it('should show unavilable tagline', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         messages: [],
         availability: 'UNAVAILABLE',
         settings: { audio: true, scroll: true }
@@ -59,6 +62,7 @@ describe('<Chat />', () => {
 
     it('should show the agent you are speaking with', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         messages: [],
         agentStatus: 'pending',
         agent: { firstName: 'test' },
@@ -72,6 +76,7 @@ describe('<Chat />', () => {
 
     it('should show the agent who closed the chat', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         messages: [],
         agent: { firstName: 'test' },
         agentStatus: 'closed',
@@ -85,6 +90,7 @@ describe('<Chat />', () => {
 
     it('should show the chat as closed when there is no agent data available', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         messages: [],
         agentStatus: 'closed',
         settings: { audio: true, scroll: true }
@@ -99,6 +105,7 @@ describe('<Chat />', () => {
   describe('UI elements', () => {
     it('should show the "Settings" and "Save chat" chat links', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         messages: [],
         settings: { audio: true, scroll: true }
       })
@@ -111,6 +118,7 @@ describe('<Chat />', () => {
 
     it('should show the chat input', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         messages: [],
         agentStatus: 'closed',
         settings: { audio: true, scroll: true }
@@ -125,6 +133,7 @@ describe('<Chat />', () => {
 
     it('should remove the label when the user starts typing', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         messages: [],
         settings: { audio: true, scroll: true }
       })
@@ -143,6 +152,7 @@ describe('<Chat />', () => {
 
     it('should send a message', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [],
         thread: {
@@ -163,6 +173,7 @@ describe('<Chat />', () => {
 
     it('should throw an error if unable to send a message', async () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [],
         thread: {
@@ -194,6 +205,7 @@ describe('<Chat />', () => {
 
     it('should not send a message if no text has been entered in text area', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [],
         thread: {
@@ -214,7 +226,9 @@ describe('<Chat />', () => {
 
     it('should send a message when Enter key is hit', async () => {
       const mockSendTextMessage = jest.fn()
+
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [],
         thread: {
@@ -235,7 +249,9 @@ describe('<Chat />', () => {
 
     it('should open settings when Enter key is hit on Settings button', async () => {
       const mockSendTextMessage = jest.fn()
+
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [],
         thread: {
@@ -254,9 +270,36 @@ describe('<Chat />', () => {
       expect(mockOnSettingsScreen).toHaveBeenCalledTimes(1)
     })
 
+    it('should hit default of switch statment if no button text', async () => {
+      const mockSendTextMessage = jest.fn()
+
+      mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          sendTextMessage: mockSendTextMessage
+        }
+      })
+
+      const mockOnEndChatScreen = jest.fn()
+
+      render(<Chat onEndChatScreen={mockOnEndChatScreen} />)
+
+      const button = document.createElement('button')
+
+      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter', keyCode: 13 })
+
+      expect(mockOnEndChatScreen).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('Accessibility', () => {
     it('should open settings when sapce bar key is hit on Settings button', async () => {
       const mockSendTextMessage = jest.fn()
+
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [],
         thread: {
@@ -277,7 +320,9 @@ describe('<Chat />', () => {
 
     it('should end chat when enter key is pressed on end chat button', async () => {
       const mockSendTextMessage = jest.fn()
+
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [],
         thread: {
@@ -298,7 +343,9 @@ describe('<Chat />', () => {
 
     it('should end chat when space bar is pressed on end chat button', async () => {
       const mockSendTextMessage = jest.fn()
+
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [],
         thread: {
@@ -319,7 +366,9 @@ describe('<Chat />', () => {
 
     it('should save chat when enter key is pressed on end chat button', async () => {
       const mockSendTextMessage = jest.fn()
+
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [],
         thread: {
@@ -338,9 +387,11 @@ describe('<Chat />', () => {
       expect(container.querySelector('#transcript-download').setAttribute).toHaveBeenCalled()
     })
 
-    it('should not save chat whenany other key other than space or enter are pressed on end chat button', async () => {
+    it('should not save chat when any other key other than space or enter are pressed on end chat button', async () => {
       const mockSendTextMessage = jest.fn()
+
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [],
         thread: {
@@ -359,31 +410,57 @@ describe('<Chat />', () => {
       expect(container.querySelector('#transcript-download').setAttribute).not.toHaveBeenCalled()
     })
 
-    it('should hit default of switch statment if no button text', async () => {
-      const mockSendTextMessage = jest.fn()
+    it('should update the live region when the agent status changes', () => {
+      const mockSetLiveRegion = jest.fn()
+
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: mockSetLiveRegion,
+        availability: 'AVAILABLE',
+        agentStatus: 'new',
+        agent: {
+          firstName: 'jest'
+        },
         settings: { audio: true, scroll: true },
         messages: [],
         thread: {
-          sendTextMessage: mockSendTextMessage
+          sendTextMessage: jest.fn()
         }
       })
 
-      const mockOnEndChatScreen = jest.fn()
+      render(<Chat onSettingsScreen={jest.fn()} />)
 
-      render(<Chat onEndChatScreen={mockOnEndChatScreen} />)
+      expect(mockSetLiveRegion).toHaveBeenCalled()
+    })
 
-      const button = document.createElement('button')
+    it('should update the live region when the agent is typing and the chat is open', () => {
+      const mockSetLiveRegion = jest.fn()
 
-      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter', keyCode: 13 })
+      mocks.useApp.mockReturnValue({
+        setLiveRegionText: mockSetLiveRegion,
+        availability: 'AVAILABLE',
+        agentStatus: 'new',
+        isAgentTyping: true,
+        isChatOpen: true,
+        agent: {
+          firstName: 'jest'
+        },
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          sendTextMessage: jest.fn()
+        }
+      })
 
-      expect(mockOnEndChatScreen).not.toHaveBeenCalled()
+      render(<Chat onSettingsScreen={jest.fn()} />)
+
+      expect(mockSetLiveRegion).toHaveBeenCalled()
     })
   })
 
   describe('Messages', () => {
     it('should show message from the user', async () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [{
           id: '1234',
@@ -403,6 +480,7 @@ describe('<Chat />', () => {
 
     it('should show agent typing', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         messages: [],
         agent: { firstName: 'test' },
         isAgentTyping: true,
@@ -416,6 +494,7 @@ describe('<Chat />', () => {
 
     it('should show message from the agent', async () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [{
           id: '1234',
@@ -435,6 +514,7 @@ describe('<Chat />', () => {
 
     it('should only show who the message is from once, when multiple messages from the same person is sent', async () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [
           {
@@ -465,6 +545,7 @@ describe('<Chat />', () => {
   describe('Settings', () => {
     it('should save the chat', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [
           { id: '123', text: 'test message from client', direction: 'inbound', user: 'test-user', createdAt: new Date('Wed Dec 01 2023 13:00:00 GMT+0000 (Greenwich Mean Time)') },

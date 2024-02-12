@@ -257,6 +257,7 @@ describe('<AppProvider />', () => {
 
     expect(container.querySelector('#agent-typing').textContent).toEqual('false')
   })
+
   it('should toggle isKeyboard state based on events', () => {
     const Component = () => {
       const context = useContext(AppContext)
@@ -282,5 +283,29 @@ describe('<AppProvider />', () => {
 
     // Expect the state to be toggled based on the events
     expect(container.querySelector('#is-keyboard').textContent).toEqual('false')
+  })
+
+  xit('should set live region text', () => {
+    const Component = () => {
+      const context = useContext(AppContext)
+
+      context.liveRegionText = 'test'
+
+      useEffect(() => {
+        context.onAgentTypingEnded()
+      }, [])
+
+      return (
+        <div aria-live='polite'>{context.liveRegionText}</div>
+      )
+    }
+
+    const { container } = render(
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+        <Component />
+      </AppProvider>
+    )
+
+    expect(container.querySelector('[aria-live]').textContent).toEqual('')
   })
 })

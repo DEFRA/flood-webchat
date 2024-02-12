@@ -9,6 +9,7 @@ import { Unavailable } from '../screens/unavailable.jsx'
 import { EndChat } from '../screens/end-chat.jsx'
 import { Settings } from '../screens/settings.jsx'
 import { Feedback } from '../screens/feedback.jsx'
+import { LiveRegion } from '../live-region.jsx'
 
 import { useApp } from '../../store/useApp.js'
 import { useChatSdk } from '../../store/useChatSdk.js'
@@ -136,6 +137,7 @@ export function Panel () {
       <div className='wc-panel__inner'>
         {ScreenComponent}
       </div>
+      <LiveRegion />
     </div>
   )
 

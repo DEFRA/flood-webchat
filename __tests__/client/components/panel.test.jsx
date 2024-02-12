@@ -27,7 +27,8 @@ describe('<Panel />', () => {
       mocks.useApp.mockReturnValue({
         settings: { audio: true, scroll: true },
         setThread: jest.fn(),
-        setMessages: jest.fn()
+        setMessages: jest.fn(),
+        setLiveRegionText: jest.fn()
       })
 
       mocks.useChatSdk.mockReturnValue({
@@ -46,7 +47,8 @@ describe('<Panel />', () => {
       mocks.useApp.mockReturnValue({
         settings: { audio: true, scroll: true },
         setThread: jest.fn(),
-        setMessages: jest.fn()
+        setMessages: jest.fn(),
+        setLiveRegionText: jest.fn()
       })
 
       mocks.useChatSdk.mockReturnValue({
@@ -65,7 +67,8 @@ describe('<Panel />', () => {
       mocks.useApp.mockReturnValue({
         settings: { audio: true, scroll: true },
         setThread: jest.fn(),
-        setMessages: jest.fn()
+        setMessages: jest.fn(),
+        setLiveRegionText: jest.fn()
       })
 
       mocks.useChatSdk.mockReturnValue({
@@ -90,7 +93,8 @@ describe('<Panel />', () => {
     it('should focus elements within the webchat when tab targeting and return to the top after the last element has been focused', async () => {
       mocks.useApp.mockReturnValue({
         setThread: jest.fn(),
-        setMessages: jest.fn()
+        setMessages: jest.fn(),
+        setLiveRegionText: jest.fn()
       })
 
       mocks.useChatSdk.mockReturnValue({
@@ -136,7 +140,8 @@ describe('<Panel />', () => {
     it('should focus the elements, in reverse-order, within the webchat when shift-tab targeting and return to the bottom after the first element has been focused', async () => {
       mocks.useApp.mockReturnValue({
         setThread: jest.fn(),
-        setMessages: jest.fn()
+        setMessages: jest.fn(),
+        setLiveRegionText: jest.fn()
       })
 
       mocks.useChatSdk.mockReturnValue({
@@ -183,6 +188,7 @@ describe('<Panel />', () => {
       mocks.useApp.mockReturnValue({
         setUnseenCount: jest.fn(),
         setChatVisibility: jest.fn(),
+        setLiveRegionText: jest.fn(),
         messages: [],
         isChatOpen: true,
         threadId: 'thread_123',
@@ -208,7 +214,8 @@ describe('<Panel />', () => {
         mocks.useApp.mockReturnValue({
           settings: { audio: true, scroll: true },
           setThread: jest.fn(),
-          setMessages: jest.fn()
+          setMessages: jest.fn(),
+          setLiveRegionText: jest.fn()
         })
 
         mocks.useChatSdk.mockReturnValue({
@@ -230,7 +237,8 @@ describe('<Panel />', () => {
         mocks.useApp.mockReturnValue({
           settings: { audio: true, scroll: true },
           setThread: jest.fn(),
-          setMessages: jest.fn()
+          setMessages: jest.fn(),
+          setLiveRegionText: jest.fn()
         })
 
         mocks.useChatSdk.mockReturnValue({
@@ -249,7 +257,8 @@ describe('<Panel />', () => {
         mocks.useApp.mockReturnValue({
           settings: { audio: true, scroll: true },
           setThread: jest.fn(),
-          setMessages: jest.fn()
+          setMessages: jest.fn(),
+          setLiveRegionText: jest.fn()
         })
 
         mocks.useChatSdk.mockReturnValue({
@@ -270,6 +279,7 @@ describe('<Panel />', () => {
         mocks.useApp.mockReturnValue({
           setThread: jest.fn(),
           setMessages: jest.fn(),
+          setLiveRegionText: jest.fn(),
           availability: 'UNAVAILABLE',
           settings: { audio: true, scroll: true }
         })
@@ -297,7 +307,8 @@ describe('<Panel />', () => {
           setThreadId: jest.fn(),
           setThread: jest.fn(),
           setMessages: jest.fn(),
-          setUnseenCount: jest.fn()
+          setUnseenCount: jest.fn(),
+          setLiveRegionText: jest.fn()
         })
 
         mocks.useChatSdk.mockReturnValue({
@@ -323,7 +334,8 @@ describe('<Panel />', () => {
           setThreadId: jest.fn(),
           setThread: jest.fn(),
           setMessages: jest.fn(),
-          setUnseenCount: jest.fn()
+          setUnseenCount: jest.fn(),
+          setLiveRegionText: jest.fn()
         })
 
         mocks.useChatSdk.mockReturnValue({
@@ -351,7 +363,8 @@ describe('<Panel />', () => {
           setThreadId: jest.fn(),
           setThread: jest.fn(),
           setMessages: jest.fn(),
-          setUnseenCount: jest.fn()
+          setUnseenCount: jest.fn(),
+          setLiveRegionText: jest.fn()
         })
 
         mocks.useChatSdk.mockReturnValue({
@@ -381,7 +394,8 @@ describe('<Panel />', () => {
           setThread: jest.fn(),
           setMessages: jest.fn(),
           setUnseenCount: jest.fn(),
-          setCustomerId: jest.fn()
+          setCustomerId: jest.fn(),
+          setLiveRegionText: jest.fn()
         })
 
         mocks.useChatSdk.mockReturnValue({
@@ -417,7 +431,8 @@ describe('<Panel />', () => {
         settings: { audio: true, scroll: true },
         setThreadId: jest.fn(),
         setThread: jest.fn(),
-        setMessages: jest.fn()
+        setMessages: jest.fn(),
+        setLiveRegionText: jest.fn()
       })
 
       mocks.useChatSdk.mockReturnValue({
@@ -439,7 +454,8 @@ describe('<Panel />', () => {
         settings: { audio: true, scroll: true },
         setThreadId: jest.fn(),
         setThread: jest.fn(),
-        setMessages: jest.fn()
+        setMessages: jest.fn(),
+        setLiveRegionText: jest.fn()
       })
 
       mocks.useChatSdk.mockReturnValue({
