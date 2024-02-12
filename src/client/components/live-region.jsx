@@ -2,6 +2,8 @@ import React, { useEffect, useState, useCallback } from 'react'
 import debounce from 'lodash.debounce'
 import { useApp } from '../store/useApp'
 
+const DEBOUNCE_MILLISECONDS = 2000
+
 export const LiveRegion = () => {
   const { agentStatus, liveRegionText, setLiveRegionText } = useApp()
 
@@ -21,7 +23,7 @@ export const LiveRegion = () => {
     } else {
       setTextA(text)
     }
-  }, 2000), [textA, textB])
+  }, DEBOUNCE_MILLISECONDS), [textA, textB])
 
   useEffect(() => {
     console.log('liveRegionText', liveRegionText)

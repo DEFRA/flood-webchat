@@ -27,7 +27,7 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.case.status })
   }
 
-  const onAgentTypingStarted = e => {
+  const onAgentTypingStarted = () => {
     dispatch({ type: 'SET_AGENT_TYPING', payload: true })
   }
 
