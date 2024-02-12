@@ -3,11 +3,12 @@ import { PanelHeader } from '../panel/panel-header.jsx'
 import { useApp } from '../../store/useApp.js'
 
 export function EndChat ({ onChatScreen, onEndChatConfirm }) {
-  const { setCustomerId, setThreadId, setMessages, agentStatus, thread, setUnseenCount, isKeyboard } = useApp()
+  const { setCustomerId, setThreadId, setMessages, agentStatus, thread, threadId, setUnseenCount, isKeyboard } = useApp()
 
   const confirmEndChat = async e => {
     e.preventDefault()
 
+    window.localStorage.setItem('tmpThreadId', threadId)
     setThreadId()
     setMessages([])
     setCustomerId()

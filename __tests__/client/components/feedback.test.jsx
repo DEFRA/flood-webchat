@@ -22,6 +22,26 @@ const mocks = {
 }
 
 describe('<Feedback />', () => {
+  // Mock localStorage
+  const localStorageMock = (function () {
+    let store = {}
+    return {
+      getItem: jest.fn((key) => store[key] || null),
+      setItem: jest.fn((key, value) => {
+        store[key] = value.toString()
+      }),
+      removeItem: jest.fn((key) => {
+        delete store[key]
+      }),
+      clear: jest.fn(() => {
+        store = {}
+      })
+    }
+  })()
+
+  Object.defineProperty(window, 'localStorage', {
+    value: localStorageMock
+  })
   afterAll(() => {
     jest.clearAllMocks()
   })
@@ -181,6 +201,8 @@ describe('<Feedback />', () => {
       tmpThreadId: 'tmp_thread_123'
     })
 
+    window.localStorage.setItem('tmpThreadId', 'tmp_thread_123')
+
     const realLocation = window.location
 
     delete window.location
@@ -200,18 +222,6 @@ describe('<Feedback />', () => {
   })
 
   it('should append current href as source href when send clicked', async () => {
-    mocks.useApp.mockReturnValue({
-      thread: {
-        endChat: jest.fn()
-      },
-      setCustomerId: jest.fn(),
-      setThreadId: jest.fn(),
-      setMessages: jest.fn(),
-      agentStatus: 'closed',
-      setChatVisibility: jest.fn(),
-      tmpThreadId: 'tmp_thread_123'
-    })
-
     const realLocation = window.location
 
     delete window.location

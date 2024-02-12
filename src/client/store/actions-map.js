@@ -36,8 +36,7 @@ const setThreadId = (state, payload) => {
 
   return {
     ...state,
-    threadId: payload,
-    tmpThreadId: payload || state.tmpThreadId
+    threadId: payload
   }
 }
 

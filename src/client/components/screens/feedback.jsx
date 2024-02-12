@@ -1,12 +1,10 @@
 import React from 'react'
-import { useApp } from '../../store/useApp.js'
 import { PanelHeader } from '../panel/panel-header.jsx'
-import PropTypes from 'prop-types'
 export function Feedback ({ onCancel }) {
-  const { tmpThreadId } = useApp()
-
   const feedbackSend = e => {
+    const tmpThreadId = window.localStorage.getItem('tmpThreadId')
     window.location.href = `https://defragroup.eu.qualtrics.com/jfe/form/SV_8dgFSJcxxIfqx5Y?Id=${tmpThreadId}&Source=${window.location.href}`
+    window.localStorage.removeItem('tmpThreadId')
     onCancel(e)
   }
 
@@ -63,8 +61,4 @@ export function Feedback ({ onCancel }) {
       </div>
     </>
   )
-}
-
-Feedback.propTypes = {
-  onCancel: PropTypes.func.isRequired
 }

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
 
 import { PanelHeader } from '../panel/panel-header.jsx'
 import { PanelFooter } from '../panel/panel-footer.jsx'
@@ -197,9 +196,4 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
       </PanelFooter>
     </>
   )
-}
-
-Chat.propTypes = {
-  onEndChatScreen: PropTypes.func.isRequired,
-  onSettingsScreen: PropTypes.func.isRequired
 }
