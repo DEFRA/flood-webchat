@@ -197,8 +197,7 @@ describe('<Feedback />', () => {
       setThreadId: jest.fn(),
       setMessages: jest.fn(),
       agentStatus: 'closed',
-      setChatVisibility: jest.fn(),
-      tmpThreadId: 'tmp_thread_123'
+      setChatVisibility: jest.fn()
     })
 
     window.localStorage.setItem('tmpThreadId', 'tmp_thread_123')
