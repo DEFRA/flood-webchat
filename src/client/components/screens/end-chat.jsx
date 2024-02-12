@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { PanelHeader } from '../panel/panel-header.jsx'
 import { useApp } from '../../store/useApp.js'
-import { historyReplaceState } from '../../lib/history.js'
 
 export function EndChat ({ onChatScreen, onEndChatConfirm }) {
   const { setCustomerId, setThreadId, setMessages, agentStatus, thread, threadId, setUnseenCount, isKeyboard } = useApp()
@@ -21,7 +20,6 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
       thread.endChat()
     }
 
-    historyReplaceState()
     onEndChatConfirm(e)
   }
 

@@ -119,7 +119,7 @@ export function Panel () {
       ScreenComponent = <EndChat onChatScreen={goToChatScreen} onEndChatConfirm={goToFeedbackScreen} />
       break
     case 4:
-      ScreenComponent = <Feedback onCancel={() => setChatVisibility(false)} />
+      ScreenComponent = <Feedback onCancel={() => historyReplaceState()} />
       break
     case 5:
       ScreenComponent = <Settings onCancel={goToChatScreen} />

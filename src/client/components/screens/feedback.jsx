@@ -1,5 +1,6 @@
 import React from 'react'
 import { PanelHeader } from '../panel/panel-header.jsx'
+
 export function Feedback ({ onCancel }) {
   const feedbackSend = e => {
     const tmpThreadId = window.localStorage.getItem('tmpThreadId')
