@@ -157,7 +157,8 @@ describe('<RequestChat />', () => {
       }),
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
-      setThread: jest.fn()
+      setThread: jest.fn(),
+      setLiveRegionText: jest.fn()
     })
 
     mocks.useChatSdk.mockReturnValue({
@@ -197,7 +198,8 @@ describe('<RequestChat />', () => {
       }),
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
-      setThread: jest.fn()
+      setThread: jest.fn(),
+      setLiveRegionText: jest.fn()
     })
 
     mocks.useChatSdk.mockReturnValue({
