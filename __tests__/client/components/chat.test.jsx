@@ -7,9 +7,15 @@ import { Chat } from '../../../src/client/components/chat/chat'
 import { useApp } from '../../../src/client/store/useApp'
 import { useChatSdk } from '../../../src/client/store/useChatSdk'
 
+import { agentStatusHeadline } from '../../../src/client/lib/agent-status-headline.js'
+
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({}))
 jest.mock('../../../src/client/store/useApp')
 jest.mock('../../../src/client/store/useChatSdk')
+
+jest.mock('../../../src/client/lib/agent-status-headline.js', () => ({
+  agentStatusHeadline: jest.fn()
+}))
 
 const mocks = {
   useApp: jest.mocked(useApp),
@@ -28,6 +34,8 @@ describe('<Chat />', () => {
         settings: { audio: true, scroll: true }
       })
 
+      agentStatusHeadline.mockReturnValue('Connecting to Floodline')
+
       render(<Chat />)
 
       expect(screen.getByText('Connecting to Floodline')).toBeTruthy()
@@ -40,6 +48,8 @@ describe('<Chat />', () => {
         settings: { audio: true, scroll: true }
       })
 
+      agentStatusHeadline.mockReturnValue('No advisers currently available')
+
       render(<Chat />)
 
       expect(screen.getByText('No advisers currently available')).toBeTruthy()
@@ -51,6 +61,8 @@ describe('<Chat />', () => {
         availability: 'UNAVAILABLE',
         settings: { audio: true, scroll: true }
       })
+
+      agentStatusHeadline.mockReturnValue('Webchat is not currently available')
 
       render(<Chat />)
 
@@ -65,6 +77,8 @@ describe('<Chat />', () => {
         settings: { audio: true, scroll: true }
       })
 
+      agentStatusHeadline.mockReturnValue('You are speaking with test')
+
       render(<Chat />)
 
       expect(screen.getByText('You are speaking with test')).toBeTruthy()
@@ -78,6 +92,8 @@ describe('<Chat />', () => {
         settings: { audio: true, scroll: true }
       })
 
+      agentStatusHeadline.mockReturnValue('test ended the session')
+
       render(<Chat />)
 
       expect(screen.getByText('test ended the session')).toBeTruthy()
@@ -89,6 +105,37 @@ describe('<Chat />', () => {
         agentStatus: 'closed',
         settings: { audio: true, scroll: true }
       })
+
+      agentStatusHeadline.mockReturnValue('Session ended by advisor')
+
+      render(<Chat />)
+
+      expect(screen.getByText('Session ended by advisor')).toBeTruthy()
+    })
+
+    it('should show the agent who resolved the chat', () => {
+      mocks.useApp.mockReturnValue({
+        messages: [],
+        agent: { firstName: 'test' },
+        agentStatus: 'resolved',
+        settings: { audio: true, scroll: true }
+      })
+
+      agentStatusHeadline.mockReturnValue('test ended the session')
+
+      render(<Chat />)
+
+      expect(screen.getByText('test ended the session')).toBeTruthy()
+    })
+
+    it('should show the chat as resolved when there is no agent data available', () => {
+      mocks.useApp.mockReturnValue({
+        messages: [],
+        agentStatus: 'resolved',
+        settings: { audio: true, scroll: true }
+      })
+
+      agentStatusHeadline.mockReturnValue('Session ended by advisor')
 
       render(<Chat />)
 
@@ -159,6 +206,27 @@ describe('<Chat />', () => {
       fireEvent.click(input)
 
       expect(mocks.useApp().thread.sendTextMessage).toHaveBeenCalled()
+    })
+
+    it('should not send a message if session has been ended by advisor', () => {
+      mocks.useApp.mockReturnValue({
+        settings: { audio: true, scroll: true },
+        messages: [],
+        agentStatus: 'closed',
+        thread: {
+          sendTextMessage: jest.fn()
+        }
+      })
+
+      const { container } = render(<Chat />)
+
+      const input = container.querySelector('input')
+      const textarea = container.querySelector('textarea')
+
+      fireEvent.change(textarea, { target: { value: 'text' } })
+      fireEvent.click(input)
+
+      expect(mocks.useApp().thread.sendTextMessage).toHaveBeenCalledTimes(0)
     })
 
     it('should throw an error if unable to send a message', async () => {
@@ -338,7 +406,7 @@ describe('<Chat />', () => {
       expect(container.querySelector('#transcript-download').setAttribute).toHaveBeenCalled()
     })
 
-    it('should not save chat whenany other key other than space or enter are pressed on end chat button', async () => {
+    it('should not save chat when any other key other than space or enter are pressed on end chat button', async () => {
       const mockSendTextMessage = jest.fn()
       mocks.useApp.mockReturnValue({
         settings: { audio: true, scroll: true },

@@ -188,7 +188,7 @@ describe('<RequestChat />', () => {
     expect(mocks.useApp().setThread).toHaveBeenCalled()
   })
 
-  it('should disable button and show requesting on click', async () => {
+  it('should make button unclickable after single click and show requesting on click', async () => {
     mocks.useApp.mockReturnValue({
       sdk: ({
         getCustomer: jest.fn().mockReturnValue({
@@ -223,7 +223,7 @@ describe('<RequestChat />', () => {
 
     await user.click(button)
 
-    expect(button).toBeDisabled()
+    expect(button.getAttribute('aria-disabled')).toBe('true')
     expect(button).toHaveTextContent('Requesting...')
   })
 })

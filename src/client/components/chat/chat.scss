@@ -82,6 +82,11 @@
     padding: 10px 12.5px;
     margin-bottom: 0;
     display: inline-block;
+    border: 1px solid transparent;
+
+    @media (forced-colors: active) {
+      border-color: currentColor;
+    }
 
     &.inbound {
       color: govuk-colour('white');
@@ -98,10 +103,17 @@
       display: block;
       color: govuk-colour('dark-grey');
     }
+    
+    @media (forced-colors: active) {
+      svg {
+        color: currentColor;
+      }
+    }
+    
 
     svg circle {
       animation: 1s blink infinite;
-      fill: currentcolor;
+      fill: currentColor;
 
       &:nth-child(2) {
         animation-delay: 250ms

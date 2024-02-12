@@ -38,7 +38,8 @@ describe('SkipLink Component', () => {
 
   it('renders Skip to webchat link when thread is truthy', () => {
     mocks.useApp.mockReturnValue({
-      thread: { thread: 'mockThreadValue' }
+      thread: { thread: 'mockThreadValue' },
+      threadId: 'thread_123'
     })
 
     const targetContainer = document.createElement('div')
@@ -55,7 +56,8 @@ describe('SkipLink Component', () => {
     mocks.useApp.mockReturnValue({
       setInstigatorId: jest.fn(),
       instigatorId: null,
-      thread: {}
+      thread: {},
+      threadId: 'thread_123'
     })
 
     const targetContainer = document.createElement('div')

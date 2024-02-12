@@ -7,6 +7,7 @@ import { Message } from '../message/message.jsx'
 import { useApp } from '../../store/useApp.js'
 import { useTextareaAutosize } from '../../hooks/useTextareaAutosize.js'
 import { formatTranscript } from '../../lib/transform-messages.js'
+import { agentStatusHeadline } from '../../lib/agent-status-headline.js'
 
 export function Chat ({ onEndChatScreen, onSettingsScreen }) {
   const { availability, thread, messages, agent, agentStatus, isAgentTyping, settings, isKeyboard } = useApp()
@@ -41,24 +42,10 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
 
   const agentName = agent?.nickname || agent?.firstName
 
-  let connectionHeadlineText = 'Connecting to Floodline'
-
-  if (agentStatus === 'closed') {
-    connectionHeadlineText = agentName ? `${agentName} ended the session` : 'Session ended by advisor'
-  } else if (agentStatus) {
-    if (agentName) {
-      connectionHeadlineText = `You are speaking with ${agentName}`
-    } else {
-      connectionHeadlineText = 'No advisers currently available'
-    }
-  }
-
-  if (availability === 'UNAVAILABLE') {
-    connectionHeadlineText = 'Webchat is not currently available'
-  }
+  const connectionHeadlineText = agentStatusHeadline(availability, agentStatus, agentName)
 
   const sendMessage = () => {
-    if (messageRef.current.value.length === 0) {
+    if (messageRef.current.value.length === 0 || agentStatus === 'closed') {
       return
     }
 
@@ -103,10 +90,12 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
         default:
           break
       }
-    } else if (e.key === ' ') {
+    }
+    if (e.key === ' ') {
       if (e.target.id === 'end-chat') {
         onEndChatScreen(e)
-      } else if (e.target.id === 'wc-settings') {
+      }
+      if (e.target.id === 'wc-settings') {
         onSettingsScreen(e)
       }
     }

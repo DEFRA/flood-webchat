@@ -1,14 +1,25 @@
 import React from 'react'
 import { PanelHeader } from '../panel/panel-header.jsx'
-
 export function Feedback ({ onCancel }) {
-  const feedbackCancel = async e => {
+  const feedbackSend = e => {
+    const tmpThreadId = window.localStorage.getItem('tmpThreadId')
+    window.location.href = `https://defragroup.eu.qualtrics.com/jfe/form/SV_8dgFSJcxxIfqx5Y?Id=${tmpThreadId}&Source=${window.location.href}`
+    window.localStorage.removeItem('tmpThreadId')
+    onCancel(e)
+  }
+
+  const feedbackClose = async e => {
     onCancel(e)
   }
 
   const handleKeyPress = e => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'feedback-cancel') {
-      onCancel(e)
+    if (e.key === 'Enter' || e.key === ' ') {
+      if (e.target.id === 'feedback-close') {
+        feedbackClose(e)
+      }
+      if (e.target.id === 'feedback-send') {
+        feedbackSend(e)
+      }
     }
   }
 
@@ -22,23 +33,26 @@ export function Feedback ({ onCancel }) {
           <p>Please note we’re unable to respond to feedback.</p>
           <p>
             <a
+              id='feedback-send'
               className='govuk-link'
               href='#'
               target='_blank'
               rel='noreferrer'
+              onKeyDown={handleKeyPress}
+              onClick={feedbackSend}
             >
-              Feedback Link
+              Leave Feedback
             </a>
           </p>
           <p>
             <a
-              id='feedback-cancel'
+              id='feedback-close'
               className='wc-link govuk-link'
               href='#'
               data-module='govuk-button'
               role='button'
               onKeyDown={handleKeyPress}
-              onClick={feedbackCancel}
+              onClick={feedbackClose}
             >
               Close
             </a>
