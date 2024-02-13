@@ -102,13 +102,15 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
       setChatVisibility(true)
     }
 
-    const onBrowserNavigation = window.addEventListener('popstate', () => {
+    const onBrowserNavigation = () => {
       if (window.location.hash === '#webchat') {
         setChatVisibility(true)
       } else {
         setChatVisibility(false)
       }
-    })
+    }
+
+    window.addEventListener('popstate', onBrowserNavigation)
 
     return () => {
       window.removeEventListener('popstate', onBrowserNavigation)

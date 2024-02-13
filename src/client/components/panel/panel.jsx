@@ -32,9 +32,17 @@ export function Panel () {
       }
       setChatVisibility(false)
       historyReplaceState()
-      document.getElementById(instigatorId)?.focus()
     }
   }, [thread, threadId, setUnseenCount, setChatVisibility])
+
+  /**
+   * Focus previously focused element when closing the webchat
+   */
+  useEffect(() => {
+    return () => {
+      document.getElementById(instigatorId)?.focus()
+    }
+  }, [])
 
   /**
   * We need ammend classes on the body element to handle mobile behaviour
@@ -119,7 +127,13 @@ export function Panel () {
       ScreenComponent = <EndChat onChatScreen={goToChatScreen} onEndChatConfirm={goToFeedbackScreen} />
       break
     case 4:
-      ScreenComponent = <Feedback onCancel={() => historyReplaceState()} />
+      ScreenComponent = (
+        <Feedback onCancel={() => {
+          setChatVisibility(false)
+          historyReplaceState()
+        }}
+        />
+      )
       break
     case 5:
       ScreenComponent = <Settings onCancel={goToChatScreen} />

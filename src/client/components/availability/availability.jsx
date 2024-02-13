@@ -104,18 +104,12 @@ export function Availability () {
                 data-module='govuk-button'
               >
                 {TextComponent}
-                {unseenCount > 0 && !isChatOpen
-                  ? (
-                    <>
-                      <span className='wc-availability__unseen'>{unseenCount}</span>
-                      <LiveRegion />
-                    </>
-                    )
-                  : null}
+                {unseenCount > 0 && !isChatOpen ? <span className='wc-availability__unseen'>{unseenCount}</span> : null}
               </a>
             </div>
           </div>
           {isChatOpen && <Panel />}
+          {unseenCount > 0 && !isChatOpen ? <LiveRegion /> : null}
           <SkipLink />
         </>
       )
