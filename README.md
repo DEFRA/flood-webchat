@@ -78,6 +78,12 @@ user's browser.
 </div>
 ```
 
+Add this html below the govuk main skip link, for the webchat skip link to be added to the page:
+
+```html
+<div id="webchat-skip-link-container"></div>
+```
+
 And finally a script tag, to prevent the webchat widget "flashing" on page load/reload.
 
 ```html
