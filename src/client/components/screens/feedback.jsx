@@ -6,7 +6,6 @@ export function Feedback ({ onCancel }) {
     const tmpThreadId = window.localStorage.getItem('tmpThreadId')
     window.location.href = `https://defragroup.eu.qualtrics.com/jfe/form/SV_8dgFSJcxxIfqx5Y?Id=${tmpThreadId}&Source=${window.location.href}`
     window.localStorage.removeItem('tmpThreadId')
-    onCancel(e)
   }
 
   const feedbackClose = async e => {
@@ -43,7 +42,7 @@ export function Feedback ({ onCancel }) {
               onKeyDown={handleKeyPress}
               onClick={feedbackSend}
             >
-              Leave Feedback
+              Give Feedback
             </a>
           </p>
           <p>
