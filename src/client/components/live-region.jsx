@@ -26,8 +26,6 @@ export const LiveRegion = () => {
   }, DEBOUNCE_MILLISECONDS), [textA, textB])
 
   useEffect(() => {
-    console.log('liveRegionText', liveRegionText)
-
     if (liveRegionText) {
       clearText()
       setText(liveRegionText)
