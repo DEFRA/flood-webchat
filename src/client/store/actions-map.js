@@ -61,17 +61,18 @@ const setThread = (state, payload) => {
   }
 }
 
-const setMessage = (state, payload) => {
-  return {
-    ...state,
-    messages: [...state.messages, transformMessage(payload)]
-  }
-}
-
 const setMessages = (state, payload) => {
   return {
     ...state,
     messages: transformMessages(payload).reverse()
+  }
+}
+
+const setMessage = (state, payload) => {
+  return {
+    ...state,
+    message: transformMessage(payload),
+    messages: [...state.messages, transformMessage(payload)]
   }
 }
 
@@ -110,6 +111,13 @@ const setInstigatorId = (state, payload) => {
   }
 }
 
+const setLiveRegionText = (state, payload) => {
+  return {
+    ...state,
+    liveRegionText: payload
+  }
+}
+
 const toggleIsMobile = (state, payload) => {
   return {
     ...state,
@@ -138,6 +146,7 @@ export const actionsMap = {
   SET_AGENT_STATUS: setAgentStatus,
   SET_UNSEEN_COUNT: setUnseenCount,
   SET_INSTIGATOR_ID: setInstigatorId,
+  SET_LIVE_REGION_TEXT: setLiveRegionText,
   TOGGLE_IS_MOBILE: toggleIsMobile,
   TOGGLE_IS_KEYBOARD: toggleIsKeyboard
 }

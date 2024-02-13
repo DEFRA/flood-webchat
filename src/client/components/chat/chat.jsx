@@ -10,7 +10,7 @@ import { formatTranscript } from '../../lib/transform-messages.js'
 import { agentStatusHeadline } from '../../lib/agent-status-headline.js'
 
 export function Chat ({ onEndChatScreen, onSettingsScreen }) {
-  const { availability, thread, messages, agent, agentStatus, isAgentTyping, settings, isKeyboard } = useApp()
+  const { availability, thread, messages, agent, agentStatus, isAgentTyping, isChatOpen, settings, isKeyboard, setLiveRegionText } = useApp()
 
   const [userMessage, setUserMessage] = useState('')
   const [focusVisibleWithin, setFocusVisibleWithin] = useState(false)
@@ -44,13 +44,47 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
 
   const connectionHeadlineText = agentStatusHeadline(availability, agentStatus, agentName)
 
+  useEffect(() => {
+    if (connectionHeadlineText) {
+      setLiveRegionText(`Floodline Webchat - ${connectionHeadlineText}`)
+    }
+
+    return () => {
+      setLiveRegionText()
+    }
+  }, [connectionHeadlineText])
+
+  useEffect(() => {
+    if (isAgentTyping && isChatOpen) {
+      setLiveRegionText(`${agentName} is typing...`)
+    }
+
+    return () => {
+      setLiveRegionText()
+    }
+  }, [isAgentTyping, isChatOpen])
+
+  useEffect(() => {
+    const lastAgentMessage = messages[messages.length - 1]
+
+    if (agentStatus !== 'closed' && lastAgentMessage?.direction === 'outbound') {
+      setLiveRegionText(`${agentName} said: ${lastAgentMessage.text}`)
+    }
+
+    return () => {
+      setLiveRegionText()
+    }
+  }, [messages])
+
   const sendMessage = () => {
     if (messageRef.current.value.length === 0 || agentStatus === 'closed') {
       return
     }
 
     try {
-      thread.sendTextMessage(messageRef.current.value.trim())
+      const message = messageRef.current.value.trim()
+      thread.sendTextMessage(message)
+      setLiveRegionText(`You said: ${message}`)
     } catch (err) {
       console.log('[Chat Error] sendMessage', err)
     }

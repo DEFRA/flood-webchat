@@ -10,7 +10,7 @@ import { ErrorSummary } from '../errorSummary/error-summary.jsx'
 const QUESTION_MAX_LENGTH = 500
 
 export function RequestChat ({ onPreChatScreen }) {
-  const { sdk, setCustomerId, setThreadId, setThread } = useApp()
+  const { sdk, setCustomerId, setThreadId, setThread, setLiveRegionText } = useApp()
   const { fetchCustomerId, fetchThread } = useChatSdk(sdk)
   const [errors, setErrors] = useState({})
   const [questionLength, setQuestionLength] = useState(0)
@@ -40,6 +40,12 @@ export function RequestChat ({ onPreChatScreen }) {
   }
 
   const buttonLabel = isButtonDisabled ? 'Requesting...' : 'Request Chat'
+
+  useEffect(() => {
+    if (isButtonDisabled) {
+      setLiveRegionText(buttonLabel)
+    }
+  }, [isButtonDisabled])
 
   const onRequestChat = async e => {
     e.preventDefault()

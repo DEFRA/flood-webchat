@@ -257,6 +257,7 @@ describe('<AppProvider />', () => {
 
     expect(container.querySelector('#agent-typing').textContent).toEqual('false')
   })
+
   it('should toggle isKeyboard state based on events', () => {
     const Component = () => {
       const context = useContext(AppContext)

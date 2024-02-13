@@ -301,4 +301,17 @@ describe('actions-map', () => {
 
     expect(newState.isKeyboard).toEqual(true)
   })
+
+  it('should update state: liveRegionText', () => {
+    const action = actionsMap.SET_LIVE_REGION_TEXT
+
+    const mockState = {
+      ...initialState,
+      liveRegionText: null
+    }
+
+    const newState = action(mockState, 'hello live region')
+
+    expect(newState.liveRegionText).toEqual('hello live region')
+  })
 })

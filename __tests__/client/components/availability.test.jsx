@@ -32,6 +32,7 @@ describe('<Availability/>', () => {
   describe('Text content', () => {
     it('contains the text "Start chat" when there is no existing thread', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         availability: 'AVAILABLE',
         messages: []
       })
@@ -43,6 +44,7 @@ describe('<Availability/>', () => {
 
     it('contains the text "Show chat" when there is existing thread with no unread messages', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         availability: 'AVAILABLE',
         messages: [{}],
         threadId: 'thread_123'
@@ -55,6 +57,7 @@ describe('<Availability/>', () => {
 
     it('tells the user to expect the start chat link when availability = "EXISTING"', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         availability: 'EXISTING',
         messages: [],
         threadId: 'thread_123'
@@ -67,6 +70,7 @@ describe('<Availability/>', () => {
 
     it('tells the user to expect the start chat link when availability = "UNAVAILABLE"', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         availability: 'UNAVAILABLE',
         messages: [],
         threadId: 'thread_123'
@@ -79,6 +83,7 @@ describe('<Availability/>', () => {
 
     it('tells the user that availability is being checked when the availability prop is undefined', () => {
       mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
         availability: null,
         messages: [],
         threadId: 'thread_123'
@@ -96,6 +101,7 @@ describe('<Availability/>', () => {
         setChatVisibility: jest.fn(),
         setUnseenCount: jest.fn(),
         setInstigatorId: jest.fn(),
+        setLiveRegionText: jest.fn(),
         availability: 'AVAILABLE',
         messages: [],
         threadId: 'thread_123'
@@ -115,6 +121,7 @@ describe('<Availability/>', () => {
         setChatVisibility: jest.fn(),
         setUnseenCount: jest.fn(),
         setInstigatorId: jest.fn(),
+        setLiveRegionText: jest.fn(),
         availability: 'AVAILABLE',
         messages: [],
         threadId: 'thread_123'
@@ -137,6 +144,7 @@ describe('<Availability/>', () => {
         setChatVisibility: jest.fn(),
         setUnseenCount: jest.fn(),
         setInstigatorId: jest.fn(),
+        setLiveRegionText: jest.fn(),
         availability: 'AVAILABLE',
         messages: [],
         threadId: 'thread_123',
@@ -159,6 +167,7 @@ describe('<Availability/>', () => {
         setChatVisibility: jest.fn(),
         setUnseenCount: jest.fn(),
         setInstigatorId: jest.fn(),
+        setLiveRegionText: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
         messages: [{}],
@@ -179,6 +188,7 @@ describe('<Availability/>', () => {
         setChatVisibility: jest.fn(),
         setUnseenCount: jest.fn(),
         setInstigatorId: jest.fn(),
+        setLiveRegionText: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
         messages: [{}],
@@ -199,6 +209,7 @@ describe('<Availability/>', () => {
     it('displays number of unread messages next to Show chat link when at least 1 unread message', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
+        setLiveRegionText: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
         messages: [{}],
@@ -214,6 +225,7 @@ describe('<Availability/>', () => {
     it('does not display any numbers next to Show chat when no unread messages', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
+        setLiveRegionText: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
         messages: [{}],
@@ -229,6 +241,7 @@ describe('<Availability/>', () => {
     it('when chat is open no unread messages icon will be visible', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
+        setLiveRegionText: jest.fn(),
         isChatOpen: true,
         availability: 'AVAILABLE',
         messages: [{}],

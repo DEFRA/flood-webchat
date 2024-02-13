@@ -9,6 +9,7 @@ import { Unavailable } from '../screens/unavailable.jsx'
 import { EndChat } from '../screens/end-chat.jsx'
 import { Settings } from '../screens/settings.jsx'
 import { Feedback } from '../screens/feedback.jsx'
+import { LiveRegion } from '../live-region.jsx'
 
 import { useApp } from '../../store/useApp.js'
 import { useChatSdk } from '../../store/useChatSdk.js'
@@ -31,9 +32,17 @@ export function Panel () {
       }
       setChatVisibility(false)
       historyReplaceState()
-      document.getElementById(instigatorId)?.focus()
     }
   }, [thread, threadId, setUnseenCount, setChatVisibility])
+
+  /**
+   * Focus previously focused element when closing the webchat
+   */
+  useEffect(() => {
+    return () => {
+      document.getElementById(instigatorId)?.focus()
+    }
+  }, [])
 
   /**
   * We need ammend classes on the body element to handle mobile behaviour
@@ -118,7 +127,13 @@ export function Panel () {
       ScreenComponent = <EndChat onChatScreen={goToChatScreen} onEndChatConfirm={goToFeedbackScreen} />
       break
     case 4:
-      ScreenComponent = <Feedback onCancel={() => setChatVisibility(false)} />
+      ScreenComponent = (
+        <Feedback onCancel={() => {
+          setChatVisibility(false)
+          historyReplaceState()
+        }}
+        />
+      )
       break
     case 5:
       ScreenComponent = <Settings onCancel={goToChatScreen} />
@@ -136,6 +151,7 @@ export function Panel () {
       <div className='wc-panel__inner'>
         {ScreenComponent}
       </div>
+      <LiveRegion />
     </div>
   )
 

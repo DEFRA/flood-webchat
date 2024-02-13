@@ -33,6 +33,7 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
 
   const onAgentTypingEnded = () => {
     dispatch({ type: 'SET_AGENT_TYPING', payload: false })
+    dispatch({ type: 'SET_LIVE_REGION_TEXT' })
   }
 
   const onMessageCreated = e => {
@@ -101,13 +102,15 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
       setChatVisibility(true)
     }
 
-    const onBrowserNavigation = window.addEventListener('popstate', () => {
+    const onBrowserNavigation = () => {
       if (window.location.hash === '#webchat') {
         setChatVisibility(true)
       } else {
         setChatVisibility(false)
       }
-    })
+    }
+
+    window.addEventListener('popstate', onBrowserNavigation)
 
     return () => {
       window.removeEventListener('popstate', onBrowserNavigation)
@@ -149,6 +152,10 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     dispatch({ type: 'SET_INSTIGATOR_ID', payload: id })
   }
 
+  const setLiveRegionText = text => {
+    dispatch({ type: 'SET_LIVE_REGION_TEXT', payload: text })
+  }
+
   /**
    * Application-wide state and state functions
    */
@@ -163,6 +170,7 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
     setUnseenCount,
     setChatVisibility,
     setInstigatorId,
+    setLiveRegionText,
     onLiveChatRecovered,
     onAssignedAgentChanged,
     onAgentTypingStarted,

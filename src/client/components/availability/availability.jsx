@@ -6,11 +6,14 @@ import { SkipLink } from '../skip-link.jsx'
 
 import { useApp } from '../../store/useApp'
 import { historyPushState, historyReplaceState } from '../../lib/history.js'
+import { LiveRegion } from '../live-region.jsx'
 
 export function Availability () {
-  const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId } = useApp()
+  const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId, setLiveRegionText } = useApp()
 
   const buttonRef = useRef()
+
+  const showUnseenCount = unseenCount > 0 && !isChatOpen
 
   const onClick = e => {
     e.preventDefault()
@@ -37,6 +40,16 @@ export function Availability () {
       setChatVisibility(!isChatOpen)
     }
   }
+
+  useEffect(() => {
+    if (showUnseenCount) {
+      setLiveRegionText(`Floodline Webchat - ${unseenCount} new messages`)
+    }
+
+    return () => {
+      setLiveRegionText()
+    }
+  }, [unseenCount, isChatOpen])
 
   useEffect(() => {
     const onScroll = () => {
@@ -66,12 +79,6 @@ export function Availability () {
     }
   }, [threadId, isChatOpen, availability])
 
-  let TextComponent = (<>Show chat</>)
-
-  if (!threadId) {
-    TextComponent = (<>Start chat</>)
-  }
-
   switch (availability) {
     case 'AVAILABLE':
       return (
@@ -92,12 +99,13 @@ export function Availability () {
                 role='button'
                 data-module='govuk-button'
               >
-                {TextComponent}
-                {unseenCount > 0 && !isChatOpen ? <span className='wc-availability__unseen'>{unseenCount}</span> : null}
+                {!threadId ? <>Start chat</> : <>Show chat</>}
+                {showUnseenCount ? <span className='wc-availability__unseen'>{unseenCount}</span> : null}
               </a>
             </div>
           </div>
           {isChatOpen && <Panel />}
+          {showUnseenCount ? <LiveRegion /> : null}
           <SkipLink />
         </>
       )
