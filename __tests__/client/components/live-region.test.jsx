@@ -46,28 +46,4 @@ describe('<LiveRegion />', () => {
       expect(container.querySelectorAll('.wc-live')[1].innerHTML).toEqual('')
     })
   })
-
-  // it('should show text in the second live region', async () => {
-  //   mocks.useApp.mockReturnValue({
-  //     setLiveRegionText: jest.fn(),
-  //     agentStatus: 'new',
-  //     liveRegionText: 'first message from jest'
-  //   })
-
-  //   const { container } = render(<LiveRegion />)
-
-  //   jest.advanceTimersByTime(4000)
-
-  //   mocks.useApp.mockReturnValue({
-  //     setLiveRegionText: jest.fn(),
-  //     agentStatus: 'new',
-  //     liveRegionText: 'second message from jest'
-  //   })
-
-  //   jest.advanceTimersByTime(4000)
-
-  //   await waitFor(() => {
-  //     expect(container.querySelectorAll('.wc-live')[1].innerHTML).toEqual('second message from jest')
-  //   })
-  // })
 })
