@@ -13,6 +13,8 @@ export function Availability () {
 
   const buttonRef = useRef()
 
+  const showUnseenCount = unseenCount > 0 && !isChatOpen
+
   const onClick = e => {
     e.preventDefault()
     setUnseenCount(0)
@@ -40,7 +42,7 @@ export function Availability () {
   }
 
   useEffect(() => {
-    if (!isChatOpen && unseenCount > 0) {
+    if (showUnseenCount) {
       setLiveRegionText(`Floodline Webchat - ${unseenCount} new messages`)
     }
 
@@ -76,8 +78,6 @@ export function Availability () {
       document.removeEventListener('scroll', onScroll)
     }
   }, [threadId, isChatOpen, availability])
-
-  const showUnseenCount = unseenCount > 0 && !isChatOpen
 
   switch (availability) {
     case 'AVAILABLE':
