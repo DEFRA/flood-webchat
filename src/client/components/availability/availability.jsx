@@ -77,11 +77,7 @@ export function Availability () {
     }
   }, [threadId, isChatOpen, availability])
 
-  let TextComponent = (<>Show chat</>)
-
-  if (!threadId) {
-    TextComponent = (<>Start chat</>)
-  }
+  const showUnseenCount = unseenCount > 0 && !isChatOpen
 
   switch (availability) {
     case 'AVAILABLE':
@@ -103,13 +99,13 @@ export function Availability () {
                 role='button'
                 data-module='govuk-button'
               >
-                {TextComponent}
-                {unseenCount > 0 && !isChatOpen ? <span className='wc-availability__unseen'>{unseenCount}</span> : null}
+                {!threadId ? <>Start chat</> : <>Show chat</>}
+                {showUnseenCount ? <span className='wc-availability__unseen'>{unseenCount}</span> : null}
               </a>
             </div>
           </div>
           {isChatOpen && <Panel />}
-          {unseenCount > 0 && !isChatOpen ? <LiveRegion /> : null}
+          {showUnseenCount ? <LiveRegion /> : null}
           <SkipLink />
         </>
       )
