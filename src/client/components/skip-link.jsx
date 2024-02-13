@@ -9,7 +9,7 @@ export const SkipLink = () => {
     return null
   }
 
-  const targetContainer = document.getElementById('skip-links')
+  const targetContainer = document.getElementById('webchat-skip-link-container')
 
   if (!targetContainer) {
     return null

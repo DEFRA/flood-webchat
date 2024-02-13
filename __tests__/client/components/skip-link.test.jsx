@@ -43,7 +43,7 @@ describe('SkipLink Component', () => {
     })
 
     const targetContainer = document.createElement('div')
-    targetContainer.id = 'skip-links'
+    targetContainer.id = 'webchat-skip-link-container'
     document.body.appendChild(targetContainer)
 
     render(<SkipLink />)
@@ -61,7 +61,7 @@ describe('SkipLink Component', () => {
     })
 
     const targetContainer = document.createElement('div')
-    targetContainer.id = 'skip-links'
+    targetContainer.id = 'webchat-skip-link-container'
     document.body.appendChild(targetContainer)
 
     render(<SkipLink />)
