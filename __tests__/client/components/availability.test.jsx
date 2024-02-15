@@ -219,7 +219,23 @@ describe('<Availability/>', () => {
 
       const { container } = render(<Availability />)
 
-      expect(container.querySelector('.wc-availability__unseen').textContent).toEqual('1')
+      expect(container.querySelector('.wc-availability__unseen').textContent).toEqual('1 new message')
+    })
+
+    it('displays number of unread messages next to Show chat link when there are more than 1 unread messages', async () => {
+      mocks.useApp.mockReturnValue({
+        setChatVisibility: jest.fn(),
+        setLiveRegionText: jest.fn(),
+        isChatOpen: false,
+        availability: 'AVAILABLE',
+        messages: [{}, {}],
+        unseenCount: 2,
+        threadId: 'thread_123'
+      })
+
+      const { container } = render(<Availability />)
+
+      expect(container.querySelector('.wc-availability__unseen').textContent).toEqual('2 new messages')
     })
 
     it('does not display any numbers next to Show chat when no unread messages', async () => {

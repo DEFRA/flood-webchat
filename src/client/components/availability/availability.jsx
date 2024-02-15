@@ -43,7 +43,9 @@ export function Availability () {
 
   useEffect(() => {
     if (showUnseenCount) {
-      setLiveRegionText(`Floodline Webchat - ${unseenCount} new messages`)
+      const text = unseenCount > 1 ? 'messages' : 'message'
+
+      setLiveRegionText(`Floodline Webchat - ${unseenCount} new ${text}`)
     }
 
     return () => {
@@ -100,12 +102,19 @@ export function Availability () {
                 data-module='govuk-button'
               >
                 {!threadId ? <>Start chat</> : <>Show chat</>}
-                {showUnseenCount ? <span className='wc-availability__unseen'>{unseenCount}</span> : null}
+                {showUnseenCount
+                  ? (
+                    <span className='wc-availability__unseen'>
+                      {unseenCount}
+                      <span className='govuk-visually-hidden'> new {unseenCount > 1 ? 'messages' : 'message'}</span>
+                    </span>
+                    )
+                  : null}
               </a>
             </div>
           </div>
           {isChatOpen && <Panel />}
-          {showUnseenCount ? <LiveRegion /> : null}
+          {!isChatOpen ? <LiveRegion /> : null}
           <SkipLink />
         </>
       )

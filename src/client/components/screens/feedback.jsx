@@ -2,7 +2,7 @@ import React from 'react'
 import { PanelHeader } from '../panel/panel-header.jsx'
 
 export function Feedback ({ onCancel }) {
-  const feedbackSend = e => {
+  const feedbackSend = () => {
     const tmpThreadId = window.localStorage.getItem('tmpThreadId')
     window.location.href = `https://defragroup.eu.qualtrics.com/jfe/form/SV_8dgFSJcxxIfqx5Y?Id=${tmpThreadId}&Source=${window.location.href}`
     window.localStorage.removeItem('tmpThreadId')
