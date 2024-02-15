@@ -19,7 +19,7 @@ export function Feedback ({ onCancel }) {
         feedbackClose(e)
       }
       if (e.target.id === 'feedback-send') {
-        feedbackSend(e)
+        feedbackSend()
       }
     }
   }

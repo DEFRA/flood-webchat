@@ -15,6 +15,8 @@ export function Availability () {
 
   const showUnseenCount = unseenCount > 0 && !isChatOpen
 
+  const messageText = unseenCount > 1 ? 'new messages' : 'new message'
+
   const onClick = e => {
     e.preventDefault()
     setUnseenCount(0)
@@ -43,9 +45,7 @@ export function Availability () {
 
   useEffect(() => {
     if (showUnseenCount) {
-      const text = unseenCount > 1 ? 'messages' : 'message'
-
-      setLiveRegionText(`Floodline Webchat - ${unseenCount} new ${text}`)
+      setLiveRegionText(`Floodline Webchat - ${unseenCount} ${messageText}`)
     }
 
     return () => {
@@ -106,7 +106,7 @@ export function Availability () {
                   ? (
                     <span className='wc-availability__unseen'>
                       {unseenCount}
-                      <span className='govuk-visually-hidden'> new {unseenCount > 1 ? 'messages' : 'message'}</span>
+                      <span className='govuk-visually-hidden'> {messageText}</span>
                     </span>
                     )
                   : null}
