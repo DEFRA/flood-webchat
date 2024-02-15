@@ -113,8 +113,7 @@ export function Availability () {
               </a>
             </div>
           </div>
-          {isChatOpen && <Panel />}
-          {!isChatOpen ? <LiveRegion /> : null}
+          {!isChatOpen ? <LiveRegion /> : <Panel />}
           <SkipLink />
         </>
       )
