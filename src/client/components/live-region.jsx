@@ -44,10 +44,10 @@ export const LiveRegion = () => {
 
   return (
     <>
-      <div className='wc-live' aria-live='polite' aria-atomic='true'>
+      <div className='wc-live' role='status' aria-atomic='true'>
         {textA}
       </div>
-      <div className='wc-live' aria-live='polite' aria-atomic='true'>
+      <div className='wc-live' role='status' aria-atomic='true'>
         {textB}
       </div>
     </>
