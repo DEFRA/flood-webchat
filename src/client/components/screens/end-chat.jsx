@@ -45,7 +45,7 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
       <PanelHeader />
       <div className='wc-body'>
         <div className='wc-content'>
-          <h3 className='wc-heading' aria-live='polite'>Are you sure you want to end the chat?</h3>
+          <h3 id='wc-subtitle' className='wc-heading' aria-live='polite'>Are you sure you want to end the chat?</h3>
           <div className='govuk-button-group'>
             <a
               id='confirm-endchat'

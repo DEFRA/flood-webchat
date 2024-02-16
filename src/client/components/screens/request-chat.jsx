@@ -103,7 +103,7 @@ export function RequestChat ({ onPreChatScreen }) {
 
           <ErrorSummary errors={errors} />
 
-          <h3 className='wc-heading' aria-live='polite'>
+          <h3 id='wc-subtitle' className='wc-heading' aria-live='polite'>
             Your name and question
           </h3>
 

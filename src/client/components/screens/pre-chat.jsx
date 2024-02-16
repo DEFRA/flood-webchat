@@ -8,7 +8,7 @@ export function PreChat ({ onContinue }) {
 
       <div className='wc-body'>
         <div className='wc-content'>
-          <h3 className='wc-heading' aria-live='polite'>What you can use webchat for</h3>
+          <h3 id='wc-subtitle' className='wc-heading' aria-live='polite'>What you can use webchat for</h3>
           <p>Webchat lets you talk directly to a Floodline adviser.</p>
 
           <p>You can use webchat to get:</p>
