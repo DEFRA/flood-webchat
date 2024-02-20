@@ -66,7 +66,7 @@ export function PanelHeader () {
       {isMobileAndHasHistory ? BackButtonComponent : null}
 
       <h2 id='wc-header' className='wc-header__title'>
-        Floodline Webchat
+        Floodline webchat
       </h2>
 
       {RightButtonComponent}
