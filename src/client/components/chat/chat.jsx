@@ -46,7 +46,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
 
   useEffect(() => {
     if (connectionHeadlineText) {
-      setLiveRegionText(`Floodline Webchat - ${connectionHeadlineText}`)
+      setLiveRegionText(`Floodline webchat - ${connectionHeadlineText}`)
     }
 
     return () => {

@@ -39,7 +39,7 @@ export function RequestChat ({ onPreChatScreen }) {
     setQuestionLength(e.target.value.length)
   }
 
-  const buttonLabel = isButtonDisabled ? 'Requesting...' : 'Request Chat'
+  const buttonLabel = isButtonDisabled ? 'Requesting...' : 'Request chat'
 
   useEffect(() => {
     if (isButtonDisabled) {
@@ -84,7 +84,7 @@ export function RequestChat ({ onPreChatScreen }) {
         setThread(thread)
         thread.setCustomField('threadid', threadId)
       } catch (err) {
-        console.log('[Request Chat Error]', err)
+        console.log('[Request chat Error]', err)
       }
     }
 

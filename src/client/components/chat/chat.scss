@@ -31,9 +31,13 @@
     margin-bottom: 0;
   }
 
-  &__link {
+  &__link{
     @extend %wc-link-button;
     margin-left: auto;
+
+    &:link {
+      color: govuk-colour('black');
+    }
   }
 }
 
@@ -83,6 +87,7 @@
     margin-bottom: 0;
     display: inline-block;
     border: 1px solid transparent;
+    overflow-wrap: anywhere;
 
     @media (forced-colors: active) {
       border-color: currentColor;
@@ -221,6 +226,10 @@
 
       &:first-child {
         margin-right: govuk-spacing(3);
+      }
+
+      &:link {
+        color: govuk-colour('black');
       }
     }
   }

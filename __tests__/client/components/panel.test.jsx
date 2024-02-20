@@ -40,7 +40,7 @@ describe('<Panel />', () => {
         <Panel />
       )
 
-      expect(screen.getByText('Floodline Webchat')).toBeTruthy()
+      expect(screen.getByText('Floodline webchat')).toBeTruthy()
     })
 
     it('should render panel close button', () => {

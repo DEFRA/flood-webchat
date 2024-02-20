@@ -45,7 +45,7 @@ export function Availability () {
 
   useEffect(() => {
     if (showUnseenCount) {
-      setLiveRegionText(`Floodline Webchat - ${unseenCount} ${messageText}`)
+      setLiveRegionText(`Floodline webchat - ${unseenCount} ${messageText}`)
     }
 
     return () => {
