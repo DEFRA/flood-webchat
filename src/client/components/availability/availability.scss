@@ -1,3 +1,9 @@
+// stylelint-disable selector-max-id
+#wc-availability {
+  margin-bottom: govuk-spacing(4);
+}
+// stylelint-enable selector-max-id
+
 .wc-availability__inner {
   max-width: 960px;
   margin-left: auto;
