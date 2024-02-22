@@ -7,7 +7,7 @@
   "scripts": {
     "test": "npm run lint && npm run unit-test",
     "dev": "(cd demo && webpack server)",
-    "build": "webpack",
+    "build": "webpack --config webpack.prod.mjs",
     "unit-test": "jest",
     "lint": "npm run lint:js && npm run lint:scss",
     "lint:fix": "npm run lint:js -- --fix && npm run lint:scss -- --fix",
@@ -53,6 +53,7 @@
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "^5.10.0",
     "webpack-node-externals": "^3.0.0"
   },
   "peerDependencies": {
