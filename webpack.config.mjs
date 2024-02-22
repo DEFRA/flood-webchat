@@ -9,8 +9,6 @@ export default {
     client: path.join(__dirname, 'src/client/index.jsx'),
     server: path.join(__dirname, 'src/server/index.js')
   },
-  devtool: 'source-map',
-  mode: 'development',
   output: {
     path: path.resolve(__dirname, 'dist'),
     library: {

@@ -30,7 +30,7 @@ export function Feedback ({ onCancel }) {
 
       <div className='wc-body'>
         <div className='wc-content'>
-          <h3 id='wc-subtitle' className='wc-heading'>Give Feedback on Floodline webchat</h3>
+          <h3 id='wc-subtitle' className='wc-heading'>Give feedback on Floodline webchat</h3>
           <p>We're running webchat as a trial. you can&nbsp;
             <a
               id='feedback-send'

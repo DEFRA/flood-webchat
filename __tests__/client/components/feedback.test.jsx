@@ -59,7 +59,7 @@ describe('<Feedback />', () => {
 
     render(<Feedback onCancel={mocks.handleOnCancel} />)
 
-    expect(screen.getByText('Give Feedback on Floodline webchat')).toBeTruthy()
+    expect(screen.getByText('Give feedback on Floodline webchat')).toBeTruthy()
   })
 
   it('should close the webchat window when cancel is clicked', async () => {

@@ -417,7 +417,7 @@ describe('<Panel />', () => {
         fireEvent.click(confirmEndChatButton)
 
         await waitFor(() => {
-          expect(screen.getByText('Give Feedback on Floodline webchat')).toBeTruthy()
+          expect(screen.getByText('Give feedback on Floodline webchat')).toBeTruthy()
         })
       })
     })
