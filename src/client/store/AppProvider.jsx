@@ -1,17 +1,13 @@
 import React, { createContext, useEffect, useReducer, useMemo } from 'react'
 import { ChatEvent } from '@nice-devone/nice-cxone-chat-web-sdk'
 
-import { messageNotification } from '../lib/message-notification.js'
-
 import { initialState, reducer } from './reducer.js'
 import { CUSTOMER_ID_STORAGE_KEY, THREAD_ID_STORAGE_KEY, SETTINGS_STORAGE_KEY } from './constants.js'
 
 export const AppContext = createContext(initialState)
 
-export const AppProvider = ({ sdk, availability, options, children }) => {
+export const AppProvider = ({ sdk, availability, playSound, children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
-
-  const playSound = messageNotification(options.audioUrl)
 
   /**
    * SDK event handlers
@@ -43,7 +39,7 @@ export const AppProvider = ({ sdk, availability, options, children }) => {
 
     const isAudioOn = JSON.parse(window.localStorage.getItem(SETTINGS_STORAGE_KEY)).audio
 
-    if (isAudioOn && e.detail.data.message.direction === 'outbound') {
+    if (isAudioOn && e.detail.data.message.direction === 'outbound' && playSound) {
       playSound()
     }
   }

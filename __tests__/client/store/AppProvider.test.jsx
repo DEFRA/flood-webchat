@@ -65,7 +65,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -101,7 +101,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -139,7 +139,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -170,7 +170,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -204,7 +204,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -227,7 +227,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -250,7 +250,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -276,7 +276,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )

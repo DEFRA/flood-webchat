@@ -46,14 +46,14 @@ describe('message-notification', () => {
     jest.clearAllMocks()
   })
 
-  it('should unlock AudioContext', () => {
-    messageNotification('/audio.mp3')
+  it('should unlock AudioContext', async () => {
+    await messageNotification('/audio.mp3')
 
     expect(mocks.addEventListener).toHaveBeenCalledTimes(6)
   })
 
-  it('should play sound', () => {
-    const playSound = messageNotification('/audio.mp3')
+  it('should play sound', async () => {
+    const playSound = await messageNotification('/audio.mp3')
     playSound()
 
     expect(mocks.fetch).toHaveBeenCalled()
