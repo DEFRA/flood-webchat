@@ -65,7 +65,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -101,7 +101,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -139,7 +139,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -170,7 +170,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -204,7 +204,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -227,7 +227,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -250,7 +250,7 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
@@ -276,12 +276,51 @@ describe('<AppProvider />', () => {
     }
 
     const { container } = render(
-      <AppProvider sdk={mockSdk} availability='AVAILABLE' options={{ audioUrl: '/audio.mp3' }}>
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
         <Component />
       </AppProvider>
     )
 
     // Expect the state to be toggled based on the events
     expect(container.querySelector('#is-keyboard').textContent).toEqual('false')
+  })
+
+  it('should play sound if audio file exists, the setting is on and the message is form an agent', () => {
+    const playSound = jest.fn()
+
+    const Component = () => {
+      const context = useContext(AppContext)
+
+      useEffect(() => {
+        context.onMessageCreated({
+          detail: {
+            data: {
+              message: {
+                id: 'message_123',
+                direction: 'outbound'
+              },
+              case: {
+                status: 'Online',
+                customerStatistics: { unseenMessagesCount: 0 }
+              }
+            }
+          }
+        })
+      }, [])
+
+      return (
+        <>
+          <div id='message'>{context.messages.length}</div>
+        </>
+      )
+    }
+
+    render(
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={playSound}>
+        <Component />
+      </AppProvider>
+    )
+
+    expect(playSound).toHaveBeenCalled()
   })
 })

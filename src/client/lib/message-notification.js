@@ -1,6 +1,4 @@
-export const messageNotification = audioUrl => {
-  let buffer
-
+export const messageNotification = async audioUrl => {
   const context = new (window.AudioContext || window.webkitAudioContext)()
 
   if (context.state === 'suspended') {
@@ -19,13 +17,9 @@ export const messageNotification = audioUrl => {
     })
   }
 
-  fetch(audioUrl)
-    .then(response => response.arrayBuffer())
-    .then(data => context.decodeAudioData(data))
-    .then(decodedData => {
-      buffer = decodedData
-    })
-    .catch(console.error)
+  const response = await fetch(audioUrl)
+  const arrayBuffer = await response.arrayBuffer()
+  const buffer = await context.decodeAudioData(arrayBuffer)
 
   return () => {
     const source = context.createBufferSource()
