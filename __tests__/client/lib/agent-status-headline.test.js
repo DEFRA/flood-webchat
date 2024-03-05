@@ -34,8 +34,8 @@ describe('agent-status-headline', () => {
     expect(agentStatusHeadline(undefined, true, 'Bruno')).toEqual('You are speaking with Bruno')
   })
 
-  it('should return no advisers currently available when agentStatus is true and agentName is not provided', () => {
-    expect(agentStatusHeadline(undefined, true, undefined)).toEqual('No advisers currently available')
+  it('should return waiting for adviser message when agentStatus is true and agentName is not provided', () => {
+    expect(agentStatusHeadline(undefined, true, undefined)).toEqual('Waiting for an adviser')
   })
 
   it('should return webchat is not currently available when availability is UNAVAILABLE', () => {

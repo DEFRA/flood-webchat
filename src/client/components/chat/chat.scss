@@ -59,7 +59,16 @@
   padding: 0;
 
   &__message {
+    display: flex;
+    flex-direction: column;
     margin: 5px 15px 0;
+    max-width: 80%;
+    width: fit-content;
+
+    &.inbound {
+     margin-left: auto;
+    }
+
     @include mq ($from: tablet) {
       margin-left: 10px;
       margin-right: 10px;
@@ -68,10 +77,6 @@
     &:first-child {
       padding-top: 15px;
     }
-
-    &.inbound {
-      text-align: right;
-    }
   }
 
   &__from {
@@ -79,6 +84,11 @@
     color: govuk-colour('dark-grey');
     margin-top: 2px;
     margin-bottom: 2px;
+
+    .inbound {
+      display: block;
+      text-align: right;
+    }
   }
 
   &__text {
@@ -97,6 +107,14 @@
       color: govuk-colour('white');
       background-color: govuk-colour('blue');
       border-radius: 10px 0 10px 10px;
+
+      .govuk-link:visited {
+        color: govuk-colour('white');
+      }
+
+      .govuk-link:focus {
+        color: govuk-colour('black');
+      }
     }
 
     &.outbound {

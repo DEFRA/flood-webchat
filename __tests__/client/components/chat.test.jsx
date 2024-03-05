@@ -50,11 +50,11 @@ describe('<Chat />', () => {
         settings: { audio: true, scroll: true }
       })
 
-      agentStatusHeadline.mockReturnValue('No advisers currently available')
+      agentStatusHeadline.mockReturnValue('Waiting for an adviser')
 
       render(<Chat />)
 
-      expect(screen.getByText('No advisers currently available')).toBeTruthy()
+      expect(screen.getByText('Waiting for an adviser')).toBeTruthy()
     })
 
     it('should show unavilable tagline', () => {
