@@ -1,4 +1,6 @@
-import { transformMessage, formatTranscript } from '../../../src/client/lib/transform-messages'
+import React from 'react'
+import { render } from '@testing-library/react'
+import { transformMessage, formatTranscript, formatMessage } from '../../../src/client/lib/transform-messages'
 
 const mockSdkMessage = {
   id: '12345678-0e7c-4b2c-b7dd-8ab18ab7abff',
@@ -65,5 +67,18 @@ describe('formatTranscript', () => {
     expect(result.includes('test message from client')).toBeTruthy()
     expect(result.includes('[13:01:00 PM, 01 December 2023] test-agent (Floodline adviser):')).toBeTruthy()
     expect(result.includes('test message from agent')).toBeTruthy()
+  })
+})
+
+describe('formatMessage', () => {
+  it('should add links to messages with https in', () => {
+    const { container } = render(
+      <div>{formatMessage('test-text https://gov.uk')}</div>
+    )
+
+    const anchor = container.querySelector('a')
+
+    expect(anchor.text).toEqual('gov.uk')
+    expect(anchor.href).toEqual('https://gov.uk/')
   })
 })

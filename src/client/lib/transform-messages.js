@@ -1,4 +1,17 @@
 import { DateTime } from 'luxon'
+import parse from 'html-react-parser'
+
+const websiteRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi
+
+export const formatMessage = message => {
+  if (message.includes('https')) {
+    message = message.replace(websiteRegex, (_, link) => {
+      return `<a class="govuk-link" href="${link}" target="_blank" rel="noreferrer">${link.replace(/https?:\/\//gi, '')}</a>`
+    })
+  }
+
+  return parse(message)
+}
 
 export const transformMessage = message => {
   return {
