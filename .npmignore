@@ -1,9 +1,10 @@
 node_modules
 coverage
 demo
-src
+src/**/*.js
+src/**/*.jsx
 docs
 __tests__
 README.md
-*.config.mjs
+*.mjs
 .*
