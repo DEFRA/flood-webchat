@@ -1,7 +1,10 @@
 node_modules
 coverage
 demo
+src/**/*.js
+src/**/*.jsx
+docs
 __tests__
 README.md
-jest.config.js
+*.mjs
 .*
