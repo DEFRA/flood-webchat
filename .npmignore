@@ -1,8 +1,8 @@
 node_modules
 coverage
 demo
-src
-!src/**/*.scss
+src/**/*.js
+src/**/*.jsx
 docs
 __tests__
 README.md
