@@ -5,5 +5,5 @@ src
 docs
 __tests__
 README.md
-*.config.js
+*.config.mjs
 .*
