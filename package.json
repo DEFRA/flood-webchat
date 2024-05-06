@@ -28,7 +28,7 @@
   "license": "OGL-UK-3.0",
   "devDependencies": {
     "@babel/core": "^7.22.10",
-    "@babel/preset-env": "^7.22.10",
+    "@babel/preset-env": "^7.24.5",
     "@babel/preset-react": "^7.22.15",
     "@testing-library/jest-dom": "^6.1.3",
     "@testing-library/react": "^14.0.0",
