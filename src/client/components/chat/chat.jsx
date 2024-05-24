@@ -124,14 +124,18 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
         default:
           break
       }
-    }
-    if (e.key === ' ') {
+    } else if (e.key === ' ') {
       if (e.target.id === 'end-chat') {
         onEndChatScreen(e)
       }
       if (e.target.id === 'wc-settings') {
         onSettingsScreen(e)
       }
+    } else {
+      thread.keystroke()
+      setTimeout(() => {
+        thread.stopTyping()
+      }, 4000)
     }
   }
 
