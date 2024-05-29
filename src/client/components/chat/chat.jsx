@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
+import { TYPING_INDICATOR_DURATION } from '../../store/constants.js'
+
 import { PanelHeader } from '../panel/panel-header.jsx'
 import { PanelFooter } from '../panel/panel-footer.jsx'
 import { Message } from '../message/message.jsx'
@@ -135,7 +137,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
       thread.keystroke()
       setTimeout(() => {
         thread.stopTyping()
-      }, 4000)
+      }, TYPING_INDICATOR_DURATION)
     }
   }
 
