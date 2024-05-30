@@ -318,6 +318,28 @@ describe('<Chat />', () => {
       expect(mockSendTextMessage).toHaveBeenCalledWith('text')
     })
 
+    it('should alert agent when user is typing in text area', async () => {
+      const mockKeystroke = jest.fn()
+
+      mocks.useApp.mockReturnValue({
+        setLiveRegionText: jest.fn(),
+        settings: { audio: true, scroll: true },
+        messages: [],
+        thread: {
+          keystroke: mockKeystroke
+        }
+      })
+
+      const { container } = render(<Chat />)
+
+      const textarea = container.querySelector('textarea')
+
+      fireEvent.focus(textarea)
+      fireEvent.keyDown(textarea, { key: 't', code: 'KeyT', keyCode: 84 })
+
+      expect(mockKeystroke).toHaveBeenCalled()
+    })
+
     it('should open settings when Enter key is hit on Settings button', async () => {
       const mockSendTextMessage = jest.fn()
 
@@ -460,13 +482,15 @@ describe('<Chat />', () => {
 
     it('should not save chat when any other key other than space or enter are pressed on end chat button', async () => {
       const mockSendTextMessage = jest.fn()
+      const mockKeystroke = jest.fn()
 
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         messages: [],
         thread: {
-          sendTextMessage: mockSendTextMessage
+          sendTextMessage: mockSendTextMessage,
+          keystroke: mockKeystroke
         }
       })
 

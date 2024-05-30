@@ -1,6 +1,6 @@
 const querystring = require('querystring')
 const axios = require('axios')
-const jwtdecode = require('jwt-decode')
+const jwtDecode = require('jwt-decode').decode
 const { isWithinHours } = require('./utils.js')
 
 const contentType = 'application/x-www-form-urlencoded'
@@ -25,7 +25,7 @@ const authenticate = async ({ authenticationUri, authorisation, accessKey, acces
   return {
     token: auth.data.access_token,
     tokenType: auth.data.token_type,
-    tenantId: jwtdecode(auth.data.id_token)?.tenantId
+    tenantId: jwtDecode(auth.data.id_token)?.tenantId
   }
 }
 
