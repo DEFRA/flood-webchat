@@ -13,7 +13,7 @@
     "lint:fix": "npm run lint:js -- --fix && npm run lint:scss -- --fix",
     "lint:js": "standard",
     "lint:scss": "stylelint \"**/*.scss\"",
-    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') { throw e } }\""
+    "prepare": "husky install"
   },
   "standard": {
     "ignore": [
@@ -40,6 +40,7 @@
     "css-loader": "^7.1.2",
     "dotenv": "^16.4.5",
     "husky": "^8.0.3",
+    "is-ci": "^3.0.1",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "mini-css-extract-plugin": "^2.7.6",
