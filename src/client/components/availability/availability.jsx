@@ -53,6 +53,17 @@ export function Availability () {
     }
   }, [unseenCount, isChatOpen])
 
+  const originalTitle = useRef(document.title)
+
+  useEffect(() => {
+    if (showUnseenCount) {
+      // create a title checker function to set original title
+      document.title = `(${unseenCount} ${messageText})  - ${originalTitle.current}`
+    } else {
+      document.title = originalTitle.current
+    }
+  }, [unseenCount, isChatOpen])
+
   useEffect(() => {
     const onScroll = () => {
       if (!threadId) {

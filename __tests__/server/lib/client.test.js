@@ -1,14 +1,8 @@
 import axios from 'axios'
 import { authenticate, getApiBaseUrl, getActivity, getIsOpen } from '../../../src/server/lib/client'
-import { decode as jwtDecode } from 'jwt-decode'
 
 // Mock axios
 jest.mock('axios')
-
-// Mock jwt-decode
-jest.mock('jwt-decode', () => ({
-  decode: jest.fn().mockReturnValue({ tenantId: '11ee215a-6f6c-f950-bab6-0242ac110003' })
-}))
 
 describe('getApiBaseUrl()', () => {
   afterEach(() => {
@@ -317,8 +311,6 @@ describe('authenticate()', () => {
           'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpQ.eyJpY0FnZW50SWQiOiIzOTI2MDc1MCIsImljU1BJZCI6IjExODciLCJzdWIiOiJ1c2VyOjExZWUyMTVhLWUyOGQtMmMyMC1iN2UzLTAyNDJhYzExMDAwNSIsImljRG9tYWluIjoibmljZWluY29udGFjdC5jb20iLCJpc3MiOiJodHRwczovL2N4b25lLm5pY2VpbmNvbnRhY3QuY29tIiwiZ2l2ZW5fbmFtZSI6IlJvdXRlMTAxIiwiYXVkIjoiOGNjN2FiZTEtNmM5Yi00MGI0LWI4NjYtOGQzZTRiMmZhODkxIiwiaWNCVUlkIjo0NjA3MDg0LCJ0ZW5hbnRJZCI6IjExZWUyMTVhLTZmNmMtZjk1MC1iYWI2LTAyNDJhYzExMDAwMyIsIm5hbWUiOiJob21hbi5jaGV1bmdANDYwNzA4NC5jb20iLCJmYW1pbHlfbmFtZSI6IkFkbWluIiwidGVuYW50IjoidGVsZXBlcmZvcm1hbmNlX2Zsb29kbGluZV91YXQ1ODgzMTQ5NyIsImljQ2x1c3RlcklkIjoiTDM2IiwidXNlcklkIjoiMTFlZTIxNWEtZTI4ZC0yYzIwLWI7ZTMtMDI0MmFjMTEwMDA1IiwiYXJlYSI6InVrMSIsImlhdCI6MTY5NDYwODY4MCwiZXhwIjoxNjk0NjEyMjgwfQ.k'
       }
     })
-
-    jwtDecode.mockImplementationOnce(() => ({ tenantId: '11ee215a-6f6c-f950-bab6-0242ac110003' }))
 
     const result = await authenticate({
       authenticationUri: 'https://cxone.niceincontact.com/auth/token',
