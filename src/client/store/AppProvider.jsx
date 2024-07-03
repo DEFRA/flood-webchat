@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useReducer, useMemo } from 'react'
 import { ChatEvent } from '@nice-devone/nice-cxone-chat-web-sdk'
 
 import { initialState, reducer } from './reducer.js'
-import { CUSTOMER_ID_STORAGE_KEY, THREAD_ID_STORAGE_KEY, SETTINGS_STORAGE_KEY } from './constants.js'
+import { CUSTOMER_ID_STORAGE_KEY, THREAD_ID_STORAGE_KEY, SETTINGS_STORAGE_KEY, MESSAGES_UNSEEN_COUNT } from './constants.js'
 
 export const AppContext = createContext(initialState)
 
@@ -88,6 +88,7 @@ export const AppProvider = ({ sdk, availability, playSound, children }) => {
     setCustomerId(window.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY))
     setThreadId(window.localStorage.getItem(THREAD_ID_STORAGE_KEY))
     setSettings(JSON.parse(window.localStorage.getItem(SETTINGS_STORAGE_KEY)) || state.settings)
+    setUnseenCount(window.localStorage.getItem(MESSAGES_UNSEEN_COUNT))
   }, [])
 
   /**
@@ -152,6 +153,10 @@ export const AppProvider = ({ sdk, availability, playSound, children }) => {
     dispatch({ type: 'SET_LIVE_REGION_TEXT', payload: text })
   }
 
+  const setPageTitle = title => {
+    dispatch({ type: 'SET_PAGE_TITLE', payload: title })
+  }
+
   /**
    * Application-wide state and state functions
    */
@@ -167,6 +172,7 @@ export const AppProvider = ({ sdk, availability, playSound, children }) => {
     setChatVisibility,
     setInstigatorId,
     setLiveRegionText,
+    setPageTitle,
     onLiveChatRecovered,
     onAssignedAgentChanged,
     onAgentTypingStarted,

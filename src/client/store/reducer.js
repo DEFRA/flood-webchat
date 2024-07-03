@@ -6,7 +6,7 @@ export const initialState = {
   threadId: null,
   thread: null,
   messages: [],
-  unseenCount: 0,
+  unseenCount: window.localStorage.getItem('messages_unseen_count'),
   instigatorId: null,
   agent: null,
   agentStatus: null,

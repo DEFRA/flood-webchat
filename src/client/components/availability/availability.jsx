@@ -10,12 +10,26 @@ import { LiveRegion } from '../live-region.jsx'
 
 export function Availability () {
   const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId, setLiveRegionText } = useApp()
-
+  const originalTitle = useRef(document.title)
   const buttonRef = useRef()
+
+  const messageText = unseenCount > 1 ? 'new messages' : 'new message'
 
   const showUnseenCount = unseenCount > 0 && !isChatOpen
 
-  const messageText = unseenCount > 1 ? 'new messages' : 'new message'
+  useEffect(() => {
+    const showUnseenCount = unseenCount > 0 && !isChatOpen
+
+    if (showUnseenCount) {
+      document.title = `(${unseenCount} ${messageText}) - ${originalTitle.current}`
+    } else {
+      document.title = originalTitle.current
+    }
+
+    return () => {
+      document.title = originalTitle.current
+    }
+  }, [unseenCount, isChatOpen])
 
   const onClick = e => {
     e.preventDefault()
@@ -26,7 +40,7 @@ export function Availability () {
     if (!isChatOpen) {
       historyPushState()
     } else {
-      historyReplaceState()
+      historyReplaceState(originalTitle.current)
     }
   }
 
@@ -50,17 +64,6 @@ export function Availability () {
 
     return () => {
       setLiveRegionText()
-    }
-  }, [unseenCount, isChatOpen])
-
-  const originalTitle = useRef(document.title)
-
-  useEffect(() => {
-    if (showUnseenCount) {
-      // create a title checker function to set original title
-      document.title = `(${unseenCount} ${messageText})  - ${originalTitle.current}`
-    } else {
-      document.title = originalTitle.current
     }
   }, [unseenCount, isChatOpen])
 
