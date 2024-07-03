@@ -112,19 +112,6 @@ const setInstigatorId = (state, payload) => {
   }
 }
 
-const setPageTitle = (state, payload) => {
-  const { unseenCount, isChatOpen, messageText, originalTitle } = payload
-
-  const showUnseenCount = unseenCount > 0 && !isChatOpen
-  if (showUnseenCount) {
-    document.title = `(${unseenCount} ${messageText}) - ${originalTitle}`
-  } else {
-    document.title = originalTitle
-  }
-
-  return state
-}
-
 const setLiveRegionText = (state, payload) => {
   return {
     ...state,
@@ -161,7 +148,6 @@ export const actionsMap = {
   SET_UNSEEN_COUNT: setUnseenCount,
   SET_INSTIGATOR_ID: setInstigatorId,
   SET_LIVE_REGION_TEXT: setLiveRegionText,
-  SET_PAGE_TITLE: setPageTitle,
   TOGGLE_IS_MOBILE: toggleIsMobile,
   TOGGLE_IS_KEYBOARD: toggleIsKeyboard
 }

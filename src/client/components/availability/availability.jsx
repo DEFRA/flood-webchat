@@ -7,10 +7,10 @@ import { SkipLink } from '../skip-link.jsx'
 import { useApp } from '../../store/useApp'
 import { historyPushState, historyReplaceState } from '../../lib/history.js'
 import { LiveRegion } from '../live-region.jsx'
+import { PAGE_TITLE } from '../../store/constants.js'
 
 export function Availability () {
   const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId, setLiveRegionText } = useApp()
-  const originalTitle = useRef(document.title)
   const buttonRef = useRef()
 
   const messageText = unseenCount > 1 ? 'new messages' : 'new message'
@@ -18,18 +18,10 @@ export function Availability () {
   const showUnseenCount = unseenCount > 0 && !isChatOpen
 
   useEffect(() => {
-    const showUnseenCount = unseenCount > 0 && !isChatOpen
-
     if (showUnseenCount) {
-      document.title = `(${unseenCount} ${messageText}) - ${originalTitle.current}`
-    } else {
-      document.title = originalTitle.current
+      document.title = `(${unseenCount} ${messageText}) - ${PAGE_TITLE}`
     }
-
-    return () => {
-      document.title = originalTitle.current
-    }
-  }, [unseenCount, isChatOpen])
+  }, [unseenCount])
 
   const onClick = e => {
     e.preventDefault()
@@ -40,7 +32,7 @@ export function Availability () {
     if (!isChatOpen) {
       historyPushState()
     } else {
-      historyReplaceState(originalTitle.current)
+      historyReplaceState()
     }
   }
 

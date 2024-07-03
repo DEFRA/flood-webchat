@@ -153,10 +153,6 @@ export const AppProvider = ({ sdk, availability, playSound, children }) => {
     dispatch({ type: 'SET_LIVE_REGION_TEXT', payload: text })
   }
 
-  const setPageTitle = title => {
-    dispatch({ type: 'SET_PAGE_TITLE', payload: title })
-  }
-
   /**
    * Application-wide state and state functions
    */
@@ -172,7 +168,6 @@ export const AppProvider = ({ sdk, availability, playSound, children }) => {
     setChatVisibility,
     setInstigatorId,
     setLiveRegionText,
-    setPageTitle,
     onLiveChatRecovered,
     onAssignedAgentChanged,
     onAgentTypingStarted,
