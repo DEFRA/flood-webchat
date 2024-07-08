@@ -19,8 +19,7 @@ export function Availability () {
 
   useEffect(() => {
     if (showUnseenCount) {
-      const count = Number(unseenCount)
-      document.title = `(${count} ${messageText}) - ${PAGE_TITLE}`
+      document.title = `(${unseenCount} ${messageText}) - ${PAGE_TITLE}`
     }
   }, [unseenCount])
 
