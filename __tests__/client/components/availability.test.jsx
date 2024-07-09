@@ -1,7 +1,7 @@
 import '../methods.mock'
 import React from 'react'
 import userEvent from '@testing-library/user-event'
-import { screen, render } from '@testing-library/react'
+import { screen, render, waitFor } from '@testing-library/react'
 import { Availability } from '../../../src/client/components/availability/availability'
 import { useApp } from '../../../src/client/store/useApp'
 
@@ -222,7 +222,7 @@ describe('<Availability/>', () => {
       expect(container.querySelector('.wc-availability__unseen').textContent).toEqual('1 new message')
     })
 
-    it('displays number of unread messages next to Show chat link when there are more than 2 unread messages', async () => {
+    it('displays number of unread messages next to Show chat link when there are more than 1 unread messages', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         setLiveRegionText: jest.fn(),
@@ -238,20 +238,27 @@ describe('<Availability/>', () => {
       expect(container.querySelector('.wc-availability__unseen').textContent).toEqual('2 new messages')
     })
 
-    it('displays number of unread messages in the document title when there are more than 1 unread messages', async () => {
+    it('displays number of unread messages in the document title when there are unread messages', async () => {
       mocks.useApp.mockReturnValue({
         setChatVisibility: jest.fn(),
         setLiveRegionText: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
         messages: [{}, {}],
-        unseenCount: 2,
+        unseenCount: 1,
         threadId: 'thread_123'
       })
 
+      const originalTitle = document.title
+
+      document.title = 'Flood Webchat Demo Page - GOV.UK'
+
       render(<Availability />)
 
-      expect(document.title).toEqual('(2 new messages) - Flood Webchat Demo Page - GOV.UK')
+      await waitFor(() => {
+        expect(document.title).toEqual('(1 new message) - Flood Webchat Demo Page - GOV.UK')
+      })
+      document.title = originalTitle
     })
 
     it('does not display any numbers next to Show chat when no unread messages', async () => {

@@ -7,7 +7,8 @@ import { SkipLink } from '../skip-link.jsx'
 import { useApp } from '../../store/useApp'
 import { historyPushState, historyReplaceState } from '../../lib/history.js'
 import { LiveRegion } from '../live-region.jsx'
-import { PAGE_TITLE } from '../../store/constants.js'
+
+const { strippedPageTitle } = require('../../../server/lib/utils')
 
 export function Availability () {
   const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId, setLiveRegionText } = useApp()
@@ -17,9 +18,11 @@ export function Availability () {
 
   const showUnseenCount = unseenCount > 0 && !isChatOpen
 
+  const originalTitle = strippedPageTitle(document.title)
+
   useEffect(() => {
     if (showUnseenCount) {
-      document.title = `(${unseenCount} ${messageText}) - ${PAGE_TITLE}`
+      document.title = `(${unseenCount} ${messageText}) - ${originalTitle}`
     }
   }, [unseenCount])
 

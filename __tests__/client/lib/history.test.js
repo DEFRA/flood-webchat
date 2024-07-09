@@ -1,9 +1,5 @@
 import { historyPushState, historyReplaceState } from '../../../src/client/lib/history'
 
-jest.mock('../../../src/client/store/constants', () => ({
-  PAGE_TITLE: 'Mocked Page Title'
-}))
-
 describe('history', () => {
   afterAll(() => {
     jest.clearAllMocks()
@@ -29,12 +25,14 @@ describe('history', () => {
     expect(window.history.back).toHaveBeenCalled()
   })
 
-  it('should write the current page title to the history', () => {
+  it('should write the stripped page title to document title', () => {
     const originalTitle = document.title
+
+    document.title = '(1 new message) - Flood Webchat Demo Page - GOV.UK'
 
     historyPushState()
 
-    expect(document.title).toEqual('Mocked Page Title')
+    expect(document.title).toEqual('Flood Webchat Demo Page - GOV.UK')
 
     document.title = originalTitle
   })
