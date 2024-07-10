@@ -1,7 +1,7 @@
 import '../methods.mock'
 import React from 'react'
 import userEvent from '@testing-library/user-event'
-import { screen, render, waitFor } from '@testing-library/react'
+import { screen, render } from '@testing-library/react'
 import { Availability } from '../../../src/client/components/availability/availability'
 import { useApp } from '../../../src/client/store/useApp'
 
@@ -255,9 +255,8 @@ describe('<Availability/>', () => {
 
       render(<Availability />)
 
-      await waitFor(() => {
-        expect(document.title).toEqual('(1 new message) - Flood Webchat Demo Page - GOV.UK')
-      })
+      expect(document.title).toEqual('(1 new message) - Flood Webchat Demo Page - GOV.UK')
+
       document.title = originalTitle
     })
 
