@@ -101,7 +101,7 @@ const setUnseenCount = (state, payload) => {
   window.localStorage.setItem(MESSAGES_UNSEEN_COUNT, payload)
   return {
     ...state,
-    unseenCount: payload
+    unseenCount: Number(payload)
   }
 }
 
