@@ -88,7 +88,7 @@ export const AppProvider = ({ sdk, availability, playSound, children }) => {
     setCustomerId(window.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY))
     setThreadId(window.localStorage.getItem(THREAD_ID_STORAGE_KEY))
     setSettings(JSON.parse(window.localStorage.getItem(SETTINGS_STORAGE_KEY)) || state.settings)
-    setUnseenCount(window.localStorage.getItem(MESSAGES_UNSEEN_COUNT))
+    setUnseenCount(Number(window.localStorage.getItem(MESSAGES_UNSEEN_COUNT)))
   }, [])
 
   /**
