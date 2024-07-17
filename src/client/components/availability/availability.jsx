@@ -8,7 +8,7 @@ import { useApp } from '../../store/useApp'
 import { historyPushState, historyReplaceState } from '../../lib/history.js'
 import { LiveRegion } from '../live-region.jsx'
 
-const { strippedPageTitle } = require('../../../server/lib/utils')
+const { stripPageTitle } = require('../../../server/lib/utils')
 
 export function Availability () {
   const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId, setLiveRegionText } = useApp()
@@ -19,7 +19,7 @@ export function Availability () {
 
   const showUnseenCount = unseenCount > 0 && !isChatOpen
 
-  const originalTitle = strippedPageTitle(document.title)
+  const originalTitle = stripPageTitle(document.title)
 
   useEffect(() => {
     if (showUnseenCount) {

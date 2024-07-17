@@ -26,6 +26,6 @@ const stripPageTitle = title => {
 
 module.exports = {
   isWithinHours,
-  strippedPageTitle: stripPageTitle
+  stripPageTitle
 
 }
