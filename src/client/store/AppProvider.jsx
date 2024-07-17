@@ -142,8 +142,7 @@ export const AppProvider = ({ sdk, availability, playSound, children }) => {
   }
 
   const setUnseenCount = unseenCount => {
-    const numericCount = Number(unseenCount)
-    dispatch({ type: 'SET_UNSEEN_COUNT', payload: numericCount })
+    dispatch({ type: 'SET_UNSEEN_COUNT', payload: unseenCount })
   }
 
   const setInstigatorId = id => {
