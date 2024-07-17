@@ -12,6 +12,7 @@ const { strippedPageTitle } = require('../../../server/lib/utils')
 
 export function Availability () {
   const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId, setLiveRegionText } = useApp()
+
   const buttonRef = useRef()
 
   const messageText = unseenCount > 1 ? 'new messages' : 'new message'

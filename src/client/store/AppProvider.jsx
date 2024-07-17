@@ -88,7 +88,7 @@ export const AppProvider = ({ sdk, availability, playSound, children }) => {
     setCustomerId(window.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY))
     setThreadId(window.localStorage.getItem(THREAD_ID_STORAGE_KEY))
     setSettings(JSON.parse(window.localStorage.getItem(SETTINGS_STORAGE_KEY)) || state.settings)
-    setUnseenCount(Number(window.localStorage.getItem(MESSAGES_UNSEEN_COUNT)))
+    setUnseenCount(window.localStorage.getItem(MESSAGES_UNSEEN_COUNT))
   }, [])
 
   /**
@@ -142,7 +142,8 @@ export const AppProvider = ({ sdk, availability, playSound, children }) => {
   }
 
   const setUnseenCount = unseenCount => {
-    dispatch({ type: 'SET_UNSEEN_COUNT', payload: unseenCount })
+    const numericCount = Number(unseenCount)
+    dispatch({ type: 'SET_UNSEEN_COUNT', payload: numericCount })
   }
 
   const setInstigatorId = id => {
