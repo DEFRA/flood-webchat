@@ -57,7 +57,7 @@
     "webpack-node-externals": "^3.0.0"
   },
   "peerDependencies": {
-    "govuk-frontend": "^4.0.0"
+    "govuk-frontend": "^5.4.0"
   },
   "dependencies": {
     "@nice-devone/nice-cxone-chat-web-sdk": "^1.3.0",
