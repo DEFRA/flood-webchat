@@ -1,9 +1,9 @@
 
 // Required GOVUK Styles
-@import "govuk-frontend/govuk/core/typography";
-@import "govuk-frontend/govuk/core/links";
-@import "govuk-frontend/govuk/utilities/visually-hidden";
-@import "govuk-frontend/govuk/components/button/button";
+@import "govuk-frontend/dist/govuk/core/typography";
+@import "govuk-frontend/dist/govuk/core/links";
+@import "govuk-frontend/dist/govuk/utilities/visually-hidden";
+@import "govuk-frontend/dist/govuk/components/button/button";
 
 // (ITCSS)
 @import "./src/client/scss/settings";
