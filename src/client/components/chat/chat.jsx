@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
+import { TYPING_INDICATOR_DURATION } from '../../store/constants.js'
+
 import { PanelHeader } from '../panel/panel-header.jsx'
 import { PanelFooter } from '../panel/panel-footer.jsx'
 import { Message } from '../message/message.jsx'
@@ -124,14 +126,18 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
         default:
           break
       }
-    }
-    if (e.key === ' ') {
+    } else if (e.key === ' ') {
       if (e.target.id === 'end-chat') {
         onEndChatScreen(e)
       }
       if (e.target.id === 'wc-settings') {
         onSettingsScreen(e)
       }
+    } else {
+      thread.keystroke()
+      setTimeout(() => {
+        thread.stopTyping()
+      }, TYPING_INDICATOR_DURATION)
     }
   }
 

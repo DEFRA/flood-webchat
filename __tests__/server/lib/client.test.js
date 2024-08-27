@@ -1,7 +1,14 @@
 import axios from 'axios'
 import { authenticate, getApiBaseUrl, getActivity, getIsOpen } from '../../../src/server/lib/client'
+import { decode as jwtDecode } from 'jwt-decode'
 
+// Mock axios
 jest.mock('axios')
+
+// Mock jwt-decode
+jest.mock('jwt-decode', () => ({
+  decode: jest.fn().mockReturnValue({ tenantId: '11ee215a-6f6c-f950-bab6-0242ac110003' })
+}))
 
 describe('getApiBaseUrl()', () => {
   afterEach(() => {
@@ -32,7 +39,7 @@ describe('getActivity', () => {
     jest.clearAllMocks()
   })
 
-  it('should return true when agent is availible and the is capacity', async () => {
+  it('should return true when agent is available and there is capacity', async () => {
     const axiosGetSpy = jest.spyOn(axios, 'get')
 
     axios.get.mockResolvedValue({
@@ -56,7 +63,7 @@ describe('getActivity', () => {
     expect(axiosGetSpy.mock.calls[0][0]).toEqual('https://test.example/test-endpoint')
   })
 
-  it('should return false when agent is NOT availible and the is No capacity', async () => {
+  it('should return false when agent is NOT available and there is No capacity', async () => {
     const axiosGetSpy = jest.spyOn(axios, 'get')
 
     axios.get.mockResolvedValue({
@@ -311,10 +318,12 @@ describe('authenticate()', () => {
       }
     })
 
+    jwtDecode.mockImplementationOnce(() => ({ tenantId: '11ee215a-6f6c-f950-bab6-0242ac110003' }))
+
     const result = await authenticate({
       authenticationUri: 'https://cxone.niceincontact.com/auth/token',
       authorisation: 'some-token',
-      accessKey: 'some-acess-token',
+      accessKey: 'some-access-token',
       accessSecret: 'secret-key'
     })
 
@@ -324,7 +333,7 @@ describe('authenticate()', () => {
       tokenType: 'standard-token-type'
     }
 
-    const expectedRequestBody = 'grant_type=password&username=some-acess-token&password=secret-key'
+    const expectedRequestBody = 'grant_type=password&username=some-access-token&password=secret-key'
 
     expect(axios.post).toHaveBeenCalledWith('https://cxone.niceincontact.com/auth/token', expectedRequestBody, {
       headers: {
