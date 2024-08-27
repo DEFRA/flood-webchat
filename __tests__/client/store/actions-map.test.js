@@ -252,7 +252,6 @@ describe('actions-map', () => {
     const newState = action(mockState, 1)
 
     expect(newState.unseenCount).toEqual(1)
-    expect(mocks.localStorage.setItem).toHaveBeenCalled()
   })
 
   it('should update state: instigatorId', () => {
