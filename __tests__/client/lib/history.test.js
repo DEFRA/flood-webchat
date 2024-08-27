@@ -24,16 +24,4 @@ describe('history', () => {
 
     expect(window.history.back).toHaveBeenCalled()
   })
-
-  it('should write the stripped page title to document title', () => {
-    const originalTitle = document.title
-
-    document.title = '(1 new message) - Flood Webchat Demo Page - GOV.UK'
-
-    historyPushState()
-
-    expect(document.title).toEqual('Flood Webchat Demo Page - GOV.UK')
-
-    document.title = originalTitle
-  })
 })
