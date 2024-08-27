@@ -1,6 +1,6 @@
 const querystring = require('querystring')
 const axios = require('axios')
-const jwtDecode = require('jwt-decode').decode
+const { jwtDecode } = require('jwt-decode')
 const { isWithinHours } = require('./utils.js')
 
 const contentType = 'application/x-www-form-urlencoded'
