@@ -63,7 +63,7 @@
     "@nice-devone/nice-cxone-chat-web-sdk": "^1.18.0",
     "axios": "^1.7.2",
     "html-react-parser": "^5.1.10",
-    "jwt-decode": "^4.0.0",
+    "jwt-decode": "^3.1.2",
     "lodash.debounce": "^4.0.8",
     "luxon": "^3.4.3",
     "querystring": "^0.2.1",
