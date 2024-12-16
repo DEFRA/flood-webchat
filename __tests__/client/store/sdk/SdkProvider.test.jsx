@@ -1,6 +1,6 @@
 import '../../methods.mock'
 import React, { useContext, useEffect } from 'react'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { SdkContext, SdkProvider } from '../../../../src/client/store/sdk/SdkProvider'
@@ -22,7 +22,10 @@ jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
 const mockSdk = {
   onChatEvent: jest.fn(),
   authorize: jest.fn(),
-  getThread: jest.fn()
+  getThread: jest.fn().mockReturnValue({
+    recover: jest.fn().mockReturnValue({ messages: [{ id: 'msg_123' }] }),
+    loadMoreMessages: jest.fn()
+  })
 }
 
 const mocks = {
@@ -312,5 +315,26 @@ describe('<SdkProvider />', () => {
     )
 
     expect(playSound).toHaveBeenCalled()
+  })
+
+  it('should recover a thread', async () => {
+    mocks.useApp.mockReturnValue({
+      setThread: jest.fn(),
+      setThreadId: jest.fn(),
+      setUnseenCount: jest.fn(),
+      threadId: 'thread_123',
+      thread: null
+    })
+
+    render(
+      <SdkProvider sdk={mockSdk} playSound={jest.fn()} onRecoverError={jest.fn()} />
+    )
+
+    await waitFor(() => {
+      expect(mockSdk.authorize).toHaveBeenCalled()
+      expect(mockSdk.getThread).toHaveBeenCalled()
+      expect(mockSdk.getThread().recover).toHaveBeenCalled()
+      expect(mockSdk.getThread().loadMoreMessages).toHaveBeenCalled()
+    })
   })
 })
