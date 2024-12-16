@@ -32,7 +32,7 @@ export const getFocusableElements = () => {
   return Array.from(elements).filter(e => !e.closest('[hidden]') && !e.closest('[aria-hidden="true"]'))
 }
 
-const useFocusedElements = screen => {
+const useFocusedElements = (screen, isChatOpen) => {
   const [panelElements, setPanelElements] = useState([])
 
   const onKeyDown = useCallback(e => {
@@ -63,18 +63,20 @@ const useFocusedElements = screen => {
   }, [screen])
 
   useEffect(() => {
-    setAriaHidden(true)
+    if (isChatOpen) {
+      setAriaHidden(true)
 
-    const panelElement = document.querySelector('#wc-panel')
-    panelElement.focus()
+      const panelElement = document.querySelector('#wc-panel')
+      panelElement.focus()
 
-    document.addEventListener('keydown', onKeyDown)
+      document.addEventListener('keydown', onKeyDown)
+    }
 
     return () => {
       setAriaHidden()
       document.removeEventListener('keydown', onKeyDown)
     }
-  }, [panelElements])
+  }, [panelElements, isChatOpen])
 }
 
 export { useFocusedElements }

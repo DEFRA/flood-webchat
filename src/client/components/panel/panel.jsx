@@ -21,7 +21,7 @@ export function Panel ({ initSdk, playSound }) {
 
   const [screen, setScreen] = useState(threadId ? 2 : 0)
 
-  useFocusedElements(screen)
+  useFocusedElements(screen, isChatOpen)
 
   const onEscapeKey = useCallback(e => {
     if (e.key === 'Escape' || e.key === 'Esc') {
