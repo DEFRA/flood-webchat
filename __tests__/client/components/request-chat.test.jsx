@@ -5,16 +5,13 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { RequestChat } from '../../../src/client/components/screens/request-chat'
-import { useApp } from '../../../src/client/store/useApp'
-import { useChatSdk } from '../../../src/client/store/useChatSdk'
+import { useApp } from '../../../src/client/store/app/useApp'
 
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({}))
-jest.mock('../../../src/client/store/useApp')
-jest.mock('../../../src/client/store/useChatSdk')
+jest.mock('../../../src/client/store/app/useApp')
 
 const mocks = {
-  useApp: jest.mocked(useApp),
-  useChatSdk: jest.mocked(useChatSdk)
+  useApp: jest.mocked(useApp)
 }
 
 describe('<RequestChat />', () => {
@@ -24,16 +21,15 @@ describe('<RequestChat />', () => {
 
   it('should render the screen', () => {
     mocks.useApp.mockReturnValue({
-      sdk: jest.fn()
-    })
-
-    mocks.useChatSdk.mockReturnValue({
-      fetchCustomerId: jest.fn(),
-      fetchThread: jest.fn()
+      setSdk: jest.fn(),
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setThread: jest.fn(),
+      setLiveRegionText: jest.fn()
     })
 
     render(
-      <RequestChat onBack={jest.fn()} />
+      <RequestChat initSdk={jest.fn()} onPreChatScreen={jest.fn()} />
     )
 
     expect(screen.getByText('Your name and question')).toBeTruthy()
@@ -41,29 +37,31 @@ describe('<RequestChat />', () => {
 
   it('should contain link to privacy notice', () => {
     mocks.useApp.mockReturnValue({
-      sdk: jest.fn()
-    })
-
-    mocks.useChatSdk.mockReturnValue({
-      fetchCustomerId: jest.fn(),
-      fetchThread: jest.fn()
+      setSdk: jest.fn(),
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setThread: jest.fn(),
+      setLiveRegionText: jest.fn()
     })
 
     render(
-      <RequestChat onBack={jest.fn()} />
+      <RequestChat initSdk={jest.fn()} onPreChatScreen={jest.fn()} />
     )
 
     expect(screen.getByText('privacy notice')).toBeTruthy()
   })
 
   it('should show the error summary when no inputs have been filled', () => {
-    mocks.useChatSdk.mockReturnValue({
-      fetchCustomerId: jest.fn(),
-      fetchThread: jest.fn()
+    mocks.useApp.mockReturnValue({
+      setSdk: jest.fn(),
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setThread: jest.fn(),
+      setLiveRegionText: jest.fn()
     })
 
     const { container } = render(
-      <RequestChat onBack={jest.fn()} />
+      <RequestChat initSdk={jest.fn()} onPreChatScreen={jest.fn()} />
     )
 
     const button = container.querySelector('form button')
@@ -78,13 +76,16 @@ describe('<RequestChat />', () => {
   })
 
   it('should update the question characters remaining hint text', () => {
-    mocks.useChatSdk.mockReturnValue({
-      fetchCustomerId: jest.fn(),
-      fetchThread: jest.fn()
+    mocks.useApp.mockReturnValue({
+      setSdk: jest.fn(),
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setThread: jest.fn(),
+      setLiveRegionText: jest.fn()
     })
 
     const { container } = render(
-      <RequestChat onBack={jest.fn()} />
+      <RequestChat initSdk={jest.fn()} onPreChatScreen={jest.fn()} />
     )
 
     const hint = container.querySelector('.govuk-hint')
@@ -99,18 +100,15 @@ describe('<RequestChat />', () => {
 
   it('should show question length error', () => {
     mocks.useApp.mockReturnValue({
-      sdk: jest.fn()
-    })
-
-    mocks.useChatSdk.mockReturnValue({
-      fetchCustomerId: jest.fn(),
-      fetchThread: () => ({
-        setCustomField: jest.fn()
-      })
+      setSdk: jest.fn(),
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setThread: jest.fn(),
+      setLiveRegionText: jest.fn()
     })
 
     const { container } = render(
-      <RequestChat onBack={jest.fn()} />
+      <RequestChat initSdk={jest.fn()} onPreChatScreen={jest.fn()} />
     )
 
     const textarea = container.querySelector('textarea')
@@ -125,18 +123,15 @@ describe('<RequestChat />', () => {
 
   it('should focus the input when the error is clicked', () => {
     mocks.useApp.mockReturnValue({
-      sdk: jest.fn()
-    })
-
-    mocks.useChatSdk.mockReturnValue({
-      fetchCustomerId: jest.fn(),
-      fetchThread: () => ({
-        setCustomField: jest.fn()
-      })
+      setSdk: jest.fn(),
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setThread: jest.fn(),
+      setLiveRegionText: jest.fn()
     })
 
     const { container } = render(
-      <RequestChat />
+      <RequestChat initSdk={jest.fn()} onPreChatScreen={jest.fn()} />
     )
 
     const button = container.querySelector('form button')
@@ -149,28 +144,27 @@ describe('<RequestChat />', () => {
   })
 
   it('should submit the message', async () => {
-    mocks.useApp.mockReturnValue({
-      sdk: ({
-        getCustomer: jest.fn().mockReturnValue({
-          setName: jest.fn()
-        })
+    const mockInitSdk = jest.fn().mockReturnValue({
+      authorize: jest.fn(),
+      getThread: () => ({
+        startChat: jest.fn(),
+        setCustomField: jest.fn()
       }),
+      getCustomer: () => ({
+        setName: jest.fn()
+      })
+    })
+
+    mocks.useApp.mockReturnValue({
+      setSdk: jest.fn(),
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
       setThread: jest.fn(),
       setLiveRegionText: jest.fn()
     })
 
-    mocks.useChatSdk.mockReturnValue({
-      fetchCustomerId: jest.fn(),
-      fetchThread: () => ({
-        startChat: jest.fn,
-        setCustomField: jest.fn()
-      })
-    })
-
     const { container } = render(
-      <RequestChat onBack={jest.fn()} />
+      <RequestChat initSdk={mockInitSdk} onPreChatScreen={jest.fn()} />
     )
 
     const input = container.querySelector('form input')
@@ -184,34 +178,35 @@ describe('<RequestChat />', () => {
 
     await user.click(button)
 
+    expect(mockInitSdk).toHaveBeenCalled()
+    expect(mocks.useApp().setSdk).toHaveBeenCalled()
     expect(mocks.useApp().setCustomerId).toHaveBeenCalled()
     expect(mocks.useApp().setThreadId).toHaveBeenCalled()
     expect(mocks.useApp().setThread).toHaveBeenCalled()
   })
 
   it('should make button unclickable after single click and show requesting on click', async () => {
-    mocks.useApp.mockReturnValue({
-      sdk: ({
-        getCustomer: jest.fn().mockReturnValue({
-          setName: jest.fn()
-        })
+    const mockInitSdk = jest.fn().mockReturnValue({
+      authorize: jest.fn(),
+      getThread: () => ({
+        startChat: jest.fn(),
+        setCustomField: jest.fn()
       }),
+      getCustomer: () => ({
+        setName: jest.fn()
+      })
+    })
+
+    mocks.useApp.mockReturnValue({
+      setSdk: jest.fn(),
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
       setThread: jest.fn(),
       setLiveRegionText: jest.fn()
     })
 
-    mocks.useChatSdk.mockReturnValue({
-      fetchCustomerId: jest.fn(),
-      fetchThread: () => ({
-        startChat: jest.fn,
-        setCustomField: jest.fn()
-      })
-    })
-
     const { container } = render(
-      <RequestChat onBack={jest.fn()} />
+      <RequestChat initSdk={mockInitSdk} onPreChatScreen={jest.fn()} />
     )
 
     const input = container.querySelector('form input')

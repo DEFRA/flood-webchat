@@ -2,10 +2,10 @@ import '../methods.mock'
 import React from 'react'
 import { screen, fireEvent, render } from '@testing-library/react'
 import { SkipLink } from '../../../src/client/components/skip-link'
-import { useApp } from '../../../src/client/store/useApp'
+import { useApp } from '../../../src/client/store/app/useApp'
 
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({}))
-jest.mock('../../../src/client/store/useApp')
+jest.mock('../../../src/client/store/app/useApp')
 
 const mocks = {
   useApp: jest.mocked(useApp)

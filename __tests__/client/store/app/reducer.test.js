@@ -1,5 +1,5 @@
-import '../methods.mock'
-import { reducer, initialState } from '../../../src/client/store/reducer'
+import '../../methods.mock'
+import { reducer, initialState } from '../../../../src/client/store/app/reducer'
 
 describe('reducer', () => {
   afterAll(() => {

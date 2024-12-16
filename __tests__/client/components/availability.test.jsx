@@ -3,10 +3,10 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { screen, render } from '@testing-library/react'
 import { Availability } from '../../../src/client/components/availability/availability'
-import { useApp } from '../../../src/client/store/useApp'
+import { useApp } from '../../../src/client/store/app/useApp'
 
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({}))
-jest.mock('../../../src/client/store/useApp')
+jest.mock('../../../src/client/store/app/useApp')
 
 const mocks = {
   IntersectionObserver: jest.fn(),
@@ -33,8 +33,7 @@ describe('<Availability/>', () => {
     it('contains the text "Start chat" when there is no existing thread', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        availability: 'AVAILABLE',
-        messages: []
+        availability: 'AVAILABLE'
       })
 
       const { container } = render(<Availability />)
@@ -46,7 +45,6 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         availability: 'AVAILABLE',
-        messages: [{}],
         threadId: 'thread_123'
       })
 
@@ -59,7 +57,6 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         availability: 'EXISTING',
-        messages: [],
         threadId: 'thread_123'
       })
 
@@ -72,7 +69,6 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         availability: 'UNAVAILABLE',
-        messages: [],
         threadId: 'thread_123'
       })
 
@@ -85,7 +81,6 @@ describe('<Availability/>', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         availability: null,
-        messages: [],
         threadId: 'thread_123'
       })
 
@@ -103,7 +98,6 @@ describe('<Availability/>', () => {
         setInstigatorId: jest.fn(),
         setLiveRegionText: jest.fn(),
         availability: 'AVAILABLE',
-        messages: [],
         threadId: 'thread_123'
       })
 
@@ -123,7 +117,6 @@ describe('<Availability/>', () => {
         setInstigatorId: jest.fn(),
         setLiveRegionText: jest.fn(),
         availability: 'AVAILABLE',
-        messages: [],
         threadId: 'thread_123'
       })
 
@@ -146,7 +139,6 @@ describe('<Availability/>', () => {
         setInstigatorId: jest.fn(),
         setLiveRegionText: jest.fn(),
         availability: 'AVAILABLE',
-        messages: [],
         threadId: 'thread_123',
         instigatorId: null
       })
@@ -170,7 +162,6 @@ describe('<Availability/>', () => {
         setLiveRegionText: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
-        messages: [{}],
         threadId: 'thread_123'
       })
 
@@ -191,7 +182,6 @@ describe('<Availability/>', () => {
         setLiveRegionText: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
-        messages: [{}],
         threadId: 'thread_123'
       })
 
@@ -212,7 +202,6 @@ describe('<Availability/>', () => {
         setLiveRegionText: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
-        messages: [{}],
         unseenCount: 1,
         threadId: 'thread_123'
       })
@@ -228,7 +217,6 @@ describe('<Availability/>', () => {
         setLiveRegionText: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
-        messages: [{}, {}],
         unseenCount: 2,
         threadId: 'thread_123'
       })
@@ -244,7 +232,6 @@ describe('<Availability/>', () => {
         setLiveRegionText: jest.fn(),
         isChatOpen: false,
         availability: 'AVAILABLE',
-        messages: [{}],
         unseenCount: 0,
         threadId: 'thread_123'
       })
@@ -260,7 +247,6 @@ describe('<Availability/>', () => {
         setLiveRegionText: jest.fn(),
         isChatOpen: true,
         availability: 'AVAILABLE',
-        messages: [{}],
         unseenCount: 0
       })
 

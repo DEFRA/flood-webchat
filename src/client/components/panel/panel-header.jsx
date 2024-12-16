@@ -1,5 +1,5 @@
 import React from 'react'
-import { useApp } from '../../store/useApp.js'
+import { useApp } from '../../store/app/useApp.js'
 import { historyReplaceState } from '../../lib/history.js'
 
 export function PanelHeader () {

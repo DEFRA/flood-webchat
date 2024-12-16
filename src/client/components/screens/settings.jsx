@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { PanelHeader } from '../panel/panel-header.jsx'
 
-import { useApp } from '../../store/useApp.js'
+import { useApp } from '../../store/app/useApp.js'
 
 export function Settings ({ onCancel }) {
   const { settings, setSettings } = useApp()

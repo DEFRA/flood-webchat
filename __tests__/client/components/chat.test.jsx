@@ -4,14 +4,14 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { Chat } from '../../../src/client/components/chat/chat'
-import { useApp } from '../../../src/client/store/useApp'
-import { useChatSdk } from '../../../src/client/store/useChatSdk'
+import { useApp } from '../../../src/client/store/app/useApp'
+import { useSdk } from '../../../src/client/store/sdk/useSdk'
 
 import { agentStatusHeadline } from '../../../src/client/lib/agent-status-headline.js'
 
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({}))
-jest.mock('../../../src/client/store/useApp')
-jest.mock('../../../src/client/store/useChatSdk')
+jest.mock('../../../src/client/store/app/useApp')
+jest.mock('../../../src/client/store/sdk/useSdk')
 
 jest.mock('../../../src/client/lib/agent-status-headline.js', () => ({
   agentStatusHeadline: jest.fn()
@@ -19,7 +19,7 @@ jest.mock('../../../src/client/lib/agent-status-headline.js', () => ({
 
 const mocks = {
   useApp: jest.mocked(useApp),
-  useChatSdk: jest.mocked(useChatSdk)
+  useSdk: jest.mocked(useSdk)
 }
 
 describe('<Chat />', () => {
@@ -31,8 +31,11 @@ describe('<Chat />', () => {
     it('should show connecting tagline when no agent status is set but the chat is available', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        messages: [],
         settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       agentStatusHeadline.mockReturnValue('Connecting to Floodline')
@@ -45,9 +48,12 @@ describe('<Chat />', () => {
     it('should show no advisors tagline when no agent is available but the chat is available', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        messages: [],
-        agentStatus: 'pending',
         settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: [],
+        agentStatus: 'pending'
       })
 
       agentStatusHeadline.mockReturnValue('Waiting for an adviser')
@@ -60,9 +66,12 @@ describe('<Chat />', () => {
     it('should show unavilable tagline', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        messages: [],
         availability: 'UNAVAILABLE',
         settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       agentStatusHeadline.mockReturnValue('Webchat is not currently available')
@@ -75,10 +84,13 @@ describe('<Chat />', () => {
     it('should show the agent you are speaking with', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
+        settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
         messages: [],
         agentStatus: 'pending',
-        agent: { firstName: 'test' },
-        settings: { audio: true, scroll: true }
+        agent: { firstName: 'test' }
       })
 
       agentStatusHeadline.mockReturnValue('You are speaking with test')
@@ -91,10 +103,13 @@ describe('<Chat />', () => {
     it('should show the agent who closed the chat', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
+        settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
         messages: [],
         agent: { firstName: 'test' },
-        agentStatus: 'closed',
-        settings: { audio: true, scroll: true }
+        agentStatus: 'closed'
       })
 
       agentStatusHeadline.mockReturnValue('test ended the session')
@@ -107,9 +122,12 @@ describe('<Chat />', () => {
     it('should show the chat as closed when there is no agent data available', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        messages: [],
-        agentStatus: 'closed',
         settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: [],
+        agentStatus: 'closed'
       })
 
       agentStatusHeadline.mockReturnValue('Session ended by advisor')
@@ -122,10 +140,13 @@ describe('<Chat />', () => {
     it('should show the agent who resolved the chat', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
+        settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
         messages: [],
         agent: { firstName: 'test' },
-        agentStatus: 'resolved',
-        settings: { audio: true, scroll: true }
+        agentStatus: 'resolved'
       })
 
       agentStatusHeadline.mockReturnValue('test ended the session')
@@ -138,9 +159,12 @@ describe('<Chat />', () => {
     it('should show the chat as resolved when there is no agent data available', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        messages: [],
-        agentStatus: 'resolved',
         settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: [],
+        agentStatus: 'resolved'
       })
 
       agentStatusHeadline.mockReturnValue('Session ended by advisor')
@@ -155,8 +179,11 @@ describe('<Chat />', () => {
     it('should show the "Settings" and "Save chat" chat links', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        messages: [],
         settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       render(<Chat />)
@@ -168,9 +195,12 @@ describe('<Chat />', () => {
     it('should show the chat input', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        messages: [],
-        agentStatus: 'closed',
         settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: [],
+        agentStatus: 'closed'
       })
 
       const { container } = render(<Chat />)
@@ -183,8 +213,11 @@ describe('<Chat />', () => {
     it('should remove the label when the user starts typing', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        messages: [],
         settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       const { container } = render(<Chat />)
@@ -203,10 +236,13 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           sendTextMessage: jest.fn()
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       const { container } = render(<Chat />)
@@ -224,11 +260,14 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
-        agentStatus: 'closed',
         thread: {
           sendTextMessage: jest.fn()
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: [],
+        agentStatus: 'closed'
       })
 
       const { container } = render(<Chat />)
@@ -246,12 +285,15 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           sendTextMessage: jest.fn(() => {
             throw new Error('Simulated error')
           })
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       console.log = jest.fn()
@@ -278,10 +320,13 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           sendTextMessage: jest.fn()
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       const { container } = render(<Chat />)
@@ -301,10 +346,13 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           sendTextMessage: mockSendTextMessage
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       const { container } = render(<Chat />)
@@ -324,10 +372,13 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           keystroke: mockKeystroke
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       const { container } = render(<Chat />)
@@ -346,10 +397,13 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           sendTextMessage: mockSendTextMessage
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       const mockOnSettingsScreen = jest.fn()
@@ -369,10 +423,13 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           sendTextMessage: mockSendTextMessage
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       const mockOnEndChatScreen = jest.fn()
@@ -394,10 +451,13 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           sendTextMessage: mockSendTextMessage
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       const mockOnSettingsScreen = jest.fn()
@@ -417,10 +477,13 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           sendTextMessage: mockSendTextMessage
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       const mockOnEndChatScreen = jest.fn()
@@ -440,10 +503,13 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           sendTextMessage: mockSendTextMessage
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       const mockOnEndChatScreen = jest.fn()
@@ -463,10 +529,13 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           sendTextMessage: mockSendTextMessage
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       const { container } = render(<Chat />)
@@ -487,11 +556,14 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           sendTextMessage: mockSendTextMessage,
           keystroke: mockKeystroke
         }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: []
       })
 
       const { container } = render(<Chat />)
@@ -511,14 +583,17 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: mockSetLiveRegion,
         availability: 'AVAILABLE',
+        settings: { audio: true, scroll: true },
+        thread: {
+          sendTextMessage: jest.fn()
+        }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: [],
         agentStatus: 'new',
         agent: {
           firstName: 'jest'
-        },
-        settings: { audio: true, scroll: true },
-        messages: [],
-        thread: {
-          sendTextMessage: jest.fn()
         }
       })
 
@@ -533,16 +608,19 @@ describe('<Chat />', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: mockSetLiveRegion,
         availability: 'AVAILABLE',
-        agentStatus: 'new',
-        isAgentTyping: true,
         isChatOpen: true,
-        agent: {
-          firstName: 'jest'
-        },
         settings: { audio: true, scroll: true },
-        messages: [],
         thread: {
           sendTextMessage: jest.fn()
+        }
+      })
+
+      mocks.useSdk.mockReturnValue({
+        messages: [],
+        agentStatus: 'new',
+        isAgentTyping: true,
+        agent: {
+          firstName: 'jest'
         }
       })
 
@@ -556,7 +634,10 @@ describe('<Chat />', () => {
     it('should show message from the user', async () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        settings: { audio: true, scroll: true },
+        settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
         messages: [{
           id: '1234',
           text: 'test message from user',
@@ -576,10 +657,13 @@ describe('<Chat />', () => {
     it('should show agent typing', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
+        settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
         messages: [],
         agent: { firstName: 'test' },
-        isAgentTyping: true,
-        settings: { audio: true, scroll: true }
+        isAgentTyping: true
       })
 
       render(<Chat />)
@@ -590,7 +674,10 @@ describe('<Chat />', () => {
     it('should show message from the agent', async () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        settings: { audio: true, scroll: true },
+        settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
         messages: [{
           id: '1234',
           text: 'test message from agent',
@@ -610,7 +697,10 @@ describe('<Chat />', () => {
     it('should only show who the message is from once, when multiple messages from the same person is sent', async () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        settings: { audio: true, scroll: true },
+        settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
         messages: [
           {
             id: '1234',
@@ -641,7 +731,10 @@ describe('<Chat />', () => {
     it('should save the chat', () => {
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
-        settings: { audio: true, scroll: true },
+        settings: { audio: true, scroll: true }
+      })
+
+      mocks.useSdk.mockReturnValue({
         messages: [
           { id: '123', text: 'test message from client', direction: 'inbound', user: 'test-user', createdAt: new Date('Wed Dec 01 2023 13:00:00 GMT+0000 (Greenwich Mean Time)') },
           { id: '456', text: 'test message from agent', direction: 'outbound', assignee: 'test-agent', createdAt: new Date('Wed Dec 01 2023 13:01:00 GMT+0000 (Greenwich Mean Time)') }

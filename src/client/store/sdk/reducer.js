@@ -1,20 +1,10 @@
 import { actionsMap } from './actions-map'
 
 export const initialState = {
-  availability: null,
-  customerId: null,
-  threadId: null,
-  thread: null,
   messages: [],
-  unseenCount: 0,
-  instigatorId: null,
   agent: null,
   agentStatus: null,
-  isAgentTyping: false,
-  isChatOpen: false,
-  isMobile: window.matchMedia('(max-width: 640px)').matches,
-  isKeyboard: false,
-  settings: { audio: true, scroll: true }
+  isAgentTyping: false
 }
 
 export const reducer = (state, action) => {

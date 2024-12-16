@@ -1,6 +1,6 @@
 import React from 'react'
 import { createPortal } from 'react-dom'
-import { useApp } from '../store/useApp'
+import { useApp } from '../store/app/useApp'
 
 export const SkipLink = () => {
   const { threadId, setInstigatorId } = useApp()

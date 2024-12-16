@@ -5,8 +5,6 @@ import { act } from '@testing-library/react'
 import { checkAvailability } from '../../src/client/lib/check-availability'
 import { Availability } from '../../src/client/components/availability/availability'
 
-import { useApp } from '../../src/client/store/useApp'
-
 jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
   ChatSdk: function () {
     this.onChatEvent = jest.fn()
@@ -25,12 +23,10 @@ jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
 
 jest.mock('../../src/client/lib/check-availability')
 jest.mock('../../src/client/components/availability/availability')
-jest.mock('../../src/client/store/useApp')
 
 const mocks = {
   checkAvailability: jest.mocked(checkAvailability),
   Availability: jest.mocked(Availability),
-  useApp: jest.mocked(useApp),
   fetch: jest.fn(() =>
     Promise.resolve({
       arrayBuffer: () => Promise.resolve({})
@@ -60,7 +56,7 @@ describe('init()', () => {
   })
 
   it('should render an <Avalability/> component using the target element as a root using the result of checkAvailability()', async () => {
-    mocks.checkAvailability.mockResolvedValue({
+    mocks.checkAvailability.mockReturnValue({
       availability: 'AVAILABLE',
       brandId: '1234',
       channelId: 'chat_1234',
@@ -68,10 +64,6 @@ describe('init()', () => {
       audioUrl: '/audio.mp3'
     })
 
-    mocks.useApp.mockReturnValue({
-      availability: 'UNAVAILABLE'
-    })
-
     mocks.Availability.mockImplementation(() => <span>Availability</span>)
 
     const targetElement = document.createElement('div')
@@ -81,20 +73,16 @@ describe('init()', () => {
     })
 
     expect(targetElement.firstChild.textContent).toEqual('Availability')
-    expect(mocks.checkAvailability).toBeCalledTimes(1)
-    expect(mocks.checkAvailability).toBeCalledWith('/some/endpoint')
-    expect(mocks.Availability).toBeCalledTimes(1)
-    expect(mocks.useApp().availability).toEqual('UNAVAILABLE')
+    expect(mocks.checkAvailability).toHaveBeenCalledTimes(1)
+    expect(mocks.checkAvailability).toHaveBeenCalledWith('/some/endpoint')
+    expect(mocks.Availability).toHaveBeenCalledTimes(1)
+    expect(mocks.checkAvailability().availability).toEqual('AVAILABLE')
   })
 
   it('should render an <Avalability/> component with an availability of "UNAVAILABLE" if checkAvailability() errors', async () => {
-    mocks.checkAvailability.mockRejectedValue(new Error('some error'))
+    mocks.checkAvailability.mockReturnValue(new Error('some error'))
 
     mocks.Availability.mockImplementation(() => <span>Availability</span>)
-
-    mocks.useApp.mockReturnValue({
-      availability: 'UNAVAILABLE'
-    })
 
     const targetElement = document.createElement('div')
 
@@ -103,9 +91,8 @@ describe('init()', () => {
     })
 
     expect(targetElement.firstChild.textContent).toEqual('Availability')
-    expect(mocks.checkAvailability).toBeCalledTimes(1)
-    expect(mocks.checkAvailability).toBeCalledWith('/some/endpoint')
-    expect(mocks.Availability).toBeCalledTimes(1)
-    expect(mocks.useApp().availability).toEqual('UNAVAILABLE')
+    expect(mocks.checkAvailability).toHaveBeenCalledTimes(1)
+    expect(mocks.checkAvailability).toHaveBeenCalledWith('/some/endpoint')
+    expect(mocks.Availability).toHaveBeenCalledTimes(1)
   })
 })

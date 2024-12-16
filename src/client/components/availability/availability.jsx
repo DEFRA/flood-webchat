@@ -1,10 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 
+import { useApp } from '../../store/app/useApp'
 import { classnames } from '../../lib/classnames'
-import { Panel } from '../panel/panel.jsx'
-import { SkipLink } from '../skip-link.jsx'
-
-import { useApp } from '../../store/useApp'
 import { historyPushState, historyReplaceState } from '../../lib/history.js'
 import { LiveRegion } from '../live-region.jsx'
 
@@ -82,6 +79,11 @@ export function Availability () {
   }, [threadId, isChatOpen, availability])
 
   switch (availability) {
+    case 'EXISTING':
+    case 'UNAVAILABLE':
+      return (
+        <p className='govuk-body'>When it is available, a 'start chat' link will appear.</p>
+      )
     case 'AVAILABLE':
       return (
         <>
@@ -113,14 +115,8 @@ export function Availability () {
               </a>
             </div>
           </div>
-          {!isChatOpen ? <LiveRegion /> : <Panel />}
-          <SkipLink />
+          {!isChatOpen && <LiveRegion />}
         </>
-      )
-    case 'EXISTING':
-    case 'UNAVAILABLE':
-      return (
-        <p className='govuk-body'>When it is available, a 'start chat' link will appear.</p>
       )
     default:
       return (

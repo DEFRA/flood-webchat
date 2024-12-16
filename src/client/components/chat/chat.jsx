@@ -6,15 +6,19 @@ import { PanelHeader } from '../panel/panel-header.jsx'
 import { PanelFooter } from '../panel/panel-footer.jsx'
 import { Message } from '../message/message.jsx'
 
-import { useApp } from '../../store/useApp.js'
+import { useApp } from '../../store/app/useApp.js'
+import { useSdk } from '../../store/sdk/useSdk.js'
 import { useTextareaAutosize } from '../../hooks/useTextareaAutosize.js'
 import { formatTranscript } from '../../lib/transform-messages.js'
 import { agentStatusHeadline } from '../../lib/agent-status-headline.js'
 
 export function Chat ({ onEndChatScreen, onSettingsScreen }) {
-  const { availability, thread, messages, agent, agentStatus, isAgentTyping, isChatOpen, settings, isKeyboard, setLiveRegionText } = useApp()
+  const { availability, thread, isChatOpen, settings, isKeyboard, setLiveRegionText } = useApp()
+  const { messages, agent, agentStatus, isAgentTyping } = useSdk()
 
   const [userMessage, setUserMessage] = useState('')
+  const [agentName, setAgentName] = useState()
+  const [connectionHeadlineText, setConnectionHeadlineText] = useState()
   const [focusVisibleWithin, setFocusVisibleWithin] = useState(false)
 
   const messageRef = useRef()
@@ -42,19 +46,20 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
     setUserMessage(e.target?.value)
   }
 
-  const agentName = agent?.nickname || agent?.firstName
-
-  const connectionHeadlineText = agentStatusHeadline(availability, agentStatus, agentName)
+  useEffect(() => {
+    setAgentName(agent?.nickname || agent?.firstName)
+    setConnectionHeadlineText(agentStatusHeadline(availability, agentStatus, agentName))
+  }, [agent, agentName, agentStatus])
 
   useEffect(() => {
-    if (connectionHeadlineText) {
+    if (connectionHeadlineText && isChatOpen) {
       setLiveRegionText(`Floodline webchat - ${connectionHeadlineText}`)
     }
 
     return () => {
       setLiveRegionText()
     }
-  }, [connectionHeadlineText])
+  }, [connectionHeadlineText, isChatOpen])
 
   useEffect(() => {
     if (isAgentTyping && isChatOpen) {
@@ -69,14 +74,14 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
   useEffect(() => {
     const lastAgentMessage = messages[messages.length - 1]
 
-    if (agentStatus !== 'closed' && lastAgentMessage?.direction === 'outbound') {
+    if (agentStatus !== 'closed' && lastAgentMessage?.direction === 'outbound' && isChatOpen) {
       setLiveRegionText(`${agentName} said: ${lastAgentMessage.text}`)
     }
 
     return () => {
       setLiveRegionText()
     }
-  }, [messages])
+  }, [messages, isChatOpen])
 
   const sendMessage = () => {
     if (messageRef.current.value.length === 0 || agentStatus === 'closed') {

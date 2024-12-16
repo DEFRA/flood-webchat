@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import debounce from 'lodash.debounce'
-import { useApp } from '../store/useApp'
+import { useApp } from '../store/app/useApp'
+import { useSdk } from '../store/sdk/useSdk'
 
 const DEBOUNCE_MILLISECONDS = 2000
 
 export const LiveRegion = () => {
-  const { agentStatus, liveRegionText, setLiveRegionText } = useApp()
+  const { liveRegionText, setLiveRegionText } = useApp()
+  const { agentStatus } = useSdk()
 
   const [textA, setTextA] = useState()
   const [textB, setTextB] = useState()

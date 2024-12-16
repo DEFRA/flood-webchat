@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react'
 import { PanelHeader } from '../panel/panel-header.jsx'
-import { useApp } from '../../store/useApp.js'
+import { useApp } from '../../store/app/useApp.js'
+import { useSdk } from '../../store/sdk/useSdk.js'
 
 export function EndChat ({ onChatScreen, onEndChatConfirm }) {
-  const { setCustomerId, setThreadId, setMessages, agentStatus, thread, threadId, setUnseenCount, isKeyboard } = useApp()
+  const { thread, setSdk, setCustomerId, setThreadId, threadId, setUnseenCount, isKeyboard } = useApp()
+  const { agentStatus, setMessages } = useSdk()
 
   const confirmEndChat = async e => {
     e.preventDefault()
 
     window.localStorage.setItem('tmpThreadId', threadId)
+    thread?.lastMessageSeen()
+    setSdk()
     setThreadId()
     setMessages([])
     setCustomerId()
-    thread.lastMessageSeen()
     setUnseenCount(0)
 
     // End chat if still open

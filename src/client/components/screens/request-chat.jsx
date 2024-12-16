@@ -3,15 +3,14 @@ import * as uuid from 'uuid'
 
 import { classnames } from '../../lib/classnames.js'
 import { PanelHeader } from '../panel/panel-header.jsx'
-import { useApp } from '../../store/useApp.js'
-import { useChatSdk } from '../../store/useChatSdk.js'
+import { useApp } from '../../store/app/useApp.js'
 import { ErrorSummary } from '../errorSummary/error-summary.jsx'
 
 const QUESTION_MAX_LENGTH = 500
 
-export function RequestChat ({ onPreChatScreen }) {
-  const { sdk, setCustomerId, setThreadId, setThread, setLiveRegionText } = useApp()
-  const { fetchCustomerId, fetchThread } = useChatSdk(sdk)
+export function RequestChat ({ initSdk, onPreChatScreen }) {
+  const { setSdk, setCustomerId, setThreadId, setThread, setLiveRegionText } = useApp()
+
   const [errors, setErrors] = useState({})
   const [questionLength, setQuestionLength] = useState(0)
   const [isButtonDisabled, setButtonDisabled] = useState(false)
@@ -72,17 +71,22 @@ export function RequestChat ({ onPreChatScreen }) {
       try {
         setButtonDisabled(true)
         const threadId = uuid.v4()
-        const customerId = await fetchCustomerId()
-        const thread = await fetchThread(threadId)
 
-        sdk.getCustomer().setName(nameRef.current.value)
+        const sdk = initSdk()
+        const conn = await sdk.authorize()
+        const customerId = conn?.consumerIdentity.idOnExternalPlatform
+
+        const thread = await sdk.getThread(threadId)
+        thread.setCustomField('threadid', threadId)
+
+        await sdk.getCustomer().setName(nameRef.current.value)
 
         await thread.startChat(questionRef.current.value || 'Begin conversation')
 
+        setSdk(sdk)
         setCustomerId(customerId)
         setThreadId(threadId)
         setThread(thread)
-        thread.setCustomField('threadid', threadId)
       } catch (err) {
         console.log('[Request chat Error]', err)
       }
