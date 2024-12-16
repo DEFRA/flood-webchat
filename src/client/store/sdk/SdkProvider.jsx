@@ -62,8 +62,8 @@ export const SdkProvider = ({ sdk, playSound, onRecoverError, children }) => {
     }
   }, [sdk])
 
-  const fetchMessages = async thread => {
-    const recovered = await thread.recover()
+  const fetchMessages = async threadItem => {
+    const recovered = await threadItem.recover()
 
     const allMessages = []
 
@@ -73,7 +73,7 @@ export const SdkProvider = ({ sdk, playSound, onRecoverError, children }) => {
       fetchedMessages.map(msg => allMessages.push(msg))
 
       try {
-        const response = await thread.loadMoreMessages()
+        const response = await threadItem.loadMoreMessages()
         fetchedMessages = response.data.messages
       } catch (err) {
         fetchedMessages = []
