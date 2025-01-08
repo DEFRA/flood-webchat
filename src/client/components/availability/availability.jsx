@@ -5,14 +5,18 @@ import { classnames } from '../../lib/classnames'
 import { historyPushState, historyReplaceState } from '../../lib/history.js'
 import { LiveRegion } from '../live-region.jsx'
 
+const { stripPageTitle } = require('../../../server/lib/utils')
+
 export function Availability () {
   const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId, setLiveRegionText } = useApp()
 
   const buttonRef = useRef()
 
+  const messageText = unseenCount > 1 ? 'new messages' : 'new message'
+
   const showUnseenCount = unseenCount > 0 && !isChatOpen
 
-  const messageText = unseenCount > 1 ? 'new messages' : 'new message'
+  const originalTitle = stripPageTitle(document.title)
 
   const onClick = e => {
     e.preventDefault()
@@ -39,6 +43,12 @@ export function Availability () {
       setChatVisibility(!isChatOpen)
     }
   }
+
+  useEffect(() => {
+    if (showUnseenCount) {
+      document.title = `(${unseenCount} ${messageText}) - ${originalTitle}`
+    }
+  }, [unseenCount])
 
   useEffect(() => {
     if (showUnseenCount) {
