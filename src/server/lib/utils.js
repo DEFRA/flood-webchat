@@ -18,6 +18,12 @@ const isWithinHours = (days, date) => {
   return now.diff(todaysDateTimeOpen).milliseconds >= 0 && now.diff(todaysDateTimeClose).milliseconds <= 0
 }
 
+const stripPageTitle = title => {
+  const prefixPattern = /^\(\d+ new messages?\) - /
+  return title.replace(prefixPattern, '')
+}
+
 module.exports = {
-  isWithinHours
+  isWithinHours,
+  stripPageTitle
 }

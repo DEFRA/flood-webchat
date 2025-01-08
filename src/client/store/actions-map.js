@@ -1,5 +1,5 @@
 import { transformMessages, transformMessage } from '../lib/transform-messages'
-import { CUSTOMER_ID_STORAGE_KEY, THREAD_ID_STORAGE_KEY, SETTINGS_STORAGE_KEY } from './constants'
+import { CUSTOMER_ID_STORAGE_KEY, THREAD_ID_STORAGE_KEY, SETTINGS_STORAGE_KEY, MESSAGES_UNSEEN_COUNT } from './constants'
 
 const setSettings = (state, payload) => {
   if (payload) {
@@ -98,6 +98,7 @@ const setAgentStatus = (state, payload) => {
 }
 
 const setUnseenCount = (state, payload) => {
+  window.localStorage.setItem(MESSAGES_UNSEEN_COUNT, payload)
   return {
     ...state,
     unseenCount: payload

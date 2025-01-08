@@ -268,5 +268,22 @@ describe('<Availability/>', () => {
 
       expect(container.querySelector('.wc-open-btn__unseen')).toBeNull()
     })
+
+    it('displays number of unread messages in the document title when there are unread messages', async () => {
+      mocks.useApp.mockReturnValue({
+        setChatVisibility: jest.fn(),
+        setLiveRegionText: jest.fn(),
+        isChatOpen: false,
+        availability: 'AVAILABLE',
+        messages: [{}, {}],
+        unseenCount: 1,
+        threadId: 'thread_123'
+      })
+      const originalTitle = document.title
+      document.title = 'Flood Webchat Demo Page - GOV.UK'
+      render(<Availability />)
+      expect(document.title).toEqual('(1 new message) - Flood Webchat Demo Page - GOV.UK')
+      document.title = originalTitle
+    })
   })
 })
