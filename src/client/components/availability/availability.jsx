@@ -8,7 +8,7 @@ import { LiveRegion } from '../live-region.jsx'
 const { stripPageTitle } = require('../../../server/lib/utils')
 
 export function Availability () {
-  const { availability, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId, setLiveRegionText } = useApp()
+  const { availability, thread, isChatOpen, setChatVisibility, unseenCount, threadId, setUnseenCount, setInstigatorId, setLiveRegionText } = useApp()
 
   const buttonRef = useRef()
 
@@ -20,6 +20,8 @@ export function Availability () {
 
   const onClick = e => {
     e.preventDefault()
+    thread?.lastMessageSeen()
+
     setUnseenCount(0)
     setChatVisibility(!isChatOpen)
     setInstigatorId(e.target.id)
@@ -39,6 +41,8 @@ export function Availability () {
 
   const onKeyUp = event => {
     if (event.key === ' ') {
+      thread?.lastMessageSeen()
+
       setUnseenCount(0)
       setChatVisibility(!isChatOpen)
     }
