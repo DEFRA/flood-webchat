@@ -152,17 +152,18 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
 
       <div className='wc-status'>
         <p className='wc-status__availability'>{connectionHeadlineText}</p>
-        <a
-          id='end-chat'
-          className='wc-status__link'
-          href='#'
-          data-module='govuk-button'
-          role='button'
-          onClick={onEndChatScreen}
-          onKeyDown={handleKeyPress}
-        >
-          End chat
-        </a>
+        {thread &&
+          <a
+            id='end-chat'
+            className='wc-status__link'
+            href='#'
+            data-module='govuk-button'
+            role='button'
+            onClick={onEndChatScreen}
+            onKeyDown={handleKeyPress}
+          >
+            End chat
+          </a>}
       </div>
 
       <div className='wc-body' tabIndex='0'>
