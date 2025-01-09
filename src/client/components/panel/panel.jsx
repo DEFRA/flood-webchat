@@ -79,7 +79,7 @@ export function Panel ({ initSdk, playSound }) {
 
       setScreen(2)
     }
-  }, [isChatOpen, thread, threadId])
+  }, [thread, threadId])
 
   const handleScreenChange = newScreen => e => {
     e.preventDefault()

@@ -20,7 +20,7 @@ export function EndChat ({ onChatScreen, onEndChatConfirm }) {
 
     // End chat if still open
     if (agentStatus !== 'closed') {
-      thread.endChat()
+      thread?.endChat()
     }
 
     onEndChatConfirm(e)
