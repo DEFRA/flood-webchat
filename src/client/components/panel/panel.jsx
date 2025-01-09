@@ -72,7 +72,7 @@ export function Panel ({ initSdk, playSound }) {
    * Initialize SDK if theres a thread ID
    */
   useEffect(() => {
-    if (isChatOpen && threadId) {
+    if (threadId) {
       if (!thread) {
         setSdk(initSdk())
       }
