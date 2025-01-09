@@ -1,7 +1,7 @@
 import '../methods.mock'
 import React from 'react'
 import userEvent from '@testing-library/user-event'
-import { screen, render } from '@testing-library/react'
+import { screen, render, fireEvent } from '@testing-library/react'
 import { Availability } from '../../../src/client/components/availability/availability'
 import { useApp } from '../../../src/client/store/app/useApp'
 
@@ -253,6 +253,31 @@ describe('<Availability/>', () => {
       const { container } = render(<Availability />)
 
       expect(container.querySelector('.wc-open-btn__unseen')).toBeNull()
+    })
+
+    it('should call thread.lastMessageSeen() when "Show Chat" is clicked', async () => {
+      mocks.useApp.mockReturnValue({
+        setInstigatorId: jest.fn(),
+        setUnseenCount: jest.fn(),
+        setChatVisibility: jest.fn(),
+        setLiveRegionText: jest.fn(),
+        isChatOpen: false,
+        availability: 'AVAILABLE',
+        unseenCount: 2,
+        threadId: 'thread_123',
+        thread: {
+          lastMessageSeen: jest.fn()
+        }
+      })
+
+      const { container } = render(<Availability />)
+
+      expect(container.querySelector('.wc-availability__unseen').textContent).toEqual('2 new messages')
+
+      fireEvent.click(container.querySelector('#webchat-start-chat-link'))
+
+      expect(mocks.useApp().thread.lastMessageSeen).toHaveBeenCalled()
+      expect(mocks.useApp().setUnseenCount).toHaveBeenCalled()
     })
 
     it('displays number of unread messages in the document title when there are unread messages', async () => {
