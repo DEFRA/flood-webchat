@@ -367,13 +367,16 @@ describe('<Chat />', () => {
     })
 
     it('should alert agent when user is typing in text area', async () => {
+      jest.useFakeTimers()
       const mockKeystroke = jest.fn()
+      const mockStopTyping = jest.fn()
 
       mocks.useApp.mockReturnValue({
         setLiveRegionText: jest.fn(),
         settings: { audio: true, scroll: true },
         thread: {
-          keystroke: mockKeystroke
+          keystroke: mockKeystroke,
+          stopTyping: mockStopTyping
         }
       })
 
@@ -388,7 +391,11 @@ describe('<Chat />', () => {
       fireEvent.focus(textarea)
       fireEvent.keyDown(textarea, { key: 't', code: 'KeyT', keyCode: 84 })
 
+      jest.runAllTimers()
+
       expect(mockKeystroke).toHaveBeenCalled()
+
+      jest.useRealTimers()
     })
 
     it('should open settings when Enter key is hit on Settings button', async () => {
