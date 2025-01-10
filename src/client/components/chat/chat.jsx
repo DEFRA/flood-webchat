@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 
 import { TYPING_INDICATOR_DURATION } from '../../store/constants.js'
-
+import debounce from 'lodash.debounce'
 import { PanelHeader } from '../panel/panel-header.jsx'
 import { PanelFooter } from '../panel/panel-footer.jsx'
 import { Message } from '../message/message.jsx'
@@ -107,6 +107,13 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
     saveChatLink.setAttribute('href', `data:text/plain;charset=utf-8,${transcript}`)
   }
 
+  const debouncedKeystroke = useCallback(debounce(() => {
+    thread.keystroke()
+    setTimeout(() => {
+      thread.stopTyping()
+    }, TYPING_INDICATOR_DURATION)
+  }, 100), [thread])
+
   const handleKeyPress = e => {
     if (e.key === 'Enter' && !e.shiftKey) {
       switch (e.target.id) {
@@ -134,10 +141,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
         onSettingsScreen(e)
       }
     } else {
-      thread.keystroke()
-      setTimeout(() => {
-        thread.stopTyping()
-      }, TYPING_INDICATOR_DURATION)
+      debouncedKeystroke()
     }
   }
 
