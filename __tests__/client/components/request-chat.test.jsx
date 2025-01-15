@@ -24,7 +24,6 @@ describe('<RequestChat />', () => {
       setSdk: jest.fn(),
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
-      setThread: jest.fn(),
       setLiveRegionText: jest.fn()
     })
 
@@ -40,7 +39,6 @@ describe('<RequestChat />', () => {
       setSdk: jest.fn(),
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
-      setThread: jest.fn(),
       setLiveRegionText: jest.fn()
     })
 
@@ -56,7 +54,6 @@ describe('<RequestChat />', () => {
       setSdk: jest.fn(),
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
-      setThread: jest.fn(),
       setLiveRegionText: jest.fn()
     })
 
@@ -80,7 +77,6 @@ describe('<RequestChat />', () => {
       setSdk: jest.fn(),
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
-      setThread: jest.fn(),
       setLiveRegionText: jest.fn()
     })
 
@@ -103,7 +99,6 @@ describe('<RequestChat />', () => {
       setSdk: jest.fn(),
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
-      setThread: jest.fn(),
       setLiveRegionText: jest.fn()
     })
 
@@ -126,7 +121,6 @@ describe('<RequestChat />', () => {
       setSdk: jest.fn(),
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
-      setThread: jest.fn(),
       setLiveRegionText: jest.fn()
     })
 
@@ -159,7 +153,6 @@ describe('<RequestChat />', () => {
       setSdk: jest.fn(),
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
-      setThread: jest.fn(),
       setLiveRegionText: jest.fn()
     })
 
@@ -182,7 +175,6 @@ describe('<RequestChat />', () => {
     expect(mocks.useApp().setSdk).toHaveBeenCalled()
     expect(mocks.useApp().setCustomerId).toHaveBeenCalled()
     expect(mocks.useApp().setThreadId).toHaveBeenCalled()
-    expect(mocks.useApp().setThread).toHaveBeenCalled()
   })
 
   it('should make button unclickable after single click and show requesting on click', async () => {
@@ -201,7 +193,6 @@ describe('<RequestChat />', () => {
       setSdk: jest.fn(),
       setCustomerId: jest.fn(),
       setThreadId: jest.fn(),
-      setThread: jest.fn(),
       setLiveRegionText: jest.fn()
     })
 

@@ -9,7 +9,7 @@ import { ErrorSummary } from '../errorSummary/error-summary.jsx'
 const QUESTION_MAX_LENGTH = 500
 
 export function RequestChat ({ initSdk, onPreChatScreen }) {
-  const { setSdk, setCustomerId, setThreadId, setThread, setLiveRegionText } = useApp()
+  const { setSdk, setCustomerId, setThreadId, setLiveRegionText } = useApp()
 
   const [errors, setErrors] = useState({})
   const [questionLength, setQuestionLength] = useState(0)
@@ -86,7 +86,6 @@ export function RequestChat ({ initSdk, onPreChatScreen }) {
         setSdk(sdk)
         setCustomerId(customerId)
         setThreadId(threadId)
-        setThread(thread)
       } catch (err) {
         console.log('[Request chat Error]', err)
       }

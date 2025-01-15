@@ -23,7 +23,7 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
 
   const messageRef = useRef()
 
-  useTextareaAutosize(messageRef.current, userMessage)
+  useTextareaAutosize(messageRef.current, userMessage, isChatOpen)
 
   useEffect(() => {
     if (settings.scroll && messages.length !== 0) {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-export const useTextareaAutosize = (textAreaRef, value) => {
+export const useTextareaAutosize = (textAreaRef, value, isChatOpen) => {
   useEffect(() => {
     if (textAreaRef) {
       textAreaRef.style.height = '0px'
@@ -9,5 +9,5 @@ export const useTextareaAutosize = (textAreaRef, value) => {
 
       textAreaRef.style.height = `${scrollHeight}px`
     }
-  }, [textAreaRef, value])
+  }, [textAreaRef, value, isChatOpen])
 }

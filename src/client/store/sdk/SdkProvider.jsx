@@ -105,7 +105,6 @@ export const SdkProvider = ({ sdk, playSound, onRecoverError, children }) => {
     }
 
     if (sdk && threadId && !thread) {
-      console.log('recovering chat...')
       recover()
     }
   }, [sdk, thread, threadId])
