@@ -25,7 +25,7 @@ jobs:
                 sed -i 's/\/home\/runner\/work\/flood-webchat\/flood-webchat\//\/github\/workspace\//g' coverage/lcov.info
 
             - name: sonarcloud
-              uses: sonarsource/sonarcloud-github-action@master
+              uses: sonarsource/sonarqube-scan-action@master
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
