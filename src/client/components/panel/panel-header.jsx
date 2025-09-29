@@ -40,8 +40,8 @@ export function PanelHeader () {
     </button>
   )
 
-  const isMobileAndHasHistory = isMobile && window.history.state
-  const isMobileAndNoHistory = isMobile && !window.history.state
+  const isMobileAndHasHistory = isMobile && globalThis.history.state
+  const isMobileAndNoHistory = isMobile && !globalThis.history.state
 
   let RightButtonComponent = CloseButtonComponent
 
