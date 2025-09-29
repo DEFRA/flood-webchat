@@ -62,7 +62,7 @@ export function PanelHeader () {
   }
 
   return (
-    <div className='wc-header'>
+    <div className='wc-header govuk-header'>
       {isMobileAndHasHistory ? BackButtonComponent : null}
 
       <h2 id='wc-header' className='wc-header__title'>
