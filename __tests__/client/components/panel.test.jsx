@@ -205,7 +205,7 @@ describe('<Panel />', () => {
       fireEvent.keyDown(document, { key: 'Escape' })
 
       expect(mocks.useApp().thread.lastMessageSeen).toHaveBeenCalled()
-      expect(mocks.useApp().setUnseenCount).toBeCalledWith(0)
+      expect(mocks.useApp().setUnseenCount).toHaveBeenCalledWith(0)
       expect(mocks.useApp().setChatVisibility).toHaveBeenCalled()
     })
 

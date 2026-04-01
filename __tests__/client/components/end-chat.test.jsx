@@ -147,7 +147,7 @@ describe('<EndChat />', () => {
 
     fireEvent.click(screen.getByText('No, resume chat'))
 
-    expect(mocks.useApp().thread.endChat).toBeCalledTimes(0)
+    expect(mocks.useApp().thread.endChat).toHaveBeenCalledTimes(0)
   })
 
   it('should focus the confirm end chat button when the screen is navigated to via keyboard', async () => {
@@ -192,7 +192,7 @@ describe('<EndChat />', () => {
 
     fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' })
 
-    expect(mocks.useApp().thread.endChat).toBeCalledTimes(0)
+    expect(mocks.useApp().thread.endChat).toHaveBeenCalledTimes(0)
   })
 
   it('should not end chat if space bar is pressed on resume chat ', () => {
@@ -215,6 +215,6 @@ describe('<EndChat />', () => {
 
     fireEvent.keyDown(button, { key: ' ', code: 'Space' })
 
-    expect(mocks.useApp().thread.endChat).toBeCalledTimes(0)
+    expect(mocks.useApp().thread.endChat).toHaveBeenCalledTimes(0)
   })
 })

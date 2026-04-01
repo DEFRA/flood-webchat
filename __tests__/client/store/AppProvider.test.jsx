@@ -21,10 +21,6 @@ const mockSdk = {
 }
 
 const mocks = {
-  location: {
-    ...window.location,
-    hash: '#webchat'
-  },
   fetch: jest.fn(() =>
     Promise.resolve({
       arrayBuffer: () => Promise.resolve({})
@@ -37,20 +33,18 @@ const mocks = {
 
 describe('<AppProvider />', () => {
   const realFetch = window.fetch
-  const realLocation = window.location
+  const realLocationHref = window.location.href
   const realAudioContext = window.AudioContext
 
   beforeAll(() => {
-    delete window.location
-
-    window.location = mocks.location
+    window.history.pushState({}, '', '#webchat')
     window.fetch = mocks.fetch
     window.AudioContext = mocks.AudioContext
   })
 
   afterAll(() => {
     window.fetch = realFetch
-    window.location = realLocation
+    window.history.pushState({}, '', realLocationHref)
     window.AudioContext = realAudioContext
     jest.clearAllMocks()
   })
