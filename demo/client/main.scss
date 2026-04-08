@@ -2,13 +2,194 @@ $govuk-global-styles: true;
 
 // DL: Tablet/desktop overide to address modern iPads
 $govuk-breakpoints: (
-        mobile:  320px,
-        tablet:  641px,
-        desktop: 835px
-) !default;
+        mobile: 320px,
+        tablet: 641px,
+        desktop: 835px) !default;
 
 // GOV.UK Frontend
 @import "../../node_modules/govuk-frontend/dist/govuk/index";
 
 // Webchat css
 @import '../../main';
+
+.govuk-template--rebranded .govuk-header {
+        background: #1d70b8;
+}
+
+.govuk-template--rebranded .govuk-header {
+        border-bottom: 1px solid transparent;
+}
+
+.govuk-header {
+        color: #fff;
+}
+
+.govuk-header {
+        background: #0b0c0c;
+}
+
+.govuk-header {
+        border-bottom: 10px solid #ffffff;
+}
+
+@media (min-width: 40.0625em) {
+        .govuk-header {
+                font-size: 1rem;
+                line-height: 1;
+        }
+}
+
+.govuk-header {
+        font-weight: 400;
+        font-size: .875rem;
+        line-height: 1;
+}
+
+.govuk-header {
+        font-family: "GDS Transport",
+                arial,
+                sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        border-bottom: 0;
+}
+
+.govuk-template--rebranded .govuk-header__container {
+        margin-bottom: 0;
+        padding-top: 0;
+        border-bottom: none;
+}
+
+.govuk-template--rebranded .govuk-header__logo {
+        margin-bottom: 0;
+        padding-top: 16px;
+        padding-bottom: 12px;
+}
+
+@media (min-width: 52.1875em) {
+        .govuk-header__logo:last-child {
+                width: auto;
+                padding-right: 0;
+                float: none;
+        }
+}
+
+@media (min-width: 52.1875em) {
+        .govuk-header__logo {
+                width: 33.33%;
+                padding-right: 15px;
+                float: left;
+                vertical-align: top;
+        }
+}
+
+.govuk-header__logo {
+        margin-bottom: 10px;
+        padding-right: 80px;
+}
+
+.govuk-header__logo,
+.govuk-header__content {
+        box-sizing: border-box;
+}
+
+.govuk-header__logotype .govuk-logo-dot {
+        fill: #11e0f1;
+}
+
+.govuk-service-navigation__container {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+}
+
+@media (min-width: 40.0625em) {
+        .govuk-service-navigation__container {
+                flex-direction: row;
+                flex-wrap: wrap;
+        }
+}
+
+.govuk-template--rebranded .govuk-service-navigation {
+        background-color: #f4f8fb;
+}
+
+.govuk-template--rebranded .govuk-service-navigation {
+        border-bottom-color: #8eb8dc;
+}
+
+.govuk-service-navigation {
+        background-color: #f3f2f1;
+}
+
+.govuk-service-navigation {
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: #b1b4b6;
+}
+
+.govuk-service-navigation {
+        .govuk-service-navigation__link {
+                color: #0b0c0c;
+                text-decoration: none;
+
+                &:hover {
+                        text-decoration: underline;
+                }
+        }
+}
+
+.govuk-template--rebranded .govuk-header__logo {
+        margin-bottom: 0;
+        padding-top: 16px;
+        padding-bottom: 12px;
+}
+
+.govuk-service-navigation__service-name .govuk-service-navigation__link:hover {
+        color: rgba(11, 12, 12, .99
+        );
+}
+
+.govuk-service-navigation__service-name {
+        font-weight: 700;
+        font-size: 1rem;
+        line-height: 1.25;
+        display: block;
+        padding-top: .625rem;
+        padding-bottom: .625rem;
+}
+
+.govuk-service-navigation__link:hover {
+        text-decoration-thickness: max(3px, .1875rem, .12em);
+        -webkit-text-decoration-skip-ink: none;
+        text-decoration-skip-ink: none;
+        -webkit-text-decoration-skip: none;
+        text-decoration-skip: none;
+}
+
+@media (min-width: 40.0625em) {
+        .govuk-service-navigation__service-name {
+                font-size: 1.1875rem;
+                line-height: 1.3157894737;
+                padding-top: .75rem;
+                padding-bottom: .75rem;
+        }
+
+        .govuk-template--rebranded .govuk-service-navigation__item {
+                line-height: 1.5;
+        }
+}
+
+.govuk-footer__copyright-logo {
+        background-image: url("./assets/images/govuk-crest.svg");
+}
+
+.defra-context-footer {
+        border-top: 2px solid #1d70b8;
+        margin-top: 30px;
+        padding-top: 10px;
+
+        @media (min-width: 641px) {
+                margin-top: 40px;
+        }
+}
