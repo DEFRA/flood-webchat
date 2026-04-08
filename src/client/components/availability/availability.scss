@@ -2,6 +2,7 @@
 #wc-availability {
   margin-bottom: govuk-spacing(4);
 }
+
 // stylelint-enable selector-max-id
 
 .wc-availability__inner {
@@ -18,6 +19,7 @@
   padding-left: 15px;
   padding-right: 15px;
   border: 1px solid transparent;
+
   @media (forced-colors: active) {
     border-color: currentColor;
   }
@@ -45,7 +47,8 @@
     color: govuk-colour('blue');
   }
 
-  .govuk-visually-hidden, .wc-availability__unseen {
+  .govuk-visually-hidden,
+  .wc-availability__unseen {
     pointer-events: none;
   }
 
@@ -58,11 +61,13 @@
   display: inline-block;
   position: relative;
   border: 1px solid transparent;
+
   @media (forced-colors: active) {
     border-color: currentColor;
   }
+
   border-radius: 10px;
-  background-color: govuk-colour('black');
+  background-color: govuk-colour('blue');
   color: govuk-colour('white');
   font-weight: bold;
   font-size: 14px;

@@ -8,6 +8,7 @@
   display: flex;
   position: relative;
   padding: 15px;
+
   @include mq ($from: tablet) {
     padding: 10px;
   }
@@ -20,6 +21,7 @@
     right: 15px;
     height: 0;
     border-bottom: 1px solid $govuk-border-colour;
+
     @include mq ($from: tablet) {
       left: 10px;
       right: 10px;
@@ -31,7 +33,7 @@
     margin-bottom: 0;
   }
 
-  &__link{
+  &__link {
     @extend %wc-link-button;
     margin-left: auto;
 
@@ -46,7 +48,7 @@
   outline-offset: -2px;
   box-shadow:
     inset 0 0 0 2px $govuk-focus-colour,
-    inset 0 0 0 4px govuk-colour('black'), 
+    inset 0 0 0 4px govuk-colour('black'),
     0 0 0 1px $govuk-focus-colour;
 }
 
@@ -64,7 +66,7 @@
     width: fit-content;
 
     &.inbound {
-     margin-left: auto;
+      margin-left: auto;
     }
 
     @include mq ($from: tablet) {
@@ -124,13 +126,13 @@
       display: block;
       color: govuk-colour('dark-grey');
     }
-    
+
     @media (forced-colors: active) {
       svg {
         color: currentColor;
       }
     }
-    
+
 
     svg circle {
       animation: 1s blink infinite;
@@ -161,9 +163,11 @@
     font-size: 16px;
     line-height: 20px;
     margin: 20px;
+
     @include mq ($from: tablet) {
       margin: 18px 18px 19px;
     }
+
     left: 0;
     bottom: 0;
     color: $govuk-secondary-text-colour;
@@ -180,9 +184,11 @@
     flex: 1 1 auto;
     align-self: flex-end;
     margin: 20px;
+
     @include mq ($from: tablet) {
       margin: 18px 18px 19px;
     }
+
     padding: 0;
     border: 0;
     height: 20px;
@@ -199,9 +205,11 @@
 
   &__button {
     margin: 10px 15px 12px 0;
+
     @include mq ($from: tablet) {
       margin-right: 10px;
     }
+
     font-size: 16px;
     position: relative;
     flex: 0 0 auto;
@@ -223,7 +231,7 @@
   }
 }
 
-.wc-body:focus-visible + .wc-footer .wc-form {
+.wc-body:focus-visible+.wc-footer .wc-form {
   border-top: 1px solid transparent;
 }
 
