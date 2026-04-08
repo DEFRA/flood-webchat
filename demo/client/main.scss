@@ -14,22 +14,21 @@ $govuk-breakpoints: (
 
 .govuk-template--rebranded .govuk-header {
         background: #1d70b8;
-}
-
-.govuk-template--rebranded .govuk-header {
         border-bottom: 1px solid transparent;
 }
 
 .govuk-header {
-        color: #fff;
-}
-
-.govuk-header {
+        color: #ffffff;
         background: #0b0c0c;
-}
-
-.govuk-header {
-        border-bottom: 10px solid #ffffff;
+        font-weight: 400;
+        font-size: .875rem;
+        line-height: 1;
+        font-family: "GDS Transport",
+                arial,
+                sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        border-bottom: 0;
 }
 
 @media (min-width: 40.0625em) {
@@ -37,21 +36,6 @@ $govuk-breakpoints: (
                 font-size: 1rem;
                 line-height: 1;
         }
-}
-
-.govuk-header {
-        font-weight: 400;
-        font-size: .875rem;
-        line-height: 1;
-}
-
-.govuk-header {
-        font-family: "GDS Transport",
-                arial,
-                sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        border-bottom: 0;
 }
 
 .govuk-template--rebranded .govuk-header__container {
@@ -112,23 +96,15 @@ $govuk-breakpoints: (
 
 .govuk-template--rebranded .govuk-service-navigation {
         background-color: #f4f8fb;
-}
-
-.govuk-template--rebranded .govuk-service-navigation {
         border-bottom-color: #8eb8dc;
 }
 
 .govuk-service-navigation {
         background-color: #f3f2f1;
-}
-
-.govuk-service-navigation {
         border-bottom-width: 1px;
         border-bottom-style: solid;
         border-bottom-color: #b1b4b6;
-}
 
-.govuk-service-navigation {
         .govuk-service-navigation__link {
                 color: #0b0c0c;
                 text-decoration: none;
@@ -137,12 +113,6 @@ $govuk-breakpoints: (
                         text-decoration: underline;
                 }
         }
-}
-
-.govuk-template--rebranded .govuk-header__logo {
-        margin-bottom: 0;
-        padding-top: 16px;
-        padding-bottom: 12px;
 }
 
 .govuk-service-navigation__service-name .govuk-service-navigation__link:hover {
@@ -170,7 +140,7 @@ $govuk-breakpoints: (
 @media (min-width: 40.0625em) {
         .govuk-service-navigation__service-name {
                 font-size: 1.1875rem;
-                line-height: 1.3157894737;
+                line-height: 1.3158;
                 padding-top: .75rem;
                 padding-bottom: .75rem;
         }
