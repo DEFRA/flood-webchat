@@ -25,7 +25,9 @@ export default {
     },
     setupMiddlewares,
     compress: true,
-    port: 9000
+    port: 9000,
+    host: '0.0.0.0',
+    allowedHosts: 'all'
   },
   plugins: [
     new MiniCssExtractPlugin()
@@ -45,7 +47,12 @@ export default {
         test: /\.s?css$/i,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              url: false
+            }
+          },
           'sass-loader'
         ]
       }
