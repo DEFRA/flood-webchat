@@ -1,4 +1,4 @@
-const querystring = require('querystring')
+const querystring = require('node:querystring')
 const axios = require('axios')
 const jwtdecode = require('jwt-decode')
 const { isWithinHours } = require('./utils.js')
