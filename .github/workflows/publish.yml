@@ -3,15 +3,20 @@ on:
   release:
     types:
       - published
+
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   version-and-publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.release.tag_name }}
+      - uses: actions/setup-node@v5
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
@@ -30,7 +35,7 @@ jobs:
       - name: version & publish
         run: |
           TAG_NAME="${{ github.event.release.tag_name }}"
-          IS_PRE_RELEASE="${{ github.event.release.pre_release }}"
+          IS_PRE_RELEASE="${{ github.event.release.prerelease }}"
           VERSION_PATTERN="^v([0-9]{1,}.[0-9]{1,}.[0-9]{1,})(-[0-9A-Za-z-].*)?$"
           PRE_RELEASE_PATTERN="(-[0-9A-Za-z-].*)$"
           
