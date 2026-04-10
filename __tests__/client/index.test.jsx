@@ -81,9 +81,9 @@ describe('init()', () => {
     })
 
     expect(targetElement.firstChild.textContent).toEqual('Availability')
-    expect(mocks.checkAvailability).toBeCalledTimes(1)
-    expect(mocks.checkAvailability).toBeCalledWith('/some/endpoint')
-    expect(mocks.Availability).toBeCalledTimes(1)
+    expect(mocks.checkAvailability).toHaveBeenCalledTimes(1)
+    expect(mocks.checkAvailability).toHaveBeenCalledWith('/some/endpoint')
+    expect(mocks.Availability).toHaveBeenCalledTimes(1)
     expect(mocks.useApp().availability).toEqual('UNAVAILABLE')
   })
 
@@ -103,9 +103,9 @@ describe('init()', () => {
     })
 
     expect(targetElement.firstChild.textContent).toEqual('Availability')
-    expect(mocks.checkAvailability).toBeCalledTimes(1)
-    expect(mocks.checkAvailability).toBeCalledWith('/some/endpoint')
-    expect(mocks.Availability).toBeCalledTimes(1)
+    expect(mocks.checkAvailability).toHaveBeenCalledTimes(1)
+    expect(mocks.checkAvailability).toHaveBeenCalledWith('/some/endpoint')
+    expect(mocks.Availability).toHaveBeenCalledTimes(1)
     expect(mocks.useApp().availability).toEqual('UNAVAILABLE')
   })
 })

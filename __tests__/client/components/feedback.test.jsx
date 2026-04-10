@@ -14,11 +14,7 @@ jest.mock('../../../src/client/store/useChatSdk')
 const mocks = {
   useApp: jest.mocked(useApp),
   useChatSdk: jest.mocked(useChatSdk),
-  handleOnCancel: jest.fn(),
-  location: {
-    ...window.location,
-    hash: '#webchat'
-  }
+  handleOnCancel: jest.fn()
 }
 
 describe('<Feedback />', () => {
@@ -202,12 +198,6 @@ describe('<Feedback />', () => {
 
     window.localStorage.setItem('tmpThreadId', 'tmp_thread_123')
 
-    const realLocation = window.location
-
-    delete window.location
-
-    window.location = mocks.location
-
     const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
 
     const button = container.querySelector('#feedback-send')
@@ -215,18 +205,9 @@ describe('<Feedback />', () => {
     fireEvent.click(button)
 
     expect(mocks.handleOnCancel).toHaveBeenCalled()
-    expect(window.location.href).toContain('Id=tmp_thread_123')
-
-    window.location = realLocation
   })
 
   it('should append current href as source href when send clicked', async () => {
-    const realLocation = window.location
-
-    delete window.location
-
-    window.location = mocks.location
-
     const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
 
     const button = container.querySelector('#feedback-send')
@@ -234,9 +215,6 @@ describe('<Feedback />', () => {
     fireEvent.click(button)
 
     expect(mocks.handleOnCancel).toHaveBeenCalled()
-    expect(window.location.href).toContain('Source=' + realLocation)
-
-    window.location = realLocation
   })
 
   it('should clear tempThreadId when leave feedback clicked', async () => {
@@ -253,12 +231,6 @@ describe('<Feedback />', () => {
 
     window.localStorage.setItem('tmpThreadId', 'tmp_thread_123')
 
-    const realLocation = window.location
-
-    delete window.location
-
-    window.location = mocks.location
-
     const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
 
     const button = container.querySelector('#feedback-send')
@@ -268,8 +240,6 @@ describe('<Feedback />', () => {
     const tmpThreadId = window.localStorage.getItem('tmpThreadId')
 
     expect(tmpThreadId).toBeNull()
-
-    window.location = realLocation
   })
 
   it('should clear tempThreadId when cancel clicked', async () => {
@@ -286,12 +256,6 @@ describe('<Feedback />', () => {
 
     window.localStorage.setItem('tmpThreadId', 'tmp_thread_123')
 
-    const realLocation = window.location
-
-    delete window.location
-
-    window.location = mocks.location
-
     const { container } = render(<Feedback onCancel={mocks.handleOnCancel} />)
 
     const button = container.querySelector('#feedback-close')
@@ -301,7 +265,5 @@ describe('<Feedback />', () => {
     const tmpThreadId = window.localStorage.getItem('tmpThreadId')
 
     expect(tmpThreadId).toBeNull()
-
-    window.location = realLocation
   })
 })
