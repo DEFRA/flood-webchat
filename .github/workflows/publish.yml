@@ -6,11 +6,14 @@ on:
 jobs:
   version-and-publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: '22.x'
           registry-url: 'https://registry.npmjs.org'
       - name: install dependencies
         run: npm ci
@@ -34,6 +37,4 @@ jobs:
             RELEASE_TAG="latest"
           fi
           npm version --no-git-tag-version "${TAG_NAME}"
-          npm publish --access public --tag="${RELEASE_TAG}"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          npm publish --provenance --access public --tag="${RELEASE_TAG}"
