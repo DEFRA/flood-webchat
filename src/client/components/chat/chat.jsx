@@ -42,7 +42,8 @@ export function Chat ({ onEndChatScreen, onSettingsScreen }) {
     setUserMessage(e.target?.value)
   }
 
-  const agentName = agent?.nickname || agent?.firstName
+  const latestOutboundMessage = [...messages].reverse().find(message => message.direction === 'outbound' && message.assignee)
+  const agentName = agent?.nickname || agent?.firstName || latestOutboundMessage?.assignee
 
   const connectionHeadlineText = agentStatusHeadline(availability, agentStatus, agentName)
 

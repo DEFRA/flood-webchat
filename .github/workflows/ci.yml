@@ -6,26 +6,38 @@ on:
   push:
     branches:
       - main
+
+env:
+  TZ: 'Europe/London'
+
 jobs:
     build:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
+            - name: Checkout repository
+              uses: actions/checkout@v4
               with:
-                node-version: '18.x'
+                fetch-depth: 0
+
+            - name: Install nodejs
+              uses: actions/setup-node@v4
+              with:
+                node-version: '22.x'
                 registry-url: 'https://registry.npmjs.org'
 
-            - run: npm ci
-            - run: npm run lint
-            - name: npm run unit-test
-              run: |
-                npm run unit-test
-                sed -i 's/\/home\/runner\/work\/flood-webchat\/flood-webchat\//\/github\/workspace\//g' coverage/lcov.info
+            - name: Install node dependencies
+              run: npm ci --engine-strict --ignore-scripts && npm run build
 
-            - name: sonarcloud
-              uses: sonarsource/sonarcloud-github-action@master
+            - name: Run linting
+              run: npm run lint
+
+            - name: Run unit tests
+              run: npm run unit-test
+
+            - name: Analyse code quality (pull_request)
+              if: github.event_name == 'pull_request'
+              uses: sonarsource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9 #7.0.0
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -36,4 +48,23 @@ jobs:
                   -Dsonar.sources=src
                   -Dsonar.exclusions=**/node_modules/**,**/__tests__/**
                   -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-                  -Dsonar.javascript.exclusions=**/node_modules/**,**/_tests_/**
+                  -Dsonar.javascript.exclusions=**/node_modules/**,**/__tests__/**
+                  -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
+                  -Dsonar.pullrequest.branch=${{ github.head_ref }}
+                  -Dsonar.pullrequest.base=${{ github.base_ref }}
+
+            - name: Analyse code quality (non-PR)
+              if: github.event_name != 'pull_request'
+              uses: sonarsource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9 #7.0.0
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              with:
+                args: >
+                  -Dsonar.organization=defra
+                  -Dsonar.projectKey=DEFRA_flood-webchat
+                  -Dsonar.sources=src
+                  -Dsonar.exclusions=**/node_modules/**,**/__tests__/**
+                  -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+                  -Dsonar.javascript.exclusions=**/node_modules/**,**/__tests__/**
+                  -Dsonar.branch.name=${{ github.ref_name }}

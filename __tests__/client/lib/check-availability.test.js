@@ -23,7 +23,7 @@ describe('check-availability', () => {
     const actual = await checkAvailability('/some/endpoint/or/other')
 
     // Assert
-    expect(mocks.fetch).toBeCalledTimes(1)
+    expect(mocks.fetch).toHaveBeenCalledTimes(1)
     expect(mocks.fetch).toHaveBeenCalledWith('/some/endpoint/or/other')
     expect(actual).toEqual({
       availability: 'AVAILABLE'
@@ -40,7 +40,7 @@ describe('check-availability', () => {
     const actual = await checkAvailability('/some/endpoint/or/other')
 
     // Assert
-    expect(mocks.fetch).toBeCalledTimes(1)
+    expect(mocks.fetch).toHaveBeenCalledTimes(1)
     expect(mocks.fetch).toHaveBeenCalledWith('/some/endpoint/or/other')
     expect(actual).toEqual({
       availability: 'UNAVAILABLE'
