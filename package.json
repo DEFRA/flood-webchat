@@ -26,6 +26,10 @@
   "keywords": [],
   "author": "DEFRA",
   "license": "OGL-UK-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEFRA/flood-webchat.git"
+  },
   "devDependencies": {
     "@babel/core": "7.29.0",
     "@babel/preset-env": "7.29.2",
