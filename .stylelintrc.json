@@ -1,9 +1,13 @@
 {
   "extends": "stylelint-config-gds/scss",
   "rules": {
+    "media-feature-range-notation": "prefix",
     "max-nesting-depth": 3,
-    "value-keyword-case": ["lower", {
-      "camelCaseSvgKeywords": true
-    }]
+    "value-keyword-case": [
+      "lower",
+      {
+        "camelCaseSvgKeywords": true
+      }
+    ]
   }
 }
