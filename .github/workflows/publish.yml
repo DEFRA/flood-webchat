@@ -18,7 +18,7 @@ jobs:
           ref: ${{ github.event.release.tag_name }}
       - uses: actions/setup-node@v5
         with:
-          node-version: '24'
+          node-version: '22.14.0'
           registry-url: 'https://registry.npmjs.org'
       - name: OIDC preflight
         run: |
