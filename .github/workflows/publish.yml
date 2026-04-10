@@ -40,7 +40,13 @@ jobs:
             exit 1
           fi
       - name: install dependencies
-        run: npm ci
+        run: |
+          set -euo pipefail
+          if ! npm ci --foreground-scripts; then
+            echo "npm ci failed. Dumping npm debug logs..."
+            find /home/runner/.npm/_logs -type f -name '*-debug-0.log' -print -exec sed -n '1,260p' {} \;
+            exit 1
+          fi
       - name: build
         run: npm run build
       - name: version & publish
