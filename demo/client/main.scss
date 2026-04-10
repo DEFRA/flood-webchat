@@ -31,7 +31,7 @@ $govuk-breakpoints: (
         border-bottom: 0;
 }
 
-@media (width >= 40.0625em) {
+@media (width >=40.0625em) {
         .govuk-header {
                 font-size: 1rem;
                 line-height: 1;
@@ -50,7 +50,7 @@ $govuk-breakpoints: (
         padding-bottom: 12px;
 }
 
-@media (width >= 52.1875em) {
+@media (width >=52.1875em) {
         .govuk-header__logo:last-child {
                 width: auto;
                 padding-right: 0;
@@ -58,7 +58,7 @@ $govuk-breakpoints: (
         }
 }
 
-@media (width >= 52.1875em) {
+@media (width >=52.1875em) {
         .govuk-header__logo {
                 width: 33.33%;
                 padding-right: 15px;
@@ -87,7 +87,7 @@ $govuk-breakpoints: (
         align-items: start;
 }
 
-@media (width >= 40.0625em) {
+@media (width >=40.0625em) {
         .govuk-service-navigation__container {
                 flex-direction: row;
                 flex-wrap: wrap;
@@ -137,7 +137,7 @@ $govuk-breakpoints: (
         text-decoration-skip: none;
 }
 
-@media (width >= 40.0625em) {
+@media (width >=40.0625em) {
         .govuk-service-navigation__service-name {
                 font-size: 1.1875rem;
                 line-height: 1.3158;
@@ -159,7 +159,7 @@ $govuk-breakpoints: (
         margin-top: 30px;
         padding-top: 10px;
 
-        @media (width >= 641px) {
+        @media (width >=641px) {
                 margin-top: 40px;
         }
 }
