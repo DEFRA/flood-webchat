@@ -25,7 +25,7 @@ export default {
     },
     setupMiddlewares,
     compress: true,
-    port: 3009,
+    port: 3010,
     host: '0.0.0.0',
     allowedHosts: 'all'
   },
