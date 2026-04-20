@@ -19,7 +19,8 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: '22.14.0'
-          registry-url: 'https://registry.npmjs.org'
+      - name: Use npm 11.5.1
+        run: npm i -g npm@11.5.1
       - name: OIDC preflight
         run: |
           node -v
@@ -49,6 +50,10 @@ jobs:
           fi
       - name: build
         run: npm run build
+      - name: publish diagnostics
+        run: |
+          npm config get registry
+          npm view @defra/flood-webchat name version
       - name: version & publish
         run: |
           TAG_NAME="${{ github.event.release.tag_name }}"
