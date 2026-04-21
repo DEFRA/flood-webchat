@@ -27,7 +27,7 @@ jobs:
             echo "OIDC token variables are not available. Check id-token permission and trusted publisher mapping."
             exit 1
           fi
-      - name: Probe npm OIDC exchange
+      - name: Exchange OIDC token and configure npm
         run: |
           set -euo pipefail
           OIDC_TOKEN=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=npm:registry.npmjs.org" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{process.stdout.write(JSON.parse(d).value)})")
@@ -38,6 +38,9 @@ jobs:
             cat /tmp/npm-oidc-response.json
             exit 1
           fi
+          NPM_AUTH_TOKEN=$(node -e "const d = require('/tmp/npm-oidc-response.json'); process.stdout.write(d.token)")
+          npm config set //registry.npmjs.org/:_authToken="${NPM_AUTH_TOKEN}"
+          echo "npm auth token configured"
       - name: install dependencies
         run: |
           set -euo pipefail
