@@ -63,7 +63,7 @@
     "govuk-frontend": "5.10.0"
   },
   "dependencies": {
-    "@nice-devone/nice-cxone-chat-web-sdk": "3.1.1",
+    "@nice-devone/nice-cxone-chat-web-sdk": "1.18.0",
     "axios": "1.15.0",
     "html-react-parser": "5.2.17",
     "jwt-decode": "3.1.2",
