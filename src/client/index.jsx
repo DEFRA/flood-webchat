@@ -11,11 +11,11 @@ export async function init (container, options) {
   const sdk = new ChatSdk({
     brandId: options.brandId,
     channelId: options.channelId,
-    customerId: window.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY) || '',
+    customerId: globalThis.localStorage.getItem(CUSTOMER_ID_STORAGE_KEY) || '',
     environment: options.environment,
     isLivechat: true,
-    cacheStorage: new CacheStorage(window.localStorage),
-    storage: window.localStorage
+    cacheStorage: new CacheStorage(globalThis.localStorage),
+    storage: globalThis.localStorage
   })
 
   const root = createRoot(container)
