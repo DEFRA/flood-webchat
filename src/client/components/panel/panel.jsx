@@ -77,7 +77,7 @@ export function Panel () {
         const fetchedThread = await fetchThread(threadId)
         setThread(fetchedThread)
 
-        const fetchedMessages = await fetchMessages(fetchedThread, threadId)
+        const fetchedMessages = await fetchMessages(fetchedThread)
         setMessages(fetchedMessages)
       } catch (err) {
         console.log('[Chat Error] fetchThread', err)

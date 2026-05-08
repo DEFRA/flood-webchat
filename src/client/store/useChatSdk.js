@@ -1,9 +1,9 @@
 export const useChatSdk = sdk => {
-  const connect = async () => sdk.authorize()
+  const connect = async () => sdk.connect()
 
   const fetchCustomerId = async () => {
-    const response = await connect()
-    return response?.consumerIdentity.idOnExternalPlatform
+    await connect()
+    return sdk.getCustomer().getId()
   }
 
   const fetchThread = async threadId => {
@@ -11,10 +11,10 @@ export const useChatSdk = sdk => {
     return sdk.getThread(threadId)
   }
 
-  const fetchMessages = async (thread, threadId) => {
+  const fetchMessages = async (thread) => {
     await connect()
 
-    const recovered = await thread.recover(threadId)
+    const recovered = await thread.recover()
 
     const allMessages = []
     let fetchedMessages = recovered.messages
