@@ -109,7 +109,7 @@ describe('<Panel />', () => {
       const user = userEvent.setup()
 
       const closeButton = screen.getByLabelText('Close the webchat')
-      const link1 = screen.getByText('sign up for flood warnings')
+      const link1 = screen.getByText('get flood warnings')
       const link2 = screen.getByText('manage your flood warnings account')
       const link3 = screen.getByText('report a flood')
       const button = screen.getByText('Continue')
@@ -156,7 +156,7 @@ describe('<Panel />', () => {
       const user = userEvent.setup()
 
       const closeButton = screen.getByLabelText('Close the webchat')
-      const link1 = screen.getByText('sign up for flood warnings')
+      const link1 = screen.getByText('get flood warnings')
       const link2 = screen.getByText('manage your flood warnings account')
       const link3 = screen.getByText('report a flood')
       const button = screen.getByText('Continue')
