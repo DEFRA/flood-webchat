@@ -5,22 +5,21 @@ describe('useChatSdk', () => {
     jest.clearAllMocks()
   })
 
-  it('should call the sdk authorize function', () => {
+  it('should call the sdk connect function', () => {
     const mockSdk = {
-      authorize: jest.fn()
+      connect: jest.fn()
     }
 
     useChatSdk(mockSdk).connect()
 
-    expect(mockSdk.authorize).toHaveBeenCalled()
+    expect(mockSdk.connect).toHaveBeenCalled()
   })
 
   it('should fetch a customerId from the sdk', async () => {
     const mockSdk = {
-      authorize: () => ({
-        consumerIdentity: {
-          idOnExternalPlatform: 'customer_123'
-        }
+      connect: jest.fn(),
+      getCustomer: () => ({
+        getId: () => 'customer_123'
       })
     }
 
@@ -31,7 +30,7 @@ describe('useChatSdk', () => {
 
   it('should call the sdk getThread function', async () => {
     const mockSdk = {
-      authorize: jest.fn(),
+      connect: jest.fn(),
       getThread: jest.fn()
     }
 
@@ -42,7 +41,7 @@ describe('useChatSdk', () => {
 
   it('should recover all messages from a thread', async () => {
     const mockSdk = {
-      authorize: jest.fn()
+      connect: jest.fn()
     }
 
     const mockThread = {
@@ -56,7 +55,7 @@ describe('useChatSdk', () => {
         .mockReturnValueOnce()
     }
 
-    const messages = await useChatSdk(mockSdk).fetchMessages(mockThread, 'thread_id')
+    const messages = await useChatSdk(mockSdk).fetchMessages(mockThread)
 
     expect(messages).toEqual([{ id: '1' }, { id: '2' }, { id: '3' }])
   })
