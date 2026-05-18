@@ -11,6 +11,7 @@ jest.mock('@nice-devone/nice-cxone-chat-web-sdk', () => ({
   ChatSdk: function () {
     this.onChatEvent = jest.fn()
   },
+  CacheStorage: function () {},
   ChatEvent: {
     LIVECHAT_RECOVERED: true,
     MESSAGE_CREATED: true,

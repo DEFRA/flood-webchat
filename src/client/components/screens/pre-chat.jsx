@@ -19,11 +19,11 @@ export function PreChat ({ onContinue }) {
           </ul>
           <p>
             There are other ways to&nbsp;
-            <a className='govuk-link' href='https://www.gov.uk/sign-up-for-flood-warnings' target='_blank' rel='noreferrer'>
-              sign up for flood warnings
+            <a className='govuk-link' href='https://www.gov.uk/get-flood-warnings' target='_blank' rel='noreferrer'>
+              get flood warnings
             </a>
             &nbsp;and&nbsp;
-            <a className='govuk-link' href='https://www.fws.environment-agency.gov.uk/app/olr/login' target='_blank' rel='noreferrer'>
+            <a className='govuk-link' href='https://get-flood-warnings.service.gov.uk/sign-in' target='_blank' rel='noreferrer'>
               manage your flood warnings account
             </a>.
           </p>
