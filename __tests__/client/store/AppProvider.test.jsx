@@ -172,6 +172,41 @@ describe('<AppProvider />', () => {
     expect(container.querySelector('#agent-status').textContent).toEqual('Online')
   })
 
+  it('CONTACT_STATUS_CHANGED sets agent when inboxAssignee is present', () => {
+    const Component = () => {
+      const context = useContext(AppContext)
+
+      useEffect(() => {
+        context.onContactStatusChanged({
+          detail: {
+            data: {
+              inboxAssignee: 'test-agent',
+              case: {
+                status: 'Online'
+              }
+            }
+          }
+        })
+      }, [])
+
+      return (
+        <>
+          <div id='agent'>{context.agent}</div>
+          <div id='agent-status'>{context.agentStatus}</div>
+        </>
+      )
+    }
+
+    const { container } = render(
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
+        <Component />
+      </AppProvider>
+    )
+
+    expect(container.querySelector('#agent').textContent).toEqual('test-agent')
+    expect(container.querySelector('#agent-status').textContent).toEqual('Online')
+  })
+
   it('ASSIGNED_AGENT_CHANGED sets agent and agent status', () => {
     const Component = () => {
       const context = useContext(AppContext)
@@ -226,6 +261,38 @@ describe('<AppProvider />', () => {
       </AppProvider>
     )
 
+    expect(container.querySelector('#agent-typing').textContent).toEqual('true')
+  })
+
+  it('AGENT_TYPING_STARTED sets agent when user data is present', () => {
+    const Component = () => {
+      const context = useContext(AppContext)
+
+      useEffect(() => {
+        context.onAgentTypingStarted({
+          detail: {
+            data: {
+              user: { firstName: 'Lee', surname: 'Gordon', nickname: '' }
+            }
+          }
+        })
+      }, [])
+
+      return (
+        <>
+          <div id='agent'>{JSON.stringify(context.agent)}</div>
+          <div id='agent-typing'>{context.isAgentTyping.toString()}</div>
+        </>
+      )
+    }
+
+    const { container } = render(
+      <AppProvider sdk={mockSdk} availability='AVAILABLE' playSound={jest.fn()}>
+        <Component />
+      </AppProvider>
+    )
+
+    expect(JSON.parse(container.querySelector('#agent').textContent).firstName).toEqual('Lee')
     expect(container.querySelector('#agent-typing').textContent).toEqual('true')
   })
 

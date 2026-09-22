@@ -3,6 +3,8 @@
   "rules": {
     "media-feature-range-notation": "prefix",
     "max-nesting-depth": 3,
+    "selector-no-qualifying-type": null,
+    "color-function-alias-notation": null,
     "value-keyword-case": [
       "lower",
       {

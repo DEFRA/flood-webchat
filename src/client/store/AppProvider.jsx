@@ -23,7 +23,10 @@ export const AppProvider = ({ sdk, availability, playSound, children }) => {
     dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.case.status })
   }
 
-  const onAgentTypingStarted = () => {
+  const onAgentTypingStarted = (e) => {
+    if (e?.detail?.data?.user) {
+      dispatch({ type: 'SET_AGENT', payload: e.detail.data.user })
+    }
     dispatch({ type: 'SET_AGENT_TYPING', payload: true })
   }
 
@@ -46,6 +49,9 @@ export const AppProvider = ({ sdk, availability, playSound, children }) => {
 
   const onContactStatusChanged = e => {
     dispatch({ type: 'SET_AGENT_STATUS', payload: e.detail.data.case.status })
+    if (e.detail.data.inboxAssignee) {
+      dispatch({ type: 'SET_AGENT', payload: e.detail.data.inboxAssignee })
+    }
   }
 
   const onMatchMedia = e => {
