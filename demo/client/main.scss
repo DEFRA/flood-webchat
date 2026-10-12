@@ -12,14 +12,9 @@ $govuk-breakpoints: (
 // Webchat css
 @import '../../main';
 
-.govuk-template--rebranded .govuk-header {
-        background: #1d70b8;
-        border-bottom: 1px solid transparent;
-}
-
 .govuk-header {
         color: #ffffff;
-        background: #0b0c0c;
+        background: #1d70b8;
         font-weight: 400;
         font-size: .875rem;
         line-height: 1;
@@ -28,7 +23,7 @@ $govuk-breakpoints: (
                 sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        border-bottom: 0;
+        border-bottom: 1px solid transparent;
 }
 
 @media (min-width: 40.0625em) {
@@ -38,16 +33,17 @@ $govuk-breakpoints: (
         }
 }
 
-.govuk-template--rebranded .govuk-header__container {
+.govuk-header__container {
         margin-bottom: 0;
         padding-top: 0;
         border-bottom: none;
 }
 
-.govuk-template--rebranded .govuk-header__logo {
+.govuk-header__logo {
         margin-bottom: 0;
         padding-top: 16px;
         padding-bottom: 12px;
+        padding-right: 80px;
 }
 
 @media (min-width: 52.1875em) {
@@ -67,11 +63,6 @@ $govuk-breakpoints: (
         }
 }
 
-.govuk-header__logo {
-        margin-bottom: 10px;
-        padding-right: 80px;
-}
-
 .govuk-header__logo,
 .govuk-header__content {
         box-sizing: border-box;
@@ -79,6 +70,10 @@ $govuk-breakpoints: (
 
 .govuk-header__logotype .govuk-logo-dot {
         fill: #11e0f1;
+}
+
+.govuk-header__logotype {
+        fill: #ffffff;
 }
 
 .govuk-service-navigation__container {
@@ -94,16 +89,11 @@ $govuk-breakpoints: (
         }
 }
 
-.govuk-template--rebranded .govuk-service-navigation {
+.govuk-service-navigation {
         background-color: #f4f8fb;
         border-bottom-color: #8eb8dc;
-}
-
-.govuk-service-navigation {
-        background-color: #f3f2f1;
         border-bottom-width: 1px;
         border-bottom-style: solid;
-        border-bottom-color: #b1b4b6;
 
         .govuk-service-navigation__link {
                 color: #0b0c0c;
@@ -113,10 +103,15 @@ $govuk-breakpoints: (
                         text-decoration: underline;
                 }
         }
+
+        .govuk-service-navigation__item {
+                margin: 0;
+                padding: 0;
+        }
 }
 
 .govuk-service-navigation__service-name .govuk-service-navigation__link:hover {
-        color: rgba(11, 12, 12, .99
+        color: rgba(11, 12, 12, 0.99
         );
 }
 
@@ -125,8 +120,8 @@ $govuk-breakpoints: (
         font-size: 1rem;
         line-height: 1.25;
         display: block;
-        padding-top: .625rem;
-        padding-bottom: .625rem;
+        padding-top: .875rem;
+        padding-bottom: .875rem;
 }
 
 .govuk-service-navigation__link:hover {
@@ -141,11 +136,11 @@ $govuk-breakpoints: (
         .govuk-service-navigation__service-name {
                 font-size: 1.1875rem;
                 line-height: 1.3158;
-                padding-top: .75rem;
-                padding-bottom: .75rem;
+                padding-top: 1rem;
+                padding-bottom: 1rem;
         }
 
-        .govuk-template--rebranded .govuk-service-navigation__item {
+        .govuk-service-navigation__item {
                 line-height: 1.5;
         }
 }
@@ -157,5 +152,62 @@ $govuk-breakpoints: (
 
         @media (min-width: 641px) {
                 margin-top: 40px;
+        }
+}
+
+.govuk-footer {
+        .govuk-footer__meta {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 30px;
+                flex-wrap: nowrap;
+                margin-top: 15px;
+                font-size: 16px;
+        }
+
+        .govuk-footer__meta-item {
+                display: flex;
+                align-items: flex-end;
+                gap: 8px;
+                white-space: nowrap;
+        }
+
+        .govuk-footer__meta-item--grow {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                min-width: 0;
+        }
+
+        .govuk-footer__licence-description {
+                display: inline;
+                white-space: nowrap;
+                font-size: 16px;
+        }
+
+        .govuk-footer__licence-logo {
+                width: 41px;
+                height: 17px;
+                margin: 0;
+                flex-shrink: 0;
+        }
+
+        .govuk-footer__link {
+                color: #0b0c0c;
+                text-decoration: underline;
+                white-space: nowrap;
+                font-size: 16px;
+
+                &:hover {
+                        color: #0b0c0c;
+                }
+        }
+
+        .govuk-footer__copyright-logo {
+                text-decoration: underline;
+                white-space: nowrap;
+                font-size: 16px;
         }
 }
