@@ -13,7 +13,7 @@
   touch-action: pan-x pan-y;
   background-color: #ffffff;
 
-  @include mq ($from: tablet) {
+  @include govuk-media-query ($from: tablet) {
     top: auto;
     left: auto;
     width: 400px;
@@ -44,7 +44,7 @@
     border: 0;
     outline: 0;
 
-    @include mq ($from: tablet) {
+    @include govuk-media-query ($from: tablet) {
       border: 1px solid govuk-colour('black');
     }
 
@@ -69,7 +69,7 @@
     font-size: 19px;
     padding: 0 0 0 10px;
 
-    @include mq ($from: tablet) {
+    @include govuk-media-query ($from: tablet) {
       padding-left: 7px;
     }
 
@@ -90,7 +90,7 @@
     cursor: pointer;
 
     &:focus {
-      outline: 3px solid $govuk-focus-colour;
+      outline: 3px solid govuk-functional-colour(focus);
     }
   }
 
@@ -98,7 +98,7 @@
     margin: 0;
     display: flex;
 
-    @include mq ($from: 'tablet') {
+    @include govuk-media-query ($from: 'tablet') {
       display: none
     }
   }

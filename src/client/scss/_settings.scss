@@ -68,7 +68,8 @@
     line-height: 1.25;
 }
 
-.wc-input, .wc-textarea {
+.wc-input,
+.wc-textarea {
     font-size: 16px;
     line-height: 1.25;
 }
@@ -87,7 +88,6 @@
     margin: 0 !important;
     padding: 0 !important;
     overflow: hidden !important;
-    clip: rect(0 0 0 0) !important;
     -webkit-clip-path: inset(50%) !important;
     clip-path: inset(50%) !important;
     border: 0 !important;
@@ -98,4 +98,5 @@
         content: ' ';
     }
 }
+
 // stylelint-enable declaration-no-important
