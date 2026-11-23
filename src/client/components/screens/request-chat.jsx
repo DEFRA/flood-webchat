@@ -13,6 +13,7 @@ export function RequestChat ({ onPreChatScreen }) {
   const { sdk, setCustomerId, setThreadId, setThread, setLiveRegionText } = useApp()
   const { fetchCustomerId, fetchThread } = useChatSdk(sdk)
   const [errors, setErrors] = useState({})
+  const [chatError, setChatError] = useState('')
   const [questionLength, setQuestionLength] = useState(0)
   const [isButtonDisabled, setButtonDisabled] = useState(false)
 
@@ -71,6 +72,7 @@ export function RequestChat ({ onPreChatScreen }) {
     if (Object.keys(errs).length === 0) {
       try {
         setButtonDisabled(true)
+        setChatError('')
         const threadId = uuid.v4()
         const customerId = await fetchCustomerId()
         const thread = await fetchThread(threadId)
@@ -84,7 +86,9 @@ export function RequestChat ({ onPreChatScreen }) {
         setThread(thread)
         thread.setCustomField('threadid', threadId)
       } catch (err) {
-        console.log('[Request chat Error]', err)
+        console.error('[Request chat Error]', err)
+        setChatError('We could not start your chat. Please try again.')
+        setButtonDisabled(false)
       }
     }
 
@@ -102,6 +106,11 @@ export function RequestChat ({ onPreChatScreen }) {
           </a>
 
           <ErrorSummary errors={errors} />
+          {chatError && (
+            <p className='govuk-error-message' role='alert'>
+              {chatError}
+            </p>
+          )}
 
           <h3 id='wc-subtitle' className='wc-heading' aria-live='polite'>
             Your name and question

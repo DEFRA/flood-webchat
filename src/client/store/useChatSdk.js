@@ -1,5 +1,13 @@
 export const useChatSdk = sdk => {
-  const connect = async () => sdk.connect()
+  const connect = async () => {
+    const connected = await sdk.connect()
+
+    if (connected) {
+      await sdk.authorize()
+    }
+
+    return connected
+  }
 
   const fetchCustomerId = async () => {
     await connect()

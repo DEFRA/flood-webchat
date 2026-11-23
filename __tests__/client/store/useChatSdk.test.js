@@ -5,14 +5,57 @@ describe('useChatSdk', () => {
     jest.clearAllMocks()
   })
 
-  it('should call the sdk connect function', () => {
+  it('should authorize after establishing a new sdk connection', async () => {
+    const calls = []
     const mockSdk = {
-      connect: jest.fn()
+      connect: jest.fn().mockImplementation(async () => {
+        calls.push('connect')
+        return true
+      }),
+      authorize: jest.fn().mockImplementation(async () => {
+        calls.push('authorize')
+      })
     }
 
-    useChatSdk(mockSdk).connect()
+    const connected = await useChatSdk(mockSdk).connect()
+
+    expect(calls).toEqual(['connect', 'authorize'])
+    expect(connected).toBe(true)
+  })
+
+  it('should not authorize when the sdk connection already exists', async () => {
+    const mockSdk = {
+      connect: jest.fn().mockResolvedValue(false),
+      authorize: jest.fn()
+    }
+
+    await useChatSdk(mockSdk).connect()
 
     expect(mockSdk.connect).toHaveBeenCalled()
+    expect(mockSdk.authorize).not.toHaveBeenCalled()
+  })
+
+  it('should not authorize when connecting fails', async () => {
+    const connectionError = new Error('connection failed')
+    const mockSdk = {
+      connect: jest.fn().mockRejectedValue(connectionError),
+      authorize: jest.fn()
+    }
+
+    await expect(useChatSdk(mockSdk).connect()).rejects.toBe(connectionError)
+    expect(mockSdk.authorize).not.toHaveBeenCalled()
+  })
+
+  it('should reject when authorization fails', async () => {
+    const authorizationError = new Error('authorization failed')
+    const mockSdk = {
+      connect: jest.fn().mockResolvedValue(true),
+      authorize: jest.fn().mockRejectedValue(authorizationError),
+      getCustomer: jest.fn()
+    }
+
+    await expect(useChatSdk(mockSdk).fetchCustomerId()).rejects.toBe(authorizationError)
+    expect(mockSdk.getCustomer).not.toHaveBeenCalled()
   })
 
   it('should fetch a customerId from the sdk', async () => {

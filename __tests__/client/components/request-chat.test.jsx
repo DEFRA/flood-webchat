@@ -189,6 +189,44 @@ describe('<RequestChat />', () => {
     expect(mocks.useApp().setThread).toHaveBeenCalled()
   })
 
+  it('should report a chat request failure and allow retrying', async () => {
+    const error = new Error('authorization failed')
+    const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    mocks.useApp.mockReturnValue({
+      sdk: ({
+        getCustomer: jest.fn().mockReturnValue({
+          setName: jest.fn()
+        })
+      }),
+      setCustomerId: jest.fn(),
+      setThreadId: jest.fn(),
+      setThread: jest.fn(),
+      setLiveRegionText: jest.fn()
+    })
+
+    mocks.useChatSdk.mockReturnValue({
+      fetchCustomerId: jest.fn().mockRejectedValue(error),
+      fetchThread: jest.fn()
+    })
+
+    const { container } = render(<RequestChat />)
+    const input = container.querySelector('form input')
+    const textarea = container.querySelector('form textarea')
+    const button = container.querySelector('form button')
+    const user = userEvent.setup()
+
+    fireEvent.change(input, { target: { value: 'name' } })
+    fireEvent.change(textarea, { target: { value: 'question' } })
+    await user.click(button)
+
+    expect(screen.getByRole('alert')).toHaveTextContent('We could not start your chat. Please try again.')
+    expect(button).toHaveAttribute('aria-disabled', 'false')
+    expect(consoleError).toHaveBeenCalledWith('[Request chat Error]', error)
+
+    consoleError.mockRestore()
+  })
+
   it('should make button unclickable after single click and show requesting on click', async () => {
     mocks.useApp.mockReturnValue({
       sdk: ({

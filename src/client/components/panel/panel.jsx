@@ -80,7 +80,7 @@ export function Panel () {
         const fetchedMessages = await fetchMessages(fetchedThread)
         setMessages(fetchedMessages)
       } catch (err) {
-        console.log('[Chat Error] fetchThread', err)
+        console.error('[Chat Error] fetchThread', err)
 
         setThreadId()
         setThread()
