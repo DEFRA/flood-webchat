@@ -66,6 +66,9 @@ if (document.getElementById('wc-availability')) {
 }
 ```
 
+Chat messages are displayed as text, not HTML. HTTP and HTTPS URLs are clickable, as are addresses beginning with
+`www.`, which open using HTTPS.
+
 ### HTML
 
 In your html, will need to add the "Start Chat" link with some placeholder text for if webchat is not supported in the
